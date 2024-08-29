@@ -11,6 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import NotFoundPage from "./pages/NotFoundPage/Index"
 import MrnsPage from './pages/Rotation/Mrns/MrnsPage';
 import ArticlePage from './pages/Rotation/Articles/ArticlePage';
+import ContainersPage from './pages/Rotation/Containers/ContainersPage';
 
 const AppRoutes = () => (
   <Router>
@@ -23,6 +24,7 @@ const AppRoutes = () => (
         <Route path="admin/settings" element={<Settings />} />
         <Route path="rotations/mrns" element={<MrnsPage />} />
         <Route path="rotations/articles/:id" element={<ArticlePage />} />
+        <Route path="rotations/containers/:id" element={<ContainersPage />} />
         <Route path="packages/list" element={<PackageList />} />
         <Route path="packages/details" element={<PackageDetails />} />
         <Route path="orders/list" element={<OrderList />} />

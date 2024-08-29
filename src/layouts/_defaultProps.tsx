@@ -22,8 +22,10 @@ export default {
         name: 'Rotations',
         children: [
           { path: '/rotations/mrns', name: 'Mrns' },
-          { path: '/rotations/Articles', name: 'Articles' },
+          { path: '/rotations/Articles/:id', name: 'Articles' },
+          { path: '/rotations/containers/:id', name: 'Containers' },
 
+          
         ],
       },
       {

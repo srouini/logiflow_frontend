@@ -30,7 +30,7 @@ const ContainersPage = () => {
     endpoint: API_ARTICLES_ENDPOINT+id+"/",
     name: "GET_SELECTED_ARTICLE",
     params: {
-      expand: "regime,armateur,consignataire,navire",
+      expand: "client,transitairee",
     },
   });
 
@@ -47,7 +47,7 @@ const ContainersPage = () => {
       page: page,
       page_size: getPageSize(),
       ...filters,
-      expand: "client,transitaire",
+      expand: "type_tc,current_scelle",
       article__id :id
     },
   });
