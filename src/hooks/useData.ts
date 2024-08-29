@@ -5,13 +5,14 @@ type useDataProps = {
   name: string;
   params: any;
   endpoint: any;
-  refetchInterval?: any
+  refetchInterval?: any,
+  enabled?:boolean
 };
 
-const useData = ({ params, name,endpoint,refetchInterval }: useDataProps) => {
+const useData = ({ params, name,endpoint,refetchInterval,enabled=true }: useDataProps) => {
   const api = useAxios();
 
-  const { refetch, data, isLoading, isRefetching } = useQuery({
+  const { refetch, data, isLoading, isRefetching } =  useQuery({
     queryKey: [name, params],
     queryFn: () => {
       try {
@@ -23,6 +24,7 @@ const useData = ({ params, name,endpoint,refetchInterval }: useDataProps) => {
       }
     },
     ...(refetchInterval ? { refetchInterval } : {}),
+  enabled:enabled
   });
 
   return { refetch, data, isLoading, isRefetching };

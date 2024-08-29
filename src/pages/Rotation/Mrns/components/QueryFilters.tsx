@@ -6,12 +6,13 @@ import {
   QueryFilter,
 } from "@ant-design/pro-components";
 import { useEffect } from "react";
-import { useReferenceContext } from "../../context/ReferenceContext";
+
 import {
   transformRangeDateFilter,
   transformSelectFilter,
-} from "../../utils/functions";
-import { selectConfig } from "../../utils/config";
+} from "../../../../utils/functions";
+import { selectConfig } from "../../../../utils/config";
+import { useReferenceContext } from "../../../../context/ReferenceContext";
 
 type QueryFiltersProps = {
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -75,7 +76,6 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           }
         />
 
-        {/* <FilterSelect  data={navires} label="Navire" option_label="nom" option_value="id" name="navire" mode="multiple" /> */}
       </QueryFilter>
     </div>
   );

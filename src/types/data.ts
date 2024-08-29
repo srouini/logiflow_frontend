@@ -1,0 +1,109 @@
+import {Client, Transitaire, Navire, Armateur, Port, Consignataire} from "./reference"
+import {BaseModel} from "./commun"
+
+// Gros Model
+export interface Gros extends BaseModel {
+    numero?: string;
+    gros?: string;
+    escale?: string;
+    accostage?: string; // Use string for date
+    port_emission?: Port | number; // ForeignKey as object
+    port_reception?: Port | number; // ForeignKey as object
+    navire?: Navire | number; // ForeignKey as object
+    armateur?: Armateur | number; // ForeignKey as object
+    consignataire?: Consignataire | number; // ForeignKey as object
+    bareme?: number; // ForeignKey IDs if not an object
+    regime?: number; // ForeignKey IDs if not an object
+}
+
+// Article Model
+export interface Article extends BaseModel {
+    gros?: Gros | number; // ForeignKey as object
+    numero?: number;
+    groupage?: boolean;
+    date_depotage?: string; // Use string for date/time
+    depote?: boolean;
+    observation_depotage?: string;
+    bl?: string;
+    designation?: string;
+    client?: number; // ForeignKey IDs
+    transitaire?: number; // ForeignKey IDs
+}
+
+// Position Model
+export interface Position extends BaseModel {
+    parc?: number; // ForeignKey IDs
+    zone?: number; // ForeignKey IDs
+    tc?: number; // ForeignKey IDs
+    ligne?: number;
+    range?: number;
+    garbage?: number;
+    date_position?: string; // Use string for date
+}
+
+// BulletinsEscort Model
+export interface BulletinsEscort extends BaseModel {
+    bulletins?: string;
+    numero?: string;
+    date_creation?: string; // Use string for date
+    gros?: Gros | number; // ForeignKey as object
+    charge_chargement?: number; // ForeignKey IDs or object
+    charge_reception?: number; // ForeignKey IDs or object
+    loaded?: boolean;
+    receved?: boolean;
+}
+
+// Tc Model
+export interface Tc extends BaseModel {
+    article?: Article | number; // ForeignKey as object
+    type_tc?: number; // ForeignKey IDs if not an object
+    dangereux?: boolean;
+    frigo?: boolean;
+    tc?: string;
+    tar?: number;
+    poids?: string;
+    bulletins?: BulletinsEscort | number; // ForeignKey as object
+    matricule_camion?: string;
+    date_sortie_port?: string; // Use string for date/time
+    date_entree_port_sec?: string; // Use string for date/time
+    date_sortie_port_sec?: string; // Use string for date/time
+    receved_by?: number; // ForeignKey IDs
+    billed?: boolean;
+    etat?: string;
+    observation_chargement?: string;
+    observation_reception?: string;
+    observation_entree_port_sec?: string;
+    observation_sortie_port_sec?: string;
+    current_scelle?: number; // ForeignKey IDs
+    receved?: boolean;
+}
+
+// SousArticle Model
+export interface SousArticle extends BaseModel {
+    numero?: number;
+    tc?: Tc | number; // ForeignKey as object
+    bl?: string;
+    volume?: number;
+    dangereux?: boolean;
+    nombre_colis?: number;
+    description?: string;
+    surface?: number;
+    quantite?: number;
+    poids?: number;
+    unite_de_visite?: string;
+    unite_de_chargement?: string;
+    unite_de_magasinage?: string;
+    client?: number; // ForeignKey IDs
+    transitaire?: number; // ForeignKey IDs
+    designation?: string;
+    invoiced?: boolean;
+    box?: number; // ForeignKey IDs
+}
+
+// Visite Model
+export interface Visite extends BaseModel {
+    visite?: string;
+    numero?: string;
+    date_creation?: string; // Use string for date
+    date_visite?: string; // Use string for date
+}

@@ -13,6 +13,7 @@ interface Props {
   width: string | number | undefined;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
+  initialvalues?:any
 }
 
 const DraggableModel: React.FC<Props> = ({
@@ -25,6 +26,7 @@ const DraggableModel: React.FC<Props> = ({
   setOpen,
   width,
   isLoading,
+  initialvalues,
 }) => {
   const [disabled, setDisabled] = useState(true);
   const [bounds, setBounds] = useState({
@@ -60,7 +62,10 @@ const DraggableModel: React.FC<Props> = ({
 
   return (
     <>
-      <Button onClick={showModal} type="primary">{modalOpenButtonText}</Button>
+      {
+        initialvalues && <a onClick={showModal} type="primary">{modalOpenButtonText}</a>
+      }
+      {  !initialvalues && <Button onClick={showModal} type="primary">{modalOpenButtonText}</Button>}
       <Modal
         title={
           <div

@@ -1,0 +1,1 @@
+export type  SelectModeType = "multiple" | "tags" | "single" | undefined;

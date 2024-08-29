@@ -6,12 +6,13 @@ import {
   QueryFilter,
 } from "@ant-design/pro-components";
 import { useEffect } from "react";
-import { useReferenceContext } from "../../context/ReferenceContext";
+
 import {
   transformRangeDateFilter,
   transformSelectFilter,
-} from "../../utils/functions";
-import { selectConfig } from "../../utils/config";
+} from "../../../../utils/functions";
+import { selectConfig } from "../../../../utils/config";
+import { useReferenceContext } from "../../../../context/ReferenceContext";
 
 type QueryFiltersProps = {
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -24,10 +25,10 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   resetFilters,
   setPage,
 }) => {
-  const {navire} = useReferenceContext();
+  const {mrn} = useReferenceContext();
 
   useEffect(() => {
-    navire.fetch();
+    mrn.fetch();
   }, []);
 
   const handleSubmission = (values: any) => {
@@ -63,19 +64,18 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         />
         <ProFormSelect
           {...selectConfig}
-          options={navire.results}
-          label="Navire"
-          name="navire"
+          options={mrn.results}
+          label="Mrn"
+          name="gros"
           fieldProps={{
-            fieldNames: { label: "nom", value: "id" },
+            fieldNames: { label: "gros", value: "id" },
           }}
           mode="multiple"
           transform={(value) =>
-            transformSelectFilter("multiple", "navire", value)
+            transformSelectFilter("multiple", "gros", value)
           }
         />
 
-        {/* <FilterSelect  data={navires} label="Navire" option_label="nom" option_value="id" name="navire" mode="multiple" /> */}
       </QueryFilter>
     </div>
   );

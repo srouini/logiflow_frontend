@@ -1,100 +1,67 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
+import { Button, Tag } from "antd";
+import { renderText } from "../../utils/functions";
+import Ajouter from "./AUForm";
+import {  SettingOutlined } from "@ant-design/icons";
+import Delete from "../../components/Delete";
 
-export const columns: ProColumns<GithubIssueItem>[] = [
+export const getColumns = (refetch: () => void): ProColumns<any>[] => [
+
   {
-    dataIndex: "index",
-    valueType: "indexBorder",
-    width: 48,
-  },
-  {
-    title: "Mrn",
+    title: "Numéro",
     dataIndex: "gros",
     copyable: true,
-    ellipsis: true,
-    search: false,
+    ellipsis: false,
     tooltip: "Gros",
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: "This field is required",
-        },
-      ],
-    },
+    width:250
   },
   {
-    title: "Title",
-    dataIndex: "title",
-    copyable: true,
+    title: "Regime",
+    dataIndex: "regime",
+    render: (record:any) => <Tag color={record.color ? record?.color : "blue" } > {record?.designation} </Tag>
+  },
+  {
+    title: "Accostage",
     ellipsis: true,
-    search: false,
-    tooltip: "Long titles will be automatically shortened",
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: "This field is required",
-        },
-      ],
-    },
+    dataIndex: "accostage",
   },
   {
-    disable: true,
-    title: "Status",
-    dataIndex: "state",
-    filters: true,
-    search: false,
-    onFilter: true,
+    title: "Escale",
     ellipsis: true,
-    valueType: "select",
+    dataIndex: "escale",
   },
   {
-    disable: true,
-    title: "Tags",
-    dataIndex: "labels",
-    search: false,
+    title: "Navire",
+    dataIndex: "navire",
+    ellipsis: false,
+    render:(record:any) =>renderText(record?.nom),
   },
   {
-    title: "Creation Time",
-    key: "showTime",
-    dataIndex: "created_at",
-    valueType: "date",
-    sorter: true,
-    search: false,
-    filters: true,
-    onFilter: true,
+    title: "Armasteur",
+    dataIndex: "armateur",
+    ellipsis: false,
+    render:(record:any) =>renderText(record?.raison_sociale),
   },
   {
-    title: "Creation Time",
-    dataIndex: "created_at",
-    valueType: "dateRange",
-    hideInTable: true,
-    search: false,
-  },
+    title: "Consignataire",
+    dataIndex: "consignataire",
+    ellipsis: false,
+    render:(record:any) =>renderText(record?.raison_sociale),  },
   {
     title: "Actions",
     valueType: "option",
     key: "option",
-    render: (text, record, _, action) => [
-      <a
-        key="editable"
-        onClick={() => {
-          action?.startEditable?.(record.id);
-        }}
-      >
-        Edit
-      </a>,
-      <a href={record.url} target="_blank" rel="noopener noreferrer" key="view">
-        View
-      </a>,
+    width:80,
+    render: (_,record:any) => [
+
       <TableDropdown
         key="actionGroup"
-        onSelect={() => action?.reload()}
         menus={[
-          { key: "copy", name: "Copy" },
-          { key: "delete", name: "Delete" },
+          { key: "delete", name: <Delete url="/api/data/gros/" id={record?.id}  refetch={refetch} class_name="MRN"/> },
+          { key: "Ajouter", name: <Ajouter initialvalues={record} refetch={refetch}></Ajouter>},
         ]}
+        children={<Button style={{width:"50px"}} icon={<SettingOutlined />} size="small"></Button>}
       />,
     ],
   },

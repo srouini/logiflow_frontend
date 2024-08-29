@@ -25,6 +25,7 @@ import useAuth from "../hooks/useAuth"
 import enUS from 'antd/lib/locale/en_US';
 import useScreenSize from '../hooks/useScreenSize';
 import frFR from 'antd/lib/locale/fr_FR';
+import ReferenceContextProvider from '../context/ReferenceContext';
 
 export default () => {
   const {logout} = useAuth();
@@ -41,13 +42,13 @@ export default () => {
     fixSiderbar: true,
     layout: "mix",
     splitMenus: false,
-    navTheme: isDarkTheme ? 'realDark' : 'light',  // Make sure this uses the updated theme state
     contentWidth: "Fluid",
-    colorPrimary: "#1677FF",
+    colorPrimary: "#FA541C",
     siderMenuType: "group",
+
   });
 
-  const [pathname, setPathname] = useState('/list/sub-page/sub-sub-page1');
+  const [pathname, setPathname] = useState('/admin/dashboard');
   const size = useScreenSize();
 
   if (typeof document === 'undefined') {
@@ -69,7 +70,7 @@ export default () => {
         }}
         locale={frFR}
       >
-        <ProConfigProvider hashed={false}>
+        <ProConfigProvider hashed={false} dark={isDarkTheme}>
           <ProLayout
             prefixCls="my-prefix"
             {...defaultProps}
@@ -150,12 +151,11 @@ export default () => {
                     paddingBlockStart: 12,
                   }}
                 >
-                  <div>© 2021 Made with love</div>
-                  <div>by Ant Design</div>
+                  <div>©2024 RAIL LOGISTIC</div>
+                  <div>by DSI</div>
                 </div>
               );
             }}
-            onMenuHeaderClick={(e) => console.log(e)}
             menuItemRender={(item, dom) => (
               <a
                 onClick={() => {
@@ -168,20 +168,10 @@ export default () => {
             )}
             {...settings}
           >
+            <ReferenceContextProvider>
             <Outlet />
-            <SettingDrawer
-              pathname={pathname}
-              enableDarkTheme
-              getContainer={(e: any) => {
-                if (typeof window === 'undefined') return e;
-                return document.getElementById('test-pro-layout');
-              }}
-              settings={settings}
-              onSettingChange={(changeSetting) => {
-                setSetting(changeSetting);
-              }}
-              disableUrlParams={false}
-            />
+            </ReferenceContextProvider>
+          
           </ProLayout>
         </ProConfigProvider>
       </ConfigProvider>

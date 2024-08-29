@@ -4,22 +4,27 @@ import { useAxios } from "./useAxios";
 import { message } from "antd";
 
 interface UsePostProps {
-  onSuccess: (data: any) => void;
+  onSuccess: () => void;
   endpoint: string;
   values?: any;
 }
 
 const usePost = ({ onSuccess, endpoint, values }: UsePostProps) => {
   const api = useAxios();
-
   const mutation: UseMutationResult<any, AxiosError<any>, any> = useMutation({
     mutationFn: async (values: any) => {
-      const response: AxiosResponse = await api.post(endpoint, values);
+      const url = values.id ? `${endpoint}${values.id}/` : endpoint;
+
+      // Determine whether to use PUT or POST based on the presence of `values.id`
+      const response: AxiosResponse = values.id
+        ? await api.put(url, values)
+        : await api.post(url, values);
+
       return response.data;
     },
     retry: 2,
-    onSuccess: (data) => {
-      onSuccess(data);
+    onSuccess: () => {
+      onSuccess();
     },
     onError: (error: AxiosError<any>) => {
       let title = "Request failed";
@@ -54,15 +59,13 @@ const usePost = ({ onSuccess, endpoint, values }: UsePostProps) => {
         // Default error handling for other cases
         message.error(error.message);
       }
-    
-      // Log the error
-      console.error(`${title}: ${error.message}`);
+  
     },
   });
 
   // Access isLoading from the mutation result
   const { mutate, status } = mutation;
-  const isLoading = status ===  'pending'; // React-query uses `status` to track loading
+  const isLoading = status === 'pending'; // React-query uses `status` to track loading
 
   return { mutate, isLoading };
 };

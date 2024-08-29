@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Select } from "antd";
 import type { FormItemProps } from "antd/es/form";
 import type { SelectProps } from "antd/es/select";
-import { ChoiceType } from "../../types";
+import { ChoiceType } from "../../types/commun";
 
 
 interface FormChoicesInputProps{

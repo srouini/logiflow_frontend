@@ -18,6 +18,15 @@ export default {
         ],
       },
       {
+        path: '/rotation',
+        name: 'Rotations',
+        children: [
+          { path: '/rotations/mrns', name: 'Mrns' },
+          { path: '/rotations/Articles', name: 'Articles' },
+
+        ],
+      },
+      {
         path: '/packages',
         name: 'Packages',
         children: [

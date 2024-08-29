@@ -1,23 +1,16 @@
 import React from "react";
 import {
-  Button,
-  Cascader,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  Switch,
-  TreeSelect,
+  Form
 } from "antd";
 import type { FormInstance } from "antd/es/form";
 
 interface Props {
   form: FormInstance<any>;
   children?: React.ReactNode;
+  initialvalues?:any
 }
 
-const App: React.FC<Props> = ({ form, children }) => {
+const App: React.FC<Props> = ({ form, children,initialvalues }) => {
   const handleOnFinish = async () => {
     const values = await form.validateFields();
     console.log(values);
@@ -29,7 +22,8 @@ const App: React.FC<Props> = ({ form, children }) => {
       style={{ padding: "10px", paddingTop: "20px" }}
       form={form}
       onFinish={handleOnFinish}
-
+      initialValues={initialvalues}
+      key={initialvalues?.id}
     >
       {children}
     </Form>
