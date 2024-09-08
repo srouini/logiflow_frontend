@@ -16,7 +16,7 @@ interface FormChoicesInputProps{
   option_value: string;
   disabled?: boolean;
   choices: ChoiceType[]; // Define the type for choices array
-  mode?: "multiple" | "tags" | undefined;
+  mode?:  "multiple" | "tags" | undefined ;
 }
 
 const FormChoicesInput: React.FC<FormChoicesInputProps> = ({
@@ -26,11 +26,12 @@ const FormChoicesInput: React.FC<FormChoicesInputProps> = ({
   message = "",
   placeholder = "-",
   initialValue,
-  option_label,
-  option_value,
+  option_label="label",
+  option_value="value",
   disabled = false,
   choices,
-  mode = "tag",
+  mode = "tags"
+
 }) => {
   const filterOption: SelectProps<Choice>["filterOption"] = (
     input,
@@ -55,6 +56,7 @@ const FormChoicesInput: React.FC<FormChoicesInputProps> = ({
         filterOption={filterOption}
         fieldNames={{ label: option_label, value: option_value }}
         allowClear
+        mode={mode}
         style={{
           width: "100%",
         }}

@@ -5,6 +5,9 @@ import useConsignataire from "../hooks/references/useConsignataire";
 import useArmateur from "../hooks/references/useArmateur";
 import usePort from "../hooks/references/usePort";
 import useMrn from "@/hooks/references/useMrn";
+import useClient from "@/hooks/references/useClient";
+import useTransitaire from "@/hooks/references/useTransitaire";
+import useContainerType from "@/hooks/references/useContainerType";
 
 const ReferenceContext = createContext<any>(null);
 
@@ -20,6 +23,9 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
   const armateur = useArmateur();
   const port = usePort();
   const mrn = useMrn();
+  const client = useClient();
+  const transitaire = useTransitaire();
+  const containerType = useContainerType();
  
   const contextValues = {
     navire,
@@ -27,7 +33,10 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
     consignataire,
     armateur,
     port,
-    mrn
+    mrn,
+    client,
+    transitaire,
+    containerType
   };
 
   return (
@@ -36,6 +45,8 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
     </ReferenceContext.Provider>
   );
 };
+
+
 
 export default ReferenceContextProvider;
 

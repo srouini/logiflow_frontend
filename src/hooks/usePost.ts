@@ -9,7 +9,7 @@ interface UsePostProps {
   values?: any;
 }
 
-const usePost = ({ onSuccess, endpoint, values }: UsePostProps) => {
+const usePost = ({ onSuccess, endpoint }: UsePostProps) => {
   const api = useAxios();
   const mutation: UseMutationResult<any, AxiosError<any>, any> = useMutation({
     mutationFn: async (values: any) => {

@@ -1,9 +1,3 @@
-import {
-  ChromeFilled,
-  CrownFilled,
-  SmileFilled,
-  TabletFilled,
-} from '@ant-design/icons';
 
 export default {
   route: {
@@ -22,10 +16,6 @@ export default {
         name: 'Rotations',
         children: [
           { path: '/rotations/mrns', name: 'Mrns' },
-          { path: '/rotations/Articles/:id', name: 'Articles' },
-          { path: '/rotations/containers/:id', name: 'Containers' },
-
-          
         ],
       },
       {

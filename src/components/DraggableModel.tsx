@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Button, Modal } from "antd";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
+import { PlusOutlined } from "@ant-design/icons";
 
 interface Props {
   children?: React.ReactNode;
@@ -13,7 +14,9 @@ interface Props {
   width: string | number | undefined;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
-  initialvalues?:any
+  initialvalues?:any;
+  addButtonIcon?:React.ReactNode;
+  addButtonType?:"default" | "link" | "primary" | "text" | "dashed" | undefined;
 }
 
 const DraggableModel: React.FC<Props> = ({
@@ -27,6 +30,8 @@ const DraggableModel: React.FC<Props> = ({
   width,
   isLoading,
   initialvalues,
+  addButtonIcon=<PlusOutlined />,
+  addButtonType="default"
 }) => {
   const [disabled, setDisabled] = useState(true);
   const [bounds, setBounds] = useState({
@@ -65,7 +70,7 @@ const DraggableModel: React.FC<Props> = ({
       {
         initialvalues && <a onClick={showModal} type="primary">{modalOpenButtonText}</a>
       }
-      {  !initialvalues && <Button onClick={showModal} type="primary">{modalOpenButtonText}</Button>}
+      {  !initialvalues && <Button onClick={showModal} icon={addButtonIcon} type={addButtonType}>{modalOpenButtonText}</Button>}
       <Modal
         title={
           <div

@@ -19,3 +19,8 @@ export interface ReferenceContextProps {
   bareme: UseDataResult;
   regime: UseDataResult;
 }
+
+
+export interface BreadcrumbType {
+   items: ({ path: null; title: JSX.Element; } | { path: string; title: string; })[]
+}

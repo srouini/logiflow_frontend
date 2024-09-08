@@ -2,10 +2,13 @@ import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
 import { Button, Tag } from "antd";
 import { renderText } from "@/utils/functions";
-import Ajouter from "./components/AUForm";
 import { SettingOutlined } from "@ant-design/icons";
-import Delete from "@/components/Delete";
-import DetailsButton from "./components/DetailsButton";
+import React from "react";
+import { API_MRNS_ENDPOINT } from "@/api/api";
+import DetailsButton from "@/components/DetailsButton";
+
+const Delete = React.lazy(() => import("@/components/Delete"));
+const Ajouter = React.lazy(() => import("./components/AUForm"));
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
@@ -14,7 +17,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     copyable: true,
     ellipsis: false,
     tooltip: "Gros",
-    render:(_,record) => <DetailsButton text={record.gros} id={record?.id}/> ,
+    render: (_, record) => <DetailsButton text={record.gros} navigate_to={`/rotations/mrns/${record?.id}`} />,
     width: 250,
   },
   {
@@ -68,7 +71,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
             key: "delete",
             name: (
               <Delete
-                url="/api/data/gros/"
+                url={API_MRNS_ENDPOINT}
                 id={record?.id}
                 refetch={refetch}
                 class_name="MRN"

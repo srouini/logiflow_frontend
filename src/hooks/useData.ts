@@ -12,7 +12,7 @@ type useDataProps = {
 const useData = ({ params, name,endpoint,refetchInterval,enabled=true }: useDataProps) => {
   const api = useAxios();
 
-  const { refetch, data, isLoading, isRefetching } =  useQuery({
+  const { refetch, data, isLoading, isRefetching, isFetching } =  useQuery({
     queryKey: [name, params],
     queryFn: () => {
       try {
@@ -27,7 +27,7 @@ const useData = ({ params, name,endpoint,refetchInterval,enabled=true }: useData
   enabled:enabled
   });
 
-  return { refetch, data, isLoading, isRefetching };
+  return { refetch, data, isLoading, isRefetching, isFetching };
 };
 
 export default useData;

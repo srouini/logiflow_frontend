@@ -99,3 +99,6 @@ import { BaseModel } from "./commun";
     couleur?: string;
   }
   
+  export interface ContainerType extends BaseModel {
+    designation:string
+  }

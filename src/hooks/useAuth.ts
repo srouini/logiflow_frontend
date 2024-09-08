@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINT } from '@/utils/constants';
 
 interface UseAuth {
   isAuthenticated: boolean;
@@ -15,7 +16,7 @@ const useAuth = (): UseAuth => {
   const navigate = useNavigate();
 
   const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000', // Your backend API base URL
+    baseURL: API_ENDPOINT, // Your backend API base URL
     withCredentials: true,  // Ensure cookies are sent with requests
   });
 
@@ -29,7 +30,7 @@ const useAuth = (): UseAuth => {
     setLoading(true);
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/auth/get/token/',
+        `${API_ENDPOINT}/api/auth/get/token/`,
         { username, password },
         {withCredentials:true}
      // Send cookies with the request
@@ -75,12 +76,10 @@ const useAuth = (): UseAuth => {
       const response = await axiosInstance.get('/api/auth/check/', {
         withCredentials: true, // Ensure cookies are sent with the request
       });
-      console.log("checked")
       if (response.status === 200) {
         setIsAuthenticated(true);
       } 
     } catch (error) {
-      console.log("refreshed")
       // If initial check fails, try to refresh the token
       try {
         const refreshResponse = await axiosInstance.post('/api/auth/token/refresh', {
@@ -102,7 +101,6 @@ const useAuth = (): UseAuth => {
           setIsAuthenticated(false);
         }
       } catch (refreshError) {
-        console.log("Logedout")
         // If refresh token fails, log out the user
         logout();
       }

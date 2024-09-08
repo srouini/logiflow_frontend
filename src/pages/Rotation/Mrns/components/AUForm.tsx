@@ -1,20 +1,14 @@
-import { useEffect, useState } from "react";
-import DraggableModel from "../../../../components/DraggableModel";
-import FormObject from "../../../../components/Form";
-import { Col, Divider, Form, message, Row } from "antd";
-import FormDateInput from "../../../../components/form/FormDateInput";
-import FormSelectInput from "../../../../components/form/FormSelectInput";
-import FormTextInput from "../../../../components/form/FormTextInput";
-import usePost from "../../../../hooks/usePost";
-import { mapInitialValues, transformSelectFilter } from "../../../../utils/functions";
-import { useReferenceContext } from "../../../../context/ReferenceContext";
-import { ProFormSelect } from "@ant-design/pro-components";
-import { selectConfig } from "../../../../utils/config";
+import React, { useEffect, useState } from "react";
+import DraggableModel from "@/components/DraggableModel";
+import FormObject from "@/components/Form";
+import { Divider, Form, message, Row } from "antd";
+import usePost from "@/hooks/usePost";
+import { formatDate, mapInitialValues } from "@/utils/functions";
+import { useReferenceContext } from "@/context/ReferenceContext";
+import { API_MRNS_ENDPOINT } from "@/api/api";
+import FormField from "@/components/form/FormField";
 
-const formatDate = (field: string, values: any) => {
-  if (values[field]) values[field] = values[field].format("YYYY-MM-DD");
-  return values;
-};
+
 
 interface AUFormProps {
   refetch: () => void;
@@ -25,6 +19,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
+
   const { navire, regime, armateur, consignataire, port } =
     useReferenceContext();
 
@@ -34,6 +29,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
     armateur.fetch();
     consignataire.fetch();
     port.fetch();
+    console.log("loaded")
   }, []);
 
   const {} = useReferenceContext();
@@ -55,7 +51,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: "http://localhost:8000/api/data/gros/",
+    endpoint: API_MRNS_ENDPOINT,
   });
 
   return (
@@ -66,115 +62,29 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}
-      width={700}
+      width={800}
       isLoading={isLoading}
       initialvalues={initialvalues}
     >
       <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
-        <Row gutter={12}>
-          <Col span={24} md={12}>
-            <FormTextInput
-              name={"numero"}
-              label={"Numéro"}
-              required
-            ></FormTextInput>
-          </Col>
 
-          <Col span={24} md={12}>
-            <FormDateInput label="Accostage" name="accostage" required />
-          </Col>
+        <Row gutter={24}>
+          <FormField label="Numéro" name="numero"  span={24} required  span_md={12} type="text"/>
+          <FormField label="Accostage" name="accostage"  span={24} required  span_md={12} type="date"/>
+          <FormField label="Escale" name="escale"  span={24}  span_md={12} type="text"/>
         </Row>
 
-        <Row gutter={12}>
-          <Col span={24} md={12}>
-            <FormTextInput name={"escale"} label={"Escale"}></FormTextInput>
-          </Col>
-          <Col span={24} md={12}></Col>
+        <Divider dashed style={{ marginTop: "0px" }} />
+        <Row gutter={24}>
+          <FormField label="Port emission" name="port_emission" placeholder="-" options={port?.results} option_label="raison_sociale"  option_value="id" span={24}  span_md={12} type="select"/>
+          <FormField label="Port réception" name="port_reception" placeholder="-" options={port?.results} option_label="raison_sociale"  option_value="id" span={24} required  span_md={12} type="select"/>
+          <FormField label="Consignataire" name="consignataire" placeholder="-" options={consignataire?.results} option_label="raison_sociale"  option_value="id" span={24} required  span_md={12} type="select"/>
+          <FormField label="Armateur" name="armateur" placeholder="-" options={armateur?.results} option_label="raison_sociale"  option_value="id" span={24} required  span_md={12} type="select"/>
+          <FormField label="Régime" name="regime" placeholder="-" options={regime?.results} option_label="designation"  option_value="id" span={24} required  span_md={12} type="select"/>
+          <FormField label="Navire" name="navire" placeholder="-" options={navire?.results} option_label="nom"  option_value="id" span={24} required  span_md={12} type="select"/>
+
         </Row>
 
-        <Divider  dashed style={{marginTop:"0px"}}/>
-        <Row gutter={36}>
-          <Col span={24} md={12}>
-             <ProFormSelect
-              {...selectConfig}
-              options={port.results}
-              label="Port emission"
-              name="port_emission"
-              fieldProps={{
-                fieldNames: { label: "raison_sociale", value: "id" },
-              }}
-              placeholder="-"
-            />
-          </Col>
-          <Col span={24} md={12}>
-            <ProFormSelect
-              {...selectConfig}
-              options={port.results}
-              label="Port réception"
-              name="port_reception"
-              fieldProps={{
-                fieldNames: { label: "raison_sociale", value: "id" },
-              }}
-              placeholder="-"
-              required={true}
-            />
-          </Col>
-        </Row>
-
-        <Row gutter={36}>
-          <Col span={24} md={12}>
-            <ProFormSelect
-              {...selectConfig}
-              options={consignataire.results}
-              label="Consignataire"
-              name="consignataire"
-              fieldProps={{
-                fieldNames: { label: "raison_sociale", value: "id" },
-              }}
-              placeholder="-"
-            />
-          </Col>
-          <Col span={24} md={12}>
-             <ProFormSelect
-              {...selectConfig}
-              options={armateur.results}
-              label="Armateur"
-              name="armateur"
-              fieldProps={{
-                fieldNames: { label: "raison_sociale", value: "id" },
-              }}
-              placeholder="-"
-            />
-          </Col>
-        </Row>
-
-        <Row gutter={36}>
-          <Col span={24} md={12}>
-            <ProFormSelect
-              {...selectConfig}
-              options={regime.results}
-              label="Régime"
-              name="regime"
-              fieldProps={{
-                fieldNames: { label: "designation", value: "id" },
-              }}
-              placeholder="-"
-              required={true}
-            />
-          </Col>
-          <Col span={24} md={12}>
-            <ProFormSelect
-              {...selectConfig}
-              options={navire.results}
-              label="Navire"
-              name="navire"
-              fieldProps={{
-                fieldNames: { label: "nom", value: "id" },
-              }}
-              placeholder="-"
-            />
-          </Col>
-        </Row>
       </FormObject>
     </DraggableModel>
   );

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAxios } from "../hooks/useAxios";
-import { Popconfirm, notification } from "antd";
+import { Button, Popconfirm, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 
 interface DeleteProps {
@@ -10,9 +10,11 @@ interface DeleteProps {
   go_to_after?: string;
   id: string | number;
   disabled?: boolean;
+  type?: "link" | "text" | "default" | "primary" | "dashed" | undefined;
+  link?:boolean
 }
 
-const Delete: React.FC<DeleteProps> = ({ url, class_name, refetch, go_to_after, id, disabled }) => {
+const Delete: React.FC<DeleteProps> = ({ url, class_name, refetch, go_to_after, id, disabled,type="text", link=true }) => {
   let navigate = useNavigate();
   let api = useAxios();
 
@@ -46,7 +48,8 @@ const Delete: React.FC<DeleteProps> = ({ url, class_name, refetch, go_to_after, 
       key={id}
       disabled={disabled}
     >
-       <a type="text">SUPPRIMER</a>
+
+     { link ? <a >SUPPRIMER</a>  :  <Button type={type}>SUPPRIMER</Button>}
     </Popconfirm>
   );
 };

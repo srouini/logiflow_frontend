@@ -15,6 +15,7 @@ interface ForNumberInputProps extends Omit<FormItemProps, "children"> {
   hasAddOn?: boolean;
   inputColSpan?: number;
   addonColSpan?: number;
+  disabled?:boolean
 }
 
 const ForNumberInput: React.FC<ForNumberInputProps> = ({
@@ -29,6 +30,7 @@ const ForNumberInput: React.FC<ForNumberInputProps> = ({
   hasAddOn = false,
   inputColSpan = 19,
   addonColSpan = 5,
+  disabled=false
 }) => {
   const [suffix, setSuffix] = useState<string>("");
 
@@ -57,7 +59,7 @@ const ForNumberInput: React.FC<ForNumberInputProps> = ({
           rules={[{ required: required, message: message }]}
           {...att}
         >
-          <InputNumber step={step} style={{ width: "100%" }} min={min} max={max} />
+          <InputNumber step={step} style={{ width: "100%" }} min={min} max={max} disabled={disabled} />
         </Form.Item>
       </Col>
       {hasAddOn && (

@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import useData from "../useData";
-import { Client } from "@/types/reference";
-import { API_CLIENTS_ENDPOINT } from "@/api/api";
+import {  API_CONTAINER_TYPES_ENDPOINT } from "../../api/api";
+import { Consignataire, ContainerType } from "../../types/reference";
 
-interface UseClientResult {
-  results: Client[] | undefined;
+interface UseResult {
+  results: ContainerType[] | undefined;
   isLoading: boolean;
   isRefetching: boolean;
   fetch: () => void;
   refetch: () => void;
 }
 
-const useClient = (): UseClientResult => {
-    const [results, setResults] = useState<Client[]>();
+const useContainerType = (): UseResult => {
+    const [results, setResults] = useState<ContainerType[]>();
 
     const { data, isLoading, isRefetching, refetch } = useData({
-      endpoint: API_CLIENTS_ENDPOINT,
-      name: "GET_CLIENT",
+      endpoint: API_CONTAINER_TYPES_ENDPOINT,
+      name: "GET_CONTAINER_TYPE",
       enabled: false,
-      params: { all: true, fields: "id,raison_sociale" },
+      params: { all: true, fields: "id,designation" },
     });
 
     const fetch = () => {
@@ -40,4 +40,5 @@ const useClient = (): UseClientResult => {
     };
 };
 
-export default useClient;
+export default useContainerType;
+

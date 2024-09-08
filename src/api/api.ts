@@ -2,7 +2,7 @@
 // references
 
 export const API_PORTS_ENDPOINT = "/api/reference/port/"
-export const API_TYPES_ENDPOINT = "/api/reference/type/"
+export const API_CONTAINER_TYPES_ENDPOINT = "/api/reference/type/"
 export const API_TRANSITAIRE_ENDPOINT = "/api/reference/transitaire/"
 export const API_NAVIRES_ENDPOINT = "/api/reference/navire/"
 export const API_ARMATEURS_ENDPOINT = "/api/reference/armateur/"
@@ -26,6 +26,7 @@ export const API_SOUSARTICLES_ENDPOINT = "/api/data/sousarticle/"
 export const API_VISITES_ENDPOINT = "/api/data/visite/"
 export const API_VISITES_ITEMS_ENDPOINT = "/api/data/visiteitem/"
 export const API_SCELLE_ENDPOINT = "/api/data/scelle/"
+export const API_EDI_ENDPOINT = "/api/data/edi/"
 
 // groupage 
 

@@ -9,9 +9,9 @@ import OrderDetails from './pages/Orders/Details';
 import LoginPage from "./pages/Login/Index"
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFoundPage from "./pages/NotFoundPage/Index"
-import MrnsPage from './pages/Rotation/Mrns/MrnsPage';
-import ArticlePage from './pages/Rotation/Articles/ArticlePage';
-import ContainersPage from './pages/Rotation/Containers/ContainersPage';
+import MrnsPage from './pages/Rotation/Mrns';
+import MrnDetailsPage from './pages/Rotation/MrnDetails';
+import ArticleDetailsPage from './pages/Rotation/ArticleDetails';
 
 const AppRoutes = () => (
   <Router>
@@ -23,8 +23,8 @@ const AppRoutes = () => (
         <Route path="admin/dashboard" element={<Dashboard />} />
         <Route path="admin/settings" element={<Settings />} />
         <Route path="rotations/mrns" element={<MrnsPage />} />
-        <Route path="rotations/articles/:id" element={<ArticlePage />} />
-        <Route path="rotations/containers/:id" element={<ContainersPage />} />
+        <Route path="rotations/mrns/:id" element={<MrnDetailsPage />} />
+        <Route path="rotations/mrns/articles/:id" element={<ArticleDetailsPage />} />
         <Route path="packages/list" element={<PackageList />} />
         <Route path="packages/details" element={<PackageDetails />} />
         <Route path="orders/list" element={<OrderList />} />

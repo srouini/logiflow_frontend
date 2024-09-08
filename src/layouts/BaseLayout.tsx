@@ -10,19 +10,16 @@ import type { ProSettings } from '@ant-design/pro-components';
 import {
   ProConfigProvider,
   ProLayout,
-  SettingDrawer,
 } from '@ant-design/pro-components';
-import { css } from '@emotion/css';
 import {
   Button,
   ConfigProvider,
   Dropdown,
 } from 'antd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import defaultProps from './_defaultProps';
-import { useNavigate, Outlet } from 'react-router';
+import { useNavigate, Outlet, useLocation } from 'react-router';
 import useAuth from "../hooks/useAuth"
-import enUS from 'antd/lib/locale/en_US';
 import useScreenSize from '../hooks/useScreenSize';
 import frFR from 'antd/lib/locale/fr_FR';
 import ReferenceContextProvider from '../context/ReferenceContext';
@@ -54,7 +51,7 @@ export default () => {
   if (typeof document === 'undefined') {
     return <div />;
   }
-
+  const location = useLocation();
   return (
     <div
       id="test-pro-layout"
@@ -74,7 +71,7 @@ export default () => {
           <ProLayout
             prefixCls="my-prefix"
             {...defaultProps}
-            location={{ pathname }}
+            location={{ pathname: location.pathname }}
             token={{
               header: {
                 colorBgMenuItemSelected: 'rgba(0,0,0,0.04)',
@@ -159,6 +156,7 @@ export default () => {
             menuItemRender={(item, dom) => (
               <a
                 onClick={() => {
+                  console.log(item.path);
                   setPathname(item.path || '/admin/dashboard');
                   navigate(item.path || '/admin/dashboard');
                 }}

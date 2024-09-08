@@ -13,6 +13,7 @@ import {
 } from "../../../../utils/functions";
 import { selectConfig } from "../../../../utils/config";
 import { useReferenceContext } from "../../../../context/ReferenceContext";
+import { Card } from "antd";
 
 type QueryFiltersProps = {
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -25,7 +26,7 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   resetFilters,
   setPage,
 }) => {
-  const {navire} = useReferenceContext();
+  const { navire } = useReferenceContext();
 
   useEffect(() => {
     navire.fetch();
@@ -36,21 +37,15 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
     setFilters(values);
   };
 
- 
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        borderRadius: "8px",
-        border: "1px solid #EAEAF7",
-        marginBottom: "20px",
-      }}
-    >
+    <Card style={{ marginBottom: "20px" }}>
+
       <QueryFilter
         defaultCollapsed
         split
         onFinish={handleSubmission}
         onReset={resetFilters}
+        style={{ padding: "0px" }}
       >
         <ProFormText name="numero__icontains" label="Numéro" />
         <ProFormText name="status" label="Status" />
@@ -75,9 +70,8 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
             transformSelectFilter("multiple", "navire", value)
           }
         />
-
       </QueryFilter>
-    </div>
+    </Card>
   );
 };
 

@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import axios, { AxiosInstance } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINT } from '@/utils/constants';
 
 export const useAxios = (): AxiosInstance => {
   const navigate = useNavigate();
 
   // Create an axios instance
   const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000', // Your backend API base URL
+    baseURL: API_ENDPOINT, // Your backend API base URL
     withCredentials: true,  // Ensure cookies are sent with requests
   });
 

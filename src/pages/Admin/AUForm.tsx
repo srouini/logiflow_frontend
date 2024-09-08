@@ -3,13 +3,14 @@ import DraggableModel from "../../components/DraggableModel";
 import FormObject from "../../components/Form";
 import { Col, Divider, Form, message, Row } from "antd";
 import FormDateInput from "../../components/form/FormDateInput";
-import FormSelectInput from "../../components/form/FormSelectInput";
 import FormTextInput from "../../components/form/FormTextInput";
 import usePost from "../../hooks/usePost";
-import { mapInitialValues, transformSelectFilter } from "../../utils/functions";
+import { mapInitialValues } from "../../utils/functions";
 import { useReferenceContext } from "../../context/ReferenceContext";
 import { ProFormSelect } from "@ant-design/pro-components";
 import { selectConfig } from "../../utils/config";
+import { API_ENDPOINT } from "@/utils/constants";
+import { API_MRNS_ENDPOINT } from "@/api/api";
 
 const formatDate = (field: string, values: any) => {
   if (values[field]) values[field] = values[field].format("YYYY-MM-DD");
@@ -36,8 +37,6 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
     port.fetch();
   }, []);
 
-  const {} = useReferenceContext();
-
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
     if (initialvalues) {
@@ -55,7 +54,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: "http://localhost:8000/api/data/gros/",
+    endpoint: API_MRNS_ENDPOINT,
   });
 
   return (

@@ -1,7 +1,8 @@
 import React from "react";
-import type { SelectProps } from "antd/es/select";
 import type { FormItemProps } from "antd/es/form";
 import { ProFormSelect } from "@ant-design/pro-components";
+import { transformSelectFilter } from "@/utils/functions";
+import { selectConfig } from "@/utils/config";
 
 interface FormSelectInputProps extends Omit<FormItemProps, "children"> {
   name: string;
@@ -21,39 +22,28 @@ interface FormSelectInputProps extends Omit<FormItemProps, "children"> {
 const FilterSelect: React.FC<FormSelectInputProps> = ({
   name,
   label,
-  placeholder = "-",
   data,
   isLoading,
   option_label,
-  option_value,
-  initialValue,
+  option_value="id",
   mode,
-  att = {},
   disabled = false,
 }) => {
-
-
   return (
     <ProFormSelect
+      {...selectConfig}
       disabled={disabled}
       options={data}
-      width={"md"}
       label={label}
       name={name}
       fieldProps={{
-        optionLabelProp: "nom",
-        fieldNames: { label: option_label, value: option_value },
-     
+        fieldNames: { label: option_label, value: option_value},
+        loading:isLoading
       }}
       allowClear
       mode={mode}
       showSearch
-      transform={(value) => {
-        if (mode === "multiple" || mode === "tags") {
-          return { [`${name}__in`]: value.join(",") };
-        }
-        return { [`${name}`]: value };
-      }}
+      transform={(value) => transformSelectFilter(mode, name, value)}
     />
   );
 };

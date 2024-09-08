@@ -54,7 +54,7 @@ export interface BulletinsEscort extends BaseModel {
 }
 
 // Tc Model
-export interface Tc extends BaseModel {
+export interface Container extends BaseModel {
     article?: Article | number; // ForeignKey as object
     type_tc?: number; // ForeignKey IDs if not an object
     dangereux?: boolean;

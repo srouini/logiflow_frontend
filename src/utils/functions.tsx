@@ -2,8 +2,11 @@ import moment from "moment";
 import { SelectModeType } from "../types/antdeing";
 
 export const renderText = (value: any) => {
-  return value ? value : "-";
-};
+  return (
+    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", display: "block" }}>
+      {value ? value : "-"}
+    </span>
+  );};
 
 interface NestedObject {
   id: number | string;
@@ -73,3 +76,14 @@ export const transformSelectFilter = (
   }
   return { [`${name}`]: value };
 };
+
+
+export const formatDate = (field:string, values: any) => {
+  values[field] = values[field].format("YYYY-MM-DD");
+  return values
+}
+
+
+export function formatStringDate(dateString:string) {
+  return moment(dateString).format('YYYY-MM-DD HH:mm');
+}

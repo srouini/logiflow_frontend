@@ -2,10 +2,13 @@ import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
 import { Button, Tag } from "antd";
 import { renderDate, renderText } from "@/utils/functions";
-import Ajouter from "./components/AUForm";
 import { SettingOutlined } from "@ant-design/icons";
-import Delete from "@/components/Delete";
-import DetailsButton from "./components/DetailsButton";
+import React from "react";
+import DetailsButton from "@/components/DetailsButton";
+import { API_ARTICLES_ENDPOINT } from "@/api/api";
+
+const Delete = React.lazy(() => import("@/components/Delete"));
+const Ajouter = React.lazy(() => import("./components/AUForm"));
 
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
@@ -15,7 +18,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     dataIndex:"numero",
     key:"numero",
     width:100,
-    render:(_,record) => <DetailsButton text={record.numero} id={record?.id}/> ,
+    render:(_,record) => <DetailsButton text={record.numero} navigate_to={`/rotations/mrns/articles/${record?.id}`} /> ,
 
 },
 {
@@ -78,8 +81,8 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
       <TableDropdown
         key="actionGroup"
         menus={[
-          { key: "delete", name: <Delete url="/api/data/gros/" id={record?.id}  refetch={refetch} class_name="MRN"/> },
-          { key: "Ajouter", name: <Ajouter initialvalues={record} refetch={refetch}></Ajouter>},
+          { key: "delete", name: <Delete url={API_ARTICLES_ENDPOINT} id={record?.id}  refetch={refetch} class_name="Article"/> },
+          { key: "Ajouter", name: <Ajouter initialvalues={record} refetch={refetch} gros={record?.gros}></Ajouter>},
         ]}
         children={<Button style={{width:"50px"}} icon={<SettingOutlined />} size="small"></Button>}
       />,

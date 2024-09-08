@@ -1,11 +1,9 @@
 import {
-  EllipsisOutlined,
   PlusOutlined,
-  RetweetOutlined,
 } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
-import { ProTable, TableDropdown } from "@ant-design/pro-components";
-import { Button, Dropdown, Space, Tag } from "antd";
+import { ProTable } from "@ant-design/pro-components";
+import { Button } from "antd";
 import { useRef } from "react";
 import request from "umi-request";
 
@@ -21,7 +19,6 @@ export const waitTime = async (time: number = 100) => {
   await waitTimePromise(time);
 };
 
-import enUS from 'antd/es/locale/en_US';
 
 interface MarkType {
   id: number;
