@@ -1,5 +1,5 @@
 import { PageContainer } from "@ant-design/pro-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import useFilters from "@/hooks/useFilters";
@@ -12,15 +12,22 @@ import AUForm from "./components/AUForm";
 import { useParams } from "react-router";
 import Details from "@/components/Details";
 import Chargement from "../Mrns/components/Chargement";
+import Conteneurs from "./components/Containers"
+import { useReferenceContext } from "@/context/ReferenceContext";
 
 export default () => {
-
   const { id } = useParams();
 
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();
 
+  const { containerType } = useReferenceContext();
+
+  useEffect(() => {
+    containerType?.fetch();
+  }, []);
+  
   const {
     data: selectedMrnData,
     isLoading: isLoadingMrn,
@@ -55,27 +62,31 @@ export default () => {
   const breadcrumb: BreadcrumbType = {
     items: [
       {
-        path: "",
         title: "Rotation",
       },
       {
-        path: "",
         title: "Mrns",
       },
       {
-        path: "",
         title: "Articles",
       },
     ],
   };
 
+ 
+
+  
   return (
     <PageContainer
       contentWidth="Fluid"
       header={{
         breadcrumb: breadcrumb,
         title: `MRN -  ${selectedMrnData?.data?.gros}`,
-        extra: [<AUForm refetch={refetch} initialvalues={null} gros={id} />,<Chargement refetch={refetch}  mrn={selectedMrnData?.data?.id}/>],
+        extra: [
+          <AUForm refetch={refetch} initialvalues={null} gros={id} />,
+          <Chargement refetch={refetch} mrn={selectedMrnData?.data?.id} />,
+          <Conteneurs mrn={id}/>
+        ],
       }}
       title=" "
     >
@@ -101,8 +112,8 @@ export default () => {
         setPageSize={setPageSize}
         setSearch={setSearch}
         key="ARTICLES_TABLE"
+
       />
     </PageContainer>
   );
 };
-

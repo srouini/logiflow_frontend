@@ -7,31 +7,38 @@ export default {
         path: '/admin',
         name: 'Admin',
         children: [
-          { path: '/admin/dashboard', name: 'Dashboard' },
-          { path: '/admin/settings', name: 'Settings' },
+          { path: '/dashboard/dashboard', name: 'Dashboard' },
+          { path: '/dashboard/settings', name: 'Settings' },
+          { path: '/dashboard/references', name: 'References' },
         ],
       },
+
       {
         path: '/rotation',
         name: 'Rotations',
         children: [
           { path: '/rotations/mrns', name: 'Mrns' },
+          { path: '/rotations/chargement', name: 'Chargement' },
+          { path: '/rotations/reception', name: 'Reception' },
         ],
       },
+
       {
-        path: '/packages',
-        name: 'Packages',
+        path: '/facturation',
+        name: 'Facturation',
         children: [
-          { path: '/packages/list', name: 'Package List' },
-          { path: '/packages/details', name: 'Package Details' },
+          { path: '/facturation/facturation', name: 'Facturation' },
+          { path: '/facturation/visites', name: 'Visites' },
         ],
       },
+
       {
-        path: '/orders',
-        name: 'Orders',
+        path: '/documents',
+        name: 'Documents',
         children: [
-          { path: '/orders/list', name: 'Order List' },
-          { path: '/orders/details', name: 'Order Details' },
+          { path: '/documents/factures', name: 'Factures' },
+          { path: '/documents/Proformas', name: 'Proformas' },
+          { path: '/documents/bonsorties', name: 'Bons Sortie' },
         ],
       },
     ],

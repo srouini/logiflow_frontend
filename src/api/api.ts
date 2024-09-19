@@ -17,11 +17,14 @@ export const API_DIRECTIONS_ENDPOINT = "/api/reference/direction/"
 
 // data 
 
+
+
 export const API_MRNS_ENDPOINT = "/api/data/gros/"
 export const API_ARTICLES_ENDPOINT = "/api/data/article/"
 export const API_POSITIONS_ENDPOINT = "/api/data/position/"
 export const API_BULLETINS_ENDPOINT = "/api/data/bulletinsescort/"
 export const API_CONTENEURS_ENDPOINT = "/api/data/tc/"
+export const API_SET_BULLETIN__ENDPOINT = "/api/data/tc/bulk_Update_bulletin/"
 export const API_SOUSARTICLES_ENDPOINT = "/api/data/sousarticle/"
 export const API_VISITES_ENDPOINT = "/api/data/visite/"
 export const API_VISITES_ITEMS_ENDPOINT = "/api/data/visiteitem/"

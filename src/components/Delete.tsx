@@ -49,7 +49,7 @@ const Delete: React.FC<DeleteProps> = ({ url, class_name, refetch, go_to_after, 
       disabled={disabled}
     >
 
-     { link ? <a >SUPPRIMER</a>  :  <Button type={type}>SUPPRIMER</Button>}
+     { link ? disabled? <span style={{color:"#d9d9d9"}}>SUPPRIMER</span> : <a >SUPPRIMER</a>  :  <Button type={type}>SUPPRIMER</Button>}
     </Popconfirm>
   );
 };

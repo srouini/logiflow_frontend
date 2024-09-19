@@ -37,11 +37,10 @@ export default () => {
   const breadcrumb = {
     items: [
       {
-        path: "",
+      
         title: "Rotations",
       },
       {
-        path: "",
         title: "Mrns",
       },
     ],

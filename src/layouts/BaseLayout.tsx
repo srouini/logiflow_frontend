@@ -1,10 +1,11 @@
 import {
-  DoubleRightOutlined,
   GithubFilled,
   InfoCircleFilled,
   LogoutOutlined,
+  MoonOutlined,
   QuestionCircleFilled,
   SettingOutlined,
+  SunOutlined,
 } from '@ant-design/icons';
 import type { ProSettings } from '@ant-design/pro-components';
 import {
@@ -13,10 +14,12 @@ import {
 } from '@ant-design/pro-components';
 import {
   Button,
+  Col,
   ConfigProvider,
   Dropdown,
+  Row,
 } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import defaultProps from './_defaultProps';
 import { useNavigate, Outlet, useLocation } from 'react-router';
 import useAuth from "../hooks/useAuth"
@@ -24,25 +27,39 @@ import useScreenSize from '../hooks/useScreenSize';
 import frFR from 'antd/lib/locale/fr_FR';
 import ReferenceContextProvider from '../context/ReferenceContext';
 
+type ThemeType = "realDark" | "light" | undefined;
 export default () => {
   const {logout} = useAuth();
   const navigate = useNavigate();
   
-  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
+  useEffect(() => {
+      localStorage.getItem("theme") ? setCurrentTheme(localStorage.getItem("theme")) : setCurrentTheme("realDark")
+  },[])
+  const [currentTheme, setCurrentTheme] = useState<any>("realDark");
 
   // Toggles between dark and light themes
   const toggleTheme = () => {
-    setIsDarkTheme(prevTheme => !prevTheme);
+    if(currentTheme === "realDark") {
+      setCurrentTheme("light")
+      localStorage.setItem("theme","light")
+    }else{
+      setCurrentTheme("realDark")
+      localStorage.setItem("theme","realDark")
+    }
+    
+    console.log(currentTheme)
   };
 
+  
   const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
-    layout: "mix",
-    splitMenus: false,
+    layout: "top",
+    splitMenus: true,
     contentWidth: "Fluid",
     colorPrimary: "#FA541C",
-    siderMenuType: "group",
-
+    siderMenuType: "sub",
+    fixedHeader:true,
+    
   });
 
   const [pathname, setPathname] = useState('/admin/dashboard');
@@ -66,8 +83,9 @@ export default () => {
           return document.getElementById('test-pro-layout') || document.body;
         }}
         locale={frFR}
+        
       >
-        <ProConfigProvider hashed={false} dark={isDarkTheme}>
+        <ProConfigProvider hashed={false} >
           <ProLayout
             prefixCls="my-prefix"
             {...defaultProps}
@@ -85,7 +103,7 @@ export default () => {
             avatarProps={{
               src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
               size: 'small',
-              title: 'Qī Nīnī',
+              title: 'ROUINI SEYFALLAH',
               render: (props, dom) => {
                 return (
                   <Dropdown
@@ -109,12 +127,12 @@ export default () => {
               if (props.isMobile) return [];
               if (typeof window === 'undefined') return [];
               return [
-                <InfoCircleFilled key="InfoCircleFilled" />,
-                <QuestionCircleFilled key="QuestionCircleFilled" />,
-                <GithubFilled key="GithubFilled" />,
+
+                
+
                 <Button
                   type="text"
-                  icon={<SettingOutlined />}
+                  icon={currentTheme==="realDark" ?<SunOutlined /> :<MoonOutlined />}
                   onClick={toggleTheme}
                 >
                   
@@ -123,10 +141,15 @@ export default () => {
             }}
             headerTitleRender={(logo, title, _) => {
               const defaultDom = (
-                <a>
-                  {logo}
-                  {title}
-                </a>
+                <Row align={'middle'} justify={'center'} gutter={12}>
+                  <Col style={{display:"flex", alignItems:"center"}}>
+                  <img  src='/logo.ico' width={25} />
+                  </Col>
+                   <Col>
+                   <span style={{fontSize:"14pt", fontWeight:"bolder", fontStyle:"italic"}}>LOGIFLOW</span>
+                   </Col>
+                  
+                </Row>
               );
               if (typeof window === 'undefined') return defaultDom;
               if (document.body.clientWidth < 1400) {
@@ -165,6 +188,7 @@ export default () => {
               </a>
             )}
             {...settings}
+            navTheme={currentTheme}
           >
             <ReferenceContextProvider>
             <Outlet />

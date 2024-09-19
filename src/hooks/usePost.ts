@@ -17,7 +17,7 @@ const usePost = ({ onSuccess, endpoint }: UsePostProps) => {
 
       // Determine whether to use PUT or POST based on the presence of `values.id`
       const response: AxiosResponse = values.id
-        ? await api.put(url, values)
+        ? await api.patch(url, values)
         : await api.post(url, values);
 
       return response.data;

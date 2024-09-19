@@ -57,8 +57,8 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues,article }) => {
   return (
     <DraggableModel
       OkButtontext="Submit"
-      modalOpenButtonText={initialvalues ? "MODIFIER" : "AJOUTER"}
-      modalTitle="AJOUTER"
+      modalOpenButtonText={initialvalues ? "MODIFIER" : "Tc"}
+      modalTitle="Créer un nouveau Conteneur"
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}

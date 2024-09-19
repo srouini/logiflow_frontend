@@ -1,6 +1,6 @@
-import { ProFormSegmented, ProTable } from "@ant-design/pro-components";
+import { ProTable } from "@ant-design/pro-components";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
-import { Select, Space } from "antd";
+import { Space } from "antd";
 import { AxiosResponse } from "axios";
 import React from "react";
 
@@ -11,13 +11,15 @@ type CustomTableProps = {
   ) => Promise<QueryObserverResult<AxiosResponse<any, any> | undefined, Error>>;
   data: AxiosResponse<any, any> | undefined;
   setSearch: (value: React.SetStateAction<string>) => void;
-  getPageSize: () => number;
+  getPageSize?: () => number;
   setPageSize: (pageSize: number) => void;
   setPage: (value: React.SetStateAction<number>) => void;
   isLoading: boolean;
   headerTitle?: string | React.ReactNode;
   rowSelectionFunction?: false | (TableRowSelection<Record<string, any>> & { alwaysShowAlert?: boolean | undefined; }) | undefined;
-  RowSelectionRnder?:React.ReactNode
+  RowSelectionRnder?:React.ReactNode,
+  scrollX?:number
+  scrollY?:number
 };
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -31,7 +33,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
   isLoading,
   headerTitle,
   rowSelectionFunction,
-  RowSelectionRnder
+  RowSelectionRnder,
+  scrollX=1200
 }) => {
   const tableOptions = {
     reload: refetch,
@@ -75,7 +78,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       rowKey={(item) => item?.id}
       search={false}
       options={tableOptions}
-      scroll={{ x: 1200 }}
+      scroll={{ x: scrollX }}
       loading={isLoading}
       pagination={paginationConfig}
       revalidateOnFocus={true}

@@ -5,14 +5,10 @@ import { Divider, Form, message, Row } from "antd";
 import usePost from "../../../../hooks/usePost";
 import { mapInitialValues } from "../../../../utils/functions";
 import { useReferenceContext } from "../../../../context/ReferenceContext";
-import { API_CONTENEURS_ENDPOINT, API_MRNS_ENDPOINT, API_SOUSARTICLES_ENDPOINT } from "@/api/api";
+import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { YES_NO_CHOICES } from "@/utils/constants";
 
-const formatDate = (field: string, values: any) => {
-  if (values[field]) values[field] = values[field].format("YYYY-MM-DD");
-  return values;
-};
 
 interface AUFormProps {
   refetch: () => void;
@@ -56,8 +52,8 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, tc }) => {
   return (
     <DraggableModel
       OkButtontext="Submit"
-      modalOpenButtonText={initialvalues ? "MODIFIER" : "AJOUTER"}
-      modalTitle="AJOUTER"
+      modalOpenButtonText={initialvalues ? "MODIFIER" : "Sous Article"}
+      modalTitle="Créer un Sous Article"
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}

@@ -1,5 +1,6 @@
 import moment from "moment";
 import { SelectModeType } from "../types/antdeing";
+import dayjs from "dayjs";
 
 export const renderText = (value: any) => {
   return (
@@ -15,6 +16,18 @@ interface NestedObject {
 
 type InitialValues = {
   [key: string]: any;
+};
+
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc); 
+
+export const renderDateTime = (date: any) => {
+
+  let formatted_date = dayjs(date).utc();
+
+  if (formatted_date.isValid()) return formatted_date.format("YYYY-MM-DD HH:mm:ss");
+
+  return "-";
 };
 
 export const renderDate = (date: any) => {
@@ -35,13 +48,21 @@ export const mapInitialValues = (
   }
 
   for (const [key, value] of Object.entries(initialValues)) {
-    // Handle date fields: if the value is a valid date string, convert it to a moment object
+    // Handle date fields: if the value is a valid date string (YYYY-MM-DD)
     if (
       value &&
       typeof value === "string" &&
       moment(value, "YYYY-MM-DD", true).isValid()
     ) {
       mappedValues[key] = moment(value, "YYYY-MM-DD");
+    }
+    // Handle datetime fields: if the value is a valid datetime string (YYYY-MM-DDTHH:mm:ss)
+    else if (
+      value &&
+      typeof value === "string" &&
+      moment(value, "YYYY-MM-DDTHH:mm:ssZ", true).isValid()
+    ) {
+      mappedValues[key] = dayjs(value,"YYYY-MM-DD HH:mm:ss");
     }
     // Handle nested objects with an 'id' field
     else if (value && typeof value === "object" && "id" in value) {
@@ -55,6 +76,7 @@ export const mapInitialValues = (
 
   return mappedValues;
 };
+
 
 export const transformRangeDateFilter = (name: string, value: any) => {
   if (Array.isArray(value) && value.length === 2) {
@@ -78,8 +100,19 @@ export const transformSelectFilter = (
 };
 
 
+
+
+
 export const formatDate = (field:string, values: any) => {
   values[field] = values[field].format("YYYY-MM-DD");
+  return values
+}
+
+export const formatDateTime = (field:string, values: any) => {
+  console.log(field)
+  console.log(values)
+  console.log(values[field])
+  values[field] = values[field].format("YYYY-MM-DDTHH:mm:ss");
   return values
 }
 

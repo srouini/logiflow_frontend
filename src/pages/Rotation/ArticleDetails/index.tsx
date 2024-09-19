@@ -1,4 +1,4 @@
-import { PageContainer, ProFormSegmented } from "@ant-design/pro-components";
+import { PageContainer } from "@ant-design/pro-components";
 import { useEffect, useState } from "react";
 import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
@@ -16,13 +16,16 @@ import { TableSelectionType } from "@/types/antdeing";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { message, Segmented } from "antd";
 import usePost from "@/hooks/usePost";
+import Prestations from "./components/Prestations";
 
 export default () => {
   const { id } = useParams();
   const { containerType } = useReferenceContext();
+
   useEffect(() => {
     containerType?.fetch();
   }, []);
+
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();
@@ -35,7 +38,7 @@ export default () => {
     endpoint: API_ARTICLES_ENDPOINT + id + "/",
     name: "GET_SELECTED_ARTICLE",
     params: {
-      expand: "client,transitairee,gros",
+      expand: "client,transitairee,gros.regime",
     },
   });
 
@@ -72,25 +75,25 @@ export default () => {
 
   const { mutate } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_CONTENEURS_ENDPOINT+"bulk_update_type_tc/",
+    endpoint: API_CONTENEURS_ENDPOINT + "bulk_update_type_tc/",
   });
 
-  const handleContainerType = (values:any) => {
+  const handleContainerType = (values: any) => {
     mutate({
-      "ids": selectedRows,
-      "type_tc_id": values,
-     });
-  } 
+      ids: selectedRows,
+      type_tc_id: values,
+    });
+  };
 
   const RowSelectionRnder = (
     <>
-    Type:
-    <Segmented
-      options={containerType?.results}
-      onChange={handleContainerType}
-     allowFullScreen
-     defaultValue={false}
-    />
+      Type:
+      <Segmented
+        options={containerType?.results}
+        onChange={handleContainerType}
+        allowFullScreen
+        defaultValue={false}
+      />
     </>
   );
 
@@ -100,16 +103,18 @@ export default () => {
       header={{
         breadcrumb: breadcrumb,
         title: `Article ${selectedArticleData?.data?.numero}`,
-        extra: [<AUForm refetch={refetch} initialvalues={null} article={id} />],
+        extra: [<AUForm refetch={refetch} initialvalues={null} article={id} />, <Prestations article={id?.toString()}
+        
+        />],
       }}
-    
     >
       <Details
         dataSource={selectedArticleData?.data}
         isLoading={isLoadingArticle || isRefetchingArticle}
         DetailsColumns={DetailsColumns}
       />
-
+      
+     
       <QueryFilters
         setFilters={setFilters}
         resetFilters={resetFilters}
@@ -132,4 +137,3 @@ export default () => {
     </PageContainer>
   );
 };
-

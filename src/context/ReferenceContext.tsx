@@ -8,6 +8,7 @@ import useMrn from "@/hooks/references/useMrn";
 import useClient from "@/hooks/references/useClient";
 import useTransitaire from "@/hooks/references/useTransitaire";
 import useContainerType from "@/hooks/references/useContainerType";
+import useUser from "@/hooks/references/useUser";
 
 const ReferenceContext = createContext<any>(null);
 
@@ -26,6 +27,7 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
   const client = useClient();
   const transitaire = useTransitaire();
   const containerType = useContainerType();
+  const user = useUser();
  
   const contextValues = {
     navire,
@@ -36,7 +38,8 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
     mrn,
     client,
     transitaire,
-    containerType
+    containerType,
+    user
   };
 
   return (

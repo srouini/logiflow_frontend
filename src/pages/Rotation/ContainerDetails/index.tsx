@@ -72,7 +72,7 @@ export default ({ container, columns }: SubArticlePageProps) => {
         ></ProDescriptions>
 
         <Divider />
-        
+
         <CustomTable
           getColumns={getColumns(refetch)}
           data={data}
@@ -83,7 +83,9 @@ export default ({ container, columns }: SubArticlePageProps) => {
           setPageSize={setPageSize}
           setSearch={setSearch}
           key="SUB_ARTICLES_TABLE"
-          headerTitle={<AUForm refetch={refetch} tc={container?.id} initialvalues={null} />}
+          headerTitle={
+            <AUForm refetch={refetch} tc={container?.id} initialvalues={null} />
+          }
         />
       </Drawer>
     </>

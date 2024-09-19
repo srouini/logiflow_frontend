@@ -183,19 +183,15 @@ export const DetailsColumns = [
 export const breadcrumb: any = {
   items: [
     {
-      path: null,
       title: "Rotation",
     },
     {
-      path: null,
       title: "Mrns",
     },
     {
-      path: null,
       title: "Articles",
     },
     {
-      path: null,
       title: "Containers",
     },
   ],

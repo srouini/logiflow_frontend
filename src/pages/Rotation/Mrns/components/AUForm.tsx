@@ -20,7 +20,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
   const [open, setOpen] = useState(false);
 
 
-  const { navire, regime, armateur, consignataire, port } =
+  const { navire, regime, armateur, consignataire, port, mrn } =
     useReferenceContext();
 
   useEffect(() => {
@@ -47,6 +47,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
     message.success("Submission successful");
     setOpen(false);
     refetch();
+    mrn?.refetch()
   };
 
   const { mutate, isLoading } = usePost({
@@ -54,11 +55,13 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
     endpoint: API_MRNS_ENDPOINT,
   });
 
+  console.log(initialvalues)
+  console.log(mapInitialValues(initialvalues))
   return (
     <DraggableModel
       OkButtontext="Submit"
-      modalOpenButtonText={initialvalues ? "MODIFIER" : "AJOUTER"}
-      modalTitle="AJOUTER"
+      modalOpenButtonText={initialvalues ? "MODIFIER" : "Mrn"}
+      modalTitle="Créer un nouveau MRN"
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}

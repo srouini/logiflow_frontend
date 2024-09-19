@@ -14,9 +14,17 @@ interface Props {
   width: string | number | undefined;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
-  initialvalues?:any;
-  addButtonIcon?:React.ReactNode;
-  addButtonType?:"default" | "link" | "primary" | "text" | "dashed" | undefined;
+  initialvalues?: any;
+  addButtonIcon?: React.ReactNode;
+  addButtonType?:
+    | "default"
+    | "link"
+    | "primary"
+    | "text"
+    | "dashed"
+    | undefined;
+  buttonType?: "Button" | "Link";
+  disabledModalOpenButton?:boolean
 }
 
 const DraggableModel: React.FC<Props> = ({
@@ -30,8 +38,10 @@ const DraggableModel: React.FC<Props> = ({
   width,
   isLoading,
   initialvalues,
-  addButtonIcon=<PlusOutlined />,
-  addButtonType="default"
+  addButtonIcon = <PlusOutlined />,
+  addButtonType = "default",
+  buttonType,
+  disabledModalOpenButton
 }) => {
   const [disabled, setDisabled] = useState(true);
   const [bounds, setBounds] = useState({
@@ -67,10 +77,27 @@ const DraggableModel: React.FC<Props> = ({
 
   return (
     <>
-      {
-        initialvalues && <a onClick={showModal} type="primary">{modalOpenButtonText}</a>
-      }
-      {  !initialvalues && <Button onClick={showModal} icon={addButtonIcon} type={addButtonType}>{modalOpenButtonText}</Button>}
+      {buttonType ? (
+        buttonType == "Button" ? (
+          <Button onClick={showModal} icon={addButtonIcon} type={addButtonType} >
+            {modalOpenButtonText}
+          </Button>
+        ) : (
+          <a onClick={showModal} type="primary" >
+            {modalOpenButtonText}
+          </a>
+        )
+      ) : initialvalues ? (
+        disabledModalOpenButton ? <span style={{color:"#d9d9d9"}}>{modalOpenButtonText}</span> : 
+        <a onClick={showModal} type="primary">
+          {modalOpenButtonText}
+        </a>
+      ) : (
+        <Button onClick={showModal} icon={addButtonIcon} type={addButtonType}>
+          {modalOpenButtonText}
+        </Button>
+      )}
+
       <Modal
         title={
           <div

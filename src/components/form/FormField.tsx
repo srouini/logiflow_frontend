@@ -5,11 +5,12 @@ import FormDateInput from "./FormDateInput"; // Adjust the import path as needed
 import ProFormSelect from "@ant-design/pro-form/lib/components/Select"; // Adjust the import path as needed
 import { selectConfig } from "@/utils/config";
 import ForNumberInput from "./FormNumberInput";
+import FormDateTimeInput from "./FormDateTimeInput";
 
 interface FormFieldProps {
   name: string;
   label: string;
-  type: "text" | "date" | "select" | "number";
+  type: "text" | "date" | "dateTime" | "select" | "number";
   span?: number;
   span_md?: number;
   options?: Array<any>;
@@ -72,6 +73,19 @@ const FormField: React.FC<FormFieldProps> = ({
         </Col>
       );
 
+      case "dateTime":
+        return (
+          <Col span={span} md={span_md}>
+            <FormDateTimeInput
+              name={name}
+              label={label}
+              required={required}
+              disabled={disabled}
+            />
+          </Col>
+        );
+
+        
     case "select":
       return (
         <Col span={span} md={span_md}>
