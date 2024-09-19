@@ -18,6 +18,9 @@ import Factures from "./pages/Documents/Factures/Index"
 import BonsSortie from "./pages/Documents/BonsSortie/Index"
 import References from "./pages/Dashboard/References/Index"
 import ReceptionDetails from './pages/Rotation/ReceptionDetails/index';
+import ProformasGroupage from "./pages/DocumentsGroupage/Proformas/Index"
+import FacturesGroupage from "./pages/DocumentsGroupage/Factures/Index"
+import BonsSortieGroupage from "./pages/DocumentsGroupage/BonsSortie/Index"
 
 const AppRoutes = () => (
   <Router>
@@ -39,7 +42,10 @@ const AppRoutes = () => (
         <Route path="/facturation/facturation" element={<Facturation />} />
         <Route path="/facturation/visites" element={<Visites />} />
         <Route path="/documents/factures" element={<Factures />} />
+        <Route path="/documentsgroupage/factures" element={<FacturesGroupage />} />
+        <Route path="/documentsgroupage/proformas" element={<ProformasGroupage />} />
         <Route path="/documents/proformas" element={<Proformas />} />
+        <Route path="/documentsgroupage/bonsorties" element={<BonsSortieGroupage />} />
         <Route path="/documents/bonsorties" element={<BonsSortie />} />
       </Route>
 

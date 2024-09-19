@@ -31,7 +31,6 @@ export default {
           { path: '/facturation/visites', name: 'Visites' },
         ],
       },
-
       {
         path: '/documents',
         name: 'Documents',
@@ -39,6 +38,15 @@ export default {
           { path: '/documents/factures', name: 'Factures' },
           { path: '/documents/Proformas', name: 'Proformas' },
           { path: '/documents/bonsorties', name: 'Bons Sortie' },
+        ],
+      },
+      {
+        path: '/documentsgroupage',
+        name: 'Documents Groupage',
+        children: [
+          { path: '/documentsgroupage/factures', name: 'Factures' },
+          { path: '/documentsgroupage/Proformas', name: 'Proformas' },
+          { path: '/documentsgroupage/bonsorties', name: 'Bons Sortie' },
         ],
       },
     ],
