@@ -66,6 +66,7 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           name="type_tc"
           fieldProps={{
             fieldNames: { label: "designation", value: "id" },
+            maxTagCount: 'responsive',
           }}
           mode="multiple"
           transform={(value) =>

@@ -61,9 +61,8 @@ const Prestations = ({ article }: Props) => {
   const isRefetchingData =
     isRefetchingImmobilisation || isRefetchingFraisPortuaires;
 
-  const { isLoading } = useLoading({
-    isLoadingData: isLoadingData,
-    isRefetching: isRefetchingData,
+  const { isLoading } = useLoading({loadingStates:
+    [isLoadingData,isRefetchingData]
   });
 
   const onSuccess = () => {

@@ -45,6 +45,7 @@ export default () => {
     data: loaded,
     isLoading: isLoadingLoadedData,
     isRefetching: isRefetchingLoaded,
+    isFetching: isFetchingLoaded,
     refetch: refetchLoaded,
   } = useData({
     endpoint: API_CONTENEURS_ENDPOINT,
@@ -60,8 +61,7 @@ export default () => {
   });
 
   const { isLoading: isLoadingLoaded } = useLoading({
-    isLoadingData: isLoadingLoadedData,
-    isRefetching: isRefetchingLoaded,
+    loadingStates: [isLoadingLoadedData, isRefetchingLoaded, isFetchingLoaded],
   });
 
   useEffect(() => {

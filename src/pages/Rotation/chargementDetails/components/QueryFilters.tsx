@@ -54,6 +54,7 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           mode="multiple"
           fieldProps={{
             fieldNames: { label: "raison_sociale", value: "id" },
+            maxTagCount: 'responsive',
           }}
           transform={(value) =>
             transformSelectFilter("multiple", "transitaire", value)

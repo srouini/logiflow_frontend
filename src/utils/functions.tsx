@@ -38,6 +38,15 @@ export const renderDate = (date: any) => {
   return "-";
 };
 
+
+export const renderMoney = (value: any) => {
+  return (
+    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", display: "block" }}>
+      {value ? value + " DA" : "-"}
+    </span>
+  );};
+
+
 export const mapInitialValues = (
   initialValues: InitialValues
 ): InitialValues => {

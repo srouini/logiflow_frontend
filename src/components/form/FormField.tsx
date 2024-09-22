@@ -99,6 +99,7 @@ const FormField: React.FC<FormFieldProps> = ({
             disabled={disabled}
             fieldProps={{
               fieldNames: { label: option_label, value: option_value },
+              maxTagCount: 'responsive',
             }}
             placeholder={placeholder}
           />

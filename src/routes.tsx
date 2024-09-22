@@ -12,7 +12,8 @@ import MrnDetailsPage from './pages/Rotation/MrnDetails';
 import ArticleDetailsPage from './pages/Rotation/ArticleDetails';
 import Reception from "./pages/Rotation/Reception/index"
 import Facturation from "./pages/Facturation/Facturation/Index"
-import Visites from "./pages/Facturation/Visite/Index"
+import Visites from "./pages/Visite/Ordinaire/Index"
+import VisitesGroupage from "./pages/Visite/Groupage/Index"
 import Proformas from "./pages/Documents/Proformas/Index"
 import Factures from "./pages/Documents/Factures/Index"
 import BonsSortie from "./pages/Documents/BonsSortie/Index"
@@ -40,7 +41,8 @@ const AppRoutes = () => (
         <Route path="/rotations/reception" element={<Reception />} />
         <Route path="/rotations/reception/:id" element={<ReceptionDetails />} />
         <Route path="/facturation/facturation" element={<Facturation />} />
-        <Route path="/facturation/visites" element={<Visites />} />
+        <Route path="/visites/ordinaire" element={<Visites />} />
+        <Route path="/visites/groupage" element={<VisitesGroupage />} />
         <Route path="/documents/factures" element={<Factures />} />
         <Route path="/documentsgroupage/factures" element={<FacturesGroupage />} />
         <Route path="/documentsgroupage/proformas" element={<ProformasGroupage />} />

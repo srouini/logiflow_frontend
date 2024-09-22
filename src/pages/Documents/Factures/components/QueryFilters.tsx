@@ -26,20 +26,32 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   resetFilters,
   setPage,
 }) => {
-  const { navire } = useReferenceContext();
+  const { client } = useReferenceContext();
 
   useEffect(() => {
-    navire.fetch();
+    client.fetch();
   }, []);
 
   const handleSubmission = (values: any) => {
+    if (values["state"]) {
+      if (values["state"] === "paid") {
+        values["paid"] = true;
+      }
+      if (values["state"] === "not_paid") {
+        values["paid"] = false;
+        values["a_terme"] = false;
+      }
+      if (values["state"] === "a_terme") {
+        values["a_terme"] = true;
+      }
+      delete values["state"];
+    }
     setPage(1);
     setFilters(values);
   };
 
   return (
     <Card style={{ marginBottom: "20px" }}>
-
       <QueryFilter
         defaultCollapsed
         split
@@ -48,29 +60,43 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         style={{ padding: "0px" }}
       >
         <ProFormText name="numero__icontains" label="Numéro" />
-        <ProFormText name="status" label="Status" />
-        <ProFormText name="status" label="Status" />
-        <ProFormText name="status" label="Status" />
-        <ProFormDatePicker name="accostage" label="Accostage" />
-        <ProFormDateRangePicker
-          name="accostage__range"
-          label="Accostage"
-          transform={(value) => transformRangeDateFilter("accostage", value)}
-        />
         <ProFormSelect
           {...selectConfig}
-          options={navire.results}
-          label="Navire"
-          name="navire"
+          options={[
+            { label: "Payée", value: "paid" },
+            { label: "Non Payée", value: "not_paid" },
+            { label: "A Terme", value: "a_terme" },
+          ]}
+          label="Etat"
+          name="state"
           fieldProps={{
-            fieldNames: { label: "nom", value: "id" },
+            fieldNames: { label: "label", value: "value" },
+            maxTagCount: 'responsive',
+          }}
+          mode="single"
+        />
+        <ProFormSelect
+          
+          {...selectConfig}
+          options={client?.results}
+          label="Client"
+          name="proforma__article__client__in"
+          fieldProps={{
+            fieldNames: { label: "raison_sociale", value: "id" },
             maxTagCount: 'responsive',
           }}
           mode="multiple"
           transform={(value) =>
-            transformSelectFilter("multiple", "navire", value)
+            transformSelectFilter("multiple", "proforma__article__client", value)
           }
         />
+        <ProFormDatePicker name="proforma__date_proforma" label="Date" />
+        <ProFormDateRangePicker
+          name="proforma__date_proforma__range"
+          label="Date"
+          transform={(value) => transformRangeDateFilter("proforma__date_proforma", value)}
+        />
+        
       </QueryFilter>
     </Card>
   );

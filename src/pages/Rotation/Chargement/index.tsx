@@ -29,6 +29,7 @@ export default () => {
     data,
     isLoading: isLoadingData,
     isRefetching,
+    isFetching,
     refetch,
   } = useData({
     endpoint: API_BULLETINS_ENDPOINT,
@@ -43,7 +44,7 @@ export default () => {
       ordering: "-date_creation,-numero",
     },
   });
-  const { isLoading } = useLoading({ isLoadingData, isRefetching });
+  const { isLoading } = useLoading({loadingStates: [isLoadingData, isRefetching,isFetching] });
 
   const breadcrumb: BreadcrumbType = {
     items: [

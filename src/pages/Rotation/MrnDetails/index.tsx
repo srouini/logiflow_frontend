@@ -44,6 +44,7 @@ export default () => {
     data,
     isLoading: isLoadingData,
     isRefetching,
+    isFetching,
     refetch,
   } = useData({
     endpoint: API_ARTICLES_ENDPOINT,
@@ -57,7 +58,7 @@ export default () => {
       gros__id: id,
     },
   });
-  const { isLoading } = useLoading({ isLoadingData, isRefetching });
+  const { isLoading } = useLoading({ loadingStates: [isLoadingData, isRefetching, isFetching] });
 
   const breadcrumb: BreadcrumbType = {
     items: [

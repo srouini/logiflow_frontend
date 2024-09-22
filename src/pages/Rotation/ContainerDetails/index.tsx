@@ -33,6 +33,7 @@ export default ({ container, columns }: SubArticlePageProps) => {
     data,
     isLoading: isLoadingData,
     isRefetching,
+    isFetching,
     refetch,
   } = useData({
     endpoint: API_SOUSARTICLES_ENDPOINT,
@@ -46,7 +47,7 @@ export default ({ container, columns }: SubArticlePageProps) => {
     },
   });
 
-  const { isLoading } = useLoading({ isLoadingData, isRefetching });
+  const { isLoading } = useLoading({loadingStates: [ isLoadingData, isRefetching, isFetching] });
 
   return (
     <>

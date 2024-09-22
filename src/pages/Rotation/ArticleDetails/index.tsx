@@ -46,6 +46,7 @@ export default () => {
     data,
     isLoading: isLoadingData,
     isRefetching,
+    isFetching,
     refetch,
   } = useData({
     endpoint: API_CONTENEURS_ENDPOINT,
@@ -59,7 +60,7 @@ export default () => {
       article__id: id,
     },
   });
-  const { isLoading } = useLoading({ isLoadingData, isRefetching });
+  const { isLoading } = useLoading({loadingStates: [ isLoadingData, isRefetching,isFetching ]});
 
   const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
   const rowSelectionFunction: TableSelectionType = {

@@ -4,8 +4,8 @@ export default {
     path: '/',
     routes: [
       {
-        path: '/admin',
-        name: 'Admin',
+        path: '/dashboard',
+        name: 'Dashboard',
         children: [
           { path: '/dashboard/dashboard', name: 'Dashboard' },
           { path: '/dashboard/settings', name: 'Settings' },
@@ -28,7 +28,14 @@ export default {
         name: 'Facturation',
         children: [
           { path: '/facturation/facturation', name: 'Facturation' },
-          { path: '/facturation/visites', name: 'Visites' },
+        ],
+      },
+      {
+        path: '/visites',
+        name: 'Visites',
+        children: [
+          { path: '/visites/ordinaire', name: 'Ordinaire' },
+          { path: '/visites/groupage', name: 'Groupage' },
         ],
       },
       {

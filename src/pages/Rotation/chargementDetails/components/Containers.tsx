@@ -47,6 +47,7 @@ export default ({
     data,
     isLoading: isLoadingData,
     isRefetching,
+    isFetching,
     refetch,
   } = useData({
     endpoint: API_CONTENEURS_ENDPOINT,
@@ -61,7 +62,7 @@ export default ({
     },
   });
 
-  const { isLoading } = useLoading({ isLoadingData, isRefetching });
+  const { isLoading } = useLoading({loadingStates: [ isLoadingData, isRefetching, isFetching] });
 
   const columns = () => [
     {

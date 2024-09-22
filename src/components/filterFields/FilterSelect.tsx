@@ -38,7 +38,8 @@ const FilterSelect: React.FC<FormSelectInputProps> = ({
       name={name}
       fieldProps={{
         fieldNames: { label: option_label, value: option_value},
-        loading:isLoading
+        loading:isLoading,
+        maxTagCount: 'responsive',
       }}
       allowClear
       mode={mode}

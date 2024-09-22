@@ -8,7 +8,6 @@ import { API_BULLETINS_ENDPOINT } from "@/api/api";
 import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { getColumns } from "./data";
-import AUForm from "./components/AUForm";
 import { useParams } from "react-router";
 import { useReferenceContext } from "@/context/ReferenceContext";
 
@@ -29,6 +28,7 @@ export default () => {
     data,
     isLoading: isLoadingData,
     isRefetching,
+    isFetching,
     refetch,
   } = useData({
     endpoint: API_BULLETINS_ENDPOINT,
@@ -44,7 +44,7 @@ export default () => {
       ordering: "-date_creation,-numero",
     },
   });
-  const { isLoading } = useLoading({ isLoadingData, isRefetching });
+  const { isLoading } = useLoading({ loadingStates: [isLoadingData, isRefetching,isFetching ]});
 
   const breadcrumb: BreadcrumbType = {
     items: [
