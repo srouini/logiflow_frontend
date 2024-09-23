@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, Select } from "antd";
-import type { FormItemProps } from "antd/es/form";
 import type { SelectProps } from "antd/es/select";
 import { ChoiceType } from "../../types/commun";
 
@@ -33,7 +32,7 @@ const FormChoicesInput: React.FC<FormChoicesInputProps> = ({
   mode = "tags"
 
 }) => {
-  const filterOption: SelectProps<Choice>["filterOption"] = (
+  const filterOption: SelectProps<ChoiceType>["filterOption"] = (
     input,
     option: any
   ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());

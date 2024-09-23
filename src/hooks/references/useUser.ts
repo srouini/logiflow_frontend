@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useData from "../useData";
 import { Client } from "@/types/reference";
-import { API_CLIENTS_ENDPOINT, API_USERS_ENDPOINT } from "@/api/api";
+import { API_USERS_ENDPOINT } from "@/api/api";
 
 interface UseUserResult {
   results: any;

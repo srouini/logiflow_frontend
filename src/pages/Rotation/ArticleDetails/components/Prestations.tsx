@@ -1,17 +1,12 @@
 import DraggableModel from "@/components/DraggableModel";
 import useFraisPortuaire from "@/hooks/useFraisPortuaire";
 import useImmobilisation from "@/hooks/useImmobilisation";
-import useLoading from "@/hooks/useLoading";
 import FormObject from "@/components/Form";
-import { ArrowRightOutlined, DiffOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Divider, Drawer, Flex, Form, message, Row } from "antd";
-import React, { useState } from "react";
+import { DiffOutlined } from "@ant-design/icons";
+import { Card, Divider, Flex, Form, message, Row } from "antd";
+import { useState } from "react";
 import FormField from "@/components/form/FormField";
-import useData from "@/hooks/useData";
-import {
-  API_CONTENEURS_ENDPOINT,
-  API_PRESTATIONS_OCCASIONNELLE_ENDPOINT,
-} from "@/api/api";
+import { API_PRESTATIONS_OCCASIONNELLE_ENDPOINT } from "@/api/api";
 import usePost from "@/hooks/usePost";
 
 interface Props {
@@ -30,40 +25,11 @@ const Prestations = ({ article }: Props) => {
 
   const [form] = Form.useForm();
 
-  const handleModalClose = () => {
-    setOpen(false);
-  };
+  const { data: immobilisations, refetch: RefetchImmobilisation } =
+    useImmobilisation({ article });
 
-  const { data: tcs } = useData({
-    endpoint: API_CONTENEURS_ENDPOINT,
-    name: "GET_CONTAINERS_BY_ARTICLE",
-    params: {
-      fields: "id",
-      article__id__in: article,
-    },
-  });
-
-  const {
-    data: immobilisations,
-    isLoading: immobilisationIsLoading,
-    isRefetching: isRefetchingImmobilisation,
-    refetch: RefetchImmobilisation,
-  } = useImmobilisation({ article });
-
-  const {
-    data: fraisPortuaires,
-    isLoading: fraisPortuairesIsLoading,
-    isRefetching: isRefetchingFraisPortuaires,
-    refetch: RefetchFraisPortuaires,
-  } = useFraisPortuaire({ article });
-
-  const isLoadingData = immobilisationIsLoading || fraisPortuairesIsLoading;
-  const isRefetchingData =
-    isRefetchingImmobilisation || isRefetchingFraisPortuaires;
-
-  const { isLoading } = useLoading({loadingStates:
-    [isLoadingData,isRefetchingData]
-  });
+  const { data: fraisPortuaires, refetch: RefetchFraisPortuaires } =
+    useFraisPortuaire({ article });
 
   const onSuccess = () => {
     message.success("Submission successful");
@@ -73,28 +39,24 @@ const Prestations = ({ article }: Props) => {
 
   const { mutate, isLoading: isPostingPrestation } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_PRESTATIONS_OCCASIONNELLE_ENDPOINT+"create-prestations/",
+    endpoint: API_PRESTATIONS_OCCASIONNELLE_ENDPOINT + "create-prestations/",
   });
 
   const today = new Date().toISOString().split("T")[0];
   const handlePrestationFormSubmission = async () => {
-    
     let values = await form.validateFields();
-    console.log(values)
-      let prestation = {
-        article: article,
-        date: today,
-        sum: values?.prix,
-        rubrique: values?.rubrique,
-      };
-      mutate(prestation);
-  
+    console.log(values);
+    let prestation = {
+      article: article,
+      date: today,
+      sum: values?.prix,
+      rubrique: values?.rubrique,
+    };
+    mutate(prestation);
   };
 
-  const [openDrawer, setOpenDrawer] = useState(false);
-
   const showDrawer = () => {
-    setOpenDrawer(true);
+    setOpen(true);
   };
 
   return (
@@ -110,7 +72,11 @@ const Prestations = ({ article }: Props) => {
       width={400}
       isLoading={isPostingPrestation}
     >
-      <Card style={{ marginBottom: "10px", marginTop: "30px" }} size="small" onClick={showDrawer}>
+      <Card
+        style={{ marginBottom: "10px", marginTop: "30px" }}
+        size="small"
+        onClick={showDrawer}
+      >
         <Flex justify="space-between">
           <Row align={"middle"}>IMMOBILISATION</Row>
           <Row gutter={12} style={{ paddingRight: "20px" }}>
@@ -137,7 +103,10 @@ const Prestations = ({ article }: Props) => {
             required
             option_label="label"
             option_value="value"
-            options={[{value:"IMMOBILISATION", label:"IMMOBILISATION"},{value:"FRAIS PORTUAIRES", label:"FRAIS PORTUAIRES"}]}
+            options={[
+              { value: "IMMOBILISATION", label: "IMMOBILISATION" },
+              { value: "FRAIS PORTUAIRES", label: "FRAIS PORTUAIRES" },
+            ]}
           />
           <FormField
             label="Total"
@@ -148,7 +117,6 @@ const Prestations = ({ article }: Props) => {
             type="number"
             required
           />
-
         </Row>
       </FormObject>
     </DraggableModel>

@@ -113,6 +113,7 @@ export const columns = [ {
     key: "dangereux",
     dataIndex: "dangereux",
     width: 150,
+     // @ts-ignore
     render: (_,record:any) => <> {record.dangereux ? <Tag color="red" > DGX </Tag> :""} {record.frigo ? <Tag color="blue" > FRIGO </Tag> :""}</>
   }];
 
@@ -153,6 +154,7 @@ export const DetailsColumns = [
     key:"depote",
     width:100,
     dataIndex: "depote",
+    // @ts-ignore
     render: (_,record:any) => record.depote && record.groupage ?<Tag color="green" > Depté </Tag> :  record.groupage ? <Tag color="red" > Non depoté </Tag> : "-"
   },
   {

@@ -1,10 +1,9 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
-import {Col, Row, Tag } from "antd";
-import { renderDate, renderMoney, renderText } from "@/utils/functions";
-import { API_PRFORMAS_ENDPOINT } from "@/api/api";
+import {Col, Row } from "antd";
+import { renderDate, renderText } from "@/utils/functions";
+import { API_BONS_SORTIE_ENDPOINT } from "@/api/api";
 import Print from "@/components/Print";
-
 
 // @ts-ignore
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
@@ -15,53 +14,40 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     width: 150,
   },
   {
-    title: "Etat",
-    dataIndex: "valide",
+    title: "Date sortie",
+    dataIndex: "date_sortie",
     width: 150,
-    render:(_,record:any) => record?.trashed? <Tag > Annulé </Tag> : record?.valide ?  <Tag color="green"> Valide </Tag>:  <Tag color="red">Non Valide</Tag>  
+    render:(record:any) =>renderDate(record)
   },
   {
-    title: "Mrn",
-    dataIndex: "gros",
-    render: (record:any) => renderText(record?.gros),
-    width: 250,
+    title: "Date de création",
+    dataIndex: "date_creation",
+    render:(record:any) =>renderDate(record),
+    width: 150,
   },
   {
-    title: "Article",
-    dataIndex: "article",
+    title: "Facture",
+    dataIndex: "facture",
     render: (record:any) => renderText(record?.numero),
-    width: 100,
+    width: 150,
   },
   {
     title: "Date",
-    dataIndex: "date_proforma",
+    dataIndex: "date_creation",
     render: record => renderDate(record),
     width: 100,
   },
   {
-    title: "Client",
-    dataIndex: "article",
-    width:300,
-    render: (record:any) => renderText(record?.client?.raison_sociale)
-  },
-
-  {
-    title: "HT",
-    dataIndex: "HT",
-    render: (record: any) => renderMoney(record),
-    width: 150
+    title: "D10",
+    dataIndex: "d10",
+    width:200,
+    render: (record:any) => renderText(record),
   },
   {
-    title: "TVA",
-    dataIndex: "TVA",
-    render: (record: any) => renderMoney(record),
-    width: 150
-  },
-  {
-    title: "TTC",
-    dataIndex: "TTC",
-    render: (record: any) => renderMoney(record),
-    width: 150
+    title: "Badge",
+    dataIndex: "badge",
+    render: (record:any) => renderText(record),
+    width: 200
   },
   {
     title: "Actions",
@@ -80,7 +66,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
          [<Row gutter={8}>
             <Col>
             <Print
-                endpoint={API_PRFORMAS_ENDPOINT}
+                endpoint={API_BONS_SORTIE_ENDPOINT}
                 id={record?.id}
                 key={record?.id}
                 type="Download"
@@ -88,7 +74,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
             </Col>
             <Col>
             <Print
-                endpoint={API_PRFORMAS_ENDPOINT}
+                endpoint={API_BONS_SORTIE_ENDPOINT}
                 id={record?.id}
                 key={record?.id}
                 type="View"

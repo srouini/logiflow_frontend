@@ -1,15 +1,9 @@
 import type { ProColumns } from "@ant-design/pro-components";
-import { TableDropdown } from "@ant-design/pro-components";
-import { Button, Tag } from "antd";
+import { Tag } from "antd";
 import { renderDate, renderText } from "@/utils/functions";
-import { SettingOutlined } from "@ant-design/icons";
-import React from "react";
 import DetailsButton from "@/components/DetailsButton";
-import { API_BULLETINS_ENDPOINT } from "@/api/api";
 
-const Delete = React.lazy(() => import("@/components/Delete"));
-const AUForm = React.lazy(() => import("./components/AUForm"));
-
+// @ts-ignore
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Numero",

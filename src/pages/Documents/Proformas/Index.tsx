@@ -4,7 +4,7 @@ import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
-import { API_FACTURE_ENDPOINT, API_PRFORMAS_ENDPOINT } from "@/api/api";
+import { API_PRFORMAS_ENDPOINT } from "@/api/api";
 import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { getColumns } from "./data";
@@ -63,7 +63,8 @@ export default () => {
 
         <CustomTable
           getColumns={getColumns(refetch)}
-          data={data}
+          // @ts-ignore
+          data={isLoading ? [] :data}
           getPageSize={getPageSize}
           isLoading={isLoading}
           refetch={refetch}

@@ -36,16 +36,23 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   };
 
   return (
-<Card style={{marginBottom:"20px"}}>
+    <Card style={{ marginBottom: "20px" }}>
       <QueryFilter
         defaultCollapsed
         split
         onFinish={handleSubmission}
         onReset={resetFilters}
-        style={{padding:"0px"}}
+        style={{ padding: "0px" }}
       >
         <ProFormText name="numero" label="Numéro" />
-        <FilterSelect  label="Client" name="client"  mode="multiple" data={client?.results} option_value="id" option_label="raison_sociale"/>
+        <FilterSelect
+          label="Client"
+          name="client"
+          mode="multiple"
+          data={client?.results}
+          option_value="id"
+          option_label="raison_sociale"
+        />
         <ProFormSelect
           {...selectConfig}
           options={transitaire?.results}
@@ -54,7 +61,7 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           mode="multiple"
           fieldProps={{
             fieldNames: { label: "raison_sociale", value: "id" },
-            maxTagCount: 'responsive',
+            maxTagCount: "responsive",
           }}
           transform={(value) =>
             transformSelectFilter("multiple", "transitaire", value)
@@ -62,6 +69,7 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         />
         <ProFormSelect
           {...selectConfig}
+          // @ts-ignore
           options={YES_NO_CHOICES}
           label="Groupage"
           name="groupage"
@@ -69,6 +77,7 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         />
         <ProFormSelect
           {...selectConfig}
+          // @ts-ignore
           options={YES_NO_CHOICES}
           label="Depoté"
           name="depote"

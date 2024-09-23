@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useAxios } from "../hooks/useAxios";
 import { Button, Popconfirm, notification } from "antd";
 import { useNavigate } from "react-router-dom";

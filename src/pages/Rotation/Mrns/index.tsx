@@ -32,7 +32,7 @@ export default () => {
     },
   });
 
-  const { isLoading } = useLoading({ isLoadingData, isRefetching });
+  const { isLoading } = useLoading({ loadingStates:[isLoadingData, isRefetching] });
 
   const breadcrumb = {
     items: [

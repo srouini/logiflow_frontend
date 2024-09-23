@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import useData from "../useData";
-import {  API_PORTS_ENDPOINT, API_REGIMES_ENDPOINT } from "../../api/api";
-import { Regime } from "../../types/bareme";
+import {  API_PORTS_ENDPOINT } from "../../api/api";
 import { Port } from "../../types/reference";
 
 interface UseResult {

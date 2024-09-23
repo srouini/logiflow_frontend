@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useData from "../useData";
 import {  API_CONTAINER_TYPES_ENDPOINT } from "../../api/api";
-import { Consignataire, ContainerType } from "../../types/reference";
+import {  ContainerType } from "../../types/reference";
 
 interface UseResult {
   results: ContainerType[] | undefined;

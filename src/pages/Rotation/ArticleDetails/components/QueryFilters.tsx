@@ -43,9 +43,10 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         style={{ padding: "0px" }}
       >
         <ProFormText name="tc__icontains" label="Numéro" />
-
+  
         <ProFormSelect
           {...selectConfig}
+          // @ts-ignore
           options={YES_NO_CHOICES}
           label="Dangereux"
           name="dangereux"
@@ -54,6 +55,7 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
 
         <ProFormSelect
           {...selectConfig}
+           // @ts-ignore
           options={YES_NO_CHOICES}
           label="Frigo"
           name="frigo"

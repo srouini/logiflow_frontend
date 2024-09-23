@@ -44,7 +44,7 @@ export default {
         children: [
           { path: '/documents/factures', name: 'Factures' },
           { path: '/documents/Proformas', name: 'Proformas' },
-          { path: '/documents/bonsorties', name: 'Bons Sortie' },
+          { path: '/documents/bonsorties', name: 'Bon Sortie' },
         ],
       },
       {
@@ -53,7 +53,7 @@ export default {
         children: [
           { path: '/documentsgroupage/factures', name: 'Factures' },
           { path: '/documentsgroupage/Proformas', name: 'Proformas' },
-          { path: '/documentsgroupage/bonsorties', name: 'Bons Sortie' },
+          { path: '/documentsgroupage/bonsorties', name: 'Bon Sortie' },
         ],
       },
     ],

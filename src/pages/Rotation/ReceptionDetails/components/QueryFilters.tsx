@@ -62,6 +62,7 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         />
         <ProFormSelect
           {...selectConfig}
+          // @ts-ignore
           options={YES_NO_CHOICES}
           label="Groupage"
           name="groupage"
@@ -69,6 +70,7 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         />
         <ProFormSelect
           {...selectConfig}
+          // @ts-ignore
           options={YES_NO_CHOICES}
           label="Depoté"
           name="depote"

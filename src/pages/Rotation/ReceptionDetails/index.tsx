@@ -11,8 +11,7 @@ import { DetailsColumns, getColumns, breadcrumb } from "./data";
 import { useParams } from "react-router";
 import Details from "@/components/Details";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { Button, message } from "antd";
-import { CloudUploadOutlined } from "@ant-design/icons";
+import { message } from "antd";
 import usePost from "@/hooks/usePost";
 
 export default () => {
@@ -73,7 +72,7 @@ export default () => {
     refetch();
   };
 
-  const { mutate, isLoading: bulletin_is_patshing } = usePost({
+  const { mutate } = usePost({
     onSuccess: onSuccess,
     endpoint: API_BULLETINS_ENDPOINT,
   });

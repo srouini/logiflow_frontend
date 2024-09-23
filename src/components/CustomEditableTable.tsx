@@ -1,6 +1,7 @@
-import { EditableProTable, ProTable } from "@ant-design/pro-components";
+import { EditableProTable } from "@ant-design/pro-components";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { Space } from "antd";
+import { TableRowSelection } from "antd/es/table/interface";
 import { AxiosResponse } from "axios";
 import React from "react";
 
@@ -77,6 +78,7 @@ const CustomEditableTable: React.FC<CustomTableProps> = ({
       }}
       rowKey={(item) => item?.id}
       search={false}
+      // @ts-ignore
       options={tableOptions}
       scroll={{ x: scrollX }}
       loading={isLoading}

@@ -1,12 +1,5 @@
 import { ProDescriptions, ProSkeleton } from "@ant-design/pro-components";
 
-
-interface DetailsProps {
-  dataSource:any;
-  isLoading:any;
-  DetailsColumns:any;
-}
-
 const Details = ({ dataSource, isLoading,DetailsColumns }: any) => {
   return (
     <>

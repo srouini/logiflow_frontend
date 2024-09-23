@@ -64,6 +64,7 @@ export default () => {
 
   const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
   const rowSelectionFunction: TableSelectionType = {
+    // @ts-ignore
     onChange(selectedRowKeys, selectedRows, info) {
       setSelectedRows(selectedRowKeys);
     },

@@ -19,15 +19,9 @@ interface ProNumberInputProps {
 const FilterDigit: React.FC<ProNumberInputProps> = ({
   name,
   label,
-  required = false,
-  message = "",
-  step = 0,
   min = 0,
   max,
-  att = {},
   hasAddOn = false,
-  inputColSpan = 19,
-  addonColSpan = 5,
 }) => {
   const [suffix, setSuffix] = useState<string>("");
 

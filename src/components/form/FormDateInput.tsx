@@ -2,7 +2,6 @@ import { DatePicker, Form, Select, Col, Row } from "antd";
 import React, { useState } from "react";
 import type { SelectProps } from "antd/es/select";
 import type { FormItemProps } from "antd/es/form";
-import moment from 'moment';
 
 interface FormDateInputProps extends Omit<FormItemProps, "children"> {
   name: string;

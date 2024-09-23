@@ -1,5 +1,4 @@
 import DraggableModel from "@/components/DraggableModel";
-import FormTextInput from "@/components/form/FormTextInput";
 import usePost from "@/hooks/usePost";
 import { Card, Col, Divider, Form, message, Row, Button, Flex, notification } from "antd";
 import { useState } from "react";
@@ -11,7 +10,6 @@ import { API_EDI_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
 import { formatStringDate } from "@/utils/functions";
 import { useAxios } from "@/hooks/useAxios";
-import { duration } from "moment";
 
 interface ChargementProps {
   refetch: () => void;
@@ -24,6 +22,7 @@ const Chargement = ({ refetch, mrn }: ChargementProps) => {
 
   const Generer = async (id: string) => {
     try {
+      // @ts-ignore
       const response = await api.post(`${API_EDI_ENDPOINT}${id}/process_files/`);
       // Handle the response if necessary
       notification.success({
@@ -79,8 +78,6 @@ const Chargement = ({ refetch, mrn }: ChargementProps) => {
 
   const {
     data,
-    isLoading: isLoadingData,
-    isRefetching,
     refetch: refetchEdis,
   } = useData({
     endpoint: API_EDI_ENDPOINT,

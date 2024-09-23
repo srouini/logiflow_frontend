@@ -60,7 +60,7 @@ export default () => {
   });
   const { isLoading } = useLoading({ loadingStates: [isLoadingData, isRefetching, isFetching] });
 
-  const breadcrumb: BreadcrumbType = {
+  const breadcrumb: any = {
     items: [
       {
         title: "Rotation",

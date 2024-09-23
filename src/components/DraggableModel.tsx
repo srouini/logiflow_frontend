@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { Button, Modal } from "antd";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
@@ -21,97 +21,94 @@ interface Props {
     | "link"
     | "primary"
     | "text"
-    | "dashed"
-    | undefined;
+    | "dashed";
   buttonType?: "Button" | "Link";
-  disabledModalOpenButton?:boolean
+  disabledModalOpenButton?: boolean;
 }
 
 const DraggableModel: React.FC<Props> = ({
   children,
-  OkButtontext = "ok",
+  OkButtontext = "Ok",
   modalTitle,
-  modalOpenButtonText = "open",
-  onSubmit = () => console.log("submitted"),
+  modalOpenButtonText = "Open",
+  onSubmit,
   open,
   setOpen,
   width,
   isLoading,
-  initialvalues,
   addButtonIcon = <PlusOutlined />,
   addButtonType = "default",
-  buttonType,
-  disabledModalOpenButton
+  buttonType = "Button",
+  disabledModalOpenButton = false
 }) => {
   const [disabled, setDisabled] = useState(true);
-  const [bounds, setBounds] = useState({
-    left: 0,
-    top: 0,
-    bottom: 0,
-    right: 0,
-  });
+  const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
 
-  const showModal = () => {
+  const showModal = useCallback(() => {
     setOpen(true);
-  };
+  }, [setOpen]);
 
-  const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
-    setOpen(false);
-  };
+  const handleCancel = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      console.log(e);
+      setOpen(false);
+    },
+    [setOpen]
+  );
 
-  const onStart = (_event: DraggableEvent, uiData: DraggableData) => {
-    const { clientWidth, clientHeight } = window.document.documentElement;
-    const targetRect = draggleRef.current?.getBoundingClientRect();
-    if (!targetRect) {
-      return;
+  const onStart = useCallback(
+    (_event: DraggableEvent, uiData: DraggableData) => {
+      const { clientWidth, clientHeight } = window.document.documentElement;
+      const targetRect = draggleRef.current?.getBoundingClientRect();
+      if (!targetRect) return;
+
+      setBounds({
+        left: -targetRect.left + uiData.x,
+        right: clientWidth - (targetRect.right - uiData.x),
+        top: -targetRect.top + uiData.y,
+        bottom: clientHeight - (targetRect.bottom - uiData.y),
+      });
+    },
+    []
+  );
+
+  // Common button render based on conditions
+  const renderOpenButton = () => {
+    if (disabledModalOpenButton) {
+      return <span style={{ color: "#d9d9d9" }}>{modalOpenButtonText}</span>;
     }
-    setBounds({
-      left: -targetRect.left + uiData.x,
-      right: clientWidth - (targetRect.right - uiData.x),
-      top: -targetRect.top + uiData.y,
-      bottom: clientHeight - (targetRect.bottom - uiData.y),
-    });
+
+    if (buttonType === "Link") {
+      return (
+        <a onClick={showModal} style={{ cursor: "pointer" }}>
+          {modalOpenButtonText}
+        </a>
+      );
+    }
+
+    return (
+      <Button
+        onClick={showModal}
+        icon={addButtonIcon}
+        type={addButtonType}
+        disabled={disabledModalOpenButton}
+      >
+        {modalOpenButtonText}
+      </Button>
+    );
   };
 
   return (
     <>
-      {buttonType ? (
-        buttonType == "Button" ? (
-          <Button onClick={showModal} icon={addButtonIcon} type={addButtonType} >
-            {modalOpenButtonText}
-          </Button>
-        ) : (
-          <a onClick={showModal} type="primary" >
-            {modalOpenButtonText}
-          </a>
-        )
-      ) : initialvalues ? (
-        disabledModalOpenButton ? <span style={{color:"#d9d9d9"}}>{modalOpenButtonText}</span> : 
-        <a onClick={showModal} type="primary">
-          {modalOpenButtonText}
-        </a>
-      ) : (
-        <Button onClick={showModal} icon={addButtonIcon} type={addButtonType}>
-          {modalOpenButtonText}
-        </Button>
-      )}
-
+      {renderOpenButton()}
+      
       <Modal
         title={
           <div
             style={{ width: "100%", cursor: "move" }}
-            onMouseOver={() => {
-              if (disabled) {
-                setDisabled(false);
-              }
-            }}
-            onMouseOut={() => {
-              setDisabled(true);
-            }}
-            onFocus={() => {}}
-            onBlur={() => {}}
+            onMouseOver={() => setDisabled(false)}
+            onMouseOut={() => setDisabled(true)}
           >
             {modalTitle}
           </div>
@@ -126,7 +123,7 @@ const DraggableModel: React.FC<Props> = ({
             disabled={disabled}
             bounds={bounds}
             nodeRef={draggleRef}
-            onStart={(event, uiData) => onStart(event, uiData)}
+            onStart={onStart}
           >
             <div ref={draggleRef}>{modal}</div>
           </Draggable>

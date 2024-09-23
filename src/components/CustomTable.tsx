@@ -1,8 +1,9 @@
 import { ProTable } from "@ant-design/pro-components";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { Space } from "antd";
+import { TableRowSelection } from "antd/es/table/interface";
 import { AxiosResponse } from "axios";
-import React from "react";
+import React, { useMemo } from "react";
 
 type CustomTableProps = {
   getColumns: any;
@@ -16,10 +17,12 @@ type CustomTableProps = {
   setPage: (value: React.SetStateAction<number>) => void;
   isLoading: boolean;
   headerTitle?: string | React.ReactNode;
-  rowSelectionFunction?: false | (TableRowSelection<Record<string, any>> & { alwaysShowAlert?: boolean | undefined; }) | undefined;
-  RowSelectionRnder?:React.ReactNode,
-  scrollX?:number
-  scrollY?:number
+  rowSelectionFunction?:
+    | false
+    | (TableRowSelection<Record<string, any>> & { alwaysShowAlert?: boolean });
+  RowSelectionRnder?: React.ReactNode;
+  scrollX?: number;
+  scrollY?: number;
 };
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -27,40 +30,49 @@ const CustomTable: React.FC<CustomTableProps> = ({
   refetch,
   data,
   setSearch,
-  getPageSize,
+  getPageSize = () => 10,
   setPageSize,
   setPage,
   isLoading,
   headerTitle,
   rowSelectionFunction,
   RowSelectionRnder,
-  scrollX=1200
+  scrollX = 1200,
+  scrollY,
 }) => {
-  const tableOptions = {
-    reload: refetch,
-    setting: {
-      listsHeight: 400,
-    },
-    search: {
-      onSearch(keyword: any) {
-        setSearch(keyword);
+  // Memoize table options to avoid unnecessary recalculations
+  const tableOptions: any = useMemo(
+    () => ({
+      reload: refetch,
+      setting: {
+        listsHeight: 400,
       },
-      allowClear: true,
-    },
-    fullScreen: true,
-  };
+      search: {
+        onSearch(keyword: any) {
+          setSearch(keyword);
+        },
+        allowClear: true,
+      },
+      fullScreen: true,
+    }),
+    [refetch, setSearch]
+  );
 
-  const paginationConfig = {
-    pageSize: getPageSize(),
-    total: data?.data?.count,
-    pageSizeOptions: [10, 20, 30, 100],
-    showSizeChanger: true,
-    onChange: (page: number, pageSize: number) => {
-      setPageSize(pageSize);
-      setPage(page);
-      refetch();
-    },
-  };
+  // Memoize pagination configuration
+  const paginationConfig = useMemo(
+    () => ({
+      pageSize: getPageSize(),
+      total: data?.data?.count,
+      pageSizeOptions: [10, 20, 30, 100],
+      showSizeChanger: true,
+      onChange: (page: number, pageSize: number) => {
+        setPageSize(pageSize);
+        setPage(page);
+        refetch();
+      },
+    }),
+    [data?.data?.count, getPageSize, setPage, setPageSize, refetch]
+  );
 
   return (
     <ProTable
@@ -78,7 +90,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       rowKey={(item) => item?.id}
       search={false}
       options={tableOptions}
-      scroll={{ x: scrollX }}
+      scroll={{ x: scrollX, y: scrollY }}
       loading={isLoading}
       pagination={paginationConfig}
       revalidateOnFocus={true}
@@ -86,13 +98,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
       headerTitle={headerTitle}
       size="small"
       rowSelection={rowSelectionFunction}
-      tableAlertOptionRender={() => {
-        return (
-          <Space size={16}>
-           {RowSelectionRnder}
-          </Space>
-        );
-      }}
+      tableAlertOptionRender={() =>
+        RowSelectionRnder && <Space size={16}>{RowSelectionRnder}</Space>
+      }
     />
   );
 };

@@ -1,8 +1,8 @@
 import {BaseModel} from "./commun"
-import { SousArticle, Tc } from "./data";
-import { Direction, Parc, Type } from "./reference";
+import { SousArticle } from "./data";
+import { Direction, Parc, Type} from "./reference";
 
-
+type Tc = any;
 // Bareme type
 export interface Bareme  extends BaseModel{
     designation?: string;

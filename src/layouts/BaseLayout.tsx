@@ -1,71 +1,52 @@
-import {
-  GithubFilled,
-  InfoCircleFilled,
-  LogoutOutlined,
-  MoonOutlined,
-  QuestionCircleFilled,
-  SettingOutlined,
-  SunOutlined,
-} from '@ant-design/icons';
-import type { ProSettings } from '@ant-design/pro-components';
-import {
-  ProConfigProvider,
-  ProLayout,
-} from '@ant-design/pro-components';
-import {
-  Button,
-  Col,
-  ConfigProvider,
-  Dropdown,
-  Row,
-} from 'antd';
-import { useEffect, useState } from 'react';
-import defaultProps from './_defaultProps';
-import { useNavigate, Outlet, useLocation } from 'react-router';
-import useAuth from "../hooks/useAuth"
-import useScreenSize from '../hooks/useScreenSize';
-import frFR from 'antd/lib/locale/fr_FR';
-import ReferenceContextProvider from '../context/ReferenceContext';
+import { LogoutOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
+import type { ProSettings } from "@ant-design/pro-components";
+import { ProConfigProvider, ProLayout } from "@ant-design/pro-components";
+import { Button, Col, ConfigProvider, Dropdown, Row } from "antd";
+import { useEffect, useState } from "react";
+import defaultProps from "./_defaultProps";
+import { useNavigate, Outlet, useLocation } from "react-router";
+import useAuth from "../hooks/useAuth";
+import useScreenSize from "../hooks/useScreenSize";
+import frFR from "antd/lib/locale/fr_FR";
+import ReferenceContextProvider from "../context/ReferenceContext";
 
-type ThemeType = "realDark" | "light" | undefined;
 export default () => {
-  const {logout} = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-      localStorage.getItem("theme") ? setCurrentTheme(localStorage.getItem("theme")) : setCurrentTheme("realDark")
-  },[])
+    localStorage.getItem("theme")
+      ? setCurrentTheme(localStorage.getItem("theme"))
+      : setCurrentTheme("realDark");
+  }, []);
   const [currentTheme, setCurrentTheme] = useState<any>("realDark");
 
   // Toggles between dark and light themes
   const toggleTheme = () => {
-    if(currentTheme === "realDark") {
-      setCurrentTheme("light")
-      localStorage.setItem("theme","light")
-    }else{
-      setCurrentTheme("realDark")
-      localStorage.setItem("theme","realDark")
+    if (currentTheme === "realDark") {
+      setCurrentTheme("light");
+      localStorage.setItem("theme", "light");
+    } else {
+      setCurrentTheme("realDark");
+      localStorage.setItem("theme", "realDark");
     }
-    
-    console.log(currentTheme)
+
+    console.log(currentTheme);
   };
 
-  
-  const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
+  const [settings] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
-    layout: "top",
-    splitMenus: true,
+    layout: "mix",
+    splitMenus: false,
     contentWidth: "Fluid",
     colorPrimary: "#FA541C",
     siderMenuType: "sub",
-    fixedHeader:true,
-    
+    fixedHeader: true,
   });
 
-  const [pathname, setPathname] = useState('/admin/dashboard');
   const size = useScreenSize();
 
-  if (typeof document === 'undefined') {
+  if (typeof document === "undefined") {
     return <div />;
   }
   const location = useLocation();
@@ -73,46 +54,46 @@ export default () => {
     <div
       id="test-pro-layout"
       style={{
-        height: '100vh',
-        overflow: 'auto',
+        height: "100vh",
+        overflow: "auto",
       }}
     >
       <ConfigProvider
         componentSize={size}
         getTargetContainer={() => {
-          return document.getElementById('test-pro-layout') || document.body;
+          return document.getElementById("test-pro-layout") || document.body;
         }}
         locale={frFR}
-        
       >
-        <ProConfigProvider hashed={false} >
+        <ProConfigProvider hashed={false}>
           <ProLayout
             prefixCls="my-prefix"
             {...defaultProps}
             location={{ pathname: location.pathname }}
             token={{
               header: {
-                colorBgMenuItemSelected: 'rgba(0,0,0,0.04)',
+                colorBgMenuItemSelected: "rgba(0,0,0,0.04)",
               },
             }}
             siderMenuType="group"
             menu={{
               collapsedShowGroupTitle: true,
             }}
-              // This applies the theme to the ProLayout
+            // This applies the theme to the ProLayout
             avatarProps={{
-              src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-              size: 'small',
-              title: 'ROUINI SEYFALLAH',
+              src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
+              size: "small",
+              title: "ROUINI SEYFALLAH",
+              // @ts-ignore
               render: (props, dom) => {
                 return (
                   <Dropdown
                     menu={{
                       items: [
                         {
-                          key: 'logout',
+                          key: "logout",
                           icon: <LogoutOutlined />,
-                          label: 'Log Out',
+                          label: "Log Out",
                           onClick: () => logout(),
                         },
                       ],
@@ -125,49 +106,54 @@ export default () => {
             }}
             actionsRender={(props) => {
               if (props.isMobile) return [];
-              if (typeof window === 'undefined') return [];
+              if (typeof window === "undefined") return [];
               return [
-
-                
-
                 <Button
                   type="text"
-                  icon={currentTheme==="realDark" ?<SunOutlined /> :<MoonOutlined />}
+                  icon={
+                    currentTheme === "realDark" ? (
+                      <SunOutlined />
+                    ) : (
+                      <MoonOutlined />
+                    )
+                  }
                   onClick={toggleTheme}
-                >
-                  
-                </Button>
+                ></Button>,
               ];
             }}
+            // @ts-ignore
             headerTitleRender={(logo, title, _) => {
               const defaultDom = (
-                <Row align={'middle'} justify={'center'} gutter={12}>
-                  <Col style={{display:"flex", alignItems:"center"}}>
-                  <img  src='/logo.ico' width={25} />
+                <Row align={"middle"} justify={"center"} gutter={12}>
+                  <Col style={{ display: "flex", alignItems: "center" }}>
+                    <img src="/logo.ico" width={25} />
                   </Col>
-                   <Col>
-                   <span style={{fontSize:"14pt", fontWeight:"bolder", fontStyle:"italic"}}>LOGIFLOW</span>
-                   </Col>
-                  
+                  <Col>
+                    <span
+                      style={{
+                        fontSize: "14pt",
+                        fontWeight: "bolder",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      LOGIFLOW
+                    </span>
+                  </Col>
                 </Row>
               );
-              if (typeof window === 'undefined') return defaultDom;
+              if (typeof window === "undefined") return defaultDom;
               if (document.body.clientWidth < 1400) {
                 return defaultDom;
               }
               if (_.isMobile) return defaultDom;
-              return (
-                <>
-                  {defaultDom}
-                </>
-              );
+              return <>{defaultDom}</>;
             }}
             menuFooterRender={(props) => {
               if (props?.collapsed) return undefined;
               return (
                 <div
                   style={{
-                    textAlign: 'center',
+                    textAlign: "center",
                     paddingBlockStart: 12,
                   }}
                 >
@@ -179,9 +165,7 @@ export default () => {
             menuItemRender={(item, dom) => (
               <a
                 onClick={() => {
-                  console.log(item.path);
-                  setPathname(item.path || '/admin/dashboard');
-                  navigate(item.path || '/admin/dashboard');
+                  navigate(item.path || "/admin/dashboard");
                 }}
               >
                 {dom}
@@ -191,9 +175,8 @@ export default () => {
             navTheme={currentTheme}
           >
             <ReferenceContextProvider>
-            <Outlet />
+              <Outlet />
             </ReferenceContextProvider>
-          
           </ProLayout>
         </ProConfigProvider>
       </ConfigProvider>

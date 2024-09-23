@@ -15,7 +15,7 @@ interface AUFormProps {
   disabled?:boolean
 }
 
-const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, gros, disabled }) => {
+const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, disabled }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const { mrn, user } = useReferenceContext();

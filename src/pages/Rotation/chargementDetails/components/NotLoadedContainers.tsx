@@ -1,7 +1,8 @@
 import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { AppstoreAddOutlined } from "@ant-design/icons";
-import { ProList } from '@ant-design/pro-components';import { Button, Modal, Progress, Tag } from "antd";
+import { ProList } from '@ant-design/pro-components';
+import { Button, Modal } from "antd";
 import React, { useState } from "react";
 
 interface Props {
@@ -12,11 +13,12 @@ interface Props {
 
 const NotLoadedContainers = ({ mrn }: Props) => {
   const [open, setOpen] = React.useState<boolean>(false);
+  // @ts-ignore
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
   const rowSelection = {
     selectedRowKeys,
-    onChange: (keys: Key[]) => setSelectedRowKeys(keys),
+    onChange: (keys: any) => setSelectedRowKeys(keys),
   };
 
   const showLoading = () => {
@@ -24,7 +26,7 @@ const NotLoadedContainers = ({ mrn }: Props) => {
     setLoading(true);
   };
 
-  const { data, isLoading, isRefetching, refetch } = useData({
+  const { data } = useData({
     endpoint: API_CONTENEURS_ENDPOINT,
     name: "GET_NOT_LOADED_MRN_CONTAINERS",
     params: {

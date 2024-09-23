@@ -102,6 +102,7 @@ export default ({
       key: "dangereux",
       dataIndex: "dangereux",
       width: 150,
+      // @ts-ignore
       render: (_, record: any) => (
         <>
           {" "}
@@ -116,7 +117,7 @@ export default ({
 
   const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
   const rowSelectionFunction: TableSelectionType = {
-    onChange(selectedRowKeys, selectedRows, info) {
+    onChange(selectedRowKeys) {
       setSelectedRows(selectedRowKeys);
     },
   };
@@ -143,11 +144,10 @@ export default ({
 
   const [selectedDate, setSelectedDate] = useState(moment());
 
-  const onChange = (date: any, dateString: any) => {
+  const onChange = (date: any) => {
     setSelectedDate(date);
   };
 
-  console.log(data);
   const RowSelectionRnder = (
     <>
       <DatePicker onChange={onChange} size="middle" defaultValue={dayjs()} />

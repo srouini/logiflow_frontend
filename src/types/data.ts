@@ -1,6 +1,7 @@
-import {Client, Transitaire, Navire, Armateur, Port, Consignataire} from "./reference"
+import {Navire, Armateur, Port, Consignataire} from "./reference"
 import {BaseModel} from "./commun"
 
+type Tc = any 
 // Gros Model
 export interface Gros extends BaseModel {
     numero?: string;

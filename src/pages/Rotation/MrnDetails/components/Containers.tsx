@@ -6,9 +6,11 @@ import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import usePost from "@/hooks/usePost";
 import { TableSelectionType } from "@/types/antdeing";
-import { selectConfig } from "@/utils/config";
-import { AppstoreAddOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { ProFormSelect } from "@ant-design/pro-components";
+import {
+  AppstoreAddOutlined,
+  CheckOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 import { Button, Drawer, message, Segmented, Switch, Tag } from "antd";
 import { useEffect, useState } from "react";
 
@@ -23,7 +25,6 @@ export default ({ mrn }: props) => {
   useEffect(() => {
     containerType?.fetch();
   }, []);
-
 
   const showDrawer = () => {
     setOpen(true);
@@ -53,7 +54,9 @@ export default ({ mrn }: props) => {
     },
   });
 
-  const { isLoading } = useLoading({ isLoadingData, isRefetching });
+  const { isLoading } = useLoading({
+    loadingStates: [isLoadingData, isRefetching],
+  });
 
   const columns = () => [
     {
@@ -86,6 +89,7 @@ export default ({ mrn }: props) => {
       key: "dangereux",
       dataIndex: "dangereux",
       width: 150,
+      // @ts-ignore
       render: (_, record: any) => (
         <>
           {" "}
@@ -100,7 +104,7 @@ export default ({ mrn }: props) => {
 
   const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
   const rowSelectionFunction: TableSelectionType = {
-    onChange(selectedRowKeys, selectedRows, info) {
+    onChange(selectedRowKeys) {
       setSelectedRows(selectedRowKeys);
     },
   };
@@ -160,33 +164,25 @@ export default ({ mrn }: props) => {
         unCheckedChildren={<CloseOutlined />}
         onChange={handleFrigoChange}
       />
-      {/* <ProFormSelect
-            {...selectConfig}
-            width="lg"
-            options={containerType?.results}
-     
-            fieldProps={{
-              fieldNames: { label: "designation", value: "id" },
-            }}
-            placeholder="-"
-          /> */}
-
       Type:
       <Segmented
-        options={containerType.results?.map((item:any) => {
-return {label:item.designation,value:item.id }
+        options={containerType.results?.map((item: any) => {
+          return { label: item.designation, value: item.id };
         })}
         onChange={handleContainerType}
         allowFullScreen
         defaultValue={false}
-    
       />
     </>
   );
 
   return (
     <>
-      <Button onClick={showDrawer} type="primary" icon={<AppstoreAddOutlined />}>
+      <Button
+        onClick={showDrawer}
+        type="primary"
+        icon={<AppstoreAddOutlined />}
+      >
         Conteneurs
       </Button>
 

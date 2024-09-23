@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Card } from 'antd';
+import { useState, useEffect } from 'react';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
 
 const useScreenSize = () => {

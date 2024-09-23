@@ -24,7 +24,9 @@ const useData = ({ params, name,endpoint,refetchInterval,enabled=true }: useData
       }
     },
     ...(refetchInterval ? { refetchInterval } : {}),
-  enabled:enabled
+  enabled:enabled,
+  refetchOnMount: false,  // Don't refetch when component mounts
+  refetchOnWindowFocus: false,
   });
 
   return { refetch, data, isLoading, isRefetching, isFetching };

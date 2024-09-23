@@ -5,8 +5,7 @@ import { renderDate, renderMoney, renderText } from "@/utils/functions";
 import { API_FACTURE_ENDPOINT } from "@/api/api";
 import Print from "@/components/Print";
 
-
-
+// @ts-ignore
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Numéro",

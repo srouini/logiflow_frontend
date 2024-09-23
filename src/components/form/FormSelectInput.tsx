@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useData from "../../hooks/useData";
 import { Form, Select } from "antd";
 import type { SelectProps } from "antd/es/select";
@@ -40,7 +40,7 @@ const FormSelectInput: React.FC<FormSelectInputProps> = ({
   const filterOption: SelectProps['filterOption'] = (input, option) =>
     (option?.[option_label]?.toString() ?? "").toLowerCase().includes(input.toLowerCase());
 
-  const { data, isLoading, refetch } = useData({
+  const { data, isLoading } = useData({
     endpoint,
     params: { ...params, ...filters },
     name: "SELECT_" + name,
