@@ -5,16 +5,12 @@ import { TableRowSelection } from "antd/es/table/interface";
 import { AxiosResponse } from "axios";
 import React, { useMemo } from "react";
 
-type CustomTableProps = {
+type CustomTableAllProps = {
   getColumns: any;
   refetch: (
     options?: RefetchOptions
   ) => Promise<QueryObserverResult<AxiosResponse<any, any> | undefined, Error>>;
   data: AxiosResponse<any, any> | undefined;
-  setSearch: (value: React.SetStateAction<string>) => void;
-  getPageSize?: () => number;
-  setPageSize?: (pageSize: number) => void;
-  setPage?: (value: React.SetStateAction<number>) => void;
   isLoading: boolean;
   headerTitle?: string | React.ReactNode;
   rowSelectionFunction?:
@@ -25,14 +21,10 @@ type CustomTableProps = {
   scrollY?: number;
 };
 
-const CustomTable: React.FC<CustomTableProps> = ({
+const CustomTable: React.FC<CustomTableAllProps> = ({
   getColumns,
   refetch,
   data,
-  setSearch,
-  getPageSize = () => 10,
-  setPageSize,
-  setPage,
   isLoading,
   headerTitle,
   rowSelectionFunction,
@@ -47,15 +39,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
       setting: {
         listsHeight: 400,
       },
-      search: {
-        onSearch(keyword: any) {
-          setSearch(keyword);
-        },
-        allowClear: true,
-      },
+     
       fullScreen: true,
     }),
-    [refetch, setSearch]
+    [refetch]
   );
 
   return (
@@ -63,7 +50,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       columns={getColumns}
       cardBordered
       onReset={refetch}
-      dataSource={data?.data?.results}
+      dataSource={data?.data}
       columnsState={{
         persistenceKey: "pro-table-singe-demos",
         persistenceType: "localStorage",
@@ -76,17 +63,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
       options={tableOptions}
       scroll={{ x: scrollX, y: scrollY }}
       loading={isLoading}
-      pagination={{
-        pageSize: getPageSize(),
-        total: data?.data?.count,
-        pageSizeOptions: [10, 20, 30, 100],
-        showSizeChanger: true,
-        onChange: (page: number, pageSize: number) => {
-          setPageSize(pageSize);
-          setPage(page);
-          refetch();
-        },
-      }}
       revalidateOnFocus={true}
       dateFormatter="string"
       headerTitle={headerTitle}

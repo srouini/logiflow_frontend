@@ -3,10 +3,10 @@ import { TableDropdown } from "@ant-design/pro-components";
 import { Col, Row } from "antd";
 import { renderDate, renderText } from "@/utils/functions";
 import DetailsButton from "@/components/DetailsButton";
-import { API_BULLETINS_ENDPOINT } from "@/api/api";
-import Delete from "@/components/Delete"
+import { API_BULLETINS_ENDPOINT, API_VISITES_ENDPOINT } from "@/api/api";
+import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
-
+import Print from "@/components/Print";
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
@@ -17,7 +17,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     render: (_, record) => (
       <DetailsButton
         text={record?.visite}
-        navigate_to={`/rotations/visites/ordinaire/${record?.id}`}
+        navigate_to={`/visites/ordinaire/${record?.id}`}
       />
     ),
   },
@@ -66,41 +66,47 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     title: "Actions",
     valueType: "option",
     key: "8",
-    width: 100,
-    fixed:"right",
+    width: 120,
+    fixed: "right",
     render: (_, record: any) => [
       <TableDropdown
         key="actionGroup"
-
-        children={
-          [
-            <Row gutter={8}>
-              <Col>
-                <Delete
-                  url={API_BULLETINS_ENDPOINT}
-                  id={record?.id}
-                  refetch={refetch}
-                  class_name="Bulletin"
-                  type="dashed"
-                  link={false}
-                  text=""
-                  has_icon
-                  disabled={record?.loaded}
-                />
-              </Col>
-              <Col>
-                <AUForm
-                  initialvalues={record}
-                  refetch={refetch}
-                  editText=""
-                  hasIcon
-                  gros={record?.gros}
-                  disabled={record?.loaded}
-                />
-              </Col>
-            </Row>,
-          ]
-        }
+        children={[
+          <Row gutter={8}>
+            <Col>
+              <Print
+                endpoint={API_VISITES_ENDPOINT}
+                id={record?.id}
+                key={record?.id}
+                type="View"
+                disabled={!record?.validated}
+              />
+            </Col>
+            <Col>
+              <Delete
+                url={API_VISITES_ENDPOINT}
+                id={record?.id}
+                refetch={refetch}
+                class_name="Bulletin"
+                type="dashed"
+                link={false}
+                text=""
+                has_icon
+                disabled={record?.validated}
+              />
+            </Col>
+            <Col>
+              <AUForm
+                initialvalues={record}
+                refetch={refetch}
+                editText=""
+                hasIcon
+                gros={record?.gros}
+                disabled={record?.validated}
+              />
+            </Col>
+          </Row>,
+        ]}
       />,
     ],
   },

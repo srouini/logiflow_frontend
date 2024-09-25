@@ -9,12 +9,10 @@ import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { getColumns } from "./data";
 import AUForm from "./components/AUForm";
-import { useParams } from "react-router";
 import { useReferenceContext } from "@/context/ReferenceContext";
+import { CloudUploadOutlined } from "@ant-design/icons";
 
 export default () => {
-  const { id } = useParams();
-
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();
@@ -40,21 +38,22 @@ export default () => {
       page_size: getPageSize(),
       ...filters,
       expand: "gros,article,transitaire",
-      gros__id: id,
       ordering: "-date_creation,-numero",
     },
   });
-  const { isLoading } = useLoading({loadingStates: [isLoadingData, isRefetching,isFetching] });
+  const { isLoading } = useLoading({
+    loadingStates: [isLoadingData, isRefetching, isFetching],
+  });
 
   const breadcrumb: any = {
     items: [
       {
         path: "",
-        title: "Rotation",
+        title: "Visite",
       },
       {
         path: "",
-        title: "Chargement",
+        title: "Ordinaire",
       },
     ],
   };
@@ -65,7 +64,10 @@ export default () => {
       header={{
         breadcrumb: breadcrumb,
         title: `Chargements`,
-        extra: [<AUForm refetch={refetch} initialvalues={null} gros={id} addText="Visite" />],
+        extra: [
+  
+          <AUForm refetch={refetch} initialvalues={null} addText="Visite" />,
+        ],
       }}
       title=" "
     >

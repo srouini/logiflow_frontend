@@ -9,9 +9,10 @@ interface PrintProps {
   id: string | undefined;
   endpoint: string;
   type: "Download" | "View";
+  disabled?: boolean
 }
 
-const Print: React.FC<PrintProps> = ({ endpoint, id, type }: PrintProps) => {
+const Print: React.FC<PrintProps> = ({ endpoint, id, type, disabled=false }: PrintProps) => {
   const api: AxiosInstance = useAxios();
 
   const handleDownload = async () => {
@@ -69,6 +70,7 @@ const Print: React.FC<PrintProps> = ({ endpoint, id, type }: PrintProps) => {
       type="dashed"
       icon={type==="Download" ? <CloudDownloadOutlined /> : <PrinterOutlined />}
       onClick={handleClick}
+      disabled={disabled}
     ></Button>
   );
 };

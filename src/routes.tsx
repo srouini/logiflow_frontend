@@ -13,6 +13,7 @@ import ArticleDetailsPage from './pages/Rotation/ArticleDetails';
 import Reception from "./pages/Rotation/Reception/index"
 import Facturation from "./pages/Facturation/Facturation/Index"
 import Visites from "./pages/Visite/Ordinaire/index"
+import VisitesDetails from "./pages/Visite/OrdinaireDetails/index"
 import VisitesGroupage from "./pages/Visite/Groupage/Index"
 import Proformas from "./pages/Documents/Proformas/Index"
 import Factures from "./pages/Documents/Factures/Index"
@@ -42,6 +43,7 @@ const AppRoutes = () => (
         <Route path="/rotations/reception/:id" element={<ReceptionDetails />} />
         <Route path="/facturation/facturation" element={<Facturation />} />
         <Route path="/visites/ordinaire" element={<Visites />} />
+        <Route path="/visites/ordinaire/:id" element={<VisitesDetails />} />
         <Route path="/visites/groupage" element={<VisitesGroupage />} />
         <Route path="/documents/factures" element={<Factures />} />
         <Route path="/documentsgroupage/factures" element={<FacturesGroupage />} />
