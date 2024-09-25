@@ -43,8 +43,6 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, disabled }) => 
     endpoint: API_BULLETINS_ENDPOINT,
   });
 
-  console.log(initialvalues)
-  console.log(mapInitialValues(initialvalues))
   return (
     <DraggableModel
       OkButtontext="Submit"

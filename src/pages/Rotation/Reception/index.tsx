@@ -8,11 +8,9 @@ import { API_BULLETINS_ENDPOINT } from "@/api/api";
 import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { getColumns } from "./data";
-import { useParams } from "react-router";
 import { useReferenceContext } from "@/context/ReferenceContext";
 
 export default () => {
-  const { id } = useParams();
 
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
@@ -32,7 +30,7 @@ export default () => {
     refetch,
   } = useData({
     endpoint: API_BULLETINS_ENDPOINT,
-    name: "GET_CHARGEMENTS",
+    name: `GET_RECEPTIONS`,
     params: {
       search: search,
       page: page,
@@ -40,7 +38,6 @@ export default () => {
       ...filters,
       loaded:true,
       expand: "gros,charge_chargement,charge_reception",
-      gros__id: id,
       ordering: "-date_creation,-numero",
     },
   });

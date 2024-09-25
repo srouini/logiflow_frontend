@@ -2,16 +2,15 @@ import React from "react";
 import { Button, Popconfirm, message } from "antd";
 import usePost from "@/hooks/usePost";
 import { API_CONTENEURS_ENDPOINT } from "@/api/api";
+import { DeleteOutlined } from "@ant-design/icons";
 
 interface DeleteProps {
   refetch: () => void;
   id: string | number;
   disabled?: boolean;
-  type?: "link" | "text" | "default" | "primary" | "dashed" | undefined;
-  link?:boolean
 }
 
-const DeleteBulletin: React.FC<DeleteProps> = ({ refetch, id, disabled,type="text", link=true }) => {
+const DeleteBulletin: React.FC<DeleteProps> = ({ refetch, id, disabled }) => {
 
   const onSuccess = () =>{
     message.success("Submission successful");
@@ -41,8 +40,8 @@ const DeleteBulletin: React.FC<DeleteProps> = ({ refetch, id, disabled,type="tex
       disabled={disabled}
     >
 
-     { link ?  disabled? <span style={{color:"#d9d9d9"}}>SUPPRIMER</span> :<a>SUPPRIMER</a>  :  <Button type={type} loading={isLoading} disabled={isLoading}>SUPPRIMER</Button>}
-    </Popconfirm>
+     <Button type="dashed" loading={isLoading} disabled={isLoading} icon={<DeleteOutlined /> } />
+     </Popconfirm>
   );
 };
 

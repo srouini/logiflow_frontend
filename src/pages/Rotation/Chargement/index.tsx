@@ -65,7 +65,7 @@ export default () => {
       header={{
         breadcrumb: breadcrumb,
         title: `Chargements`,
-        extra: [<AUForm refetch={refetch} initialvalues={null} gros={id} />],
+        extra: [<AUForm refetch={refetch} initialvalues={null} gros={id} addText="Bulletin" />],
       }}
       title=" "
     >

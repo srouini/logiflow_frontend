@@ -37,7 +37,7 @@ export default ({ container, columns }: SubArticlePageProps) => {
     refetch,
   } = useData({
     endpoint: API_SOUSARTICLES_ENDPOINT,
-    name: "GET_CONTAINERS",
+    name: `GET_SOUS_ARTICLES_${container?.id}`,
     params: {
       search: search,
       page: page,

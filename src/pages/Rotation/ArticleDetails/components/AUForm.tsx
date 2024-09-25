@@ -8,6 +8,7 @@ import { useReferenceContext } from "../../../../context/ReferenceContext";
 import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { YES_NO_CHOICES } from "@/utils/constants";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
 const formatDate = (field: string, values: any) => {
   if (values[field]) values[field] = values[field].format("YYYY-MM-DD");
@@ -17,10 +18,20 @@ const formatDate = (field: string, values: any) => {
 interface AUFormProps {
   refetch: () => void;
   initialvalues: any;
-  article:any
+  article: any;
+  editText?: string;
+  addText?: string;
+  hasIcon?: boolean;
 }
 
-const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues,article }) => {
+const AUForm: React.FC<AUFormProps> = ({
+  refetch,
+  initialvalues,
+  article,
+  editText = "MODIFIER",
+  addText = "Mrn",
+  hasIcon = false,
+}) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
@@ -28,7 +39,6 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues,article }) => {
 
   useEffect(() => {
     containerType.fetch();
-    
   }, []);
 
   const {} = useReferenceContext();
@@ -57,8 +67,12 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues,article }) => {
   return (
     <DraggableModel
       OkButtontext="Submit"
-      modalOpenButtonText={initialvalues ? "MODIFIER" : "Tc"}
-      modalTitle="Créer un nouveau Conteneur"
+      modalOpenButtonText={initialvalues ? editText : addText} 
+      modalTitle="Conteneur"
+      addButtonType="dashed"
+      addButtonIcon={
+        hasIcon && initialvalues ? <EditOutlined /> : <PlusOutlined />
+      }
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}
@@ -68,14 +82,48 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues,article }) => {
     >
       <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
         <Row gutter={24}>
-          <FormField name="tc" label="Matricule" type="text" required span_md={24} />
-          <FormField name="tar" label="Tar" type="text" required span_md={24}/>
-          <FormField name="poids" label="Poids" type="text" required span_md={24}/>
-          <FormField name="type_tc" label="Type" type="select" options={containerType?.results} option_label="designation" required  span_md={24}/>
-          <Divider style={{marginTop:"0px"}}/>
-          <FormField name="dangereux" label="Dangereux" type="select" options={YES_NO_CHOICES} required option_value="value"  span_md={24}/>
-          <FormField name="frigo" label="Frigo" type="select" options={YES_NO_CHOICES} option_value="value"  span_md={24}/>
-
+          <FormField
+            name="tc"
+            label="Matricule"
+            type="text"
+            required
+            span_md={24}
+          />
+          <FormField name="tar" label="Tar" type="text" required span_md={24} />
+          <FormField
+            name="poids"
+            label="Poids"
+            type="text"
+            required
+            span_md={24}
+          />
+          <FormField
+            name="type_tc"
+            label="Type"
+            type="select"
+            options={containerType?.results}
+            option_label="designation"
+            required
+            span_md={24}
+          />
+          <Divider style={{ marginTop: "0px" }} />
+          <FormField
+            name="dangereux"
+            label="Dangereux"
+            type="select"
+            options={YES_NO_CHOICES}
+            required
+            option_value="value"
+            span_md={24}
+          />
+          <FormField
+            name="frigo"
+            label="Frigo"
+            type="select"
+            options={YES_NO_CHOICES}
+            option_value="value"
+            span_md={24}
+          />
         </Row>
       </FormObject>
     </DraggableModel>

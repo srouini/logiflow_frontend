@@ -8,7 +8,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Numero",
     dataIndex: "bulletins",
-    key: "bulletins",
+    key: "1",
     width: 250,
     render: (_, record) => (
       <DetailsButton
@@ -19,20 +19,20 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   },
   {
     title: "Date",
-    key: "date_creation",
+    key: "2",
     dataIndex: "date_creation",
     render: (record: any) => renderDate(record),
   },
   {
     title: "Mrn",
-    key: "gros",
+    key: "3",
     dataIndex: "gros",
     width: 250,
     render: (record: any) => renderText(record?.gros),
   },
   {
     title: "Etat",
-    key: "loaded",
+    key: "4",
     dataIndex: "loaded",
     render: (record: any) =>
       record ? (
@@ -43,20 +43,20 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   },
   {
     title: "Reçu",
-    key: "receved",
+    key: "5",
     dataIndex: "receved",
     render: (record: any) =>
       record ? <Tag color="green">Reçu</Tag> : <Tag color="red">Non Reçu</Tag>,
   },
   {
     title: "Chargé par",
-    key: "charge_chargement",
+    key: "6",
     dataIndex: "charge_chargement",
     render: (record: any) => renderText(record?.full_name),
   },
   {
     title: "Reçu par",
-    key: "charge_reception",
+    key: "7",
     dataIndex: "charge_reception",
     render: (record: any) => renderText(record?.full_name),
   },

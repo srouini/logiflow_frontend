@@ -12,8 +12,7 @@ interface Props {
 
 const App: React.FC<Props> = ({ form, children,initialvalues }) => {
   const handleOnFinish = async () => {
-    const values = await form.validateFields();
-    console.log(values);
+    await form.validateFields();
   };
 
   return (

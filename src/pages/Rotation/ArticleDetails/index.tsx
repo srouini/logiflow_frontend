@@ -36,7 +36,7 @@ export default () => {
     isRefetching: isRefetchingArticle,
   } = useData({
     endpoint: API_ARTICLES_ENDPOINT + id + "/",
-    name: "GET_SELECTED_ARTICLE",
+    name: `GET_SELECTED_ARTICLE_${id}`,
     params: {
       expand: "client,transitairee,gros.regime",
     },
@@ -50,7 +50,7 @@ export default () => {
     refetch,
   } = useData({
     endpoint: API_CONTENEURS_ENDPOINT,
-    name: "GET_CONTAINERS",
+    name: `GET_CONTAINERS_${id}`,
     params: {
       search: search,
       page: page,
@@ -60,7 +60,9 @@ export default () => {
       article__id: id,
     },
   });
-  const { isLoading } = useLoading({loadingStates: [ isLoadingData, isRefetching,isFetching ]});
+  const { isLoading } = useLoading({
+    loadingStates: [isLoadingData, isRefetching, isFetching],
+  });
 
   const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
   const rowSelectionFunction: TableSelectionType = {
@@ -105,9 +107,10 @@ export default () => {
       header={{
         breadcrumb: breadcrumb,
         title: `Article ${selectedArticleData?.data?.numero}`,
-        extra: [<AUForm refetch={refetch} initialvalues={null} article={id} />, <Prestations article={id?.toString()}
-        
-        />],
+        extra: [
+          <AUForm refetch={refetch} initialvalues={null} article={id}  addText="Conteneur"/>,
+          <Prestations article={id?.toString()} />,
+        ],
       }}
     >
       <Details
@@ -115,8 +118,7 @@ export default () => {
         isLoading={isLoadingArticle || isRefetchingArticle}
         DetailsColumns={DetailsColumns}
       />
-      
-     
+
       <QueryFilters
         setFilters={setFilters}
         resetFilters={resetFilters}

@@ -31,7 +31,6 @@ export default () => {
       localStorage.setItem("theme", "realDark");
     }
 
-    console.log(currentTheme);
   };
 
   const [settings] = useState<Partial<ProSettings> | undefined>({

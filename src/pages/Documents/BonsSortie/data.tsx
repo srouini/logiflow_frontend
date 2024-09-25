@@ -12,28 +12,33 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     dataIndex: "numero",
     copyable: true,
     width: 150,
+    key:"1",
   },
   {
     title: "Date sortie",
     dataIndex: "date_sortie",
     width: 150,
+    key:"2",
     render:(record:any) =>renderDate(record)
   },
   {
     title: "Date de création",
     dataIndex: "date_creation",
+    key:"3",
     render:(record:any) =>renderDate(record),
     width: 150,
   },
   {
     title: "Facture",
     dataIndex: "facture",
+    key:"4",
     render: (record:any) => renderText(record?.numero),
     width: 150,
   },
   {
     title: "Date",
     dataIndex: "date_creation",
+    key:"5",
     render: record => renderDate(record),
     width: 100,
   },
@@ -41,19 +46,22 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     title: "D10",
     dataIndex: "d10",
     width:200,
+    key:"6",
     render: (record:any) => renderText(record),
   },
   {
     title: "Badge",
     dataIndex: "badge",
+    key:"7",
     render: (record:any) => renderText(record),
     width: 200
   },
   {
     title: "Actions",
     valueType: "option",
-    key: "option",
+    key: "8",
     align:"center",
+    fixed:"right",
     width: 100,
     render: (_, record: any) => [
       <TableDropdown

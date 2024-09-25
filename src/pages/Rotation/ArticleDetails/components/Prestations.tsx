@@ -45,7 +45,7 @@ const Prestations = ({ article }: Props) => {
   const today = new Date().toISOString().split("T")[0];
   const handlePrestationFormSubmission = async () => {
     let values = await form.validateFields();
-    console.log(values);
+
     let prestation = {
       article: article,
       date: today,

@@ -12,7 +12,7 @@ import MrnDetailsPage from './pages/Rotation/MrnDetails';
 import ArticleDetailsPage from './pages/Rotation/ArticleDetails';
 import Reception from "./pages/Rotation/Reception/index"
 import Facturation from "./pages/Facturation/Facturation/Index"
-import Visites from "./pages/Visite/Ordinaire/Index"
+import Visites from "./pages/Visite/Ordinaire/index"
 import VisitesGroupage from "./pages/Visite/Groupage/Index"
 import Proformas from "./pages/Documents/Proformas/Index"
 import Factures from "./pages/Documents/Factures/Index"

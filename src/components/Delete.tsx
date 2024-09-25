@@ -2,6 +2,7 @@ import React from "react";
 import { useAxios } from "../hooks/useAxios";
 import { Button, Popconfirm, notification } from "antd";
 import { useNavigate } from "react-router-dom";
+import { DeleteOutlined } from "@ant-design/icons";
 
 interface DeleteProps {
   url: string;
@@ -11,10 +12,23 @@ interface DeleteProps {
   id: string | number;
   disabled?: boolean;
   type?: "link" | "text" | "default" | "primary" | "dashed" | undefined;
-  link?:boolean
+  link?: boolean;
+  has_icon?: boolean;
+  text?: string;
 }
 
-const Delete: React.FC<DeleteProps> = ({ url, class_name, refetch, go_to_after, id, disabled,type="text", link=true }) => {
+const Delete: React.FC<DeleteProps> = ({
+  url,
+  class_name,
+  refetch,
+  go_to_after,
+  id,
+  disabled,
+  type = "text",
+  link = true,
+  has_icon = true,
+  text = "SUPPRIMER",
+}) => {
   let navigate = useNavigate();
   let api = useAxios();
 
@@ -48,8 +62,17 @@ const Delete: React.FC<DeleteProps> = ({ url, class_name, refetch, go_to_after, 
       key={id}
       disabled={disabled}
     >
-
-     { link ? disabled? <span style={{color:"#d9d9d9"}}>SUPPRIMER</span> : <a >SUPPRIMER</a>  :  <Button type={type}>SUPPRIMER</Button>}
+      {link ? (
+        disabled ? (
+          <span style={{ color: "#d9d9d9" }}>{text}</span>
+        ) : (
+          <a>{text}</a>
+        )
+      ) : (
+        <Button icon={has_icon && <DeleteOutlined />} type={type} disabled={disabled}>
+          {text}
+        </Button>
+      )}
     </Popconfirm>
   );
 };

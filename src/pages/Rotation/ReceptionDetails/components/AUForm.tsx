@@ -27,7 +27,6 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues,disabled }) => {
 
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
-    console.log(values)
     formatDateTime("date_entree_port_sec", values);
 
     if (initialvalues.date_entree_port_sec == values?.date_entree_port_sec + "Z")

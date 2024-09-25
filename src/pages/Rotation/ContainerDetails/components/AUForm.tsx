@@ -8,15 +8,25 @@ import { useReferenceContext } from "../../../../context/ReferenceContext";
 import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { YES_NO_CHOICES } from "@/utils/constants";
-
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
 interface AUFormProps {
   refetch: () => void;
   initialvalues: any;
   tc: any;
+  editText?: string;
+  addText?: string;
+  hasIcon?: boolean;
 }
 
-const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, tc }) => {
+const AUForm: React.FC<AUFormProps> = ({
+  refetch,
+  initialvalues,
+  tc,
+  editText = "MODIFIER",
+  addText = "Sous Article",
+  hasIcon = false,
+}) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
@@ -52,8 +62,12 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, tc }) => {
   return (
     <DraggableModel
       OkButtontext="Submit"
-      modalOpenButtonText={initialvalues ? "MODIFIER" : "Sous Article"}
-      modalTitle="Créer un Sous Article"
+      modalOpenButtonText={initialvalues ? editText : addText} 
+      modalTitle="Sous Article"
+      addButtonType="dashed"
+      addButtonIcon={
+        hasIcon && initialvalues ? <EditOutlined /> : <PlusOutlined />
+      }
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}
@@ -69,15 +83,8 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, tc }) => {
             type="text"
             required
             span_md={12}
- 
           />
-          <FormField
-            name="bl"
-            label="BL"
-            type="text"
-            span_md={12}
-       
-          />
+          <FormField name="bl" label="BL" type="text" span_md={12} />
           <FormField
             name="client"
             label="Client"
@@ -86,7 +93,6 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, tc }) => {
             option_label="raison_sociale"
             required
             span_md={24}
-     
           />
           <FormField
             name="transitaire"
@@ -97,7 +103,6 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, tc }) => {
             option_value="id"
             disabled
             span_md={24}
-   
           />
           <FormField
             name="dangereux"
@@ -106,45 +111,25 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, tc }) => {
             options={YES_NO_CHOICES}
             option_value="value"
             span_md={12}
-
           />
           <Divider style={{ marginTop: "0px" }} />
           <FormField
             name="designation"
             label="Marchandise"
             type="text"
-            required     
+            required
             span_md={24}
           />
           <Divider style={{ marginTop: "0px" }} />
-          <FormField
-            name="volume"
-            label="Volume"
-            type="number"
-            step={0.01}
-          />
-          <FormField
-            name="poids"
-            label="Poids"
-            type="number"
-            step={0.01}
-          />
+          <FormField name="volume" label="Volume" type="number" step={0.01} />
+          <FormField name="poids" label="Poids" type="number" step={0.01} />
           <FormField
             name="nombre_colis"
             label="Nombre de colis"
             type="number"
           />
-          <FormField
-            name="surface"
-            label="Surface"
-            type="number"
-            step={0.01}
-          />
-          <FormField
-            name="quantite"
-            label="Quantité"
-            type="number"
-          />
+          <FormField name="surface" label="Surface" type="number" step={0.01} />
+          <FormField name="quantite" label="Quantité" type="number" />
         </Row>
       </FormObject>
     </DraggableModel>

@@ -50,8 +50,7 @@ const DraggableModel: React.FC<Props> = ({
   }, [setOpen]);
 
   const handleCancel = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
-      console.log(e);
+    () => {
       setOpen(false);
     },
     [setOpen]
@@ -75,9 +74,7 @@ const DraggableModel: React.FC<Props> = ({
 
   // Common button render based on conditions
   const renderOpenButton = () => {
-    if (disabledModalOpenButton) {
-      return <span style={{ color: "#d9d9d9" }}>{modalOpenButtonText}</span>;
-    }
+
 
     if (buttonType === "Link") {
       return (

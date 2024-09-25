@@ -7,15 +7,26 @@ import { formatDate, mapInitialValues } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import FormField from "@/components/form/FormField";
 import { API_BULLETINS_ENDPOINT } from "@/api/api";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
 interface AUFormProps {
   refetch: () => void;
   initialvalues: any;
   gros?: any;
-  disabled?:boolean
+  disabled?: boolean;
+  editText?: string;
+  addText?: string;
+  hasIcon?: boolean;
 }
 
-const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, disabled }) => {
+const AUForm: React.FC<AUFormProps> = ({
+  refetch,
+  initialvalues,
+  disabled,
+  editText = "MODIFIER",
+  addText = "Mrn",
+  hasIcon = false,
+}) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const { mrn, user } = useReferenceContext();
@@ -43,14 +54,14 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, disabled }) => 
     endpoint: API_BULLETINS_ENDPOINT,
   });
 
-  console.log(initialvalues)
-  console.log(mapInitialValues(initialvalues))
   return (
     <DraggableModel
       OkButtontext="Submit"
+      addButtonType="dashed"
       disabledModalOpenButton={disabled}
-      modalOpenButtonText={initialvalues ? "MODIFIER" : "Bulletin"}
-      modalTitle="Créer un nouveau bulletin"
+      modalOpenButtonText={initialvalues ? editText : addText}
+      addButtonIcon={hasIcon && initialvalues ? <EditOutlined />:<PlusOutlined /> }
+      modalTitle="Bulletin"
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}
@@ -58,7 +69,6 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, disabled }) => 
       isLoading={isLoading}
       initialvalues={initialvalues}
     >
-
       <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
         <Row gutter={24}>
           <FormField

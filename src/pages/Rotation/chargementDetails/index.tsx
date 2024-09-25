@@ -37,7 +37,7 @@ export default () => {
     refetch
   } = useData({
     endpoint: API_BULLETINS_ENDPOINT + id + "/",
-    name: "GET_SELECTED_BULLETIN",
+    name: `GET_SELECTED_BULLETIN_${id}`,
     params: {
       expand: "gros,charge_chargement",
     },
@@ -51,7 +51,7 @@ export default () => {
     refetch:refetchLoaded,
   } = useData({
     endpoint: API_CONTENEURS_ENDPOINT,
-    name: "GET_BULLETIN_ITEMS",
+    name: `GET_BULLETIN_ITEMS_${id}`,
     params: {
       search: search,
       page: page,

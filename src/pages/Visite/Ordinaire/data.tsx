@@ -1,6 +1,6 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
-import { Col, Row, Tag } from "antd";
+import { Col, Row } from "antd";
 import { renderDate, renderText } from "@/utils/functions";
 import DetailsButton from "@/components/DetailsButton";
 import { API_BULLETINS_ENDPOINT } from "@/api/api";
@@ -11,58 +11,55 @@ import AUForm from "./components/AUForm";
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Numero",
-    dataIndex: "bulletins",
+    dataIndex: "numero",
     key: "1",
-    width: 250,
+    width: 200,
     render: (_, record) => (
       <DetailsButton
-        text={record.bulletins}
-        navigate_to={`/rotations/chargement/${record?.id}`}
+        text={record?.visite}
+        navigate_to={`/rotations/visites/ordinaire/${record?.id}`}
       />
     ),
   },
   {
-    title: "Date",
+    title: "Date Visite",
     key: "2",
-    dataIndex: "date_creation",
+    dataIndex: "date_visite",
+    width: 150,
     render: (record: any) => renderDate(record),
   },
   {
     title: "Mrn",
     key: "3",
     dataIndex: "gros",
-    width: 250,
+    width: 200,
     render: (record: any) => renderText(record?.gros),
   },
   {
-    title: "Etat",
+    title: "Article",
     key: "4",
-    dataIndex: "loaded",
-    render: (record: any) =>
-      record ? (
-        <Tag color="green">Chargé</Tag>
-      ) : (
-        <Tag color="red">Non chargé</Tag>
-      ),
+    dataIndex: "article",
+    width: 100,
+    render: (record: any) => renderText(record?.numero),
   },
   {
-    title: "Reçu",
+    title: "Type",
     key: "5",
-    dataIndex: "receved",
-    render: (record: any) =>
-      record ? <Tag color="green">Reçu</Tag> : <Tag color="red">Non Reçu</Tag>,
+    dataIndex: "type_visite",
+    width: 150,
   },
   {
-    title: "Chargé par",
+    title: "Transitaire",
     key: "6",
-    dataIndex: "charge_chargement",
-    render: (record: any) => renderText(record?.full_name),
+    dataIndex: "transitaire",
+    width: 250,
+    render: (record: any) => renderText(record?.raison_sociale),
   },
   {
-    title: "Reçu par",
+    title: "Badge",
     key: "7",
-    dataIndex: "charge_reception",
-    render: (record: any) => renderText(record?.full_name),
+    dataIndex: "badge",
+    width: 200,
   },
 
   {

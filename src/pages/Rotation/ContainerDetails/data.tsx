@@ -1,80 +1,79 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
-import { Button, Tag } from "antd";
+import { Col, Row, Tag } from "antd";
 import { renderText } from "@/utils/functions";
-import Ajouter from "./components/AUForm";
-import { SettingOutlined } from "@ant-design/icons";
 import Delete from "@/components/Delete";
+import AUForm from "./components/AUForm";
 import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Numéro",
     dataIndex: "numero",
-    key: "numero",
+    key: "1",
     width: 100,
   },
   {
     title: "BL",
-    key: "bl",
+    key: "2",
     dataIndex: "bl",
     width: 150,
   },
   {
     title: "Client",
-    key: "client",
+    key: "3",
     dataIndex: "client",
     width: 250,
     render: (record:any) => renderText(record?.raison_sociale)
   },
   {
     title: "Volume",
-    key: "volume",
+    key: "4",
     dataIndex: "volume",
     width: 150,
   },
   {
     title: "Poids",
-    key: "poids",
+    key: "5",
     dataIndex: "poids",
     width: 120,
   },
   {
     title: "Dangereux",
-    key: "dangereux",
+    key: "6",
     dataIndex: "dangereux",
     width: 150,
     render: (_,record:any) => <> {record.dangereux ? <Tag color="red" > DGX </Tag> :" - "}</>
   },
   {
     title: "NBR colis",
-    key: "nombre_colis",
+    key: "7",
     dataIndex: "ponombre_colisids",
     width: 120,
   },
   {
     title: "Surface",
-    key: "surface",
+    key: "8",
     dataIndex: "surface",
     width: 120,
   },
   {
     title: "Quantité",
-    key: "quantite",
+    key: "9",
     dataIndex: "quantite",
     width: 120,
   },
 
    {
     title: "Marchandise",
-    key: "designation",
+    key: "10",
     dataIndex: "designation",
     ellipsis:true,
     width: 350,
   },
   {
     title: "Transitaire",
-    key: "transitaire",
+    key: "11",
     dataIndex: "transitaire",
     width: 250,
     render: (record:any) => renderText(record?.raison_sociale)
@@ -82,34 +81,39 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Actions",
     valueType: "option",
-    key: "option",
-    width: 80,
+    key: "12",
+    fixed:"right",
+    width: 100,
     render: (_, record: any) => [
       <TableDropdown
         key="actionGroup"
-        menus={[
-          {
-            key: "delete",
-            name: (
-              <Delete
-                url={API_SOUSARTICLES_ENDPOINT}
-                id={record?.id}
-                refetch={refetch}
-                class_name="Sous Article"
-              />
-            ),
-          },
-          {
-            key: "Ajouter",
-            name: <Ajouter initialvalues={record} refetch={refetch} tc={record?.tc}></Ajouter>,
-          },
-        ]}
+      
         children={
-          <Button
-            style={{ width: "50px" }}
-            icon={<SettingOutlined />}
-            size="small"
-          ></Button>
+          [
+            <Row gutter={8}>
+              <Col>
+                <Delete
+                  url={API_SOUSARTICLES_ENDPOINT}
+                  id={record?.id}
+                  refetch={refetch}
+                  class_name="Sous Article"
+                  type="dashed"
+                  link={false}
+                  text=""
+                  has_icon
+                />
+              </Col>
+              <Col>
+                <AUForm
+                  initialvalues={record}
+                  refetch={refetch}
+                  tc={record?.tc}
+                  editText=""
+                  hasIcon
+                />
+              </Col>
+            </Row>,
+          ]
         }
       />,
     ],

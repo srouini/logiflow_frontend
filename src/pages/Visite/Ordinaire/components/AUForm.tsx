@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import DraggableModel from "@/components/DraggableModel";
 import FormObject from "@/components/Form";
-import { Divider, Form, message, Row } from "antd";
+import { Form, message, Row } from "antd";
 import usePost from "@/hooks/usePost";
-import { mapInitialValues } from "@/utils/functions";
+import { formatDate, mapInitialValues } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { CONTAINER_NATURE_CHOICES, YES_NO_CHOICES } from "@/utils/constants";
 import FormField from "@/components/form/FormField";
-import { API_ARTICLES_ENDPOINT } from "@/api/api";
+import { API_ARTICLES_ENDPOINT, API_VISITES_ENDPOINT } from "@/api/api";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import FormRelatedSelectInput from "@/components/form/FormRelatedSelectInput";
 
 interface AUFormProps {
   refetch: () => void;
   initialvalues: any;
   gros?: any;
+  disabled?: boolean;
   editText?: string;
   addText?: string;
   hasIcon?: boolean;
@@ -22,131 +23,120 @@ interface AUFormProps {
 const AUForm: React.FC<AUFormProps> = ({
   refetch,
   initialvalues,
-  gros,
+  disabled,
   editText = "MODIFIER",
-  addText = "",
+  addText = "Mrn",
   hasIcon = false,
 }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
-
-  const { client, transitaire } = useReferenceContext();
+  const { mrn, transitaire } = useReferenceContext();
 
   useEffect(() => {
-    client?.fetch();
+    mrn?.fetch();
     transitaire?.fetch();
   }, []);
 
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
-
     if (initialvalues) values.id = initialvalues?.id;
-    values.gros = parseInt(gros);
-
+    values = formatDate("date_visite", values);
     mutate(values);
   };
 
   const onSuccess = () => {
     message.success("Submission successful");
+    form.resetFields();
     setOpen(false);
     refetch();
   };
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_ARTICLES_ENDPOINT,
+    endpoint: API_VISITES_ENDPOINT,
   });
+
 
   return (
     <DraggableModel
       OkButtontext="Submit"
-      modalOpenButtonText={initialvalues ? editText : addText}
-      modalTitle="Article"
       addButtonType="dashed"
+      disabledModalOpenButton={disabled}
+      modalOpenButtonText={initialvalues ? editText : addText}
       addButtonIcon={
         hasIcon && initialvalues ? <EditOutlined /> : <PlusOutlined />
       }
+      modalTitle="Bulletin"
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}
-      width={800}
+      width={550}
       isLoading={isLoading}
       initialvalues={initialvalues}
     >
       <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
         <Row gutter={24}>
-          <FormField
-            label="Numéro"
-            name="numero"
-            span={24}
-            required
-            span_md={12}
-            type="text"
-          />
-          <FormField
-            label="BL"
-            name="bl"
-            span={24}
-            required
-            span_md={12}
-            type="text"
-          />
-          <FormField
-            label="Nature"
-            name="groupage"
-            option_label="label"
-            option_value="value"
-            required
-            type="select"
-            options={CONTAINER_NATURE_CHOICES}
-          />
-          <FormField
-            label="Cleint"
-            name="client"
-            option_label="raison_sociale"
-            required
-            type="select"
-            options={client?.results}
-          />
-          <FormField
-            label="Designation"
-            name="designation"
-            span={24}
-            span_md={24}
-            type="text"
+          <FormRelatedSelectInput
+            QUERY_NAME="GET_ARTICLES_BY_MRN"
+            form={form}
+            related_endpoint={API_ARTICLES_ENDPOINT}
+            labelP="Mrn"
+            labelC="Article"
+            nameC="article"
+            nameP="gros"
+            related_attribute="gros__id"
+            option_labelC="numero"
+            option_labelP="gros"
+            option_valueC="id"
+            option_valueP="id"
+            optionsP={mrn?.results}
+            requiredC
+            requiredP
+            spanC={24}
+            spanP={24}
+            span_mdC={12}
+            span_mdP={12}
           />
           <FormField
             label="Transitaire"
             name="transitaire"
             option_label="raison_sociale"
+            option_value="id"
+            required
+            span_md={24}
+            span={24}
             type="select"
             options={transitaire?.results}
           />
-        </Row>
-        <Divider style={{ marginTop: "0px" }} />
-        <Row gutter={24}>
           <FormField
-            label="Depoté"
-            disabled={true}
-            name="depote"
+            label="Date"
+            name="date_visite"
+            span={24}
+            required
+            span_md={24}
+            type="date"
+          />
+          <FormField
+            label="Type"
+            name="type_visite"
             option_label="label"
             option_value="value"
+            required
+            span_md={24}
+            span={24}
             type="select"
-            options={YES_NO_CHOICES}
+            options={[
+              { label: "Visite douane", value: "Visite douane" },
+              { label: "Visite D41", value: "Visite D41" },
+            ]}
           />
           <FormField
-            label="Date dépotage"
-            name="date_depotage"
-            type="date"
-            disabled={true}
-          />
-          <FormField
-            label="Observation de dépotage"
-            name="observation_depotage"
+            label="Badge"
+            name="badge"
+            type="text"
+            required
             span={24}
             span_md={24}
-            type="text"
-            disabled
           />
         </Row>
       </FormObject>

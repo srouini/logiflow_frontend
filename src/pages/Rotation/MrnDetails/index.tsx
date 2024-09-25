@@ -34,7 +34,7 @@ export default () => {
     isRefetching: isRefetchingMrn,
   } = useData({
     endpoint: API_MRNS_ENDPOINT + id + "/",
-    name: "GET_SELECTED_MRN",
+    name: `GET_SELECTED_MRN_${id}`,
     params: {
       expand: "regime,armateur,consignataire,navire",
     },
@@ -48,7 +48,7 @@ export default () => {
     refetch,
   } = useData({
     endpoint: API_ARTICLES_ENDPOINT,
-    name: "GET_ARTICLES",
+    name: `GET_ARTICLES_${id}`,
     params: {
       search: search,
       page: page,
@@ -84,7 +84,7 @@ export default () => {
         breadcrumb: breadcrumb,
         title: `MRN -  ${selectedMrnData?.data?.gros}`,
         extra: [
-          <AUForm refetch={refetch} initialvalues={null} gros={id} />,
+          <AUForm refetch={refetch} initialvalues={null} gros={id} addText="Article"/>,
           <Chargement refetch={refetch} mrn={selectedMrnData?.data?.id} />,
           <Conteneurs mrn={id}/>
         ],
@@ -95,6 +95,7 @@ export default () => {
         dataSource={selectedMrnData?.data}
         isLoading={isLoadingMrn || isRefetchingMrn}
         DetailsColumns={DetailsColumns}
+        key={selectedMrnData?.data?.id}
       />
 
       <QueryFilters

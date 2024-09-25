@@ -2,7 +2,7 @@ import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
 import {Col, Row, Tag } from "antd";
 import { renderDate, renderMoney, renderText } from "@/utils/functions";
-import { API_FACTURE_ENDPOINT } from "@/api/api";
+import {  API_FACTURES_GROUPAGE_ENDPOINT } from "@/api/api";
 import Print from "@/components/Print";
 
 // @ts-ignore
@@ -11,8 +11,8 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     title: "Numéro",
     dataIndex: "numero",
     copyable: true,
+    key:"1",
     width: 150,
-    key:"1"
   },
   {
     title: "Etat",
@@ -36,9 +36,16 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     width: 100,
   },
   {
+    title: "Sous Article",
+    dataIndex: "proforma",
+    key:"5",
+    render: (record:any) => renderText(record?.sous_article?.numero),
+    width: 100,
+  },
+  {
     title: "Date",
     dataIndex: "date_creation",
-    key:"5",
+    key:"6",
     render: record => renderDate(record),
     width: 100,
   },
@@ -46,51 +53,51 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     title: "Client",
     dataIndex: "proforma",
     width:300,
-    key:"6",
-    render: (record:any) => renderText(record?.article?.client?.raison_sociale)
+    key:"7",
+    render: (record:any) => renderText(record?.sous_article?.client?.raison_sociale)
   },
   {
     title: "Proforma",
     dataIndex: "proforma",
-    key:"7",
+    key:"8",
     render: (record:any) => renderText(record?.numero),
     width: 150
   },
   {
     title: "HT",
     dataIndex: "HT",
-    key:"8",
+    key:"9",
     render: (record: any) => renderMoney(record),
     width: 150
   },
   {
     title: "TVA",
     dataIndex: "TVA",
-    key:"9",
+    key:"10",
     render: (record: any) => renderMoney(record),
     width: 150
   },
   {
     title: "Timber",
     dataIndex: "timber",
-    key:"10",
+    key:"11",
     render: (record: any) => renderMoney(record),
     width: 150
   },
   {
     title: "TTC",
     dataIndex: "TTC",
-    key:"11",
+    key:"12",
     render: (record: any) => renderMoney(record),
     width: 150
   },
   {
     title: "Actions",
     valueType: "option",
-    key: "12",
+    key: "13",
+    fixed:"right",
     align:"center",
     width: 100,
-    fixed:"right",
     render: (_, record: any) => [
       <TableDropdown
         key="actionGroup"
@@ -102,7 +109,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
          [<Row gutter={8}>
             <Col>
             <Print
-                endpoint={API_FACTURE_ENDPOINT}
+                endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
                 id={record?.id}
                 key={record?.id}
                 type="Download"
@@ -110,7 +117,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
             </Col>
             <Col>
             <Print
-                endpoint={API_FACTURE_ENDPOINT}
+                endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
                 id={record?.id}
                 key={record?.id}
                 type="View"

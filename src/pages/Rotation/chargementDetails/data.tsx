@@ -1,8 +1,7 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
-import { Button, Tag } from "antd";
+import { Tag } from "antd";
 import { renderDate, renderDateTime, renderText } from "@/utils/functions";
-import { SettingOutlined } from "@ant-design/icons";
 import AUForm from "./components/AUForm";
 import DeleteBulletin from "./components/DeleteBulletin";
 
@@ -14,42 +13,42 @@ export const getColumns = ({refetch, loaded}:Props): ProColumns<any>[] => [
   {
     title: "Matricule",
     dataIndex: "tc",
-    key: "tc",
+    key: "1",
     width: 200,
     render: (_,record) => <AUForm initialvalues={record}  key={record?.id} refetch={refetch} disabled={loaded}/> 
   },
   {
     title: "Type",
     dataIndex: "type_tc",
-    key: "type_tc",
+    key: "2",
     render: (record: any) =>
       record ? <Tag color="blue">{record?.designation}</Tag> : "-",
     width: 100,
   },
   {
     title: "Article",
-    key: "article",
+    key: "3",
     dataIndex: "article",
     width: 100,
     render: (record: any) => renderText(record.numero),
   },
   {
     title: "Date chargement",
-    key: "date_sortie_port",
+    key: "4",
     dataIndex: "date_sortie_port",
     width: 150,
     render: (record: any) => renderDateTime(record),
   },
   {
     title: "Matricule",
-    key: "matricule_camion",
+    key: "5",
     dataIndex: "matricule_camion",
     width: 150,
     render: (record: any) => renderText(record),
   },
   {
     title: "Scelle",
-    key: "current_scelle",
+    key: "6",
     dataIndex: "current_scelle",
     width: 150,
     render: (record: any) => renderText(record?.numero),
@@ -65,31 +64,18 @@ export const getColumns = ({refetch, loaded}:Props): ProColumns<any>[] => [
   {
     title: "Actions",
     valueType: "option",
-    key: "option",
-    width: 80,
+    key: "7",
+    fixed:"right",
+    width: 60,
     render: (_, record: any) => [
       <TableDropdown
-      
         key="actionGroup"
-        menus={[
-          {
-            key: "delete",
-            name: (
-              <DeleteBulletin
-                disabled={loaded}
-                id={record?.id}
-                refetch={refetch}
-              />
-            ),
-          },
-        ]}
         children={
-          <Button
-            style={{ width: "50px" }}
-            icon={<SettingOutlined />}
-            disabled={loaded}
-            size="small"
-          ></Button>
+          <DeleteBulletin
+          disabled={loaded}
+          id={record?.id}
+          refetch={refetch}
+        />
         }
       />,
     ],

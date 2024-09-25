@@ -118,9 +118,6 @@ export const formatDate = (field:string, values: any) => {
 }
 
 export const formatDateTime = (field:string, values: any) => {
-  console.log(field)
-  console.log(values)
-  console.log(values[field])
   values[field] = values[field].format("YYYY-MM-DDTHH:mm:ss");
   return values
 }

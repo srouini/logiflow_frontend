@@ -7,15 +7,19 @@ import { formatDate, mapInitialValues } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { API_MRNS_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
 
 
 interface AUFormProps {
   refetch: () => void;
   initialvalues: any;
+  editText?:string; 
+  addText?:string; 
+  hasIcon?:boolean
 }
 
-const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
+const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIFIER",addText="Mrn", hasIcon=false }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
@@ -29,7 +33,6 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
     armateur.fetch();
     consignataire.fetch();
     port.fetch();
-    console.log("loaded")
   }, []);
 
   const {} = useReferenceContext();
@@ -55,13 +58,13 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
     endpoint: API_MRNS_ENDPOINT,
   });
 
-  console.log(initialvalues)
-  console.log(mapInitialValues(initialvalues))
+
   return (
     <DraggableModel
       OkButtontext="Submit"
-      modalOpenButtonText={initialvalues ? "MODIFIER" : "Mrn"}
-      modalTitle="Créer un nouveau MRN"
+      modalOpenButtonText={initialvalues ? editText : addText}
+      addButtonIcon={hasIcon && initialvalues ? <EditOutlined />:<PlusOutlined /> }
+      modalTitle="MRN"
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}
