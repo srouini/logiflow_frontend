@@ -14,9 +14,11 @@ import Details from "@/components/Details";
 import { DetailsColumns } from "./data";
 import { TableSelectionType } from "@/types/antdeing";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { message, Segmented } from "antd";
+import {  message, Segmented } from "antd";
 import usePost from "@/hooks/usePost";
 import Prestations from "./components/Prestations";
+import AUFormDepotage from "./components/AUFormDepotage";
+import Print from "@/components/Print";
 
 export default () => {
   const { id } = useParams();
@@ -34,6 +36,7 @@ export default () => {
     data: selectedArticleData,
     isLoading: isLoadingArticle,
     isRefetching: isRefetchingArticle,
+    refetch:refetchSelectedArticle
   } = useData({
     endpoint: API_ARTICLES_ENDPOINT + id + "/",
     name: `GET_SELECTED_ARTICLE_${id}`,
@@ -110,6 +113,8 @@ export default () => {
         extra: [
           <AUForm refetch={refetch} initialvalues={null} article={id}  addText="Conteneur"/>,
           <Prestations article={id?.toString()} />,
+          selectedArticleData?.data?.groupage && <AUFormDepotage article={id} disable={selectedArticleData?.data.depote} refetch={refetchSelectedArticle}/>,
+          <Print type="View" endpoint={API_ARTICLES_ENDPOINT} id={id} endpoint_suffex="generate_ticktage/" button_text="Ticktage"/>
         ],
       }}
     >

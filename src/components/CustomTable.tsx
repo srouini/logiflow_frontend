@@ -63,6 +63,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       columns={getColumns}
       cardBordered
       onReset={refetch}
+      
       dataSource={data?.data?.results}
       columnsState={{
         persistenceKey: "pro-table-singe-demos",

@@ -1,7 +1,7 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
 import { Col, Row, Tag } from "antd";
-import { renderDate, renderText } from "@/utils/functions";
+import { renderDate, renderDateTime, renderText } from "@/utils/functions";
 import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import SubArticlePage from "../ContainerDetails";
 import Delete from "@/components/Delete";
@@ -189,7 +189,7 @@ export const DetailsColumns = [
     dataIndex: "date_depotage",
     key: "date_depotage",
     width: 150,
-    render: (record: any) => renderDate(record),
+    render: (record: any) => renderDateTime(record),
   },
 
   {

@@ -1,5 +1,5 @@
 import { PageContainer } from "@ant-design/pro-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import useFilters from "@/hooks/useFilters";
@@ -9,19 +9,12 @@ import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { getColumns } from "./data";
 import AUForm from "./components/AUForm";
-import { useReferenceContext } from "@/context/ReferenceContext";
-import { CloudUploadOutlined } from "@ant-design/icons";
+import Calendair from "./components/Calendar";
 
 export default () => {
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();
-
-  const { containerType } = useReferenceContext();
-
-  useEffect(() => {
-    containerType?.fetch();
-  }, []);
 
   const {
     data,
@@ -41,6 +34,7 @@ export default () => {
       ordering: "-date_creation,-numero",
     },
   });
+
   const { isLoading } = useLoading({
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
@@ -65,8 +59,8 @@ export default () => {
         breadcrumb: breadcrumb,
         title: `Chargements`,
         extra: [
-  
           <AUForm refetch={refetch} initialvalues={null} addText="Visite" />,
+          <Calendair />,
         ],
       }}
       title=" "

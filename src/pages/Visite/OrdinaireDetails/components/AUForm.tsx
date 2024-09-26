@@ -66,7 +66,7 @@ const AUForm: React.FC<AUFormProps> = ({
       addButtonIcon={
        <ArrowRightOutlined />
       }
-      modalTitle="Bulletin"
+      modalTitle={`Visite |  ${tc?.tc}`}
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}

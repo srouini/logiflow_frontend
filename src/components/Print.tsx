@@ -9,17 +9,19 @@ interface PrintProps {
   id: string | undefined;
   endpoint: string;
   type: "Download" | "View";
-  disabled?: boolean
+  disabled?: boolean,
+  button_text?:string,
+  endpoint_suffex?:string
 }
 
-const Print: React.FC<PrintProps> = ({ endpoint, id, type, disabled=false }: PrintProps) => {
+const Print: React.FC<PrintProps> = ({ endpoint, id, type, disabled=false,button_text,endpoint_suffex }: PrintProps) => {
   const api: AxiosInstance = useAxios();
 
   const handleDownload = async () => {
     try {
 
       const response = await api({
-        url: `${endpoint}${id}/generate_pdf/`,
+        url: `${endpoint}${id}/${endpoint_suffex}`,
         method: "GET",
         responseType: "blob", // Important for handling binary data (PDF)
       });
@@ -41,7 +43,7 @@ const Print: React.FC<PrintProps> = ({ endpoint, id, type, disabled=false }: Pri
   const handleViewPDF = async () => {
     try {
       const response = await api({
-        url: `${endpoint}${id}/generate_pdf/`,
+        url: `${endpoint}${id}/${endpoint_suffex}`,
         method: "GET",
         responseType: "blob", // Important for handling binary data (PDF)
       });
@@ -71,7 +73,7 @@ const Print: React.FC<PrintProps> = ({ endpoint, id, type, disabled=false }: Pri
       icon={type==="Download" ? <CloudDownloadOutlined /> : <PrinterOutlined />}
       onClick={handleClick}
       disabled={disabled}
-    ></Button>
+    >{button_text}</Button>
   );
 };
 

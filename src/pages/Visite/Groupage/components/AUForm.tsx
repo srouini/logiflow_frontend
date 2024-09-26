@@ -6,9 +6,10 @@ import usePost from "@/hooks/usePost";
 import { formatDate, mapInitialValues } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import FormField from "@/components/form/FormField";
-import { API_ARTICLES_ENDPOINT, API_VISITES_ENDPOINT } from "@/api/api";
+import { API_ARTICLES_ENDPOINT, API_SOUSARTICLES_ENDPOINT, API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import FormRelatedSelectInput from "@/components/form/FormRelatedSelectInput";
+import FormThreeRelatedSelectInput from "@/components/form/FormThreeRelatedSelectInput";
 
 interface AUFormProps {
   refetch: () => void;
@@ -53,7 +54,7 @@ const AUForm: React.FC<AUFormProps> = ({
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_VISITES_ENDPOINT,
+    endpoint: API_VISITESGROUPAGE_ENDPOINT,
   });
 
 
@@ -66,7 +67,7 @@ const AUForm: React.FC<AUFormProps> = ({
       addButtonIcon={
         hasIcon && initialvalues ? <EditOutlined /> : <PlusOutlined />
       }
-      modalTitle="Visite ordinaire"
+      modalTitle="Visite groupage"
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}
@@ -76,15 +77,18 @@ const AUForm: React.FC<AUFormProps> = ({
     >
       <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
         <Row gutter={24}>
-          <FormRelatedSelectInput
-            QUERY_NAME="GET_ARTICLES_BY_MRN"
+          <FormThreeRelatedSelectInput
+            QUERY_NAME_C="GET_ARTICLES_BY_MRN"
+            QUERY_NAME_D="GET_SUB_ARTICLES_BY_Article"
             form={form}
-            related_endpoint={API_ARTICLES_ENDPOINT}
+            related_endpointC={API_ARTICLES_ENDPOINT}
+            related_endpointD={API_SOUSARTICLES_ENDPOINT}
             labelP="Mrn"
             labelC="Article"
             nameC="article"
             nameP="gros"
-            related_attribute="gros__id"
+            related_attributeC="gros__id"
+            related_attributeD="tc__article__id"
             option_labelC="numero"
             option_labelP="gros"
             option_valueC="id"
@@ -92,10 +96,26 @@ const AUForm: React.FC<AUFormProps> = ({
             optionsP={mrn?.results}
             requiredC
             requiredP
+            requiredD
             spanC={24}
             spanP={24}
+            spanD={24}
             span_mdC={12}
             span_mdP={12}
+            span_mdD={12}
+            labelD="Sous Article"
+            nameD="sous_article"
+            option_labelD="numero"
+            option_valueD="id"
+
+          />
+             <FormField
+            label="Badge"
+            name="badge"
+            type="text"
+            required
+            span={24}
+            span_md={12}
           />
           <FormField
             label="Transitaire"
@@ -130,14 +150,7 @@ const AUForm: React.FC<AUFormProps> = ({
               { label: "Visite D41", value: "Visite D41" },
             ]}
           />
-          <FormField
-            label="Badge"
-            name="badge"
-            type="text"
-            required
-            span={24}
-            span_md={24}
-          />
+       
         </Row>
       </FormObject>
     </DraggableModel>

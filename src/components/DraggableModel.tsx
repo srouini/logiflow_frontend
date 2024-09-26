@@ -2,7 +2,7 @@ import React, { useRef, useState, useCallback } from "react";
 import { Button, Modal } from "antd";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
-import { PlusOutlined } from "@ant-design/icons";
+import { BorderBottomOutlined, PlusOutlined } from "@ant-design/icons";
 
 interface Props {
   children?: React.ReactNode;
@@ -101,6 +101,9 @@ const DraggableModel: React.FC<Props> = ({
       {renderOpenButton()}
       
       <Modal
+      
+      closable
+
         title={
           <div
             style={{ width: "100%", cursor: "move" }}

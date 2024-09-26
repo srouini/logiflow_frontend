@@ -5,6 +5,7 @@ import { renderText } from "@/utils/functions";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
 import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
+import AUFormPosition from "./components/AUFormPosition";
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
@@ -12,6 +13,13 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     dataIndex: "numero",
     key: "1",
     width: 100,
+  },
+  {
+    title: "Position",
+    key: "1.5",
+    dataIndex: "box",
+    width: 150,
+    render: (record:any) => <Tag color="green"> {renderText(record?.designation)}</Tag>
   },
   {
     title: "BL",
@@ -119,4 +127,6 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     ],
   },
 ];
+
+
 

@@ -2,8 +2,7 @@ import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
 import { Col, Row } from "antd";
 import { renderDate, renderText } from "@/utils/functions";
-import DetailsButton from "@/components/DetailsButton";
-import { API_BULLETINS_ENDPOINT, API_VISITES_ENDPOINT } from "@/api/api";
+import { API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
 import Print from "@/components/Print";
@@ -11,15 +10,9 @@ import Print from "@/components/Print";
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Numero",
-    dataIndex: "numero",
+    dataIndex: "visite",
     key: "1",
     width: 200,
-    render: (_, record) => (
-      <DetailsButton
-        text={record?.visite}
-        navigate_to={`/visites/ordinaire/${record?.id}`}
-      />
-    ),
   },
   {
     title: "Date Visite",
@@ -39,6 +32,13 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     title: "Article",
     key: "4",
     dataIndex: "article",
+    width: 100,
+    render: (record: any) => renderText(record?.numero),
+  },
+  {
+    title: "Sous Article",
+    key: "4",
+    dataIndex: "sous_article",
     width: 100,
     render: (record: any) => renderText(record?.numero),
   },
@@ -66,7 +66,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     title: "Actions",
     valueType: "option",
     key: "8",
-    width: 120,
+    width: 140,
     fixed: "right",
     render: (_, record: any) => [
       <TableDropdown
@@ -75,17 +75,16 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
           <Row gutter={8}>
             <Col>
               <Print
-                endpoint={API_VISITES_ENDPOINT}
+                endpoint={API_VISITESGROUPAGE_ENDPOINT}
                 endpoint_suffex="generate_pdf/"
                 id={record?.id}
                 key={record?.id}
                 type="View"
-                disabled={!record?.validated}
               />
             </Col>
             <Col>
               <Delete
-                url={API_VISITES_ENDPOINT}
+                url={API_VISITESGROUPAGE_ENDPOINT}
                 id={record?.id}
                 refetch={refetch}
                 class_name="Bulletin"
@@ -93,7 +92,6 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 link={false}
                 text=""
                 has_icon
-                disabled={record?.validated}
               />
             </Col>
             <Col>
@@ -103,7 +101,6 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 editText=""
                 hasIcon
                 gros={record?.gros}
-                disabled={record?.validated}
               />
             </Col>
           </Row>,

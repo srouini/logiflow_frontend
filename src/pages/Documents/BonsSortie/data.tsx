@@ -75,6 +75,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
             <Col>
             <Print
                 endpoint={API_BONS_SORTIE_ENDPOINT}
+                endpoint_suffex="generate_pdf/"
                 id={record?.id}
                 key={record?.id}
                 type="Download"
@@ -83,6 +84,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
             <Col>
             <Print
                 endpoint={API_BONS_SORTIE_ENDPOINT}
+                endpoint_suffex="generate_pdf/"
                 id={record?.id}
                 key={record?.id}
                 type="View"

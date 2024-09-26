@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Button, Divider, Drawer } from "antd";
+import { useEffect, useState } from "react";
+import { Button, Divider, Drawer, message, Segmented } from "antd";
 import { Container } from "@/types/data";
 import { ProDescriptions } from "@ant-design/pro-components";
 import CustomTable from "@/components/CustomTable";
@@ -9,6 +9,9 @@ import usePage from "@/hooks/usePage";
 import { getColumns } from "./data";
 import useLoading from "@/hooks/useLoading";
 import AUForm from "./components/AUForm";
+import usePost from "@/hooks/usePost";
+import { TableSelectionType } from "@/types/antdeing";
+import { useReferenceContext } from "@/context/ReferenceContext";
 
 interface SubArticlePageProps {
   container: Container;
@@ -18,6 +21,10 @@ interface SubArticlePageProps {
 export default ({ container, columns }: SubArticlePageProps) => {
   const [open, setOpen] = useState(false);
 
+  const {box} = useReferenceContext()
+  useEffect(() => {
+    box?.fetch();
+  },[])
   const showDrawer = () => {
     setOpen(true);
   };
@@ -42,19 +49,58 @@ export default ({ container, columns }: SubArticlePageProps) => {
       search: search,
       page: page,
       page_size: getPageSize(),
-      expand: "client,transitaire",
+      expand: "client,transitaire,box",
       tc__id: container?.id,
     },
   });
 
   const { isLoading } = useLoading({loadingStates: [ isLoadingData, isRefetching, isFetching] });
 
+
+  const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
+  const rowSelectionFunction: TableSelectionType = {
+    // @ts-ignore
+    onChange(selectedRowKeys, selectedRows, info) {
+      setSelectedRows(selectedRowKeys);
+    },
+  };
+
+  const onSuccess = () => {
+    message.success("Submission successful");
+    refetch();
+  };
+
+  const { mutate } = usePost({
+    onSuccess: onSuccess,
+    endpoint: API_SOUSARTICLES_ENDPOINT+ "bulk_update_box/",
+  });
+
+  const handleContainerType = (values: any) => {
+    mutate({
+      ids: selectedRows,
+      box_id: values,
+    });
+  };
+
+  const RowSelectionRnder = (
+    <>
+      Type:
+      <Segmented
+        options={box?.results}
+        onChange={handleContainerType}
+        allowFullScreen
+        defaultValue={false}
+      />
+    </>
+  );
+
+
   return (
     <>
       <Button onClick={showDrawer}>{container?.tc}</Button>
 
       <Drawer
-        width={900}
+        width={1000}
         placement="right"
         closable={false}
         onClose={onClose}
@@ -84,6 +130,8 @@ export default ({ container, columns }: SubArticlePageProps) => {
           setPageSize={setPageSize}
           setSearch={setSearch}
           key="SUB_ARTICLES_TABLE"
+          rowSelectionFunction={rowSelectionFunction}
+          RowSelectionRnder={RowSelectionRnder}
           headerTitle={
             <AUForm refetch={refetch} tc={container?.id} initialvalues={null} />
           }

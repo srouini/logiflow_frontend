@@ -6,7 +6,7 @@ const useScreenSize = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1920) {
+      if (window.innerWidth >= 1800) {
         setSize("middle");
       } else {
         setSize("small");

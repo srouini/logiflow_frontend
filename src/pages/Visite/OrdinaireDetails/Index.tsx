@@ -107,6 +107,7 @@ export default () => {
         extra: [
           <Print
             endpoint={API_VISITES_ENDPOINT}
+            endpoint_suffex="generate_pdf/"
             id={selectedRecord?.data?.id}
             key={selectedRecord?.data?.id}
             type="View"
@@ -115,7 +116,7 @@ export default () => {
           <Button
             type="default"
             icon={<CloudUploadOutlined />}
-            disabled={selectedRecord?.data?.validated}
+            disabled={dataVisiteItems?.data?.count === 0 || selectedRecord?.data?.validated}
             loading={visite_is_patshing}
             onClick={handleBulltinValidation}
           >

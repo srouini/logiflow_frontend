@@ -6,6 +6,7 @@ import DetailsButton from "@/components/DetailsButton";
 import { API_ARTICLES_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
+import Print from "@/components/Print";
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
@@ -20,6 +21,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
       />
     ),
   },
+  
   {
     title: "BL",
     key: "2",
@@ -34,6 +36,20 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     width: 120,
     render: (record: any) =>
       record ? <Tag color="blue"> Groupage </Tag> : <Tag> Ordinaire </Tag>,
+  },
+  {
+    title: "Depoté",
+    key: "7",
+    width: 100,
+    dataIndex: "depote",
+    render: (_, record: any) =>
+      record.depote && record.groupage ? (
+        <Tag color="green"> Depté </Tag>
+      ) : record.groupage ? (
+        <Tag color="red"> Non depoté </Tag>
+      ) : (
+        "-"
+      ),
   },
   {
     title: "Client",
@@ -57,20 +73,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     dataIndex: "transitaire",
     render: (record: any) => renderText(record?.raison_sociale),
   },
-  {
-    title: "Depoté",
-    key: "7",
-    width: 100,
-    dataIndex: "depote",
-    render: (_, record: any) =>
-      record.depote && record.groupage ? (
-        <Tag color="green"> Depté </Tag>
-      ) : record.groupage ? (
-        <Tag color="red"> Non depoté </Tag>
-      ) : (
-        "-"
-      ),
-  },
+ 
   {
     title: "Date dépotage",
     dataIndex: "date_depotage",
@@ -83,7 +86,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     valueType: "option",
     key: "9",
     fixed:"right",
-    width: 100,
+    width: 202,
     render: (_, record: any) => [
       <TableDropdown
         key="actionGroup"
@@ -109,6 +112,9 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 editText=""
                 hasIcon
               />
+            </Col>
+            <Col>
+            <Print type="View" endpoint={API_ARTICLES_ENDPOINT} disabled={!record?.groupage} id={record?.id} endpoint_suffex="generate_ticktage/" button_text="Ticktage"/>
             </Col>
           </Row>,
         ]}
