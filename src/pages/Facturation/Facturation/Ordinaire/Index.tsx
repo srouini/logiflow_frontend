@@ -15,7 +15,7 @@ import Factures from "./components/Factures/Index"
 import Proformas from "./components/Proformas/Index"
 import Commandes from "./components/Commandes/Index"
 import Visites from "./components/Visites/Index"
-
+import PrestationsOccasionnelle from "./components/PrestationsOccasionelle/Index";
 export default () => {
   const { id } = useParams();
 
@@ -116,6 +116,11 @@ export default () => {
               label: `Commandes`,
               key: 'commandes',
               children: <Commandes id={id}/>,
+            },
+            {
+              label: `Préstations occasionnelle`,
+              key: 'prestation_occasionnelle',
+              children: <PrestationsOccasionnelle id={id}/>,
             },
           ],
           onChange: (key) => {

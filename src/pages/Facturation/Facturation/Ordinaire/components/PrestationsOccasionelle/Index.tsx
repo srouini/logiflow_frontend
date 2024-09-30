@@ -17,7 +17,7 @@ export default ({ id }: Props) => {
     endpoint: API_PRESTATIONS_OCCASIONNELLE_ENDPOINT,
     name: `GET_PRESTATIONS_OCCASIONNELLE_${id}`,
     params: {
-      expand: "type_tc,current_scelle",
+      expand: "tc",
       tc__article__id: id,
       all: true,
     },
@@ -25,7 +25,7 @@ export default ({ id }: Props) => {
 
   return (
     <ProTable<any>
-      headerTitle="Proformas"
+      headerTitle="Prestations Occasionnelle"
       options={{ reload: refetch }}
       columns={getColumns()}
       loading={isLoading}
