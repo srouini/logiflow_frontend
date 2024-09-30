@@ -3,7 +3,7 @@ import { TableDropdown } from "@ant-design/pro-components";
 import { Col, Row } from "antd";
 import { renderDate, renderText } from "@/utils/functions";
 import DetailsButton from "@/components/DetailsButton";
-import { API_BULLETINS_ENDPOINT, API_VISITES_ENDPOINT } from "@/api/api";
+import { API_VISITES_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
 import Print from "@/components/Print";

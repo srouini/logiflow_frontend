@@ -3,11 +3,10 @@ import DraggableModel from "@/components/DraggableModel";
 import FormObject from "@/components/Form";
 import { Card, Col, Flex, Form, message, Row } from "antd";
 import usePost from "@/hooks/usePost";
-import { formatDate, mapInitialValues } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import FormField from "@/components/form/FormField";
-import { API_VISITES_ENDPOINT, API_VISITES_ITEMS_ENDPOINT } from "@/api/api";
-import { ArrowRightOutlined, EditOutlined, SwapRightOutlined } from "@ant-design/icons";
+import { API_VISITES_ITEMS_ENDPOINT } from "@/api/api";
+import { ArrowRightOutlined } from "@ant-design/icons";
 
 interface AUFormProps {
   refetch: () => void;

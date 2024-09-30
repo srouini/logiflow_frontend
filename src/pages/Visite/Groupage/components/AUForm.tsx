@@ -8,7 +8,6 @@ import { useReferenceContext } from "@/context/ReferenceContext";
 import FormField from "@/components/form/FormField";
 import { API_ARTICLES_ENDPOINT, API_SOUSARTICLES_ENDPOINT, API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import FormRelatedSelectInput from "@/components/form/FormRelatedSelectInput";
 import FormThreeRelatedSelectInput from "@/components/form/FormThreeRelatedSelectInput";
 
 interface AUFormProps {

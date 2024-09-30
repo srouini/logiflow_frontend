@@ -11,18 +11,23 @@ import ChargementDetails from './pages/Rotation/chargementDetails';
 import MrnDetailsPage from './pages/Rotation/MrnDetails';
 import ArticleDetailsPage from './pages/Rotation/ArticleDetails';
 import Reception from "./pages/Rotation/Reception/index"
-import Facturation from "./pages/Facturation/Facturation/Index"
-import Visites from "./pages/Visite/Ordinaire/index"
-import VisitesDetails from "./pages/Visite/OrdinaireDetails/index"
+import Visites from "./pages/Visite/Ordinaire/Index"
+import VisitesDetails from "./pages/Visite/OrdinaireDetails/Index"
 import VisitesGroupage from "./pages/Visite/Groupage/Index"
 import Proformas from "./pages/Documents/Proformas/Index"
 import Factures from "./pages/Documents/Factures/Index"
 import BonsSortie from "./pages/Documents/BonsSortie/Index"
+import BonsCommande from "./pages/Facturation/BonsCommande/Index"
 import References from "./pages/Dashboard/References/Index"
 import ReceptionDetails from './pages/Rotation/ReceptionDetails/index';
 import ProformasGroupage from "./pages/DocumentsGroupage/Proformas/Index"
 import FacturesGroupage from "./pages/DocumentsGroupage/Factures/Index"
 import BonsSortieGroupage from "./pages/DocumentsGroupage/BonsSortie/Index"
+import FacturationMrnsPage from "./pages/Facturation/Mrns/Index"
+import FacturationMrnsDetailsPage from "./pages/Facturation/MrnDetails/Index"
+import FacturationGroupage from "./pages/Facturation/Facturation/Goupage/Index"
+import FacturationOrdinaire from "./pages/Facturation/Facturation/Ordinaire/Index"
+import FacturationArticleDetailsPage from "./pages/Facturation/ArticleDetails/Index"
 
 const AppRoutes = () => (
   <Router>
@@ -41,7 +46,11 @@ const AppRoutes = () => (
         <Route path="/rotations/mrns/articles/:id" element={<ArticleDetailsPage />} />
         <Route path="/rotations/reception" element={<Reception />} />
         <Route path="/rotations/reception/:id" element={<ReceptionDetails />} />
-        <Route path="/facturation/facturation" element={<Facturation />} />
+        <Route path="/facturation" element={<FacturationMrnsPage />} />
+        <Route path="/facturation/mrns/:id" element={<FacturationMrnsDetailsPage />} />
+        <Route path="/facturation/mrns/articles/:id" element={<FacturationArticleDetailsPage />} />
+        <Route path="/facturation/mrns/articles/:id/groupage" element={<FacturationGroupage />} />
+        <Route path="/facturation/mrns/articles/:id/ordinaire" element={<FacturationOrdinaire />} />
         <Route path="/visites/ordinaire" element={<Visites />} />
         <Route path="/visites/ordinaire/:id" element={<VisitesDetails />} />
         <Route path="/visites/groupage" element={<VisitesGroupage />} />
@@ -51,6 +60,7 @@ const AppRoutes = () => (
         <Route path="/documents/proformas" element={<Proformas />} />
         <Route path="/documentsgroupage/bonsorties" element={<BonsSortieGroupage />} />
         <Route path="/documents/bonsorties" element={<BonsSortie />} />
+        <Route path="/boncommande" element={<BonsCommande />} />
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />

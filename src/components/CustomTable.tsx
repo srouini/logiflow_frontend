@@ -11,7 +11,7 @@ type CustomTableProps = {
     options?: RefetchOptions
   ) => Promise<QueryObserverResult<AxiosResponse<any, any> | undefined, Error>>;
   data: AxiosResponse<any, any> | undefined;
-  setSearch: (value: React.SetStateAction<string>) => void;
+  setSearch: ((value: React.SetStateAction<string>) => void) | null;
   getPageSize?: () => number;
   setPageSize?: (pageSize: number) => void;
   setPage?: (value: React.SetStateAction<number>) => void;
@@ -47,12 +47,12 @@ const CustomTable: React.FC<CustomTableProps> = ({
       setting: {
         listsHeight: 400,
       },
-      search: {
+      search: setSearch !== null ? {
         onSearch(keyword: any) {
           setSearch(keyword);
         },
         allowClear: true,
-      },
+      } : null,
       fullScreen: true,
     }),
     [refetch, setSearch]
@@ -83,7 +83,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
         pageSizeOptions: [10, 20, 30, 100],
         showSizeChanger: true,
         onChange: (page: number, pageSize: number) => {
+          // @ts-ignore
           setPageSize(pageSize);
+          // @ts-ignore
           setPage(page);
           refetch();
         },

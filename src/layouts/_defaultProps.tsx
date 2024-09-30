@@ -24,11 +24,13 @@ export default {
       },
 
       {
-        path: '/facturation',
+        path: '/billing',
         name: 'Facturation',
-        children: [
-          { path: '/facturation/facturation', name: 'Facturation' },
+          children: [
+          { path: '/facturation', name: 'Facturation' },
+          { path: '/boncommande', name: 'Bon Commande' },
         ],
+       
       },
       {
         path: '/visites',
@@ -45,6 +47,7 @@ export default {
           { path: '/documents/factures', name: 'Factures' },
           { path: '/documents/Proformas', name: 'Proformas' },
           { path: '/documents/bonsorties', name: 'Bon Sortie' },
+          { path: '/documents/boncommande', name: 'Bon Commande' },
         ],
       },
       {

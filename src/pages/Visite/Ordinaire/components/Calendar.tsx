@@ -61,6 +61,7 @@ export default () => {
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
 
+  // @ts-ignore
   const onChange: DatePickerProps["onChange"] = (date,stringDate) => {
     if(stringDate)
     setSelectedDate(stringDate);

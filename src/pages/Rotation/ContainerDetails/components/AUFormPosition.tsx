@@ -7,10 +7,7 @@ import { mapInitialValues } from "../../../../utils/functions";
 import { useReferenceContext } from "../../../../context/ReferenceContext";
 import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
-import { YES_NO_CHOICES } from "@/utils/constants";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { columns } from "../data";
-import { ProDescriptions } from "@ant-design/pro-components";
 
 interface AUFormProps {
   refetch: () => void;

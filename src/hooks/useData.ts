@@ -1,5 +1,6 @@
 import { useAxios } from "./useAxios";
 import { useQuery } from "@tanstack/react-query";
+import useLoading from "./useLoading";
 
 type useDataProps = {
   name: string;
@@ -12,7 +13,7 @@ type useDataProps = {
 const useData = ({ params, name,endpoint,refetchInterval,enabled=true }: useDataProps) => {
   const api = useAxios();
 
-  const { refetch, data, isLoading, isRefetching, isFetching } =  useQuery({
+  const { refetch, data, isLoading:isLoadingData, isRefetching, isFetching } =  useQuery({
     queryKey: [name, params],
     queryFn: () => {
       try {
@@ -24,10 +25,13 @@ const useData = ({ params, name,endpoint,refetchInterval,enabled=true }: useData
       }
     },
     ...(refetchInterval ? { refetchInterval } : {}),
-  enabled:enabled,
-  refetchOnMount: false,  // Don't refetch when component mounts
-  refetchOnWindowFocus: false,
+  enabled:enabled,  // Don't refetch when component mounts
   });
+
+  const { isLoading:isLoading } = useLoading({
+    loadingStates: [isLoadingData, isRefetching, isFetching],
+  });
+
 
   return { refetch, data, isLoading, isRefetching, isFetching };
 };

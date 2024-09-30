@@ -53,7 +53,6 @@ export const renderMoney = (value: any) => {
     initialValues: InitialValues
   ): InitialValues => {
     const mappedValues: InitialValues = {};
-  
     if (!initialValues) {
       return mappedValues; // Return an empty object if initialValues is null or undefined
     }
@@ -71,9 +70,9 @@ export const renderMoney = (value: any) => {
       else if (
         value &&
         typeof value === "string" &&
-        dayjs(value, "YYYY-MM-DDTHH:mm:ssZ", true).isValid()
+        dayjs(value, "YYYY-MM-DDTHH:mm:ssZ", false).isValid()
       ) {
-        mappedValues[key] = dayjs(value); // Use dayjs directly to parse the datetime
+        mappedValues[key] = dayjs(value,"YYYY-MM-DDTHH:mm:ss"); // Use dayjs directly to parse the datetime
       }
       // Handle nested objects with an 'id' field
       else if (value && typeof value === "object" && "id" in value) {

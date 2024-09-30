@@ -1,4 +1,4 @@
-import { API_PRINT_SELCTED_DATE_VISITES_ENDPOINT, API_PRINT_SELCTED_DATE_VISITES_GROUPAGE_ENDPOINT, API_VISITES_ENDPOINT, API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
+import { API_PRINT_SELCTED_DATE_VISITES_GROUPAGE_ENDPOINT, API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
 import Print from "@/components/Print";
 import { useAxios } from "@/hooks/useAxios";
 import useData from "@/hooks/useData";
@@ -62,6 +62,7 @@ export default () => {
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
 
+  // @ts-ignore
   const onChange: DatePickerProps["onChange"] = (date,stringDate) => {
     if(stringDate)
     setSelectedDate(stringDate);

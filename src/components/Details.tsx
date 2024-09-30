@@ -1,7 +1,6 @@
 import { ProDescriptions, ProSkeleton } from "@ant-design/pro-components";
 
 const Details = ({ dataSource, isLoading,DetailsColumns }: any) => {
-  console.log(dataSource)
   return (
     <>
     {isLoading && <div style={{marginBottom:"20px"}}><ProSkeleton type="list" list={false} toolbar={false}  statistic={1}   /></div>}

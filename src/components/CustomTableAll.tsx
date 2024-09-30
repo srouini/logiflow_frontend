@@ -10,6 +10,7 @@ type CustomTableAllProps = {
   refetch: (
     options?: RefetchOptions
   ) => Promise<QueryObserverResult<AxiosResponse<any, any> | undefined, Error>>;
+  options?:boolean,
   data: AxiosResponse<any, any> | undefined;
   isLoading: boolean;
   headerTitle?: string | React.ReactNode;
@@ -31,6 +32,7 @@ const CustomTable: React.FC<CustomTableAllProps> = ({
   RowSelectionRnder,
   scrollX = 1200,
   scrollY,
+  options=true
 }) => {
   // Memoize table options to avoid unnecessary recalculations
   const tableOptions: any = useMemo(
@@ -41,6 +43,7 @@ const CustomTable: React.FC<CustomTableAllProps> = ({
       },
      
       fullScreen: true,
+
     }),
     [refetch]
   );
@@ -58,9 +61,10 @@ const CustomTable: React.FC<CustomTableAllProps> = ({
           option: { fixed: "left" },
         },
       }}
+      pagination={false}
       rowKey={(item) => item?.id}
       search={false}
-      options={tableOptions}
+      options={options ? tableOptions : false}
       scroll={{ x: scrollX, y: scrollY }}
       loading={isLoading}
       revalidateOnFocus={true}

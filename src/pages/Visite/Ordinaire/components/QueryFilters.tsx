@@ -8,7 +8,6 @@ import {
 import { useEffect } from "react";
 import { selectConfig } from "@/utils/config";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { YES_NO_CHOICES } from "@/utils/constants";
 import {
   transformRangeDateFilter,
   transformSelectFilter,

@@ -2,8 +2,7 @@ import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
 import { Col, Row, Tag } from "antd";
 import { renderDate, renderText } from "@/utils/functions";
-import DetailsButton from "@/components/DetailsButton";
-import { API_BULLETINS_ENDPOINT, API_VISITES_ITEMS_ENDPOINT } from "@/api/api";
+import {  API_VISITES_ITEMS_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete"
 import { UnlockOutlined } from "@ant-design/icons";
 import Update from "./components/Update";
@@ -15,7 +14,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     dataIndex: "tc",
     key: "1",
     width: 200,
-    render: (record) => renderText(record?.tc)
+    render: (record:any) => renderText(record?.tc)
   },
   {
     title: "Type",

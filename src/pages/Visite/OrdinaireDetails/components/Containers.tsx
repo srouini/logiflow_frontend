@@ -2,8 +2,6 @@ import { API_VISITES_ENDPOINT } from "@/api/api";
 import CustomTableAll from "@/components/CustomTableAll";
 import useData from "@/hooks/useData";
 import useLoading from "@/hooks/useLoading";
-import usePage from "@/hooks/usePage";
-import { TableSelectionType } from "@/types/antdeing";
 import { renderText } from "@/utils/functions";
 import { AppstoreAddOutlined } from "@ant-design/icons";
 import { Button, Drawer, Tag } from "antd";
@@ -101,6 +99,7 @@ export default ({ visite, disabled,refetchVisiteItems }: props) => {
       dataIndex: "tc",
       fixed:"right",
       width: 120,
+      // @ts-ignore
       render: (_,record:any) => <AUForm tc={record} refetch={refetchVisiteItems} initialvalues={null} addText="" visite_id={visite} refetchNonVisitedContainers={refetch}/> 
     },
   ];

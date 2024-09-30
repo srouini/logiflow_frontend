@@ -2,7 +2,7 @@ import React, { useRef, useState, useCallback } from "react";
 import { Button, Modal } from "antd";
 import type { DraggableData, DraggableEvent } from "react-draggable";
 import Draggable from "react-draggable";
-import { BorderBottomOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 interface Props {
   children?: React.ReactNode;

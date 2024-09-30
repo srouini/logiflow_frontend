@@ -21,10 +21,10 @@ interface SubArticlePageProps {
 export default ({ container, columns }: SubArticlePageProps) => {
   const [open, setOpen] = useState(false);
 
-  const {box} = useReferenceContext()
+  const { box } = useReferenceContext();
   useEffect(() => {
     box?.fetch();
-  },[])
+  }, []);
   const showDrawer = () => {
     setOpen(true);
   };
@@ -54,8 +54,9 @@ export default ({ container, columns }: SubArticlePageProps) => {
     },
   });
 
-  const { isLoading } = useLoading({loadingStates: [ isLoadingData, isRefetching, isFetching] });
-
+  const { isLoading } = useLoading({
+    loadingStates: [isLoadingData, isRefetching, isFetching],
+  });
 
   const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
   const rowSelectionFunction: TableSelectionType = {
@@ -72,7 +73,7 @@ export default ({ container, columns }: SubArticlePageProps) => {
 
   const { mutate } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_SOUSARTICLES_ENDPOINT+ "bulk_update_box/",
+    endpoint: API_SOUSARTICLES_ENDPOINT + "bulk_update_box/",
   });
 
   const handleContainerType = (values: any) => {
@@ -86,14 +87,15 @@ export default ({ container, columns }: SubArticlePageProps) => {
     <>
       Type:
       <Segmented
-        options={box?.results}
+        options={box.results?.map((item: any) => {
+          return { label: item.designation, value: item.id };
+        })}
         onChange={handleContainerType}
         allowFullScreen
         defaultValue={false}
       />
     </>
   );
-
 
   return (
     <>

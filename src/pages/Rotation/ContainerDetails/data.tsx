@@ -5,7 +5,6 @@ import { renderText } from "@/utils/functions";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
 import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
-import AUFormPosition from "./components/AUFormPosition";
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {

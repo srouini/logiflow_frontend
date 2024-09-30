@@ -1,7 +1,7 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
 import { Col, Row, Tag } from "antd";
-import { renderDate, renderDateTime, renderText } from "@/utils/functions";
+import { renderDateTime, renderText } from "@/utils/functions";
 import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import SubArticlePage from "../ContainerDetails";
 import Delete from "@/components/Delete";
