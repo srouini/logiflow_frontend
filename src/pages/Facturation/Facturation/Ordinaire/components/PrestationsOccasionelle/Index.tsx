@@ -1,4 +1,4 @@
-import { API_FACTURE_ENDPOINT, API_PRFORMAS_ENDPOINT } from "@/api/api";
+import { API_PRESTATIONS_OCCASIONNELLE_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";
@@ -13,12 +13,12 @@ export default ({ id }: Props) => {
     data,
     isLoading,
     refetch,
-  } = useData({
-    endpoint: API_PRFORMAS_ENDPOINT,
-    name: `GET_PROFORMA_${id}`,
+  } =  useData({
+    endpoint: API_PRESTATIONS_OCCASIONNELLE_ENDPOINT,
+    name: `GET_PRESTATIONS_OCCASIONNELLE_${id}`,
     params: {
       expand: "type_tc,current_scelle",
-      article__id: id,
+      tc__article__id: id,
       all: true,
     },
   });

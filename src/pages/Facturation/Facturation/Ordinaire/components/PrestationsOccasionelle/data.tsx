@@ -1,94 +1,38 @@
 import { API_PRFORMAS_ENDPOINT } from "@/api/api";
 import Print from "@/components/Print";
-import { renderDate, renderMoney } from "@/utils/functions";
+import { renderDate, renderMoney, renderText } from "@/utils/functions";
 import { ProColumns, TableDropdown } from "@ant-design/pro-components";
 import { Row, Col, Tag } from "antd";
 
 export const getColumns = (): ProColumns<any>[] => [
   {
-    title: "Numéro",
-    dataIndex: "numero",
+    title: "Rubrique",
+    dataIndex: "rubrique",
     copyable: true,
-    width: 150,
+    width: 300,
     key: "1",
   },
   {
-    title: "Etat",
-    dataIndex: "valide",
-    width: 150,
+    title: "Conteneur",
+    dataIndex: "tc",
+    width: 200,
     key: "2",
-    render: (_, record: any) =>
-      record?.trashed ? (
-        <Tag> Annulé </Tag>
-      ) : record?.valide ? (
-        <Tag color="green"> Valide </Tag>
-      ) : (
-        <Tag color="red">Non Valide</Tag>
-      ),
+    render: (record: any) => renderText(record?.tc)
+      
   },
   {
     title: "Date",
-    dataIndex: "date_proforma",
+    dataIndex: "date",
     key: "5",
     render: (record) => renderDate(record),
-    width: 100,
+    width: 200,
   },
 
   {
-    title: "HT",
-    dataIndex: "HT",
+    title: "Montant",
+    dataIndex: "prix",
     key: "7",
     render: (record: any) => renderMoney(record),
-    width: 150,
-  },
-  {
-    title: "TVA",
-    dataIndex: "TVA",
-    key: "8",
-    render: (record: any) => renderMoney(record),
-    width: 150,
-  },
-  {
-    title: "TTC",
-    dataIndex: "TTC",
-    key: "9",
-    render: (record: any) => renderMoney(record),
-    width: 150,
-  },
-  {
-    title: "Actions",
-    valueType: "option",
-    key: "10",
-    align: "center",
-    width: 60,
-    fixed: "right",
-    render: (_, record: any) => [
-      <TableDropdown
-        key="actionGroup"
-        style={{ justifyItems: "center" }}
-        children={[
-          <Row gutter={8}>
-            <Col>
-              <Print
-                endpoint={API_PRFORMAS_ENDPOINT}
-                id={record?.id}
-                endpoint_suffex="generate_pdf/"
-                key={record?.id}
-                type="Download"
-              />
-            </Col>
-            <Col>
-              <Print
-                endpoint={API_PRFORMAS_ENDPOINT}
-                id={record?.id}
-                endpoint_suffex="generate_pdf/"
-                key={record?.id}
-                type="View"
-              />
-            </Col>
-          </Row>,
-        ]}
-      />,
-    ],
+    width: 200,
   },
 ];
