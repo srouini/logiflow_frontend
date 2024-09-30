@@ -35,20 +35,6 @@ export default () => {
 
 
   const {
-    data: prestationsOccasionnelle,
-    isLoading: isLoadingPrestationsOccasionnelle,
-    refetch: refetchPrestationsOccasionnelle,
-  } = useData({
-    endpoint: API_PRESTATIONS_OCCASIONNELLE_ENDPOINT,
-    name: `GET_PRESTATIONS_OCCASIONNELLE_${id}`,
-    params: {
-      expand: "type_tc,current_scelle",
-      tc__article__id: id,
-      all: true,
-    },
-  });
-
-  const {
     data: facturesAvoires,
     isLoading: isLoadingFacturesAvoires,
     refetch: refetchFacturesAvoires,
