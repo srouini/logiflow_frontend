@@ -1,21 +1,19 @@
 import { PageContainer, ProCard } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
-import {
-  API_ARTICLES_ENDPOINT,
-  API_FACTURES_AVOIRE_ENDPOINT,
-  API_FACTURES_COMPLIMENTAIRE_ENDPOINT,
-  API_PRESTATIONS_OCCASIONNELLE_ENDPOINT,
-} from "@/api/api";
+import { API_ARTICLES_ENDPOINT } from "@/api/api";
 import { breadcrumb } from "./data";
 import { useParams } from "react-router";
 import Details from "@/components/Details";
 import { DetailsColumns } from "./data";
 import { useState } from "react";
-import Factures from "./components/Factures/Index"
-import Proformas from "./components/Proformas/Index"
-import Commandes from "./components/Commandes/Index"
-import Visites from "./components/Visites/Index"
+import Factures from "./components/Factures/Index";
+import Proformas from "./components/Proformas/Index";
+import Commandes from "./components/Commandes/Index";
+import Visites from "./components/Visites/Index";
 import PrestationsOccasionnelle from "./components/PrestationsOccasionelle/Index";
+import FactureAvoire from "./components/FacturesAvoire/Index"
+import FactureComplementaire from "./components/FacturesComplementaire/Index";
+
 export default () => {
   const { id } = useParams();
 
@@ -32,81 +30,60 @@ export default () => {
     },
   });
 
-
-
-  const {
-    data: facturesAvoires,
-    isLoading: isLoadingFacturesAvoires,
-    refetch: refetchFacturesAvoires,
-  } = useData({
-    endpoint: API_FACTURES_AVOIRE_ENDPOINT,
-    name: `GET_FACTURES_AVOIRE_${id}`,
-    params: {
-      expand: "facture",
-      facture__proforma__article__id: id,
-      all: true,
-    },
-  });
-
-  const {
-    data: facturesComplimentaire,
-    isLoading: isLoadingFacturesComplimentaire,
-    refetch: refetchFacturesComplimentaire,
-  } = useData({
-    endpoint: API_FACTURES_COMPLIMENTAIRE_ENDPOINT,
-    name: `GET_FACTURES_COMPLIMENTAIRE_${id}`,
-    params: {
-      expand: "facture",
-      facture__proforma__article__id: id,
-      all: true,
-    },
-  });
-
-  const [tab, setTab] = useState('factures');
+  const [tab, setTab] = useState("factures");
   return (
     <PageContainer
-    contentWidth="Fluid"
-    header={{
-      breadcrumb: breadcrumb,
-      title: `Article ${selectedArticleData?.data?.numero}`,
-      extra: [],
-    }}
-  >
-     <Details
-         dataSource={selectedArticleData?.data}
-         isLoading={isLoadingArticle || isRefetchingArticle}
+      contentWidth="Fluid"
+      header={{
+        breadcrumb: breadcrumb,
+        title: `Article ${selectedArticleData?.data?.numero}`,
+        extra: [],
+      }}
+    >
+      <Details
+        dataSource={selectedArticleData?.data}
+        isLoading={isLoadingArticle || isRefetchingArticle}
         DetailsColumns={DetailsColumns}
-       />
-    <ProCard
-  
+      />
+      <ProCard
         tabs={{
-          tabPosition:"top",
+          tabPosition: "top",
           activeKey: tab,
           items: [
             {
               label: `Factures`,
-              key: 'factures',
+              key: "factures",
               children: <Factures id={id} />,
             },
             {
               label: `Proformas`,
-              key: 'proformas',
+              key: "proformas",
               children: <Proformas id={id} />,
             },
             {
               label: `Visites`,
-              key: 'visites',
-              children: <Visites id={id}/>,
+              key: "visites",
+              children: <Visites id={id} />,
             },
             {
               label: `Commandes`,
-              key: 'commandes',
-              children: <Commandes id={id}/>,
+              key: "commandes",
+              children: <Commandes id={id} />,
             },
             {
               label: `Préstations occasionnelle`,
-              key: 'prestation_occasionnelle',
-              children: <PrestationsOccasionnelle id={id}/>,
+              key: "prestation_occasionnelle",
+              children: <PrestationsOccasionnelle id={id} />,
+            },
+            {
+              label: `Facture Complementaire`,
+              key: "facture_complementaire",
+              children: <FactureComplementaire id={id} />,
+            },
+            {
+              label: `Facture Avoire`,
+              key: "facture_avoire",
+              children: <FactureAvoire id={id} />,
             },
           ],
           onChange: (key) => {
@@ -114,7 +91,6 @@ export default () => {
           },
         }}
       />
-      </PageContainer>
-
+    </PageContainer>
   );
 };

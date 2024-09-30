@@ -26,6 +26,7 @@ export default ({ id }: Props) => {
   return (
     <ProTable<any>
       headerTitle="Prestations Occasionnelle"
+      // @ts-ignore
       options={{ reload: refetch }}
       columns={getColumns()}
       loading={isLoading}

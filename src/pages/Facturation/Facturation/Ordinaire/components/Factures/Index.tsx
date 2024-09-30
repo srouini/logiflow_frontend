@@ -26,6 +26,7 @@ export default ({ id }: Props) => {
   return (
     <ProTable<any>
       headerTitle="Factures"
+      // @ts-ignore
       options={{ reload: refetchFactures }}
       columns={getColumns()}
       loading={isLoadingFactures}
