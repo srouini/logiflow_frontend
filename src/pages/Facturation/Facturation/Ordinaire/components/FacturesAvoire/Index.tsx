@@ -1,4 +1,4 @@
-import { API_FACTURE_ENDPOINT } from "@/api/api";
+import { API_FACTURES_AVOIRE_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";
@@ -14,18 +14,18 @@ export default ({ id }: Props) => {
     isLoading: isLoadingFactures,
     refetch: refetchFactures,
   } = useData({
-    endpoint: API_FACTURE_ENDPOINT,
-    name: `GET_FACTURE_${id}`,
+    endpoint: API_FACTURES_AVOIRE_ENDPOINT,
+    name: `GET_FACTURES_AVOIRE_${id}`,
     params: {
-      expand: "proforma",
-      proforma__article__id: id,
+      expand: "facture",
+      facture__proforma__article__id: id,
       all: true,
     },
   });
 
   return (
     <ProTable<any>
-      headerTitle="Factures"
+      headerTitle="Factures Avoire"
       options={{ reload: refetchFactures }}
       columns={getColumns()}
       loading={isLoadingFactures}

@@ -1,8 +1,8 @@
-import { API_FACTURE_ENDPOINT } from "@/api/api"
+import { API_FACTURES_AVOIRE_ENDPOINT } from "@/api/api"
 import Print from "@/components/Print"
 import { renderDate, renderMoney, renderText } from "@/utils/functions"
 import { ProColumns, TableDropdown } from "@ant-design/pro-components"
-import { Col, Row, Tag } from "antd"
+import { Col, Row } from "antd"
 
 export const getColumns = (): ProColumns<any>[] => [
     {
@@ -13,11 +13,11 @@ export const getColumns = (): ProColumns<any>[] => [
       key:"1"
     },
     {
-      title: "Etat",
-      dataIndex: "numero",
+      title: "Facture",
+      dataIndex: "facture",
       width: 150,
       key:"2",
-      render:(_,record:any) => record?.paid ?  <Tag color="green"> Payée </Tag>: record?.a_terme ? <Tag>A Terme</Tag> : <Tag color="red">Non Payée</Tag>  
+      render:(record:any) => renderText(record?.numero)
     },
     {
       title: "Date",
@@ -25,13 +25,6 @@ export const getColumns = (): ProColumns<any>[] => [
       key:"5",
       render: record => renderDate(record),
       width: 100,
-    },
-    {
-      title: "Proforma",
-      dataIndex: "proforma",
-      key:"7",
-      render: (record:any) => renderText(record?.numero),
-      width: 150
     },
     {
       title: "HT",
@@ -44,13 +37,6 @@ export const getColumns = (): ProColumns<any>[] => [
       title: "TVA",
       dataIndex: "TVA",
       key:"9",
-      render: (record: any) => renderMoney(record),
-      width: 150
-    },
-    {
-      title: "Timber",
-      dataIndex: "timber",
-      key:"10",
       render: (record: any) => renderMoney(record),
       width: 150
     },
@@ -79,7 +65,7 @@ export const getColumns = (): ProColumns<any>[] => [
            [<Row gutter={8}>
               <Col>
               <Print
-                  endpoint={API_FACTURE_ENDPOINT}
+                  endpoint={API_FACTURES_AVOIRE_ENDPOINT}
                   endpoint_suffex="generate_pdf/"
                   id={record?.id}
                   key={record?.id}
@@ -88,7 +74,7 @@ export const getColumns = (): ProColumns<any>[] => [
               </Col>
               <Col>
               <Print
-                  endpoint={API_FACTURE_ENDPOINT}
+                  endpoint={API_FACTURES_AVOIRE_ENDPOINT}
                   endpoint_suffex="generate_pdf/"
                   id={record?.id}
                   key={record?.id}
