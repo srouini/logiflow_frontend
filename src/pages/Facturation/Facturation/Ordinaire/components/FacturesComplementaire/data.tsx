@@ -1,4 +1,4 @@
-import { API_FACTURE_ENDPOINT } from "@/api/api"
+import { API_FACTURES_COMPLIMENTAIRE_ENDPOINT } from "@/api/api"
 import Print from "@/components/Print"
 import { renderDate, renderMoney, renderText } from "@/utils/functions"
 import { ProColumns, TableDropdown } from "@ant-design/pro-components"
@@ -27,8 +27,8 @@ export const getColumns = (): ProColumns<any>[] => [
       width: 100,
     },
     {
-      title: "Proforma",
-      dataIndex: "proforma",
+      title: "Facture",
+      dataIndex: "facture",
       key:"7",
       render: (record:any) => renderText(record?.numero),
       width: 150
@@ -79,7 +79,7 @@ export const getColumns = (): ProColumns<any>[] => [
            [<Row gutter={8}>
               <Col>
               <Print
-                  endpoint={API_FACTURE_ENDPOINT}
+                  endpoint={API_FACTURES_COMPLIMENTAIRE_ENDPOINT}
                   endpoint_suffex="generate_pdf/"
                   id={record?.id}
                   key={record?.id}
@@ -88,7 +88,7 @@ export const getColumns = (): ProColumns<any>[] => [
               </Col>
               <Col>
               <Print
-                  endpoint={API_FACTURE_ENDPOINT}
+                  endpoint={API_FACTURES_COMPLIMENTAIRE_ENDPOINT}
                   endpoint_suffex="generate_pdf/"
                   id={record?.id}
                   key={record?.id}
