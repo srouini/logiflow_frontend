@@ -1,3 +1,4 @@
+import { BranchesOutlined, FieldTimeOutlined, FileDoneOutlined, FileProtectOutlined, SmileFilled, WindowsOutlined } from "@ant-design/icons";
 
 export default {
   route: {
@@ -6,8 +7,9 @@ export default {
       {
         path: '/dashboard',
         name: 'Dashboard',
+        icon: <WindowsOutlined />,
         children: [
-          { path: '/dashboard/dashboard', name: 'Dashboard' },
+          { path: '/dashboard/dashboard', name: 'Dashboard', icon: <SmileFilled />,},
           { path: '/dashboard/settings', name: 'Settings' },
           { path: '/dashboard/references', name: 'References' },
         ],
@@ -16,6 +18,7 @@ export default {
       {
         path: '/rotation',
         name: 'Rotations',
+        icon:<BranchesOutlined />,
         children: [
           { path: '/rotations/mrns', name: 'Mrns' },
           { path: '/rotations/chargement', name: 'Chargement' },
@@ -26,6 +29,7 @@ export default {
       {
         path: '/billing',
         name: 'Facturation',
+        icon:<FileProtectOutlined />,
           children: [
           { path: '/facturation', name: 'Facturation' },
           { path: '/boncommande', name: 'Bon Commande' },
@@ -35,6 +39,7 @@ export default {
       {
         path: '/visites',
         name: 'Visites',
+        icon:<FieldTimeOutlined />,
         children: [
           { path: '/visites/ordinaire', name: 'Ordinaire' },
           { path: '/visites/groupage', name: 'Groupage' },
@@ -43,16 +48,17 @@ export default {
       {
         path: '/documents',
         name: 'Documents',
+        icon:<FileDoneOutlined />,
         children: [
           { path: '/documents/factures', name: 'Factures' },
           { path: '/documents/Proformas', name: 'Proformas' },
           { path: '/documents/bonsorties', name: 'Bon Sortie' },
-          { path: '/documents/boncommande', name: 'Bon Commande' },
         ],
       },
       {
         path: '/documentsgroupage',
         name: 'Documents Groupage',
+        icon:<FileDoneOutlined />,
         children: [
           { path: '/documentsgroupage/factures', name: 'Factures' },
           { path: '/documentsgroupage/Proformas', name: 'Proformas' },

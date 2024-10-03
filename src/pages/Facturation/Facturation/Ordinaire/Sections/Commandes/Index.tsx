@@ -1,4 +1,4 @@
-import { API_FACTURE_ENDPOINT } from "@/api/api";
+import { API_COMMANDES_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";
@@ -7,30 +7,32 @@ import { PlusOutlined } from "@ant-design/icons";
 
 interface Props {
   id: string | undefined;
+  article?:any
 }
-export default ({ id }: Props) => {
+export default ({ id,article }: Props) => {
   const {
-    data: factures,
-    isLoading: isLoadingFactures,
-    refetch: refetchFactures,
+    data,
+    isLoading,
+    refetch,
   } = useData({
-    endpoint: API_FACTURE_ENDPOINT,
-    name: `GET_FACTURE_${id}`,
+    endpoint: API_COMMANDES_ENDPOINT,
+    name: `GET_COMMANDE_${id}`,
     params: {
-      expand: "proforma",
-      proforma__article__id: id,
+      expand: "bon_commande.article,tc",
+      bon_commande__article__id: id,
       all: true,
     },
   });
 
+
   return (
     <ProTable<any>
-      headerTitle="Factures"
+      headerTitle="Commandes"
       // @ts-ignore
-      options={{ reload: refetchFactures }}
+      options={{ reload: refetch }}
       columns={getColumns()}
-      loading={isLoadingFactures}
-      dataSource={factures?.data}
+      loading={isLoading}
+      dataSource={data?.data}
       toolbar={{
         actions: [
           <Button

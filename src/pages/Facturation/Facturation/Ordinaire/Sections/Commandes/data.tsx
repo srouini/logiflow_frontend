@@ -1,23 +1,22 @@
 import { API_BONS_COMMANDE_ENDPOINT } from "@/api/api"
 import Print from "@/components/Print"
-import { renderDate, renderMoney, renderText } from "@/utils/functions"
+import { renderText } from "@/utils/functions"
 import { ProColumns, TableDropdown } from "@ant-design/pro-components"
-import { Col, Row, Tag } from "antd"
+import { Col, Row } from "antd"
 
 export const getColumns = (): ProColumns<any>[] => [
   {
     title: "Numéro",
     dataIndex: "bon_commande",
-    copyable: true,
     width: 150,
     key:"1",
     render: (record:any) => renderText(record?.numero)
   },
   {
     title: "Article",
-    dataIndex: "article",
+    dataIndex: "bon_commande",
     key:"4",
-    render: (record:any) => renderText(record?.numero),
+    render: (record:any) => renderText(record?.article?.numero),
     width: 80,
   },
   {
@@ -46,7 +45,7 @@ export const getColumns = (): ProColumns<any>[] => [
     title: "Observation",
     dataIndex: "observation",
     key:"8",
-    render: (record: any) => renderMoney(record),
+    render: (record: any) => renderText(record),
     width: 150
   },
   

@@ -1,6 +1,6 @@
 import { API_PRFORMAS_ENDPOINT } from "@/api/api";
 import Print from "@/components/Print";
-import { renderDate, renderMoney } from "@/utils/functions";
+import { renderDate, renderDateTime, renderMoney, renderText } from "@/utils/functions";
 import { ProColumns, TableDropdown } from "@ant-design/pro-components";
 import { Row, Col, Tag } from "antd";
 
@@ -90,5 +90,76 @@ export const getColumns = (): ProColumns<any>[] => [
         ]}
       />,
     ],
+  },
+];
+
+export const DetailsColumns = [
+  {
+    title: "Mrn",
+    dataIndex: "gros",
+    key: "gros",
+    width: 100,
+    render: (record: any) => renderText(record?.gros),
+  },
+  {
+    title: "BL",
+    key: "bl",
+    dataIndex: "bl",
+    width: 150,
+    render: (record: any) => renderText(record),
+  },
+  {
+    title: "Client",
+    key: "client",
+    dataIndex: "client",
+    width: 300,
+    render: (record: any) => renderText(record?.raison_sociale),
+  },
+  {
+    title: "Groupage",
+    key: "groupage",
+    dataIndex: "groupage",
+    width: 120,
+    render: (record: any) =>
+      record ? <Tag color="blue"> Groupage </Tag> : <Tag> Ordinaire </Tag>,
+  },
+
+  {
+    title: "Depoté",
+    key: "depote",
+    width: 100,
+    dataIndex: "depote",
+    // @ts-ignore
+    render: (_, record: any) =>
+      record.depote && record.groupage ? (
+        <Tag color="green"> Depté </Tag>
+      ) : record.groupage ? (
+        <Tag color="red"> Non depoté </Tag>
+      ) : (
+        "-"
+      ),
+  },
+  {
+    title: "Date dépotage",
+    dataIndex: "date_depotage",
+    key: "date_depotage",
+    width: 150,
+    render: (record: any) => renderDateTime(record),
+  },
+
+  {
+    title: "Transitaire",
+    key: "transitaire",
+    width: 300,
+    dataIndex: "transitaire",
+    render: (record: any) => renderText(record?.raison_sociale),
+  },
+  {
+    title: "Designation",
+    key: "designation",
+    dataIndex: "designation",
+    ellipsis: true,
+    width: 350,
+    render: (record: any) => renderText(record),
   },
 ];

@@ -1,4 +1,4 @@
-import { API_FACTURES_COMPLIMENTAIRE_ENDPOINT } from "@/api/api";
+import { API_FACTURES_AVOIRE_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";
@@ -7,15 +7,16 @@ import { PlusOutlined } from "@ant-design/icons";
 
 interface Props {
   id: string | undefined;
+  article?:any
 }
-export default ({ id }: Props) => {
+export default ({ id,article }: Props) => {
   const {
     data: factures,
     isLoading: isLoadingFactures,
     refetch: refetchFactures,
   } = useData({
-    endpoint: API_FACTURES_COMPLIMENTAIRE_ENDPOINT,
-    name: `GET_FACTURES_COMPLIMENTAIRE_${id}`,
+    endpoint: API_FACTURES_AVOIRE_ENDPOINT,
+    name: `GET_FACTURES_AVOIRE_${id}`,
     params: {
       expand: "facture",
       facture__proforma__article__id: id,
@@ -23,10 +24,9 @@ export default ({ id }: Props) => {
     },
   });
 
-
   return (
     <ProTable<any>
-      headerTitle="Factures"
+      headerTitle="Factures Avoire"
       // @ts-ignore
       options={{ reload: refetchFactures }}
       columns={getColumns()}
@@ -50,4 +50,3 @@ export default ({ id }: Props) => {
     />
   );
 };
-

@@ -35,7 +35,7 @@ export default () => {
 
   const [settings] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
-    layout: "mix",
+    layout: "top",
     splitMenus: false,
     contentWidth: "Fluid",
     colorPrimary: "#FA541C",
@@ -130,9 +130,11 @@ export default () => {
                   <Col>
                     <span
                       style={{
-                        fontSize: "14pt",
+                        fontSize: "10pt",
                         fontWeight: "bolder",
                         fontStyle: "italic",
+                        opacity:"80%",
+                        paddingRight:"40px"
                       }}
                     >
                       LOGIFLOW
@@ -147,24 +149,11 @@ export default () => {
               if (_.isMobile) return defaultDom;
               return <>{defaultDom}</>;
             }}
-            menuFooterRender={(props) => {
-              if (props?.collapsed) return undefined;
-              return (
-                <div
-                  style={{
-                    textAlign: "center",
-                    paddingBlockStart: 12,
-                  }}
-                >
-                  <div>©2024 RAIL LOGISTIC</div>
-                  <div>by DSI</div>
-                </div>
-              );
-            }}
+           
             menuItemRender={(item, dom) => (
               <a
                 onClick={() => {
-                  navigate(item.path || "/admin/dashboard");
+                  navigate(item.path || "/");
                 }}
               >
                 {dom}

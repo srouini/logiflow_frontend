@@ -7,9 +7,9 @@ import { Col, Row } from "antd"
 export const getColumns = (): ProColumns<any>[] => [
     {
       title: "Numéro",
-      dataIndex: "numero",
+      dataIndex: "full_number",
       copyable: true,
-      width: 150,
+      width: 180,
       key:"1"
     },
     {

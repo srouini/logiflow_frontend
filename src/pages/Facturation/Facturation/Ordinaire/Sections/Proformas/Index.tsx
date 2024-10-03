@@ -1,32 +1,33 @@
-import { API_VISITES_ENDPOINT } from "@/api/api";
+import { API_PRFORMAS_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";
-import { Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+
+import AUForm from "./components/AUFormTwo";
 
 interface Props {
   id: string | undefined;
+  article?:any,
+  containers:any
 }
-export default ({ id }: Props) => {
+export default ({ id,article,containers }: Props) => {
   const {
     data,
     isLoading,
     refetch,
   } = useData({
-    endpoint: API_VISITES_ENDPOINT,
-    name: `GET_VISITES_${id}`,
+    endpoint: API_PRFORMAS_ENDPOINT,
+    name: `GET_PROFORMA_${id}`,
     params: {
-      expand:"transitaire",
+      expand: "type_tc,current_scelle",
       article__id: id,
       all: true,
     },
   });
 
-
   return (
     <ProTable<any>
-      headerTitle="Visites"
+      headerTitle="Proformas"
       // @ts-ignore
       options={{ reload: refetch }}
       columns={getColumns()}
@@ -34,15 +35,7 @@ export default ({ id }: Props) => {
       dataSource={data?.data}
       toolbar={{
         actions: [
-          <Button
-            key="primary"
-            type="primary"
-            onClick={() => {
-              alert("add");
-            }}
-            icon={<PlusOutlined />}
-            style={{ paddingLeft: "20px", paddingRight: "20px" }}
-          ></Button>,
+          <AUForm article={article} containers={containers} refetch={refetch} hasIcon initialvalues={null} addText="Proforma"/>,
         ],
       }}
       rowKey={(item) => item?.id}

@@ -1,4 +1,4 @@
-import { API_COMMANDES_ENDPOINT } from "@/api/api";
+import { API_VISITES_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";
@@ -7,18 +7,19 @@ import { PlusOutlined } from "@ant-design/icons";
 
 interface Props {
   id: string | undefined;
+  article?:any
 }
-export default ({ id }: Props) => {
+export default ({ id,article }: Props) => {
   const {
     data,
     isLoading,
     refetch,
   } = useData({
-    endpoint: API_COMMANDES_ENDPOINT,
-    name: `GET_COMMANDE_${id}`,
+    endpoint: API_VISITES_ENDPOINT,
+    name: `GET_VISITES_${id}`,
     params: {
-      expand: "bon_commande.article,tc",
-      bon_commande__article__id: id,
+      expand:"transitaire",
+      article__id: id,
       all: true,
     },
   });
@@ -26,7 +27,7 @@ export default ({ id }: Props) => {
 
   return (
     <ProTable<any>
-      headerTitle="Commandes"
+      headerTitle="Visites"
       // @ts-ignore
       options={{ reload: refetch }}
       columns={getColumns()}

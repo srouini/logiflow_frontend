@@ -1,27 +1,26 @@
 import { PageContainer, ProCard } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
-import { API_ARTICLES_ENDPOINT } from "@/api/api";
+import { API_ARTICLES_ENDPOINT, API_CONTENEURS_ENDPOINT } from "@/api/api";
 import { breadcrumb } from "./data";
 import { useParams } from "react-router";
 import Details from "@/components/Details";
 import { DetailsColumns } from "./data";
 import { useState } from "react";
-import Factures from "./components/Factures/Index";
-import Proformas from "./components/Proformas/Index";
-import Commandes from "./components/Commandes/Index";
-import Visites from "./components/Visites/Index";
-import PrestationsOccasionnelle from "./components/PrestationsOccasionelle/Index";
-import FactureAvoire from "./components/FacturesAvoire/Index"
-import FactureComplementaire from "./components/FacturesComplementaire/Index";
+import Factures from "./Sections/Factures/Index";
+import Proformas from "./Sections/Proformas/Index";
+import Commandes from "./Sections/Commandes/Index";
+import Visites from "./Sections/Visites/Index";
+import PrestationsOccasionnelle from "./Sections/PrestationsOccasionelle/Index";
+import FactureAvoire from "./Sections/FacturesAvoire/Index"
+import FactureComplementaire from "./Sections/FacturesComplementaire/Index";
 
 export default () => {
   const { id } = useParams();
 
   const {
-    data: selectedArticleData,
-    isLoading: isLoadingArticle,
-    isRefetching: isRefetchingArticle,
-    refetch: refetchSelectedArticle,
+    data,
+    isLoading,
+    isRefetching,
   } = useData({
     endpoint: API_ARTICLES_ENDPOINT + id + "/",
     name: `GET_SELECTED_ARTICLE_${id}`,
@@ -30,19 +29,33 @@ export default () => {
     },
   });
 
+  const {
+    data:tcs,
+    isLoading:isLoadingTcs,
+    refetch:refetchTcs,
+  } = useData({
+    endpoint: API_CONTENEURS_ENDPOINT,
+    name: `GET_PROFORMA_TCS`,
+    params: {
+      article__id: id,
+      all: true,
+    },
+  });
+
+
   const [tab, setTab] = useState("factures");
   return (
     <PageContainer
       contentWidth="Fluid"
       header={{
         breadcrumb: breadcrumb,
-        title: `Article ${selectedArticleData?.data?.numero}`,
+        title: `Article ${data?.data?.numero}`,
         extra: [],
       }}
     >
       <Details
-        dataSource={selectedArticleData?.data}
-        isLoading={isLoadingArticle || isRefetchingArticle}
+        dataSource={data?.data}
+        isLoading={isLoading || isRefetching}
         DetailsColumns={DetailsColumns}
       />
       <ProCard
@@ -53,37 +66,37 @@ export default () => {
             {
               label: `Factures`,
               key: "factures",
-              children: <Factures id={id} />,
+              children: <Factures id={id} article={data?.data}/>,
             },
             {
               label: `Proformas`,
               key: "proformas",
-              children: <Proformas id={id} />,
+              children: <Proformas id={id} article={data?.data} containers={tcs?.data}/>,
             },
             {
               label: `Visites`,
               key: "visites",
-              children: <Visites id={id} />,
+              children: <Visites id={id} article={data?.data}/>,
             },
             {
               label: `Commandes`,
               key: "commandes",
-              children: <Commandes id={id} />,
+              children: <Commandes id={id} article={data?.data}/>,
             },
             {
               label: `Préstations occasionnelle`,
               key: "prestation_occasionnelle",
-              children: <PrestationsOccasionnelle id={id} />,
+              children: <PrestationsOccasionnelle id={id} article={data?.data}/>,
             },
             {
               label: `Facture Complementaire`,
               key: "facture_complementaire",
-              children: <FactureComplementaire id={id} />,
-            },
+              children: <FactureComplementaire id={id} article={data?.data}/>,
+            }, 
             {
               label: `Facture Avoire`,
               key: "facture_avoire",
-              children: <FactureAvoire id={id} />,
+              children: <FactureAvoire id={id} article={data?.data}/>,
             },
           ],
           onChange: (key) => {

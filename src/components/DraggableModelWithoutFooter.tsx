@@ -21,7 +21,7 @@ interface Props {
   disabledModalOpenButton?: boolean;
 }
 
-const DraggableModel: React.FC<Props> = ({
+const DraggableModelWithoutFooter: React.FC<Props> = ({
   children,
   OkButtontext = "Ok",
   modalTitle,
@@ -96,6 +96,7 @@ const DraggableModel: React.FC<Props> = ({
 
       <Modal
         closable
+        footer={false}
         title={
           <div
             style={{ width: "100%", cursor: "move" }}
@@ -128,4 +129,4 @@ const DraggableModel: React.FC<Props> = ({
   );
 };
 
-export default DraggableModel;
+export default DraggableModelWithoutFooter;
