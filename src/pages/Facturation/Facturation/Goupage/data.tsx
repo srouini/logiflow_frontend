@@ -1,10 +1,6 @@
 import type { ProColumns } from "@ant-design/pro-components";
-import { TableDropdown } from "@ant-design/pro-components";
-import { Col, Row, Tag } from "antd";
+import { Tag } from "antd";
 import { renderDateTime, renderText } from "@/utils/functions";
-import { API_CONTENEURS_ENDPOINT } from "@/api/api";
-import Delete from "@/components/Delete";
-import AUForm from "./components/AUForm";
 
 export const getColumns = (): ProColumns<any>[] => [
   {

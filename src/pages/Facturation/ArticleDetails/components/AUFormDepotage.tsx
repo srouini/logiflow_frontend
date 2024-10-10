@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import DraggableModel from "../../../../../components/DraggableModel";
-import FormObject from "../../../../../components/Form";
+import DraggableModel from "@/components/DraggableModel";
+import FormObject from "@/components/Form";
 import { Form, message, Row } from "antd";
-import usePost from "../../../../../hooks/usePost";
-import { formatDateTime } from "../../../../../utils/functions";
-import { useReferenceContext } from "../../../../../context/ReferenceContext";
+import usePost from "@/hooks/usePost";
+import { formatDateTime } from "@/utils/functions";
+import { useReferenceContext } from "@/context/ReferenceContext";
 import { API_ARTICLES_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { UnlockOutlined } from "@ant-design/icons";

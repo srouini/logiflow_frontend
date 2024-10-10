@@ -1,8 +1,6 @@
-import { API_PRFORMAS_ENDPOINT } from "@/api/api";
-import Print from "@/components/Print";
+
 import { renderDate, renderMoney, renderText } from "@/utils/functions";
-import { ProColumns, TableDropdown } from "@ant-design/pro-components";
-import { Row, Col, Tag } from "antd";
+import { ProColumns } from "@ant-design/pro-components";
 
 export const getColumns = (): ProColumns<any>[] => [
   {

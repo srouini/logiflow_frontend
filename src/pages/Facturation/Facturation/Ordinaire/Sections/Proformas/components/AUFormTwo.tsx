@@ -1,32 +1,24 @@
-import { API_PRFORMAS_ENDPOINT } from '@/api/api';
+import { API_CONTENEURS_ENDPOINT, API_PRFORMAS_ENDPOINT } from '@/api/api';
 import FormField from '@/components/form/FormField';
+import useData from '@/hooks/useData';
 import usePost from '@/hooks/usePost';
 import { YES_NO_CHOICES } from '@/utils/constants';
-import { formatDate } from '@/utils/functions';
 import { PaperClipOutlined } from '@ant-design/icons';
 import {
   CheckCard,
   ProCard,
-  ProForm,
-  ProFormCheckbox,
-  ProFormDatePicker,
-  ProFormDateRangePicker,
-  ProFormDependency,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea,
   StepsForm,
 } from '@ant-design/pro-components';
 import { Button, Divider, Flex, message, Modal, Row } from 'antd';
-import { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface AUFormProps {
   article:any,
-  containers: any;
   refetch: () => void;
 }
 
-export default ({containers,article,refetch}:AUFormProps) => {
+export default ({article,refetch}:AUFormProps) => {
+  // @ts-ignore
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -42,21 +34,40 @@ export default ({containers,article,refetch}:AUFormProps) => {
     setIsModalOpen(false);
   };
 
-  const onSuccess = () => {
+  const onSuccess = async () => {
     message.success("Submission successful");
     setIsModalOpen(false);
-    refetch();
+    await refetch();
+    refetchTcs();
   };
+
+  useEffect(() => {
+  
+  },[refetch])
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
     endpoint: API_PRFORMAS_ENDPOINT,
   });
  
+  const {
+    data:containers,
+    refetch:refetchTcs,
+  } = useData({
+    endpoint: API_CONTENEURS_ENDPOINT,
+    name: `GET_PROFORMA_TCS`,
+    params: {
+      article__id: article.id,
+      all: true,
+      billed:false
+    },
+  });
+
+
   const [selectedContainers, setSelectedContainers] = useState([]);
   return (
     <>
-    <Button type="default" onClick={showModal}>
+    <Button type="default" onClick={showModal} disabled={containers?.data?.length === 0}>
     + Proforma
   </Button>
   <Modal title="+ Proforma" destroyOnClose width={600} footer={false} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
@@ -80,7 +91,7 @@ export default ({containers,article,refetch}:AUFormProps) => {
                   form?.resetFields();
                 }}
               >
-                rest
+                Reset
               </Button>,
               step > 0 && (
                 <Button
@@ -89,25 +100,27 @@ export default ({containers,article,refetch}:AUFormProps) => {
                     onPre?.();
                   }}
                 >
-                  pre
+                  Précédent
                 </Button>
               ),
               <Button
                 key="next"
-                loading={loading}
+                loading={isLoading}
                 type="primary"
                 onClick={() => {
                   onSubmit?.();
+                  refetchTcs();
                 }}
+                disabled={isLoading}
               >
-                next
+                Suivant
               </Button>,
             ];
           },
         }}
         formProps={{
           validateMessages: {
-            required: '此项为必填项',
+            required: 'Required',
           },
         }}
       >
@@ -135,6 +148,7 @@ export default ({containers,article,refetch}:AUFormProps) => {
               name="tva"
               label="Tva"
               type="select"
+              initialValue={true}
               options={YES_NO_CHOICES}
               option_value="value"
               span_md={12}
@@ -143,6 +157,7 @@ export default ({containers,article,refetch}:AUFormProps) => {
               name="entreposage"
               label="Entreposage"
               type="select"
+              initialValue={true}
               options={YES_NO_CHOICES}
               option_value="value"
               span_md={12}
@@ -157,6 +172,7 @@ export default ({containers,article,refetch}:AUFormProps) => {
               options={YES_NO_CHOICES}
               option_value="value"
               span_md={8}
+              initialValue={false}
             />
             <FormField
               label="Remise"
@@ -175,6 +191,7 @@ export default ({containers,article,refetch}:AUFormProps) => {
               options={YES_NO_CHOICES}
               option_value="value"
               span_md={8}
+              initialValue={false}
             />
             <FormField
               label="Debours"
@@ -196,7 +213,7 @@ export default ({containers,article,refetch}:AUFormProps) => {
             size="small"
           >
             <Flex wrap justify="center">
-              {containers?.map((item: any) => {
+              {containers?.data?.map((item: any) => {
                 return (
                   <CheckCard
                     title={item?.tc}

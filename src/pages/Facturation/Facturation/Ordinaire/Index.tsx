@@ -1,6 +1,6 @@
 import { PageContainer, ProCard } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
-import { API_ARTICLES_ENDPOINT, API_CONTENEURS_ENDPOINT } from "@/api/api";
+import { API_ARTICLES_ENDPOINT } from "@/api/api";
 import { breadcrumb } from "./data";
 import { useParams } from "react-router";
 import Details from "@/components/Details";
@@ -29,18 +29,6 @@ export default () => {
     },
   });
 
-  const {
-    data:tcs,
-    isLoading:isLoadingTcs,
-    refetch:refetchTcs,
-  } = useData({
-    endpoint: API_CONTENEURS_ENDPOINT,
-    name: `GET_PROFORMA_TCS`,
-    params: {
-      article__id: id,
-      all: true,
-    },
-  });
 
 
   const [tab, setTab] = useState("factures");
@@ -71,7 +59,7 @@ export default () => {
             {
               label: `Proformas`,
               key: "proformas",
-              children: <Proformas id={id} article={data?.data} containers={tcs?.data}/>,
+              children: <Proformas id={id} article={data?.data}/>,
             },
             {
               label: `Visites`,

@@ -9,7 +9,7 @@ interface Props {
   id: string | undefined;
   article?:any
 }
-export default ({ id, article }: Props) => {
+export default ({ id }: Props) => {
   const {
     data,
     isLoading,

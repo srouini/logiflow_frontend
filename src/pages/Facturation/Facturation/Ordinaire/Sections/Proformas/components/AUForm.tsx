@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DraggableModelWithoutFooter from "@/components/DraggableModelWithoutFooter";
-import FormObject from "@/components/Form";
 import { Button, Divider, Flex, Form, message, Row, Steps, theme } from "antd";
 import usePost from "@/hooks/usePost";
-import { formatDate, mapInitialValues } from "@/utils/functions";
+import { formatDate } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { API_PRFORMAS_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
@@ -31,7 +30,6 @@ const AUForm: React.FC<AUFormProps> = ({
   editText = "MODIFIER",
   addText = "Mrn",
   hasIcon = false,
-  article,
   containers,
 }) => {
   const [form] = Form.useForm();

@@ -5,40 +5,34 @@ import { Divider, Form, message, Row } from "antd";
 import usePost from "@/hooks/usePost";
 import { mapInitialValues } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { API_CONTENEURS_ENDPOINT } from "@/api/api";
+import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
-import { YES_NO_CHOICES } from "@/utils/constants";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-
-const formatDate = (field: string, values: any) => {
-  if (values[field]) values[field] = values[field].format("YYYY-MM-DD");
-  return values;
-};
 
 interface AUFormProps {
   refetch: () => void;
   initialvalues: any;
-  article: any;
+  tc: any;
   editText?: string;
   addText?: string;
   hasIcon?: boolean;
 }
 
-const AUForm: React.FC<AUFormProps> = ({
+const AUFormPosition: React.FC<AUFormProps> = ({
   refetch,
   initialvalues,
-  article,
+  tc,
   editText = "MODIFIER",
-  addText = "Mrn",
+  addText = "Sous Article",
   hasIcon = false,
 }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
-  const { containerType } = useReferenceContext();
+  const { box } = useReferenceContext();
 
   useEffect(() => {
-    containerType.fetch();
+    box?.fetch();
   }, []);
 
   const {} = useReferenceContext();
@@ -48,8 +42,7 @@ const AUForm: React.FC<AUFormProps> = ({
     if (initialvalues) {
       values.id = initialvalues?.id;
     }
-    values.article = parseInt(article);
-    values = formatDate("accostage", values);
+    values.tc = parseInt(tc);
     mutate(values);
   };
 
@@ -61,14 +54,14 @@ const AUForm: React.FC<AUFormProps> = ({
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_CONTENEURS_ENDPOINT,
+    endpoint: API_SOUSARTICLES_ENDPOINT,
   });
 
   return (
     <DraggableModel
       OkButtontext="Submit"
       modalOpenButtonText={initialvalues ? editText : addText} 
-      modalTitle="Conteneur"
+      modalTitle="Position"
       addButtonType="dashed"
       addButtonIcon={
         hasIcon && initialvalues ? <EditOutlined /> : <PlusOutlined />
@@ -76,52 +69,23 @@ const AUForm: React.FC<AUFormProps> = ({
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}
-      width={600}
+      width={400}
       isLoading={isLoading}
       initialvalues={initialvalues}
     >
+
+      <Divider/>
+
+      <Divider/>
       <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
         <Row gutter={24}>
           <FormField
-            name="tc"
-            label="Matricule"
-            type="text"
-            required
-            span_md={24}
-          />
-          <FormField name="tar" label="Tar" type="text" required span_md={24} />
-          <FormField
-            name="poids"
-            label="Poids"
-            type="text"
-            required
-            span_md={24}
-          />
-          <FormField
-            name="type_tc"
-            label="Type"
+            name="box"
+            label="Box"
             type="select"
-            options={containerType?.results}
+            options={box?.results}
             option_label="designation"
             required
-            span_md={24}
-          />
-          <Divider style={{ marginTop: "0px" }} />
-          <FormField
-            name="dangereux"
-            label="Dangereux"
-            type="select"
-            options={YES_NO_CHOICES}
-            required
-            option_value="value"
-            span_md={24}
-          />
-          <FormField
-            name="frigo"
-            label="Frigo"
-            type="select"
-            options={YES_NO_CHOICES}
-            option_value="value"
             span_md={24}
           />
         </Row>
@@ -130,4 +94,4 @@ const AUForm: React.FC<AUFormProps> = ({
   );
 };
 
-export default AUForm;
+export default AUFormPosition;

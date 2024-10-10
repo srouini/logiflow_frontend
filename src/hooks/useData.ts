@@ -26,6 +26,7 @@ const useData = ({ params, name,endpoint,refetchInterval,enabled=true }: useData
     },
     ...(refetchInterval ? { refetchInterval } : {}),
   enabled:enabled,  // Don't refetch when component mounts
+  refetchOnWindowFocus:true
   });
 
   const { isLoading:isLoading } = useLoading({

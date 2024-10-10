@@ -2,14 +2,13 @@ import { API_VISITES_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";
-import { Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+
 
 interface Props {
   id: string | undefined;
   article?:any
 }
-export default ({ id,article }: Props) => {
+export default ({ id }: Props) => {
   const {
     data,
     isLoading,
@@ -24,7 +23,6 @@ export default ({ id,article }: Props) => {
     },
   });
 
-
   return (
     <ProTable<any>
       headerTitle="Visites"
@@ -35,15 +33,6 @@ export default ({ id,article }: Props) => {
       dataSource={data?.data}
       toolbar={{
         actions: [
-          <Button
-            key="primary"
-            type="primary"
-            onClick={() => {
-              alert("add");
-            }}
-            icon={<PlusOutlined />}
-            style={{ paddingLeft: "20px", paddingRight: "20px" }}
-          ></Button>,
         ],
       }}
       rowKey={(item) => item?.id}

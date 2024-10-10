@@ -2,26 +2,20 @@ import { PageContainer } from "@ant-design/pro-components";
 import { useEffect, useState } from "react";
 import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
-import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 import {
   API_ARTICLES_ENDPOINT,
   API_CONTENEURS_ENDPOINT,
   API_SOUSARTICLES_ENDPOINT,
 } from "@/api/api";
-import QueryFilters from "./components/QueryFilters";
 import CustomTableAll from "@/components/CustomTableAll";
 import CustomTable from "@/components/CustomTable";
 import { breadcrumb, getColumns, subArticlesColumns } from "./data";
-import AUForm from "./components/AUForm";
 import { useParams } from "react-router";
 import Details from "@/components/Details";
 import { DetailsColumns } from "./data";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { Divider } from "antd";
-import Prestations from "./components/Prestations";
-import AUFormDepotage from "./components/AUFormDepotage";
-import Print from "@/components/Print";
 
 export default () => {
   const { id } = useParams();
@@ -31,21 +25,19 @@ export default () => {
     containerType?.fetch();
   }, []);
 
+  // @ts-ignore*
   const [search, setSearch] = useState("");
-  const { page, getPageSize, setPageSize, setPage } = usePage();
+  const { page, getPageSize } = usePage();
   const {
-    page: pageSubArticle,
     getPageSize: getPageSizeSubArticle,
     setPageSize: setPageSizeSubArticle,
     setPage: setPageSubArticle,
   } = usePage();
-  const { filters, resetFilters, setFilters } = useFilters();
 
   const {
     data: selectedArticleData,
     isLoading: isLoadingArticle,
     isRefetching: isRefetchingArticle,
-    refetch: refetchSelectedArticle,
   } = useData({
     endpoint: API_ARTICLES_ENDPOINT + id + "/",
     name: `GET_SELECTED_ARTICLE_${id}`,

@@ -3,14 +3,17 @@ import Print from "@/components/Print";
 import { renderDate, renderDateTime, renderMoney, renderText } from "@/utils/functions";
 import { ProColumns, TableDropdown } from "@ant-design/pro-components";
 import { Row, Col, Tag } from "antd";
+import ProfomaDetails from "../ProformaDetails/index"
+import ValidateProformaButton from "../ProformaDetails/components/ValidateProformaButton";
 
-export const getColumns = (): ProColumns<any>[] => [
+export const getColumns = (refetch:any): ProColumns<any>[] => [
   {
     title: "Numéro",
     dataIndex: "numero",
     copyable: true,
     width: 150,
     key: "1",
+    render:(_,record) => <ProfomaDetails proforma={record}/>
   },
   {
     title: "Etat",
@@ -60,7 +63,7 @@ export const getColumns = (): ProColumns<any>[] => [
     valueType: "option",
     key: "10",
     align: "center",
-    width: 60,
+    width: 100,
     fixed: "right",
     render: (_, record: any) => [
       <TableDropdown
@@ -85,6 +88,9 @@ export const getColumns = (): ProColumns<any>[] => [
                 key={record?.id}
                 type="View"
               />
+            </Col>
+            <Col>
+            <ValidateProformaButton proforma={record} key={record?.id} refetch={refetch}/>
             </Col>
           </Row>,
         ]}

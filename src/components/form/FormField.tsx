@@ -20,6 +20,7 @@ interface FormFieldProps {
   placeholder?: string;
   disabled?: boolean;
   step?:number
+  initialValue?:any
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -34,7 +35,8 @@ const FormField: React.FC<FormFieldProps> = ({
   required = false,
   placeholder = "-",
   disabled = false,
-  step=1
+  step=1,
+  initialValue
 }) => {
   switch (type) {
     case "text":
@@ -93,6 +95,7 @@ const FormField: React.FC<FormFieldProps> = ({
             {...selectConfig}
             width="lg"
             options={options}
+            initialValue={initialValue}
             label={label}
             required={required}
             name={name}

@@ -8,9 +8,10 @@ import AUForm from "./components/AUFormTwo";
 interface Props {
   id: string | undefined;
   article?:any,
-  containers:any
 }
-export default ({ id,article,containers }: Props) => {
+
+
+export default ({ id,article }: Props) => {
   const {
     data,
     isLoading,
@@ -25,17 +26,18 @@ export default ({ id,article,containers }: Props) => {
     },
   });
 
+
   return (
     <ProTable<any>
       headerTitle="Proformas"
       // @ts-ignore
       options={{ reload: refetch }}
-      columns={getColumns()}
+      columns={getColumns(refetch)}
       loading={isLoading}
       dataSource={data?.data}
       toolbar={{
         actions: [
-          <AUForm article={article} containers={containers} refetch={refetch} hasIcon initialvalues={null} addText="Proforma"/>,
+          <AUForm article={article} refetch={refetch} />,
         ],
       }}
       rowKey={(item) => item?.id}
