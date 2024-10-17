@@ -4,7 +4,6 @@ import { CloudUploadOutlined } from "@ant-design/icons";
 import { Button, message, Popconfirm } from "antd";
 import { PopconfirmProps } from "antd/lib";
 import dayjs from "dayjs";
-import { useState } from "react";
 
 interface ValidateProformaButtonProps {
   proforma: any;
@@ -21,7 +20,6 @@ const ValidateProformaButton = ({ proforma,refetch }: ValidateProformaButtonProp
     refetch();
   };
 
-  const [aTerme, setATerme] = useState(false);
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
     endpoint: API_FACTURE_ENDPOINT,
@@ -29,19 +27,17 @@ const ValidateProformaButton = ({ proforma,refetch }: ValidateProformaButtonProp
 
   // @ts-ignore
   const confirm: PopconfirmProps["onConfirm"] = (e) => {
-    setATerme(false);
     mutate({
       proforma: proforma?.id,
-      a_terme: aTerme,
+      a_terme: false,
       date_creation: dateString,
     });
   };
   // @ts-ignore
   const cancel: PopconfirmProps["onCancel"] = (e) => {
-    setATerme(true);
     mutate({
       proforma: proforma?.id,
-      a_terme: aTerme,
+      a_terme: true,
       date_creation: dateString,
     });
   };

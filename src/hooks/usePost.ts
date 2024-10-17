@@ -22,7 +22,7 @@ const usePost = ({ onSuccess, endpoint }: UsePostProps) => {
 
       return response.data;
     },
-    retry: 2,
+    retry: 1,
     onSuccess: () => {
       onSuccess();
     },

@@ -1,4 +1,4 @@
-import { ProTable } from "@ant-design/pro-components";
+import { ListToolBarProps, ProTable } from "@ant-design/pro-components";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { TableRowSelection } from "antd/es/table/interface";
 import { AxiosResponse } from "axios";
@@ -19,6 +19,7 @@ type CustomTableAllProps = {
   RowSelectionRnder?: React.ReactNode;
   scrollX?: number;
   scrollY?: number;
+  toolbar?: ListToolBarProps
 };
 
 const CustomTableData: React.FC<CustomTableAllProps> = ({
@@ -30,7 +31,8 @@ const CustomTableData: React.FC<CustomTableAllProps> = ({
   rowSelectionFunction,
   scrollX = 1200,
   scrollY,
-  options=true
+  options=true,
+  toolbar
 }) => {
   // Memoize table options to avoid unnecessary recalculations
   const tableOptions: any = useMemo(
@@ -48,6 +50,7 @@ const CustomTableData: React.FC<CustomTableAllProps> = ({
 
   return (
     <ProTable
+      
       columns={getColumns}
       cardBordered
       onReset={refetch}
@@ -63,7 +66,7 @@ const CustomTableData: React.FC<CustomTableAllProps> = ({
       headerTitle={headerTitle}
       size="small"
       rowSelection={rowSelectionFunction}
-
+      toolbar={toolbar}
     />
   );
 };

@@ -21,6 +21,7 @@ interface FormFieldProps {
   disabled?: boolean;
   step?:number
   initialValue?:any
+  onChange?:any
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -36,7 +37,8 @@ const FormField: React.FC<FormFieldProps> = ({
   placeholder = "-",
   disabled = false,
   step=1,
-  initialValue
+  initialValue,
+  onChange
 }) => {
   switch (type) {
     case "text":
@@ -48,6 +50,8 @@ const FormField: React.FC<FormFieldProps> = ({
             required={required}
             placeholder={placeholder}
             disabled={disabled}
+            initialValue={initialValue}
+          
           />
         </Col>
       );
@@ -60,6 +64,8 @@ const FormField: React.FC<FormFieldProps> = ({
             required={required}
             disabled={disabled}
             step={step}
+            initialValue={initialValue}
+            
           />
         </Col>
       );
@@ -71,6 +77,7 @@ const FormField: React.FC<FormFieldProps> = ({
             label={label}
             required={required}
             disabled={disabled}
+            initialValue={initialValue}
           />
         </Col>
       );
@@ -94,6 +101,7 @@ const FormField: React.FC<FormFieldProps> = ({
           <ProFormSelect
             {...selectConfig}
             width="lg"
+            onChange={onChange}
             options={options}
             initialValue={initialValue}
             label={label}

@@ -25,4 +25,16 @@ export const CONTAINER_NATURE_CHOICES = [
   
 
   
+  export const PAIEMENTS_METHODE = [
+    {
+      value: "Chèque",
+      label: "Chèque",
+    },
+    {
+      value: "Espèce",
+      label: "Espèce",
+    },
+  ];
+  
+
    

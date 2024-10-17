@@ -97,6 +97,7 @@ export interface Facture extends BaseModel {
     timber?: number;
     paid?: boolean;
     a_terme?: boolean;
+    paiements?:any[]
 }
 
 // Define the Paiement model
@@ -106,7 +107,7 @@ export interface Paiement extends BaseModel {
     banque?: number; // Foreign key to Banque, can be ID or object
     mode?: 'Chèque' | 'Espèce';
     cheque?: string;
-    montant?: number;
+    montant?: any;
 }
 
 // Define the FactureComplementaire model

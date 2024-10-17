@@ -128,3 +128,8 @@ export const formatDateTime = (field:string, values: any) => {
 export function formatStringDate(dateString:string) {
   return moment(dateString).format('YYYY-MM-DD HH:mm');
 }
+
+export function roundToDecimals(num:number, decimals:number) {
+  let factor = Math.pow(10, decimals);
+  return Math.round(num * factor) / factor;
+}

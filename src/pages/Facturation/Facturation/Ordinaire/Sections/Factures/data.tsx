@@ -3,14 +3,18 @@ import Print from "@/components/Print"
 import { renderDate, renderMoney, renderText } from "@/utils/functions"
 import { ProColumns, TableDropdown } from "@ant-design/pro-components"
 import { Col, Row, Tag } from "antd"
+import AUForm from "../FactureDetails/index"
 
-export const getColumns = (): ProColumns<any>[] => [
+
+// @ts-ignore
+export const getColumns = ({refetch,isLoadingFacture}): ProColumns<any>[] => [
     {
       title: "Numéro",
       dataIndex: "numero",
       copyable: true,
       width: 150,
-      key:"1"
+      key:"1",
+      render: (_,record:any) => <AUForm facture={record} key={record?.id} refetchFacture={refetch} isLoadingFacture={isLoadingFacture}/>
     },
     {
       title: "Etat",

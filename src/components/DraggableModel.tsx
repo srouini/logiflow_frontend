@@ -121,6 +121,7 @@ const DraggableModel: React.FC<Props> = ({
           </Draggable>
         )}
         width={width}
+        destroyOnClose
       >
         {children}
       </Modal>

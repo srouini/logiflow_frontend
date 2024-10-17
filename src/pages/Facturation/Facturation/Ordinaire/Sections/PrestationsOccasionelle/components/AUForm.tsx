@@ -1,11 +1,10 @@
-import { API_CONTENEURS_ENDPOINT, API_PRFORMAS_ENDPOINT } from "@/api/api";
+import { API_BONS_COMMANDE_ENDPOINT, API_CONTENEURS_ENDPOINT, API_RUBRIQUES_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import useData from "@/hooks/useData";
 import usePost from "@/hooks/usePost";
-import { YES_NO_CHOICES } from "@/utils/constants";
 import { PaperClipOutlined } from "@ant-design/icons";
 import { CheckCard, ProCard, StepsForm } from "@ant-design/pro-components";
-import { Button, Divider, Flex, message, Modal, Row } from "antd";
+import { Button, Flex, message, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 
 interface AUFormProps {
@@ -41,7 +40,7 @@ export default ({ article, refetch }: AUFormProps) => {
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_PRFORMAS_ENDPOINT,
+    endpoint: API_BONS_COMMANDE_ENDPOINT,
   });
 
   const { data: containers, refetch: refetchTcs } = useData({
@@ -50,7 +49,15 @@ export default ({ article, refetch }: AUFormProps) => {
     params: {
       article__id: article.id,
       all: true,
-      billed: false,
+    },
+  });
+
+  const { data: rubriques } = useData({
+    endpoint: API_RUBRIQUES_ENDPOINT,
+    name: `GET_RUBRIQUES`,
+    params: {
+      categorie__icontains:"occasionnelle",
+      all: true,
     },
   });
 
@@ -62,10 +69,10 @@ export default ({ article, refetch }: AUFormProps) => {
         onClick={showModal}
         disabled={containers?.data?.length === 0}
       >
-        + Proforma
+        + Bon Commande
       </Button>
       <Modal
-        title="+ Proforma"
+        title="+ Préstation occasionnelle"
         destroyOnClose
         width={600}
         footer={false}
@@ -76,13 +83,19 @@ export default ({ article, refetch }: AUFormProps) => {
         <ProCard>
           <StepsForm
             onFinish={async (values: any) => {
-              const date = new Date(values["date_proforma"]);
-              values["date_proforma"] = date.toISOString().split("T")[0];
-              values["article"] = article?.id;
-              values["gros"] = article?.gros?.id;
-              values["tcs"] = selectedContainers;
-              console.log(values);
-              mutate(values);
+              mutate({
+                article: article?.id, 
+                commandes : 
+                  selectedContainers?.map((tc:any) => {
+                    return {
+                      tc: tc, 
+                      type: values["type"], 
+                      quantite: values["quantite"],
+                      observation: values["observation"]
+                    }
+                  })
+                
+              });
             }}
             submitter={{
               render: ({ form, onSubmit, step, onPre }) => {
@@ -128,7 +141,7 @@ export default ({ article, refetch }: AUFormProps) => {
           >
             <StepsForm.StepForm
               name="base"
-              title="Proforma"
+              title="Bon Commande"
               onFinish={async () => {
                 setLoading(true);
                 setLoading(false);
@@ -137,72 +150,26 @@ export default ({ article, refetch }: AUFormProps) => {
             >
               <Row gutter={24}>
                 <FormField
-                  label="Date"
-                  name="date_proforma"
-                  span={24}
+                  label="Type"
+                  name="type"
+                  span={18}
                   required
-                  span_md={24}
-                  type="date"
-                />
-              </Row>
-              <Row gutter={24}>
-                <FormField
-                  name="tva"
-                  label="Tva"
+                  span_md={18}
                   type="select"
-                  initialValue={true}
-                  options={YES_NO_CHOICES}
-                  option_value="value"
-                  span_md={12}
+                  option_label="label"
+                  option_value="id"
+                  options={rubriques?.data}
                 />
                 <FormField
-                  name="entreposage"
-                  label="Entreposage"
-                  type="select"
-                  initialValue={true}
-                  options={YES_NO_CHOICES}
-                  option_value="value"
-                  span_md={12}
-                />
-              </Row>
-              <Divider dashed style={{ marginTop: "0px" }} />
-              <Row gutter={24}>
-                <FormField
-                  name="remise"
-                  label="Remise"
-                  type="select"
-                  options={YES_NO_CHOICES}
-                  option_value="value"
-                  span_md={8}
-                  initialValue={false}
-                />
-                <FormField
-                  label="Remise"
-                  name="REMISE"
-                  span={24}
-                  span_md={16}
+                  label="Quantité"
+                  name="quantite"
+                  span={6}
+                  span_md={6}
                   type="number"
-                  step={0.01}
                 />
               </Row>
-              <Row gutter={24}>
-                <FormField
-                  name="debeur"
-                  label="Debours"
-                  type="select"
-                  options={YES_NO_CHOICES}
-                  option_value="value"
-                  span_md={8}
-                  initialValue={false}
-                />
-                <FormField
-                  label="Debours"
-                  name="DEBEUR"
-                  span={24}
-                  span_md={16}
-                  type="number"
-                  step={0.01}
-                />
+              <Row> 
+                <FormField label="observation" name="observation" type="text" span={24} span_md={24}/> 
               </Row>
             </StepsForm.StepForm>
             <StepsForm.StepForm name="checkbox" title="Conteneurs">
