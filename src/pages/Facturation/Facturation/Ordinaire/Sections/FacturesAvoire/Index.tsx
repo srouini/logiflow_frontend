@@ -2,14 +2,13 @@ import { API_FACTURES_AVOIRE_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";
-import { Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import AUFrom from "./components/AUForm"
 
 interface Props {
   id: string | undefined;
   article?:any
 }
-export default ({ id }: Props) => {
+export default ({ id,article }: Props) => {
   const {
     data: factures,
     isLoading: isLoadingFactures,
@@ -29,20 +28,12 @@ export default ({ id }: Props) => {
       headerTitle="Factures Avoire"
       // @ts-ignore
       options={{ reload: refetchFactures }}
-      columns={getColumns()}
+      columns={getColumns({refetch:refetchFactures,isLoadingFacture:isLoadingFactures})}
       loading={isLoadingFactures}
       dataSource={factures?.data}
       toolbar={{
         actions: [
-          <Button
-            key="primary"
-            type="primary"
-            onClick={() => {
-              alert("add");
-            }}
-            icon={<PlusOutlined />}
-            style={{ paddingLeft: "20px", paddingRight: "20px" }}
-          ></Button>,
+          <AUFrom  article={article} refetch={refetchFactures} key={id}/>,
         ],
       }}
       rowKey={(item) => item?.id}

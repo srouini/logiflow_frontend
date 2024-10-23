@@ -4,5 +4,5 @@ export interface ChoiceType {
 }
 
 export interface BaseModel {
-  id: number;
+  id: any;
 }

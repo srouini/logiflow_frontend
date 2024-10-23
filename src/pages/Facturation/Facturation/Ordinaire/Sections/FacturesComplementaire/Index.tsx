@@ -29,7 +29,7 @@ export default ({ id,article }: Props) => {
       headerTitle="Factures complimentaire"
       // @ts-ignore
       options={{ reload: refetch }}
-      columns={getColumns()}
+      columns={getColumns({refetch,isLoadingFacture:isLoadingFactures})}
       loading={isLoadingFactures}
       dataSource={factures?.data}
       toolbar={{

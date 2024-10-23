@@ -1,13 +1,12 @@
 import {
-  API_BONS_COMMANDE_ENDPOINT,
   API_CONTENEURS_ENDPOINT,
   API_PRESTATIONS_OCCASIONNELLE_ENDPOINT,
-  API_RUBRIQUES_ENDPOINT,
 } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import useData from "@/hooks/useData";
 import usePost from "@/hooks/usePost";
+import { removeDuplicatedRubriques } from "@/utils/functions";
 import { PaperClipOutlined } from "@ant-design/icons";
 import { CheckCard, ProCard, StepsForm } from "@ant-design/pro-components";
 import { Button, Flex, message, Modal, Row } from "antd";
@@ -159,7 +158,7 @@ export default ({ article, refetch }: AUFormProps) => {
                   type="select"
                   option_label="designation"
                   option_value="designation"
-                  options={rubrique?.results}
+                  options={removeDuplicatedRubriques(rubrique?.results)}
                 />
                 <FormField
                   required

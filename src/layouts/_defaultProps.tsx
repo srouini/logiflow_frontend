@@ -1,5 +1,4 @@
-import { BranchesOutlined, FieldTimeOutlined, FileDoneOutlined, FileProtectOutlined, SmileFilled, WindowsOutlined } from "@ant-design/icons";
-import Title from "antd/es/skeleton/Title";
+import { BranchesOutlined, FieldTimeOutlined, FileDoneOutlined, FileProtectOutlined, WindowsOutlined } from "@ant-design/icons";
 
 export default {
   route: {

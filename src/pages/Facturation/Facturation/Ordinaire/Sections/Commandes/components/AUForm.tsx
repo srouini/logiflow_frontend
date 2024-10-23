@@ -4,7 +4,7 @@ import useData from "@/hooks/useData";
 import usePost from "@/hooks/usePost";
 import { PaperClipOutlined } from "@ant-design/icons";
 import { CheckCard, ProCard, StepsForm } from "@ant-design/pro-components";
-import { Button, Col, Flex, message, Modal, Row } from "antd";
+import { Button, Flex, message, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 
 interface AUFormProps {

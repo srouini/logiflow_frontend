@@ -21,10 +21,11 @@ export interface Regime  extends BaseModel{
     parc?: number | Parc; // Can be a numeric ID or an object
 }
 
+
 // Rubrique type
 export interface Rubrique  extends BaseModel{
     code?: string;
-    designation?: string;
+    designation: string;
     type_calcule?: "Calcule par unité TC" | "Calcule par unité JOUR" | "Calcule par unité TC X JOUR" | "Calcule par unité ARTICLE" | "A la demande";
     categorie?: "Automatique" | "Clarck Intégral" | "Clarck Partiel" | "Dangereux" | "Dépotage" | "Manutentions humaines Intégral" | "Manutentions humaines Partiel" | "Préstation occasionnelle" | "Scanner" | "Visite" | "Groupage" | "Entreposage groupage";
     appliquer_pour?: "Client" | "Groupeur" | "Client et Groupeur";

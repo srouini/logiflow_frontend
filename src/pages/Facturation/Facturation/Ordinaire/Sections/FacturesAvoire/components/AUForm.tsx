@@ -5,7 +5,7 @@ import { Form, message, Row } from "antd";
 import usePost from "@/hooks/usePost";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import FormField from "@/components/form/FormField";
-import { API_FACTURE_ENDPOINT, API_FACTURES_COMPLIMENTAIRE_ENDPOINT } from "@/api/api";
+import { API_FACTURE_ENDPOINT, API_FACTURES_AVOIRE_ENDPOINT } from "@/api/api";
 import { PlusOutlined } from "@ant-design/icons";
 import useData from "@/hooks/useData";
 import { YES_NO_CHOICES } from "@/utils/constants";
@@ -41,7 +41,7 @@ const AUForm: React.FC<AUFormProps> = ({
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_FACTURES_COMPLIMENTAIRE_ENDPOINT,
+    endpoint: API_FACTURES_AVOIRE_ENDPOINT,
   });
 
   // @ts-ignore
@@ -57,8 +57,8 @@ const AUForm: React.FC<AUFormProps> = ({
   return (
     <DraggableModel
       OkButtontext="Submit"
-      modalOpenButtonText="Facture complimentaire"
-      modalTitle="Facture complimentaire"
+      modalOpenButtonText="Facture Avoire"
+      modalTitle="Facture Avoire"
       addButtonType="dashed"
       addButtonIcon={
         <PlusOutlined />

@@ -60,7 +60,7 @@ export default () => {
             {
               label: `Proformas`,
               key: "proformas",
-              children: <Proformas id={id} article={data?.data}/>,
+              children: <Proformas id={id} article={data?.data} />,
             },
             {
               label: `Visites`,

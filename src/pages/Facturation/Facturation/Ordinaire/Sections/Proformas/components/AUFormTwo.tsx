@@ -5,7 +5,7 @@ import usePost from "@/hooks/usePost";
 import { YES_NO_CHOICES } from "@/utils/constants";
 import { PaperClipOutlined } from "@ant-design/icons";
 import { CheckCard, ProCard, StepsForm } from "@ant-design/pro-components";
-import { Button, Col, Divider, Flex, message, Modal, Row } from "antd";
+import { Button, Divider, Flex, message, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 
 interface AUFormProps {

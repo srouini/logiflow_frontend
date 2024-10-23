@@ -13,7 +13,7 @@ export const getColumns = (refetch:any): ProColumns<any>[] => [
     copyable: true,
     width: 150,
     key: "1",
-    render:(_,record) => <ProfomaDetails proforma={record}/>
+    render:(_,record) => <ProfomaDetails proforma={record} refetchProformas={refetch}/>
   },
   {
     title: "Etat",
