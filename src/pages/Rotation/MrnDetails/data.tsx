@@ -7,6 +7,7 @@ import { API_ARTICLES_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
 import Print from "@/components/Print";
+import AUFormDepotage from "../ArticleDetails/components/AUFormDepotage";
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
@@ -86,7 +87,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     valueType: "option",
     key: "9",
     fixed:"right",
-    width: 202,
+    width: 350,
     render: (_, record: any) => [
       <TableDropdown
         key="actionGroup"
@@ -115,6 +116,13 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
             </Col>
             <Col>
             <Print type="View" endpoint={API_ARTICLES_ENDPOINT} disabled={!record?.groupage} id={record?.id} endpoint_suffex="generate_ticktage/" button_text="Ticktage"/>
+            </Col>
+            <Col>
+            <AUFormDepotage
+              article={record?.id}
+              disable={record?.depote}
+              refetch={refetch}
+            />
             </Col>
           </Row>,
         ]}

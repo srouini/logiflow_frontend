@@ -8,7 +8,7 @@ import { API_BULLETINS_ENDPOINT, API_CONTENEURS_ENDPOINT } from "@/api/api";
 import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { DetailsColumns, getColumns,breadcrumb } from "./data";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Details from "@/components/Details";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import Containers from "./components/Containers";
@@ -86,7 +86,7 @@ export default () => {
     }
    
 }
-
+const navigate = useNavigate();
   return (
     <PageContainer
       contentWidth="Fluid"
@@ -96,8 +96,10 @@ export default () => {
         extra: [
           <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.loaded} loading={bulletin_is_patshing} onClick={handleBulltinValidation}>Validez</Button>,<Containers mrn={selectedRecord?.data?.gros?.id} bulletin={id} refetchLoadedContainers={refetchLoaded} disabled={selectedRecord?.data?.loaded} />
         ],
+        onBack : () =>  navigate(`/rotations/chargement/`)
       }}
       title=" "
+      
     >
       <Details
         dataSource={selectedRecord?.data}

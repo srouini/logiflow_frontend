@@ -8,7 +8,7 @@ import { API_BULLETINS_ENDPOINT, API_CONTENEURS_ENDPOINT } from "@/api/api";
 import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { DetailsColumns, getColumns, breadcrumb } from "./data";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Details from "@/components/Details";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { message } from "antd";
@@ -89,6 +89,7 @@ export default () => {
     }
   };
 
+  const navigate = useNavigate();
   return (
     <PageContainer
       contentWidth="Fluid"
@@ -96,6 +97,8 @@ export default () => {
         breadcrumb: breadcrumb,
         title: `Bulletin -  ${selectedRecord?.data?.numero}`,
         extra: [],
+        onBack : () =>  navigate(`/rotations/reception/`)
+
       }}
       title=" "
     >

@@ -29,7 +29,7 @@ export default () => {
       page: page,
       page_size: getPageSize(),
       ...filters,
-      expand: "proforma.gros,proforma.article.client",
+      expand: "proforma.gros.regime,proforma.article.client",
       enabled: false,
     },
   });

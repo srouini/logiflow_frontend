@@ -5,7 +5,7 @@ import usePost from "@/hooks/usePost";
 import { YES_NO_CHOICES } from "@/utils/constants";
 import { PaperClipOutlined } from "@ant-design/icons";
 import { CheckCard, ProCard, StepsForm } from "@ant-design/pro-components";
-import { Button, Divider, Flex, message, Modal, Row } from "antd";
+import { Button, Col, Divider, Flex, message, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 
 interface AUFormProps {
@@ -206,27 +206,34 @@ export default ({ article, refetch }: AUFormProps) => {
               </Row>
             </StepsForm.StepForm>
             <StepsForm.StepForm name="checkbox" title="Conteneurs">
-              <Flex style={{ padding: "0px", paddingTop: "0px" }}>
-                <CheckCard.Group
-                  multiple
-                  onChange={(value: any) => {
-                    setSelectedContainers(value);
-                  }}
-                  size="small"
+              <CheckCard.Group
+                multiple
+                onChange={(value: any) => {
+                  setSelectedContainers(value);
+                }}
+                size="small"
+              >
+                <Flex
+                  wrap
+                  justify="start"
+                  style={{ height: "300px", overflow: "scroll" }}
+                  align="flex-start"
+                  vertical
+                  gap={8}
                 >
-                  <Flex wrap justify="center">
-                    {containers?.data?.map((item: any) => {
-                      return (
-                        <CheckCard
-                          title={item?.tc}
-                          value={item?.id}
-                          avatar={<PaperClipOutlined />}
-                        />
-                      );
-                    })}
-                  </Flex>
-                </CheckCard.Group>
-              </Flex>
+                  {containers?.data?.map((item: any) => {
+                    return (
+                      <CheckCard
+                        size="large"
+                        title={item?.tc}
+                        value={item?.id}
+                        avatar={<PaperClipOutlined />}
+                        style={{height:"fit-content"}}
+                      />
+                    );
+                  })}
+                </Flex>
+              </CheckCard.Group>
             </StepsForm.StepForm>
           </StepsForm>
         </ProCard>

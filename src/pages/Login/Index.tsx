@@ -5,7 +5,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 const LoginPage: React.FC = () => {
   const { login, loading } = useAuth();
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [ passwordVisible, setPasswordVisible ] = useState(false);
   const { Title } = Typography;
 
   const handleLogin = async (values: {

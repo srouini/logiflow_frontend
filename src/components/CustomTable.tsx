@@ -23,6 +23,7 @@ type CustomTableProps = {
   RowSelectionRnder?: React.ReactNode;
   scrollX?: number;
   scrollY?: number;
+  toolBar?:any
 };
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -39,6 +40,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   RowSelectionRnder,
   scrollX = 1200,
   scrollY,
+  toolBar
 }) => {
   // Memoize table options to avoid unnecessary recalculations
   const tableOptions: any = useMemo(
@@ -63,7 +65,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       columns={getColumns}
       cardBordered
       onReset={refetch}
-      
+      toolBarRender={toolBar}
       dataSource={data?.data?.results}
       columnsState={{
         persistenceKey: "pro-table-singe-demos",

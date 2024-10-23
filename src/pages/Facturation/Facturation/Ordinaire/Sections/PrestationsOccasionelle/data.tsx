@@ -1,8 +1,11 @@
 
+import { API_PRESTATIONS_OCCASIONNELLE_ENDPOINT } from "@/api/api";
+import Delete from "@/components/Delete";
 import { renderDate, renderMoney, renderText } from "@/utils/functions";
-import { ProColumns } from "@ant-design/pro-components";
+import { ProColumns, TableDropdown } from "@ant-design/pro-components";
+import { Col, Row } from "antd";
 
-export const getColumns = (): ProColumns<any>[] => [
+export const getColumns = (refetch:() => void): ProColumns<any>[] => [
   {
     title: "Rubrique",
     dataIndex: "rubrique",
@@ -32,5 +35,30 @@ export const getColumns = (): ProColumns<any>[] => [
     key: "7",
     render: (record: any) => renderMoney(record),
     width: 200,
+  },
+  {
+    title: "Actions",
+    valueType: "option",
+    key: "8",
+    align:"center",
+    fixed:"right",
+    width: 60,
+    render: (_, record: any) => [
+      <TableDropdown
+        key="actionGroup"
+      style={{justifyItems:"center"
+
+        
+      }}
+        children={
+         [<Row gutter={8}>
+            <Col>
+              <Delete disabled={record?.tc?.billed} class_name="Prestation occasionnelle" id={record?.id} refetch={refetch} url={API_PRESTATIONS_OCCASIONNELLE_ENDPOINT} has_icon type="dashed" link={false} text="" />
+            </Col>
+         </Row> 
+        ]
+        }
+      />,
+    ],
   },
 ];

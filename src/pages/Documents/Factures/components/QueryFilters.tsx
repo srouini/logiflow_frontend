@@ -26,10 +26,11 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   resetFilters,
   setPage,
 }) => {
-  const { client } = useReferenceContext();
+  const { client, regime } = useReferenceContext();
 
   useEffect(() => {
     client.fetch();
+    regime.fetch();
   }, []);
 
   const handleSubmission = (values: any) => {
@@ -88,6 +89,22 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           mode="multiple"
           transform={(value) =>
             transformSelectFilter("multiple", "proforma__article__client", value)
+          }
+        />
+
+        <ProFormSelect
+          
+          {...selectConfig}
+          options={regime?.results}
+          label="Regime"
+          name="proforma__gros__regime__in"
+          fieldProps={{
+            fieldNames: { label: "designation", value: "id" },
+            maxTagCount: 'responsive',
+          }}
+          mode="multiple"
+          transform={(value) =>
+            transformSelectFilter("multiple", "proforma__gros__regime", value)
           }
         />
         <ProFormDatePicker name="proforma__date_proforma" label="Date" />

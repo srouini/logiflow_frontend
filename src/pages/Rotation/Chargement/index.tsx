@@ -25,6 +25,8 @@ export default () => {
     containerType?.fetch();
   }, []);
 
+
+
   const {
     data,
     isLoading: isLoadingData,
@@ -44,7 +46,9 @@ export default () => {
       ordering: "-date_creation,-numero",
     },
   });
-  const { isLoading } = useLoading({loadingStates: [isLoadingData, isRefetching,isFetching] });
+  const { isLoading } = useLoading({
+    loadingStates: [isLoadingData, isRefetching, isFetching],
+  });
 
   const breadcrumb: any = {
     items: [
@@ -65,7 +69,14 @@ export default () => {
       header={{
         breadcrumb: breadcrumb,
         title: `Chargements`,
-        extra: [<AUForm refetch={refetch} initialvalues={null} gros={id} addText="Bulletin" />],
+        extra: [
+          <AUForm
+            refetch={refetch}
+            initialvalues={null}
+            gros={id}
+            addText="Bulletin"
+          />,
+        ],
       }}
       title=" "
     >

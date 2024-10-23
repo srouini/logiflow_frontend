@@ -9,7 +9,7 @@ import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { DetailsColumns, getColumns } from "./data";
 import AUForm from "./components/AUForm";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Details from "@/components/Details";
 import Chargement from "../Mrns/components/Chargement";
 import Conteneurs from "./components/Containers"
@@ -75,7 +75,7 @@ export default () => {
   };
 
  
-
+  const navigate = useNavigate();
   
   return (
     <PageContainer
@@ -88,6 +88,7 @@ export default () => {
           <Chargement refetch={refetch} mrn={selectedMrnData?.data?.id} />,
           <Conteneurs mrn={id}/>
         ],
+        onBack : () =>  navigate("/rotations/mrns/")
       }}
       title=" "
     >

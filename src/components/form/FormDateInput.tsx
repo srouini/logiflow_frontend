@@ -12,6 +12,7 @@ interface FormDateInputProps extends Omit<FormItemProps, "children"> {
   inputColSpan?: number;
   addonColSpan?: number;
   disabled?:boolean
+  defaultValue?:any
 }
 
 const FormDateInput: React.FC<FormDateInputProps> = ({
@@ -22,7 +23,8 @@ const FormDateInput: React.FC<FormDateInputProps> = ({
   hasAddOn = false,
   inputColSpan = 19,
   addonColSpan = 5,
-  disabled=false
+  disabled=false,
+  defaultValue
 }) => {
   const [suffix, setSuffix] = useState<string>("");
 
@@ -71,6 +73,7 @@ const FormDateInput: React.FC<FormDateInputProps> = ({
             style={{ width: "100%" }}
             format="YYYY/MM/DD"
             disabled={disabled}
+            defaultValue={defaultValue}
           />
         </Form.Item>
       </Col>

@@ -9,6 +9,7 @@ import {
   API_CONTENEURS_ENDPOINT,
 } from "@/api/api";
 import { useReferenceContext } from "@/context/ReferenceContext";
+import useAuth from "@/hooks/useAuth";
 
 interface AUFormProps {
   refetch: () => void;
@@ -20,7 +21,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues,disabled }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const { user } = useReferenceContext();
-
+  const {account} = useAuth();
   useEffect(() => {
     user?.fetch();
   }, []);
@@ -69,12 +70,13 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues,disabled }) => {
       initialvalues={initialvalues}
     >
 
-      <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
+      <FormObject form={form} initialvalues={mapInitialValues({...initialvalues,receved_by:account})}>
         <Row gutter={24}>
 
           <FormField
             label="Chagé chargement"
             name="receved_by"
+            disabled
             option_label="full_name"
             option_value="id"
             required

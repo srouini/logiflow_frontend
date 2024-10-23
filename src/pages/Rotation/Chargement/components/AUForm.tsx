@@ -8,6 +8,7 @@ import { useReferenceContext } from "@/context/ReferenceContext";
 import FormField from "@/components/form/FormField";
 import { API_BULLETINS_ENDPOINT } from "@/api/api";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import useAuth from "@/hooks/useAuth";
 
 interface AUFormProps {
   refetch: () => void;
@@ -30,6 +31,7 @@ const AUForm: React.FC<AUFormProps> = ({
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const { mrn, user } = useReferenceContext();
+  const {account} = useAuth();
 
   useEffect(() => {
     mrn?.fetch();
@@ -69,7 +71,7 @@ const AUForm: React.FC<AUFormProps> = ({
       isLoading={isLoading}
       initialvalues={initialvalues}
     >
-      <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
+      <FormObject form={form} initialvalues={mapInitialValues({...initialvalues,charge_chargement:account})}>
         <Row gutter={24}>
           <FormField
             label="Mrn"
@@ -88,6 +90,7 @@ const AUForm: React.FC<AUFormProps> = ({
             option_label="full_name"
             option_value="id"
             required
+            disabled
             span_md={24}
             span={24}
             type="select"

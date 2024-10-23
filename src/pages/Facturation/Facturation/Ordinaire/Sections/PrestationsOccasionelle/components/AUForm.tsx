@@ -1,10 +1,17 @@
-import { API_BONS_COMMANDE_ENDPOINT, API_CONTENEURS_ENDPOINT, API_RUBRIQUES_ENDPOINT } from "@/api/api";
+import {
+  API_BONS_COMMANDE_ENDPOINT,
+  API_CONTENEURS_ENDPOINT,
+  API_PRESTATIONS_OCCASIONNELLE_ENDPOINT,
+  API_RUBRIQUES_ENDPOINT,
+} from "@/api/api";
 import FormField from "@/components/form/FormField";
+import { useReferenceContext } from "@/context/ReferenceContext";
 import useData from "@/hooks/useData";
 import usePost from "@/hooks/usePost";
 import { PaperClipOutlined } from "@ant-design/icons";
 import { CheckCard, ProCard, StepsForm } from "@ant-design/pro-components";
 import { Button, Flex, message, Modal, Row } from "antd";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 interface AUFormProps {
@@ -16,6 +23,12 @@ export default ({ article, refetch }: AUFormProps) => {
   // @ts-ignore
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { rubrique } = useReferenceContext();
+
+  useEffect(() => {
+    rubrique.fetch();
+  }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -40,7 +53,7 @@ export default ({ article, refetch }: AUFormProps) => {
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_BONS_COMMANDE_ENDPOINT,
+    endpoint: API_PRESTATIONS_OCCASIONNELLE_ENDPOINT,
   });
 
   const { data: containers, refetch: refetchTcs } = useData({
@@ -49,15 +62,7 @@ export default ({ article, refetch }: AUFormProps) => {
     params: {
       article__id: article.id,
       all: true,
-    },
-  });
-
-  const { data: rubriques } = useData({
-    endpoint: API_RUBRIQUES_ENDPOINT,
-    name: `GET_RUBRIQUES`,
-    params: {
-      categorie__icontains:"occasionnelle",
-      all: true,
+      billed: false,
     },
   });
 
@@ -69,7 +74,7 @@ export default ({ article, refetch }: AUFormProps) => {
         onClick={showModal}
         disabled={containers?.data?.length === 0}
       >
-        + Bon Commande
+        + Prestation occasionnelle
       </Button>
       <Modal
         title="+ Préstation occasionnelle"
@@ -83,18 +88,13 @@ export default ({ article, refetch }: AUFormProps) => {
         <ProCard>
           <StepsForm
             onFinish={async (values: any) => {
-              mutate({
-                article: article?.id, 
-                commandes : 
-                  selectedContainers?.map((tc:any) => {
-                    return {
-                      tc: tc, 
-                      type: values["type"], 
-                      quantite: values["quantite"],
-                      observation: values["observation"]
-                    }
-                  })
-                
+              selectedContainers?.map((container: any) => {
+                mutate({
+                  rubrique: values["rubrique"],
+                  tc: container,
+                  date: dayjs(values["date"]).format("YYYY-MM-DD"),
+                  prix: values["prix"],
+                });
               });
             }}
             submitter={{
@@ -141,7 +141,7 @@ export default ({ article, refetch }: AUFormProps) => {
           >
             <StepsForm.StepForm
               name="base"
-              title="Bon Commande"
+              title="Prestation occasionnelle"
               onFinish={async () => {
                 setLoading(true);
                 setLoading(false);
@@ -150,50 +150,64 @@ export default ({ article, refetch }: AUFormProps) => {
             >
               <Row gutter={24}>
                 <FormField
-                  label="Type"
-                  name="type"
-                  span={18}
+                  label="Rubrique"
+                  name="rubrique"
+                  span={24}
                   required
-                  span_md={18}
+                  initialValue={null}
+                  span_md={24}
                   type="select"
-                  option_label="label"
-                  option_value="id"
-                  options={rubriques?.data}
+                  option_label="designation"
+                  option_value="designation"
+                  options={rubrique?.results}
                 />
                 <FormField
-                  label="Quantité"
-                  name="quantite"
-                  span={6}
-                  span_md={6}
+                  required
+                  span_md={24}
+                  span={24}
+                  type="date"
+                  name="date"
+                  label="Date"
+                ></FormField>
+                <FormField
+                  label="Tarif"
+                  name="prix"
+                  required
+                  span={24}
+                  step={0.01}
+                  span_md={24}
                   type="number"
                 />
               </Row>
-              <Row> 
-                <FormField label="observation" name="observation" type="text" span={24} span_md={24}/> 
-              </Row>
             </StepsForm.StepForm>
             <StepsForm.StepForm name="checkbox" title="Conteneurs">
-              <Flex style={{ padding: "0px", paddingTop: "0px" }}>
-                <CheckCard.Group
-                  multiple
-                  onChange={(value: any) => {
-                    setSelectedContainers(value);
-                  }}
-                  size="small"
+              <CheckCard.Group
+                multiple
+                onChange={(value: any) => {
+                  setSelectedContainers(value);
+                }}
+                size="small"
+              >
+                <Flex
+                  wrap
+                  justify="start"
+                  style={{ height: "300px", overflow: "scroll" }}
+                  align="flex-start"
+                  vertical
+                  gap={8}
                 >
-                  <Flex wrap justify="center">
-                    {containers?.data?.map((item: any) => {
-                      return (
-                        <CheckCard
-                          title={item?.tc}
-                          value={item?.id}
-                          avatar={<PaperClipOutlined />}
-                        />
-                      );
-                    })}
-                  </Flex>
-                </CheckCard.Group>
-              </Flex>
+                  {containers?.data?.map((item: any) => {
+                    return (
+                      <CheckCard
+                        size="large"
+                        title={item?.tc}
+                        value={item?.id}
+                        avatar={<PaperClipOutlined />}
+                      />
+                    );
+                  })}
+                </Flex>
+              </CheckCard.Group>
             </StepsForm.StepForm>
           </StepsForm>
         </ProCard>

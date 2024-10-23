@@ -8,13 +8,16 @@ interface UseAuth {
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   loading: boolean;
+  account:any;
 }
 
 const useAuth = (): UseAuth => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [account, setAccount] = useState()
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
+  
   const axiosInstance = axios.create({
     baseURL: API_ENDPOINT, // Your backend API base URL
     withCredentials: true,  // Ensure cookies are sent with requests
@@ -78,6 +81,7 @@ const useAuth = (): UseAuth => {
       });
       if (response.status === 200) {
         setIsAuthenticated(true);
+        setAccount(response?.data?.user)
       } 
     } catch (error) {
       // If initial check fails, try to refresh the token
@@ -109,7 +113,7 @@ const useAuth = (): UseAuth => {
     }
   };
 
-  return { isAuthenticated, login, logout, loading };
+  return { isAuthenticated, login, logout, loading,account };
 };
 
 export default useAuth;

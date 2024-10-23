@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Badge, Button, Card, Divider, Drawer, Row, Tag } from "antd";
+import { Badge, Button, Card, Divider, Drawer, Flex, Row, Tag } from "antd";
 import { ProDescriptions } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
-import { API_PRFORMAS_ENDPOINT } from "@/api/api";
+import { API_BONS_SORTIE_ENDPOINT, API_PRFORMAS_ENDPOINT } from "@/api/api";
 import {
   columns,
   columns_paiementrs,
@@ -14,6 +14,14 @@ import CustomTableData from "@/components/CustomTableData";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import AUFormPaiement from "./components/AUFormPaiement";
+import {
+  EditOutlined,
+  FileDoneOutlined,
+} from "@ant-design/icons";
+import { BonSortie } from "@/types/billing";
+import Print from "@/components/Print";
+import AUForm from "./components/AUForm"
+import AUFormUpdate from "./components/AUFormUpdate";
 
 interface ProformaPageProps {
   facture: any;
@@ -33,12 +41,12 @@ export default ({
   const showDrawer = () => {
     setOpen(true);
     refetch();
+    RefetchbonSorties();
   };
 
   const onClose = () => {
     setOpen(false);
   };
-
 
   const {
     data,
@@ -55,6 +63,30 @@ export default ({
     enabled: false,
   });
 
+  const {
+    data: bonSorties,
+    isLoading: isLoadingDataBonSortie,
+    isRefetching: isRefetchingBonSorties,
+    isFetching: isFetchingBonSortie,
+    refetch: RefetchbonSorties,
+  } = useData({
+    endpoint: API_BONS_SORTIE_ENDPOINT,
+    name: `GET_BONSORTIES_${facture?.id}`,
+    params: {
+      all: true,
+      facture__id: facture?.id,
+      expand:"bon_sortie_items"
+    },
+    enabled: false,
+  });
+
+  const { isLoading: isLoadingBonsSortie } = useLoading({
+    loadingStates: [
+      isLoadingDataBonSortie,
+      isRefetchingBonSorties,
+      isFetchingBonSortie,
+    ],
+  });
   const { isLoading } = useLoading({
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
@@ -88,6 +120,46 @@ export default ({
 
         <Divider />
 
+        {bonSorties?.data?.length == 0 && (
+          <Card>
+            <Flex align="center" justify="space-between">
+              <span>BON LIVRAISON </span>
+              <AUForm facture={facture} refetch={RefetchbonSorties}/>
+            </Flex>
+          </Card>
+        )}
+
+        {bonSorties?.data?.length > 0 && (
+          <Card>
+            {bonSorties?.data?.map((item: BonSortie) => {
+              return (
+                <Flex justify="space-between" align="center">
+                  <Flex gap={8}>
+                    <FileDoneOutlined />
+                    <span>{item?.numero}</span>
+                  </Flex>
+                  <Flex gap={8}>
+                    <AUFormUpdate bon_sortie={item}  refetch={RefetchbonSorties} key={item?.id}/>
+                    <Print
+                      endpoint={API_BONS_SORTIE_ENDPOINT}
+                      id={item?.id?.toString()}
+                      type="View"
+                      endpoint_suffex="generate_pdf/"
+                    />
+                    <Print
+                      endpoint={API_BONS_SORTIE_ENDPOINT}
+                      id={item?.id?.toString()}
+                      type="Download"
+                      endpoint_suffex="generate_pdf/"
+                    />
+                  </Flex>
+                </Flex>
+              );
+            })}
+          </Card>
+        )}
+
+        <Divider />
         <CustomTableData
           toolbar={{
             actions: [

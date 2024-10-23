@@ -50,11 +50,12 @@ export default () => {
         tabs={{
           tabPosition: "top",
           activeKey: tab,
+          
           items: [
             {
               label: `Factures`,
               key: "factures",
-              children: <Factures id={id} article={data?.data}/>,
+              children: <Factures id={id} article={data?.data} activeTab={tab}/>,
             },
             {
               label: `Proformas`,

@@ -28,7 +28,7 @@ export default ({ id,article }: Props) => {
       headerTitle="Prestations Occasionnelle"
       // @ts-ignore
       options={{ reload: refetch }}
-      columns={getColumns()}
+      columns={getColumns(refetch)}
       loading={isLoading}
       dataSource={data?.data}
       toolbar={{

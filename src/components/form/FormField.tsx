@@ -22,6 +22,7 @@ interface FormFieldProps {
   step?:number
   initialValue?:any
   onChange?:any
+  defaultValue?:any
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -38,6 +39,7 @@ const FormField: React.FC<FormFieldProps> = ({
   disabled = false,
   step=1,
   initialValue,
+  defaultValue,
   onChange
 }) => {
   switch (type) {
@@ -78,6 +80,7 @@ const FormField: React.FC<FormFieldProps> = ({
             required={required}
             disabled={disabled}
             initialValue={initialValue}
+            defaultValue={defaultValue}
           />
         </Col>
       );
@@ -99,6 +102,7 @@ const FormField: React.FC<FormFieldProps> = ({
       return (
         <Col span={span} md={span_md}>
           <ProFormSelect
+          style={{width:`${span_md === 24 ? "100%" : ""}`}}
             {...selectConfig}
             width="lg"
             onChange={onChange}

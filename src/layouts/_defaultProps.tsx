@@ -1,4 +1,5 @@
 import { BranchesOutlined, FieldTimeOutlined, FileDoneOutlined, FileProtectOutlined, SmileFilled, WindowsOutlined } from "@ant-design/icons";
+import Title from "antd/es/skeleton/Title";
 
 export default {
   route: {
@@ -9,7 +10,7 @@ export default {
         name: 'Dashboard',
         icon: <WindowsOutlined />,
         children: [
-          { path: '/dashboard/dashboard', name: 'Dashboard', icon: <SmileFilled />,},
+          { path: '/dashboard/dashboard', name: 'Dashboard'},
           { path: '/dashboard/settings', name: 'Settings' },
           { path: '/dashboard/references', name: 'References' },
         ],

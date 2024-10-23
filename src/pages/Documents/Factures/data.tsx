@@ -29,6 +29,13 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     width: 250,
   },
   {
+    title: "Regime",
+    dataIndex: "proforma",
+    key:"3",
+    render: (record:any) => renderText(record?.gros?.regime?.designation),
+    width: 250,
+  },
+  {
     title: "Article",
     dataIndex: "proforma",
     key:"4",

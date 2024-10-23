@@ -1,10 +1,11 @@
 import { API_BONS_COMMANDE_ENDPOINT } from "@/api/api"
+import Delete from "@/components/Delete"
 import Print from "@/components/Print"
 import { renderDate } from "@/utils/functions"
 import { ProColumns, TableDropdown } from "@ant-design/pro-components"
 import { Col, Row } from "antd"
 
-export const getColumns = (): ProColumns<any>[] => [
+export const getColumns = (refetch:() => void): ProColumns<any>[] => [
   {
     title: "Numéro",
     dataIndex: "numero",
@@ -50,6 +51,9 @@ export const getColumns = (): ProColumns<any>[] => [
                 key={record?.id}
                 type="View"
               />
+            </Col>
+            <Col>
+            <Delete class_name="Bon commande" id={record?.id} refetch={refetch} url={API_BONS_COMMANDE_ENDPOINT} has_icon type="dashed" link={false} text="" />
             </Col>
          </Row> 
         ]

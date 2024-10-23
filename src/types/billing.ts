@@ -88,7 +88,7 @@ export interface Commande extends BaseModel {
 export interface Facture extends BaseModel {
     numero?: string;
     date_creation?: string; // Date in YYYY-MM-DD format
-    proforma?: number | Proforma; // Foreign key to Proforma, can be ID or object
+    proforma?: Proforma | number; // Foreign key to Proforma, can be ID or object
     HT?: number;
     TVA?: number;
     TTC?: number;
@@ -178,6 +178,7 @@ export interface BonSortie extends BaseModel {
     facture?: number | Facture; // Foreign key to Facture, can be ID or object
     d10?: string;
     badge?: string;
+    bon_sortie_items?:BonSortieItem[];
 }
 
 // Define the BonSortieItem model

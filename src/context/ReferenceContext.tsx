@@ -11,6 +11,7 @@ import useContainerType from "@/hooks/references/useContainerType";
 import useUser from "@/hooks/references/useUser";
 import useBox from "@/hooks/references/useBox";
 import useBanque from "@/hooks/references/useBanque";
+import useRubrique from "@/hooks/references/useRubruique";
 
 const ReferenceContext = createContext<any>(null);
 
@@ -32,6 +33,7 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
   const user = useUser();
   const box = useBox();
   const banque = useBanque();
+  const rubrique = useRubrique();
  
   const contextValues = {
     navire,
@@ -45,7 +47,8 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
     containerType,
     user, 
     box, 
-    banque
+    banque, 
+    rubrique
   };
 
   return (

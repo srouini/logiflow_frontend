@@ -14,7 +14,8 @@ interface FormTextInputProps extends Omit<FormItemProps, "children"> {
   hasAddOn?: boolean;
   inputColSpan?: number;
   addonColSpan?: number;
-  disabled?:boolean
+  disabled?:boolean;
+  initialValue?:string;
 }
 
 const FormTextInput: React.FC<FormTextInputProps> = ({
@@ -28,7 +29,8 @@ const FormTextInput: React.FC<FormTextInputProps> = ({
   hasAddOn = false,
   inputColSpan = 19,
   addonColSpan = 5,
-  disabled=false
+  disabled=false,
+  initialValue
 }) => {
   const [suffix, setSuffix] = useState<string>(initSuffix);
 
@@ -59,6 +61,7 @@ const FormTextInput: React.FC<FormTextInputProps> = ({
           label={label}
           rules={[{ required: required, message: message }]}
           {...att}
+          initialValue={initialValue}
         >
           <Input placeholder={placeholder} allowClear disabled={disabled}/>
         </Form.Item>

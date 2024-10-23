@@ -4,7 +4,7 @@ import useData from "@/hooks/useData";
 import usePost from "@/hooks/usePost";
 import { PaperClipOutlined } from "@ant-design/icons";
 import { CheckCard, ProCard, StepsForm } from "@ant-design/pro-components";
-import { Button, Flex, message, Modal, Row } from "antd";
+import { Button, Col, Flex, message, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 
 interface AUFormProps {
@@ -49,6 +49,7 @@ export default ({ article, refetch }: AUFormProps) => {
     params: {
       article__id: article.id,
       all: true,
+      billed: false,
     },
   });
 
@@ -75,17 +76,15 @@ export default ({ article, refetch }: AUFormProps) => {
           <StepsForm
             onFinish={async (values: any) => {
               mutate({
-                article: article?.id, 
-                commandes : 
-                  selectedContainers?.map((tc:any) => {
-                    return {
-                      tc: tc, 
-                      type: values["type"], 
-                      quantite: values["quantite"],
-                      observation: values["observation"]
-                    }
-                  })
-                
+                article: article?.id,
+                commandes: selectedContainers?.map((tc: any) => {
+                  return {
+                    tc: tc,
+                    type: values["type"],
+                    quantite: values["quantite"],
+                    observation: values["observation"],
+                  };
+                }),
               });
             }}
             submitter={{
@@ -174,34 +173,47 @@ export default ({ article, refetch }: AUFormProps) => {
                   span={6}
                   span_md={6}
                   type="number"
+                  required
                 />
               </Row>
-              <Row> 
-                <FormField label="observation" name="observation" type="text" span={24} span_md={24}/> 
+              <Row>
+                <FormField
+                  label="observation"
+                  name="observation"
+                  type="text"
+                  span={24}
+                  span_md={24}
+                />
               </Row>
             </StepsForm.StepForm>
             <StepsForm.StepForm name="checkbox" title="Conteneurs">
-              <Flex style={{ padding: "0px", paddingTop: "0px" }}>
-                <CheckCard.Group
-                  multiple
-                  onChange={(value: any) => {
-                    setSelectedContainers(value);
-                  }}
-                  size="small"
+              <CheckCard.Group
+                multiple
+                onChange={(value: any) => {
+                  setSelectedContainers(value);
+                }}
+                size="small"
+              >
+                <Flex
+                  wrap
+                  justify="start"
+                  style={{ height: "300px", overflow: "scroll" }}
+                  align="flex-start"
+                  vertical
+                  gap={8}
                 >
-                  <Flex wrap justify="center">
-                    {containers?.data?.map((item: any) => {
-                      return (
+                  {containers?.data?.map((item: any) => {
+                    return (
                         <CheckCard
+                          size="large"
                           title={item?.tc}
                           value={item?.id}
-                          avatar={<PaperClipOutlined />}
+                          avatar={<PaperClipOutlined />}  
                         />
-                      );
-                    })}
-                  </Flex>
-                </CheckCard.Group>
-              </Flex>
+                    );
+                  })}
+                </Flex>
+              </CheckCard.Group>
             </StepsForm.StepForm>
           </StepsForm>
         </ProCard>

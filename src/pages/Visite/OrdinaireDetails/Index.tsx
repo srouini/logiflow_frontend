@@ -8,11 +8,11 @@ import { API_VISITES_ENDPOINT, API_VISITES_ITEMS_ENDPOINT } from "@/api/api";
 import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { DetailsColumns, getColumns } from "./data";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import Details from "@/components/Details";
 import Containers from "./components/Containers";
-import { Button, message } from "antd";
+import { Button, message, Tag } from "antd";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import usePost from "@/hooks/usePost";
 import Print from "@/components/Print";
@@ -98,9 +98,12 @@ export default () => {
     mutate({ id: id, validated: true });
   };
 
+  const navigate = useNavigate();
+  
   return (
     <PageContainer
       contentWidth="Fluid"
+
       header={{
         breadcrumb: breadcrumb,
         title: `Visite ${selectedRecord?.data?.visite}`,
@@ -128,6 +131,8 @@ export default () => {
             disabled={selectedRecord?.data?.validated}
           />,
         ],
+        onBack : () =>  navigate(`/visites/ordinaire/`),
+        tags:[<Tag> {selectedRecord?.data?.type_visite}</Tag>],
       }}
       title=" "
     >

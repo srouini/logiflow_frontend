@@ -29,7 +29,7 @@ export default ({ id,article }: Props) => {
       headerTitle="Commandes"
       // @ts-ignore
       options={{ reload: refetch }}
-      columns={getColumns()}
+      columns={getColumns(refetch)}
       loading={isLoading}
       dataSource={data?.data}
       toolbar={{

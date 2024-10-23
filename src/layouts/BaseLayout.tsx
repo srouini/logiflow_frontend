@@ -13,7 +13,7 @@ import ReferenceContextProvider from "../context/ReferenceContext";
 export default () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
-
+  const {account} = useAuth();
   useEffect(() => {
     localStorage.getItem("theme")
       ? setCurrentTheme(localStorage.getItem("theme"))
@@ -82,7 +82,8 @@ export default () => {
             avatarProps={{
               src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
               size: "small",
-              title: "ROUINI SEYFALLAH",
+              title: account?.full_name,
+              shape:"square",
               // @ts-ignore
               render: (props, dom) => {
                 return (
