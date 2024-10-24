@@ -8,7 +8,7 @@ export const getColumns = (): ProColumns<any>[] => [
     dataIndex: "tc",
     key: "1",
     width: 100,
-    render: (record:any) => renderText(record?.tc)
+    render: (record: any) => renderText(record?.tc),
   },
   {
     title: "Type",
@@ -42,7 +42,6 @@ export const getColumns = (): ProColumns<any>[] => [
       </>
     ),
   },
-
 ];
 
 export const columns = [
@@ -91,17 +90,10 @@ export const columns = [
 export const DetailsColumns = [
   {
     title: "Mrn",
-    dataIndex: "gros",
+    dataIndex: "tc",
     key: "gros",
     width: 100,
-    render: (record: any) => renderText(record?.gros),
-  },
-  {
-    title: "BL",
-    key: "bl",
-    dataIndex: "bl",
-    width: 150,
-    render: (record: any) => renderText(record),
+    render: (record: any) => renderText(record?.article?.gros?.gros),
   },
   {
     title: "Client",
@@ -115,39 +107,44 @@ export const DetailsColumns = [
     key: "groupage",
     dataIndex: "groupage",
     width: 120,
-    render: (record: any) =>
-      record ? <Tag color="blue"> Groupage </Tag> : <Tag> Ordinaire </Tag>,
+    render: (record: any) => <Tag color="blue"> Groupage </Tag>,
   },
 
   {
     title: "Depoté",
     key: "depote",
     width: 100,
-    dataIndex: "depote",
+    dataIndex: "tc",
     // @ts-ignore
-    render: (_, record: any) =>
-      record.depote && record.groupage ? (
+    render: (record: any) =>
+      record.article?.depote && record.article?.groupage ? (
         <Tag color="green"> Depté </Tag>
-      ) : record.groupage ? (
-        <Tag color="red"> Non depoté </Tag>
+      ) : record.article?.groupage ? (
+        -(<Tag color="red"> Non depoté </Tag>)
       ) : (
         "-"
       ),
   },
   {
     title: "Date dépotage",
-    dataIndex: "date_depotage",
+    dataIndex: "tc",
     key: "date_depotage",
     width: 150,
-    render: (record: any) => renderDateTime(record),
+    render: (record: any) => renderDateTime(record?.article?.date_depotage),
   },
-
   {
     title: "Transitaire",
     key: "transitaire",
     width: 300,
     dataIndex: "transitaire",
     render: (record: any) => renderText(record?.raison_sociale),
+  },
+  {
+    title: "Volume",
+    key: "volume",
+    width: 300,
+    dataIndex: "volume",
+    render: (record: any) => renderText(record),
   },
   {
     title: "Designation",
@@ -165,79 +162,7 @@ export const breadcrumb: any = {
       title: "Facturation",
     },
     {
-      title: "Groupage",
+      title: "Ordinaire",
     },
-  
   ],
 };
-
-
-export const subArticlesColumns = () => [
-  {
-    title: "Numéro",
-    dataIndex: "numero",
-    key: "1",
-    width: 100,
-  },
-  {
-    title: "Position",
-    key: "1.5",
-    dataIndex: "box",
-    width: 150,
-    render: (record:any) => <Tag color="green"> {renderText(record?.designation)}</Tag>
-  },
-  {
-    title: "Client",
-    key: "3",
-    dataIndex: "client",
-    width: 250,
-    render: (record:any) => renderText(record?.raison_sociale)
-  },
-  {
-    title: "Volume",
-    key: "4",
-    dataIndex: "volume",
-    width: 150,
-  },
-  {
-    title: "Poids",
-    key: "5",
-    dataIndex: "poids",
-    width: 120,
-  },
-  {
-    title: "Dangereux",
-    key: "6",
-    dataIndex: "dangereux",
-    width: 150,
-    // @ts-ignore
-    render: (_,record:any) => <> {record.dangereux ? <Tag color="red" > DGX </Tag> :" - "}</>
-  },
-  
-   {
-    title: "Marchandise",
-    key: "10",
-    dataIndex: "designation",
-    ellipsis:true,
-    width: 400,
-  },
-  {
-    title: "NBR colis",
-    key: "7",
-    dataIndex: "ponombre_colisids",
-    width: 120,
-  },
-  {
-    title: "Surface",
-    key: "8",
-    dataIndex: "surface",
-    width: 120,
-  },
-  {
-    title: "Quantité",
-    key: "9",
-    dataIndex: "quantite",
-    width: 120,
-  },
-
-]

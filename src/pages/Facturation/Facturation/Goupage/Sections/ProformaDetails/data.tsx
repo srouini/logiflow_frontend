@@ -1,4 +1,4 @@
-import { type ProColumns } from "@ant-design/pro-components";
+import type { ProColumns } from "@ant-design/pro-components";
 import { Tag } from "antd";
 import { renderDate, renderMoney, renderText } from "@/utils/functions";
 
@@ -6,7 +6,7 @@ import { renderDate, renderMoney, renderText } from "@/utils/functions";
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Numéro",
-    dataIndex: "full_number",
+    dataIndex: "numero",
     key: "1",
     width: 100,
   },
@@ -15,9 +15,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     key: "1.5",
     dataIndex: "box",
     width: 150,
-    render: (record: any) => (
-      <Tag color="green"> {renderText(record?.designation)}</Tag>
-    ),
+    render: (record:any) => <Tag color="green"> {renderText(record?.designation)}</Tag>
   },
   {
     title: "BL",
@@ -30,7 +28,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     key: "3",
     dataIndex: "client",
     width: 250,
-    render: (record: any) => renderText(record?.raison_sociale),
+    render: (record:any) => renderText(record?.raison_sociale)
   },
   {
     title: "Volume",
@@ -49,9 +47,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     key: "6",
     dataIndex: "dangereux",
     width: 150,
-    render: (_, record: any) => (
-      <> {record.dangereux ? <Tag color="red"> DGX </Tag> : " - "}</>
-    ),
+    render: (_,record:any) => <> {record.dangereux ? <Tag color="red" > DGX </Tag> :" - "}</>
   },
   {
     title: "NBR colis",
@@ -71,11 +67,12 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     dataIndex: "quantite",
     width: 120,
   },
-  {
+
+   {
     title: "Marchandise",
     key: "10",
     dataIndex: "designation",
-    ellipsis: true,
+    ellipsis:true,
     width: 350,
   },
   {
@@ -83,91 +80,66 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     key: "11",
     dataIndex: "transitaire",
     width: 250,
-    render: (record: any) => renderText(record?.raison_sociale),
+    render: (record:any) => renderText(record?.raison_sociale)
   },
+  
 ];
+
+
 
 export const columns = [
   {
     title: "Numéro",
-    dataIndex: "full_number",
+    dataIndex: "numero",
     copyable: true,
     width: 150,
     key: "1",
   },
   {
     title: "Etat",
-    dataIndex: "numero",
+    dataIndex: "valide",
     width: 150,
     key: "2",
     // @ts-ignore
     render: (_, record: any) =>
-      record?.paid ? (
-        <Tag color="green"> Payée </Tag>
-      ) : record?.a_terme ? (
-        <Tag>A Terme</Tag>
+      record?.trashed ? (
+        <Tag> Annulé </Tag>
+      ) : record?.valide ? (
+        <Tag color="green"> Valide </Tag>
       ) : (
-        <Tag color="red">Non Payée</Tag>
+        <Tag color="red">Non Valide</Tag>
       ),
   },
   {
     title: "Date",
-    dataIndex: "date_creation",
+    dataIndex: "date_proforma",
     key: "5",
-    render: (record: any) => renderDate(record),
+    render: (record:any) => renderDate(record),
     width: 100,
   },
-  {
-    title: "Facture",
-    dataIndex: "facture",
-    key: "7",
-    render: (record: any) => renderText(record?.numero),
-    width: 150,
-  },
+
   {
     title: "HT",
     dataIndex: "HT",
-    key: "8",
+    key: "7",
     render: (record: any) => renderMoney(record),
     width: 150,
   },
   {
     title: "TVA",
     dataIndex: "TVA",
-    key: "9",
-    render: (record: any) => renderMoney(record),
-    width: 150,
-  },
-  {
-    title: "Timber",
-    dataIndex: "timber",
-    key: "10",
+    key: "8",
     render: (record: any) => renderMoney(record),
     width: 150,
   },
   {
     title: "TTC",
     dataIndex: "TTC",
-    key: "11",
+    key: "9",
     render: (record: any) => renderMoney(record),
     width: 150,
   },
-  {
-    title: "Tva",
-    dataIndex: "tva",
-    width: 150,
-    key: "2",
-    // @ts-ignore
-    render: (_, record: any) =>
-      record?.paid ? (
-        <Tag color="green"> OUI </Tag>
-      ) : record?.a_terme ? (
-        <Tag>A Terme</Tag>
-      ) : (
-        <Tag color="red">NO</Tag>
-      ),
-  },
-];
+]
 
 export const columns_prestation_article = [
   {
@@ -182,30 +154,30 @@ export const columns_prestation_article = [
     dataIndex: "tarif",
     width: 100,
     key: "2",
-    render: (record: any) => renderMoney(record),
+    render: (record:any) => renderMoney(record)
   },
   {
     title: "HT",
     dataIndex: "HT",
     width: 100,
     key: "3",
-    render: (record: any) => renderMoney(record),
+    render: (record:any) => renderMoney(record)
   },
   {
     title: "TVA",
     dataIndex: "TVA",
     width: 100,
     key: "4",
-    render: (record: any) => renderMoney(record),
+    render: (record:any) => renderMoney(record)
   },
   {
     title: "TTC",
     dataIndex: "TTC",
     width: 100,
     key: "5",
-    render: (record: any) => renderMoney(record),
+    render: (record:any) => renderMoney(record)
   },
-];
+]
 
 export const columns_prestation_conteneurs = [
   {
@@ -213,80 +185,49 @@ export const columns_prestation_conteneurs = [
     dataIndex: "rubrique",
     copyable: true,
     ellipsis: true,
-    width: 150,
+    width: 300,
     key: "1",
+  },
+  {
+    title: "Tcs",
+    dataIndex: "tcs",
+    width: 60,
+    key: "12",
+    render: (record:any) => renderText(record)
   },
   {
     title: "Quantite",
     dataIndex: "quantite",
     width: 80,
     key: "13",
-    render: (record: any) => renderText(record),
+    render: (record:any) => renderText(record)
   },
   {
     title: "Tarif",
     dataIndex: "tarif",
     width: 100,
     key: "2",
-    render: (record: any) => renderMoney(record),
+    render: (record:any) => renderMoney(record)
   },
   {
     title: "HT",
     dataIndex: "HT",
     width: 100,
     key: "3",
-    render: (record: any) => renderMoney(record),
+    render: (record:any) => renderMoney(record)
   },
   {
     title: "TVA",
     dataIndex: "TVA",
     width: 100,
     key: "4",
-    render: (record: any) => renderMoney(record),
+    render: (record:any) => renderMoney(record)
   },
   {
     title: "TTC",
     dataIndex: "TTC",
     width: 100,
     key: "5",
-    render: (record: any) => renderMoney(record),
+    render: (record:any) => renderMoney(record)
   },
-];
-
-export const columns_paiementrs = [
-  {
-    title: "Banque",
-    dataIndex: "banque",
-    width: 60,
-    key: "1",
-    render: (record:any) => renderText(record?.raison_sociale)
-  },
-  {
-    title: "Mode",
-    dataIndex: "mode",
-    width: 60,
-    key: "12",
-    render: (record: any) => renderText(record),
-  },
-  {
-    title: "Chèque",
-    dataIndex: "cheque",
-    width: 60,
-    key: "12",
-    render: (record: any) => renderText(record),
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-    width: 80,
-    key: "13",
-    render: (record: any) => renderDate(record),
-  },
-  {
-    title: "Montant",
-    dataIndex: "montant",
-    width: 100,
-    key: "2",
-    render: (record: any) => renderMoney(record),
-  },
-];
+]

@@ -6,7 +6,7 @@ import { renderDate, renderMoney, renderText } from "@/utils/functions";
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Numéro",
-    dataIndex: "full_number",
+    dataIndex: "numero",
     key: "1",
     width: 100,
   },
@@ -90,7 +90,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
 export const columns = [
   {
     title: "Numéro",
-    dataIndex: "full_number",
+    dataIndex: "numero",
     copyable: true,
     width: 150,
     key: "1",
@@ -118,8 +118,8 @@ export const columns = [
     width: 100,
   },
   {
-    title: "Facture",
-    dataIndex: "facture",
+    title: "Proforma",
+    dataIndex: "proforma",
     key: "7",
     render: (record: any) => renderText(record?.numero),
     width: 150,
@@ -151,21 +151,6 @@ export const columns = [
     key: "11",
     render: (record: any) => renderMoney(record),
     width: 150,
-  },
-  {
-    title: "Tva",
-    dataIndex: "tva",
-    width: 150,
-    key: "2",
-    // @ts-ignore
-    render: (_, record: any) =>
-      record?.paid ? (
-        <Tag color="green"> OUI </Tag>
-      ) : record?.a_terme ? (
-        <Tag>A Terme</Tag>
-      ) : (
-        <Tag color="red">NO</Tag>
-      ),
   },
 ];
 
@@ -213,8 +198,15 @@ export const columns_prestation_conteneurs = [
     dataIndex: "rubrique",
     copyable: true,
     ellipsis: true,
-    width: 150,
+    width: 300,
     key: "1",
+  },
+  {
+    title: "Tcs",
+    dataIndex: "tcs",
+    width: 60,
+    key: "12",
+    render: (record: any) => renderText(record),
   },
   {
     title: "Quantite",

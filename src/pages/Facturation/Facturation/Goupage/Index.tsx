@@ -1,134 +1,110 @@
-import { PageContainer } from "@ant-design/pro-components";
-import { useEffect, useState } from "react";
-import useLoading from "@/hooks/useLoading";
-import usePage from "@/hooks/usePage";
+import { PageContainer, ProCard } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
-import {
-  API_ARTICLES_ENDPOINT,
-  API_CONTENEURS_ENDPOINT,
-  API_SOUSARTICLES_ENDPOINT,
-} from "@/api/api";
-import CustomTableAll from "@/components/CustomTableAll";
-import CustomTable from "@/components/CustomTable";
-import { breadcrumb, getColumns, subArticlesColumns } from "./data";
+import { API_ARTICLES_ENDPOINT, API_SOUSARTICLES_ENDPOINT } from "@/api/api";
+import { breadcrumb } from "./data";
 import { useParams } from "react-router";
 import Details from "@/components/Details";
 import { DetailsColumns } from "./data";
-import { useReferenceContext } from "@/context/ReferenceContext";
-import { Divider } from "antd";
+import { useState } from "react";
+import Factures from "./Sections/Factures/Index";
+import Proformas from "./Sections/Proformas/Index";
+import Commandes from "./Sections/Commandes/Index";
+import Visites from "./Sections/Visites/Index";
+import PrestationsOccasionnelle from "./Sections/PrestationsOccasionelle/Index";
+import FactureAvoire from "./Sections/FacturesAvoire/Index"
+import FactureComplementaire from "./Sections/FacturesComplementaire/Index";
+import { Col, Divider, Flex, Row } from "antd";
+import UpdateVolume from "./components/UpdateVolume"
+import UpdateBareme from "./components/UpdateBareme"
+import UpdateTransitaire from "./components/UpdateTransitaire"
 
 export default () => {
   const { id } = useParams();
-  const { containerType } = useReferenceContext();
-
-  useEffect(() => {
-    containerType?.fetch();
-  }, []);
-
-  // @ts-ignore*
-  const [search, setSearch] = useState("");
-  const { page, getPageSize } = usePage();
-  const {
-    getPageSize: getPageSizeSubArticle,
-    setPageSize: setPageSizeSubArticle,
-    setPage: setPageSubArticle,
-  } = usePage();
-
-  const {
-    data: selectedArticleData,
-    isLoading: isLoadingArticle,
-    isRefetching: isRefetchingArticle,
-  } = useData({
-    endpoint: API_ARTICLES_ENDPOINT + id + "/",
-    name: `GET_SELECTED_ARTICLE_${id}`,
-    params: {
-      expand: "client,transitairee,gros.regime",
-    },
-  });
 
   const {
     data,
-    isLoading: isLoadingData,
+    isLoading,
     isRefetching,
-    isFetching,
-    refetch,
+    refetch
   } = useData({
-    endpoint: API_CONTENEURS_ENDPOINT,
-    name: `GET_CONTAINERS_FACTURATION_${id}`,
+    endpoint: API_SOUSARTICLES_ENDPOINT + id + "/",
+    name: `GET_SELECTED_SUB_ARTICLE_${id}`,
     params: {
-      expand: "type_tc,current_scelle",
-      article__id: id,
-      all:true
+      expand: "transitairee,tc.article.gros,tc.article.client",
     },
   });
 
-  const {
-    data: dataSubArticles,
-    isLoading: isLoadingDataSubArticles,
-    isRefetching: isRefetchingSubArticles,
-    isFetching: isFetchingSubArticles,
-    refetch: refechSubArticles,
-  } = useData({
-    endpoint: API_SOUSARTICLES_ENDPOINT,
-    name: `GET_SOUS_ARTICLES_${id}`,
-    params: {
-      search: search,
-      page: page,
-      page_size: getPageSize(),
-      expand: "client,box",
-      tc__article__id: id,
-    },
-  });
 
-  const { isLoading } = useLoading({
-    loadingStates: [isLoadingData, isRefetching, isFetching],
-  });
 
-  const { isLoading: isLoadingSubArticle } = useLoading({
-    loadingStates: [
-      isLoadingDataSubArticles,
-      isRefetchingSubArticles,
-      isFetchingSubArticles,
-    ],
-  });
-
+  const [tab, setTab] = useState("factures");
   return (
     <PageContainer
       contentWidth="Fluid"
       header={{
         breadcrumb: breadcrumb,
-        title: `Article ${selectedArticleData?.data?.numero}`,
-        extra: [
-        ],
+        title: `SousArticle ${data?.data?.numero} / ${data?.data?.tc?.article?.numero}`,
+        extra: [],
       }}
     >
       <Details
-        dataSource={selectedArticleData?.data}
-        isLoading={isLoadingArticle || isRefetchingArticle}
+        dataSource={data?.data}
+        isLoading={isLoading || isRefetching}
         DetailsColumns={DetailsColumns}
       />
-
-      <CustomTableAll
-        getColumns={getColumns()}
-        data={data}
-        headerTitle="Conteneurs"
-        isLoading={isLoading}
-        refetch={refetch}
-        key="CONTAINERS_TABLE"
-      />
-
       <Divider />
-      <CustomTable
-      headerTitle="Sous Articles"
-        getColumns={subArticlesColumns()}
-        data={dataSubArticles}
-        getPageSize={getPageSizeSubArticle}
-        isLoading={isLoadingSubArticle}
-        refetch={refechSubArticles}
-        setPage={setPageSubArticle}
-        setPageSize={setPageSizeSubArticle}
-        setSearch={null}
-        key="SUB_ARTICLES_TABLE"
+      <Flex style={{width:"100%"}} justify="end" gap={24}>
+     
+      <UpdateVolume refetch={refetch} sous_article={data?.data} />
+        <UpdateBareme refetch={refetch} sous_article={data?.data}  />
+        <UpdateTransitaire refetch={refetch} sous_article={data?.data}  />
+    
+      </Flex>
+      <ProCard
+        tabs={{
+          tabPosition: "top",
+          activeKey: tab,
+          
+          items: [
+            {
+              label: `Factures`,
+              key: "factures",
+              children: <Factures id={id} article={data?.data} activeTab={tab}/>,
+            },
+            {
+              label: `Proformas`,
+              key: "proformas",
+              children: <Proformas id={id} article={data?.data} />,
+            },
+            {
+              label: `Visites`,
+              key: "visites",
+              children: <Visites id={id} article={data?.data}/>,
+            },
+            {
+              label: `Commandes`,
+              key: "commandes",
+              children: <Commandes id={id} article={data?.data}/>,
+            },
+            {
+              label: `Préstations occasionnelle`,
+              key: "prestation_occasionnelle",
+              children: <PrestationsOccasionnelle id={id} article={data?.data}/>,
+            },
+            {
+              label: `Facture Complementaire`,
+              key: "facture_complementaire",
+              children: <FactureComplementaire id={id} article={data?.data}/>,
+            }, 
+            {
+              label: `Facture Avoire`,
+              key: "facture_avoire",
+              children: <FactureAvoire id={id} article={data?.data}/>,
+            },
+          ],
+          onChange: (key) => {
+            setTab(key);
+          },
+        }}
       />
     </PageContainer>
   );

@@ -1,28 +1,43 @@
 import { useEffect, useState } from "react";
 import useData from "../useData";
-import { Navire } from "../../types/reference";
+import { API_BAREMES_ENDPOINT } from "../../api/api";
+import { Bareme } from "../../types/bareme";
 
-const useNavire = () => {
-    const [navires, setNavires] = useState<Navire[]>();
-  
-    const { data, isLoading, isRefetching, refetch } = useData({
-      endpoint: "/api/reference/navire/",
-      name: "GET_NAVIRES",
-      enabled: false,
-      params: { all: true, fields:"id,nom" },
-    });
-  
-    const fetchNavire = () => {
-      if (!navires) {
-        refetch();
-      }
-    };
-  
-    useEffect(() => {
-      setNavires(data?.data);
-    }, [data]);
-  
-    return { navires, isLoadingNavires:isLoading, isRefetchingNavires:isRefetching, fetchNavire, refetchNavires:refetch };
+interface UseResult {
+  results: Bareme[] | undefined;
+  isLoading: boolean;
+  isRefetching: boolean;
+  fetch: () => void;
+  refetch: () => void;
+}
+
+const useBareme = (): UseResult => {
+  const [results, setResults] = useState<Bareme[]>();
+
+  const { data, isLoading, isRefetching, refetch } = useData({
+    endpoint: API_BAREMES_ENDPOINT,
+    name: "GET_BARAMES",
+    enabled: false,
+    params: { all: true, fields: "id,designation" },
+  });
+
+  const fetch = () => {
+    if (!results) {
+      refetch();
+    }
   };
-  
-  export default useNavire;
+
+  useEffect(() => {
+    setResults(data?.data);
+  }, [data]);
+
+  return {
+    results,
+    isLoading,
+    isRefetching,
+    fetch,
+    refetch,
+  };
+};
+
+export default useBareme;

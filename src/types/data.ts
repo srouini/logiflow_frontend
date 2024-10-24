@@ -1,5 +1,6 @@
-import {Navire, Armateur, Port, Consignataire} from "./reference"
+import {Navire, Armateur, Port, Consignataire, Client, Transitaire} from "./reference"
 import {BaseModel} from "./commun"
+import { Bareme, Regime } from "./bareme";
 
 type Tc = any 
 // Gros Model
@@ -13,8 +14,8 @@ export interface Gros extends BaseModel {
     navire?: Navire | number; // ForeignKey as object
     armateur?: Armateur | number; // ForeignKey as object
     consignataire?: Consignataire | number; // ForeignKey as object
-    bareme?: number; // ForeignKey IDs if not an object
-    regime?: number; // ForeignKey IDs if not an object
+    bareme?: number | Bareme; // ForeignKey IDs if not an object
+    regime?: number | Regime; // ForeignKey IDs if not an object
 }
 
 // Article Model
@@ -27,8 +28,8 @@ export interface Article extends BaseModel {
     observation_depotage?: string;
     bl?: string;
     designation?: string;
-    client?: number; // ForeignKey IDs
-    transitaire?: number; // ForeignKey IDs
+    client?: number | Client; // ForeignKey IDs
+    transitaire?: number | Transitaire; // ForeignKey IDs
 }
 
 // Position Model
@@ -82,7 +83,7 @@ export interface Container extends BaseModel {
 // SousArticle Model
 export interface SousArticle extends BaseModel {
     numero?: number;
-    tc?: Tc | number; // ForeignKey as object
+    tc?: Container | number; // ForeignKey as object
     bl?: string;
     volume?: number;
     dangereux?: boolean;
@@ -94,8 +95,8 @@ export interface SousArticle extends BaseModel {
     unite_de_visite?: string;
     unite_de_chargement?: string;
     unite_de_magasinage?: string;
-    client?: number; // ForeignKey IDs
-    transitaire?: number; // ForeignKey IDs
+    client?: number | Client; // ForeignKey IDs
+    transitaire?: number | Transitaire; // ForeignKey IDs
     designation?: string;
     invoiced?: boolean;
     box?: number; // ForeignKey IDs
