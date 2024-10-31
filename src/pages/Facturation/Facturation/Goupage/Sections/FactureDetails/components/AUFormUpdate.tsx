@@ -3,7 +3,7 @@ import DraggableModel from "@/components/DraggableModel";
 import FormObject from "@/components/Form";
 import { Col, Divider, Form,  message, Row } from "antd";
 import usePost from "@/hooks/usePost";
-import { API_BONS_SORTIE_ENDPOINT } from "@/api/api";
+import { API_BONS_SORTIE_GROUPAGE_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { EditOutlined } from "@ant-design/icons";
 import { BonSortie } from "@/types/billing";
@@ -23,15 +23,6 @@ const AUFormUpdate: React.FC<AUFormProps> = ({ refetch, bon_sortie }) => {
       id:bon_sortie?.id,
       d10:values?.d10,
       badge:values?.badge,
-      bon_sortie_items : 
-        bon_sortie?.bon_sortie_items?.map((item:any) => {
-          return {
-            id:item?.id,
-            tc: item?.tc, 
-            matricule: values[item?.tc]
-          }
-        })
-      
     }
     mutate(final_value);
     setOpen(false)
@@ -46,7 +37,7 @@ const AUFormUpdate: React.FC<AUFormProps> = ({ refetch, bon_sortie }) => {
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_BONS_SORTIE_ENDPOINT,
+    endpoint: API_BONS_SORTIE_GROUPAGE_ENDPOINT,
   });
 
 

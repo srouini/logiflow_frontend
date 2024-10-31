@@ -14,14 +14,6 @@ export const getColumns = (refetch:() => void): ProColumns<any>[] => [
     key: "1",
   },
   {
-    title: "Conteneur",
-    dataIndex: "tc",
-    width: 200,
-    key: "2",
-    render: (record: any) => renderText(record?.tc)
-      
-  },
-  {
     title: "Date",
     dataIndex: "date",
     key: "5",

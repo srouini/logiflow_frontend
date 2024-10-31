@@ -7,10 +7,11 @@ import AUForm from "./components/AUForm";
 interface Props {
   id: string | undefined;
   article?:any,
+  refetch_sub_article:() => void;
 }
 
 
-export default ({ id,article }: Props) => {
+export default ({ id,article,refetch_sub_article}: Props) => {
   const {
     data,
     isLoading,
@@ -30,7 +31,7 @@ export default ({ id,article }: Props) => {
       headerTitle="Proformas"
       // @ts-ignore
       options={{ reload: refetch }}
-      columns={getColumns(refetch)}
+      columns={getColumns(refetch,refetch_sub_article)}
       loading={isLoading}
       dataSource={data?.data}
       toolbar={{

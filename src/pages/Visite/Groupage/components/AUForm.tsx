@@ -6,7 +6,11 @@ import usePost from "@/hooks/usePost";
 import { formatDate, mapInitialValues } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import FormField from "@/components/form/FormField";
-import { API_ARTICLES_ENDPOINT, API_SOUSARTICLES_ENDPOINT, API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
+import {
+  API_ARTICLES_ENDPOINT,
+  API_SOUSARTICLES_ENDPOINT,
+  API_VISITESGROUPAGE_ENDPOINT,
+} from "@/api/api";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import FormThreeRelatedSelectInput from "@/components/form/FormThreeRelatedSelectInput";
 
@@ -56,6 +60,8 @@ const AUForm: React.FC<AUFormProps> = ({
     endpoint: API_VISITESGROUPAGE_ENDPOINT,
   });
 
+  const today = new Date();
+  const formattedDate = today.toISOString().split("T")[0];
 
   return (
     <DraggableModel
@@ -74,7 +80,12 @@ const AUForm: React.FC<AUFormProps> = ({
       isLoading={isLoading}
       initialvalues={initialvalues}
     >
-      <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
+      <FormObject
+        form={form}
+        initialvalues={mapInitialValues(
+          initialvalues ? initialvalues : { type_visite: "Visite douane" }
+        )}
+      >
         <Row gutter={24}>
           <FormThreeRelatedSelectInput
             QUERY_NAME_C="GET_ARTICLES_BY_MRN"
@@ -106,9 +117,11 @@ const AUForm: React.FC<AUFormProps> = ({
             nameD="sous_article"
             option_labelD="numero"
             option_valueD="id"
-
+            disabledC={initialvalues}
+            disabledD={initialvalues}
+            disabledP={initialvalues}
           />
-             <FormField
+          <FormField
             label="Badge"
             name="badge"
             type="text"
@@ -134,6 +147,7 @@ const AUForm: React.FC<AUFormProps> = ({
             required
             span_md={24}
             type="date"
+            minDate={formattedDate}
           />
           <FormField
             label="Type"
@@ -149,7 +163,6 @@ const AUForm: React.FC<AUFormProps> = ({
               { label: "Visite D41", value: "Visite D41" },
             ]}
           />
-       
         </Row>
       </FormObject>
     </DraggableModel>

@@ -1,4 +1,4 @@
-import { API_FACTURE_ENDPOINT } from "@/api/api";
+import { API_FACTURE_ENDPOINT, API_FACTURES_GROUPAGE_ENDPOINT } from "@/api/api";
 import usePost from "@/hooks/usePost";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import { Button, message, Popconfirm } from "antd";
@@ -8,8 +8,9 @@ import dayjs from "dayjs";
 interface ValidateProformaButtonProps {
   proforma: any;
   refetch:any;
+  refetch_sub_article:() => void;
 }
-const ValidateProformaButton = ({ proforma,refetch }: ValidateProformaButtonProps) => {
+const ValidateProformaButton = ({ proforma,refetch,refetch_sub_article }: ValidateProformaButtonProps) => {
   const now = dayjs();
 
   // Format the date as a string (e.g., ISO 8601 format)
@@ -18,11 +19,12 @@ const ValidateProformaButton = ({ proforma,refetch }: ValidateProformaButtonProp
   const onSuccess = () => {
     message.success("Submission successful");
     refetch();
+    refetch_sub_article();
   };
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_FACTURE_ENDPOINT,
+    endpoint: API_FACTURES_GROUPAGE_ENDPOINT,
   });
 
   // @ts-ignore

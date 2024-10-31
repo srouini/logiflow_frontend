@@ -11,7 +11,6 @@ export default {
         children: [
           { path: '/dashboard/dashboard', name: 'Dashboard'},
           { path: '/dashboard/settings', name: 'Settings' },
-          { path: '/dashboard/references', name: 'References' },
         ],
       },
 

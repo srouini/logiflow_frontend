@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import BaseLayout from './layouts/BaseLayout';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Settings from './pages/Dashboard/Settings';
+import Settings from './pages/Dashboard/Settings/Index';
 import LoginPage from "./pages/Login/Index"
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFoundPage from "./pages/NotFoundPage/Index"
@@ -18,7 +18,6 @@ import Proformas from "./pages/Documents/Proformas/Index"
 import Factures from "./pages/Documents/Factures/Index"
 import BonsSortie from "./pages/Documents/BonsSortie/Index"
 import BonsCommande from "./pages/Facturation/BonsCommande/Index"
-import References from "./pages/Dashboard/References/Index"
 import ReceptionDetails from './pages/Rotation/ReceptionDetails/index';
 import ProformasGroupage from "./pages/DocumentsGroupage/Proformas/Index"
 import FacturesGroupage from "./pages/DocumentsGroupage/Factures/Index"
@@ -38,7 +37,6 @@ const AppRoutes = () => (
         <Route path="/" element={<Dashboard />} />
         <Route path="/dashboard/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/settings" element={<Settings />} />
-        <Route path="/dashboard/references" element={<References />} />
         <Route path="/rotations/mrns" element={<MrnsPage />} />
         <Route path="/rotations/chargement" element={<ChargementPage />} />
         <Route path="/rotations/chargement/:id" element={<ChargementDetails />} />

@@ -4,7 +4,7 @@ import { Space } from "antd";
 import { TableRowSelection } from "antd/es/table/interface";
 import { AxiosResponse } from "axios";
 import React, { useMemo } from "react";
-
+import "@/index.css"
 type CustomTableProps = {
   getColumns: any;
   refetch: (
@@ -73,6 +73,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
         defaultValue: {
           option: { fixed: "left" },
         },
+        
       }}
       rowKey={(item) => item?.id}
       search={false}

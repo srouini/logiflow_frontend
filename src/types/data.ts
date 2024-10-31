@@ -100,6 +100,7 @@ export interface SousArticle extends BaseModel {
     designation?: string;
     invoiced?: boolean;
     box?: number; // ForeignKey IDs
+    billed?:boolean
 }
 
 // Visite Model

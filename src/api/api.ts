@@ -49,6 +49,7 @@ export const API_BONS_COMMANDE_ENDPOINT = "/api/billing/boncommande/"
 export const API_COMMANDES_ENDPOINT = "/api/billing/commande/"
 export const API_FACTURE_ENDPOINT = "/api/billing/facture/"
 export const API_PAIEMENETS_ENDPOINT = "/api/billing/paiement/"
+export const API_PAIEMENETS_GROUPAGE_ENDPOINT = "/api/billing/paiementgroupage/"
 export const API_FACTURES_COMPLIMENTAIRE_ENDPOINT = "/api/billing/facturecomplementaire/"
 export const API_LIGNES_FACTURE_COMPLIMENTAIRE_ENDPOINT = "/api/billing/lignefacturecomplementaire/"
 export const API_PAIEMENTS_FACTURE_COMPLIMENTAIRE_ENDPOINT = "/api/billing/paiementfacturecomplementaire/"
@@ -86,5 +87,6 @@ export const API_PRESTATIONS_VISITE_GROUPAGE_ENDPOINT = "/api/bareme/prestationv
 // AUTH
 
 export const API_USERS_ENDPOINT = "/api/auth/user/"
+export const API_USER_PROFILE_ENDPOINT = "/api/auth/profiles/"
 export const API_LOGIN_ENDPOINT = "/api/login/"
 export const API_LOGOUT_ENDPOINT = "/api/logout/"

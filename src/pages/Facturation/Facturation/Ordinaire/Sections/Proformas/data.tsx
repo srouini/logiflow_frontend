@@ -63,7 +63,7 @@ export const getColumns = (refetch:any): ProColumns<any>[] => [
     valueType: "option",
     key: "10",
     align: "center",
-    width: 100,
+    width: 150,
     fixed: "right",
     render: (_, record: any) => [
       <TableDropdown

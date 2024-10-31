@@ -5,18 +5,18 @@ import { Form, message, Row } from "antd";
 import usePost from "@/hooks/usePost";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import {
-  API_PAIEMENETS_ENDPOINT,
+  API_PAIEMENETS_GROUPAGE_ENDPOINT,
 } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { CreditCardOutlined } from "@ant-design/icons";
-import { Facture, Paiement } from "@/types/billing";
+import { Facture, FactureGroupage, Paiement } from "@/types/billing";
 import { PAIEMENTS_METHODE } from "@/utils/constants";
 import { formatDate, roundToDecimals } from "@/utils/functions";
 import dayjs from "dayjs";
 
 interface AUFormProps {
   refetch: () => void;
-  facture: Facture;
+  facture: FactureGroupage;
 }
 
 const AUFormPaiement: React.FC<AUFormProps> = ({ refetch, facture }) => {
@@ -26,7 +26,7 @@ const AUFormPaiement: React.FC<AUFormProps> = ({ refetch, facture }) => {
 
   const calculateRest = () => {
     let total: number = 0;
-    facture?.paiements?.forEach((paiement: Paiement) => {
+    facture?.paiementsgroupage?.forEach((paiement: Paiement) => {
       total = total + (parseFloat(paiement?.montant) || 0);
     });
     let rest = facture.TTC ? facture.TTC - total : 0;
@@ -45,7 +45,6 @@ const AUFormPaiement: React.FC<AUFormProps> = ({ refetch, facture }) => {
 
   useEffect(() => {
     form.resetFields();
-    console.log(`New TTC: ${calculateRest()}`);
     form.setFieldsValue({
       montant: calculateRest(),
       mode: mode,
@@ -69,11 +68,10 @@ const AUFormPaiement: React.FC<AUFormProps> = ({ refetch, facture }) => {
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_PAIEMENETS_ENDPOINT,
+    endpoint: API_PAIEMENETS_GROUPAGE_ENDPOINT,
   });
 
   const handleModeChange = (value: string) => {
-    console.log(`Chnaged: ${value}`);
     setMode(value);
   };
 

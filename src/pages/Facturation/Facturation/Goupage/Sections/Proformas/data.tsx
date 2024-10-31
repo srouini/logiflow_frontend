@@ -6,14 +6,14 @@ import { Row, Col, Tag } from "antd";
 import ProfomaDetails from "../ProformaDetails/index"
 import ValidateProformaButton from "../ProformaDetails/components/ValidateProformaButton";
 
-export const getColumns = (refetch:any): ProColumns<any>[] => [
+export const getColumns = (refetch:any,refetch_sub_article:any): ProColumns<any>[] => [
   {
     title: "Numéro",
     dataIndex: "numero",
     copyable: true,
     width: 150,
     key: "1",
-    render:(_,record) => <ProfomaDetails proforma={record} refetchProformas={refetch}/>
+    render:(_,record) => <ProfomaDetails proforma={record} refetchProformas={refetch} refetch_sub_article={refetch_sub_article} />
   },
   {
     title: "Etat",
@@ -63,7 +63,7 @@ export const getColumns = (refetch:any): ProColumns<any>[] => [
     valueType: "option",
     key: "10",
     align: "center",
-    width: 100,
+    width: 150,
     fixed: "right",
     render: (_, record: any) => [
       <TableDropdown
@@ -90,7 +90,7 @@ export const getColumns = (refetch:any): ProColumns<any>[] => [
               />
             </Col>
             <Col>
-            <ValidateProformaButton proforma={record} key={record?.id} refetch={refetch}/>
+            <ValidateProformaButton proforma={record} key={record?.id} refetch={refetch} refetch_sub_article={refetch_sub_article} />
             </Col>
           </Row>,
         ]}

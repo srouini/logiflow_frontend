@@ -6,10 +6,10 @@ import { useEffect } from "react";
 
 interface Props {
   id: string | undefined;
-  article?:any,
-  activeTab?:string
+  article?: any;
+  activeTab?: string;
 }
-export default ({ id,activeTab }: Props) => {
+export default ({ id, activeTab }: Props) => {
   const {
     data: factures,
     isLoading: isLoadingFactures,
@@ -18,33 +18,32 @@ export default ({ id,activeTab }: Props) => {
     endpoint: API_FACTURES_GROUPAGE_ENDPOINT,
     name: `GET_FACTURES_GROUPAGE___${id}`,
     params: {
-      expand: "proforma,paiements.banque",
-      proforma__article__id: id,
+      expand: "proforma,paiementsgroupage.banque",
+      proforma__sous_article__id: id,
       all: true,
     },
   });
 
-  useEffect(() =>{
-    if(activeTab === "factures"){
+  useEffect(() => {
+    if (activeTab === "factures") {
       refetchFactures();
     }
-
-  },[activeTab])
+  }, [activeTab]);
 
   return (
     <ProTable<any>
       headerTitle="Factures"
       // @ts-ignore
       options={{ reload: refetchFactures }}
-      columns={getColumns({refetch:refetchFactures,isLoadingFacture:isLoadingFactures})}
+      columns={getColumns({
+        refetch: refetchFactures,
+        isLoadingFacture: isLoadingFactures,
+      })}
       loading={isLoadingFactures}
       dataSource={factures?.data}
-      toolbar={{
-        
-      }}
+      toolbar={{}}
       rowKey={(item) => item?.id}
       search={false}
     />
   );
 };
-

@@ -1,7 +1,7 @@
-import { LogoutOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
+import { CommentOutlined, CustomerServiceOutlined, LogoutOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
 import type { ProSettings } from "@ant-design/pro-components";
 import { ProConfigProvider, ProLayout } from "@ant-design/pro-components";
-import { Button, Col, ConfigProvider, Dropdown, Row } from "antd";
+import { Button, Col, ColorPicker, ConfigProvider, Dropdown, FloatButton, Row } from "antd";
 import { useEffect, useState } from "react";
 import defaultProps from "./_defaultProps";
 import { useNavigate, Outlet, useLocation } from "react-router";
@@ -9,17 +9,23 @@ import useAuth from "../hooks/useAuth";
 import useScreenSize from "../hooks/useScreenSize";
 import frFR from "antd/lib/locale/fr_FR";
 import ReferenceContextProvider from "../context/ReferenceContext";
+import useData from "@/hooks/useData";
+import { API_USERS_ENDPOINT } from "@/api/api";
+import References from "./compoenents/References";
 
 export default () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const {account} = useAuth();
+
+
   useEffect(() => {
     localStorage.getItem("theme")
       ? setCurrentTheme(localStorage.getItem("theme"))
       : setCurrentTheme("realDark");
   }, []);
   const [currentTheme, setCurrentTheme] = useState<any>("realDark");
+
 
   // Toggles between dark and light themes
   const toggleTheme = () => {
@@ -33,15 +39,46 @@ export default () => {
 
   };
 
-  const [settings] = useState<Partial<ProSettings> | undefined>({
+  const [layoutType, setLayoutType] = useState<"top" | "side" | "mix" | undefined>("top");
+
+  useEffect(() => {
+    const updateLayoutType = () => {
+      setLayoutType(window.innerWidth >= 1920 ? "side" : "top");
+    };
+
+    updateLayoutType();
+    window.addEventListener("resize", updateLayoutType);
+
+    return () => {
+      window.removeEventListener("resize", updateLayoutType);
+    };
+  }, []);
+
+
+  const {
+    data:user,
+  } = useData({
+    endpoint: API_USERS_ENDPOINT + account?.id + "/",
+    name: "GET_ACTIVE_ACCOUNT",
+    params: {
+      expand: "profile",
+    },
+  });
+
+
+  const [settings,setSettings] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
-    layout: "top",
+    layout: layoutType,
     splitMenus: false,
     contentWidth: "Fluid",
     colorPrimary: "#FA541C",
     siderMenuType: "sub",
     fixedHeader: true,
   });
+
+  useEffect(() => {
+    setSettings({...settings,colorPrimary: user?.data?.profile?.colorPrimary,layout:user?.data?.profile?.layout,siderMenuType: user?.data?.profile?.siderMenuType })
+  },[user])
 
   const size = useScreenSize();
 
@@ -66,6 +103,7 @@ export default () => {
       >
         <ProConfigProvider hashed={false}>
           <ProLayout
+            
             prefixCls="my-prefix"
             {...defaultProps}
             location={{ pathname: location.pathname }}
@@ -162,10 +200,15 @@ export default () => {
             )}
             {...settings}
             navTheme={currentTheme}
+            title="LOGIFLOW"
+            logo="/logo.ico"
           >
             <ReferenceContextProvider>
               <Outlet />
             </ReferenceContextProvider>
+
+           <References />
+       
           </ProLayout>
         </ProConfigProvider>
       </ConfigProvider>

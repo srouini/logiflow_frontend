@@ -1,4 +1,4 @@
-import { API_PRESTATIONS_OCCASIONNELLE_ENDPOINT } from "@/api/api";
+import { API_PRESTATIONS_OCCASIONNELLE_ENDPOINT, API_PRESTATIONS_OCCASIONNELLE_GROUPAGE_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";
@@ -14,11 +14,10 @@ export default ({ id,article }: Props) => {
     isLoading,
     refetch,
   } =  useData({
-    endpoint: API_PRESTATIONS_OCCASIONNELLE_ENDPOINT,
+    endpoint: API_PRESTATIONS_OCCASIONNELLE_GROUPAGE_ENDPOINT,
     name: `GET_PRESTATIONS_OCCASIONNELLE_${id}`,
     params: {
-      expand: "tc",
-      tc__article__id: id,
+      sous_article__id: id,
       all: true,
     },
   });

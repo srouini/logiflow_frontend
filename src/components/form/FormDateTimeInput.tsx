@@ -2,6 +2,9 @@ import { DatePicker, Form, Select, Col, Row } from "antd";
 import React, { useState } from "react";
 import type { SelectProps } from "antd/es/select";
 import type { FormItemProps } from "antd/es/form";
+import dayjs from "dayjs";
+import moment from "moment";
+import { RangePickerProps } from "antd/es/date-picker";
 
 interface FormDateInputProps extends Omit<FormItemProps, "children"> {
   name: string;
@@ -11,7 +14,9 @@ interface FormDateInputProps extends Omit<FormItemProps, "children"> {
   hasAddOn?: boolean;
   inputColSpan?: number;
   addonColSpan?: number;
-  disabled?:boolean
+  disabled?:boolean; 
+  maxDate?:any;
+  minDate?:any;
 }
 
 const FormDateTimeInput: React.FC<FormDateInputProps> = ({
@@ -22,7 +27,7 @@ const FormDateTimeInput: React.FC<FormDateInputProps> = ({
   hasAddOn = false,
   inputColSpan = 19,
   addonColSpan = 5,
-  disabled=false
+  disabled=false, 
 }) => {
   const [suffix, setSuffix] = useState<string>("");
 
@@ -57,7 +62,12 @@ const FormDateTimeInput: React.FC<FormDateInputProps> = ({
     return hasAddOn ? name + suffix : name;
   };
 
+  const dateFormat = 'YYYY-MM-DD';
 
+  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+    // Can not select days before today and today
+    return current && current < dayjs().endOf('day');
+  };
 
   return (
     <Row gutter={12}>
@@ -72,7 +82,8 @@ const FormDateTimeInput: React.FC<FormDateInputProps> = ({
             format="YYYY-MM-DD HH:mm:ss"
             disabled={disabled}
             showTime
-    
+            minDate={dayjs('2024-10-30', dateFormat)} 
+            disabledDate={disabledDate}
           />
         </Form.Item>
       </Col>

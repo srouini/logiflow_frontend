@@ -278,6 +278,7 @@ export interface FactureGroupage extends BaseModel {
     timber?: number;
     paid?: boolean;
     a_terme?: boolean;
+    paiementsgroupage?:any
 }
 
 // Define the PaiementGroupage model

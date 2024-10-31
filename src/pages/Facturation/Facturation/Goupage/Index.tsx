@@ -13,7 +13,7 @@ import Visites from "./Sections/Visites/Index";
 import PrestationsOccasionnelle from "./Sections/PrestationsOccasionelle/Index";
 import FactureAvoire from "./Sections/FacturesAvoire/Index"
 import FactureComplementaire from "./Sections/FacturesComplementaire/Index";
-import { Col, Divider, Flex, Row } from "antd";
+import { Divider, Flex } from "antd";
 import UpdateVolume from "./components/UpdateVolume"
 import UpdateBareme from "./components/UpdateBareme"
 import UpdateTransitaire from "./components/UpdateTransitaire"
@@ -30,7 +30,7 @@ export default () => {
     endpoint: API_SOUSARTICLES_ENDPOINT + id + "/",
     name: `GET_SELECTED_SUB_ARTICLE_${id}`,
     params: {
-      expand: "transitairee,tc.article.gros,tc.article.client",
+      expand: "transitaire,tc.article.gros,tc.article.client,client",
     },
   });
 
@@ -73,7 +73,7 @@ export default () => {
             {
               label: `Proformas`,
               key: "proformas",
-              children: <Proformas id={id} article={data?.data} />,
+              children: <Proformas id={id} article={data?.data} refetch_sub_article={refetch} />,
             },
             {
               label: `Visites`,

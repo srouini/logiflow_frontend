@@ -2,6 +2,8 @@ import { DatePicker, Form, Select, Col, Row } from "antd";
 import React, { useState } from "react";
 import type { SelectProps } from "antd/es/select";
 import type { FormItemProps } from "antd/es/form";
+import { RangePickerProps } from "antd/es/date-picker";
+import dayjs from "dayjs";
 
 interface FormDateInputProps extends Omit<FormItemProps, "children"> {
   name: string;
@@ -11,8 +13,10 @@ interface FormDateInputProps extends Omit<FormItemProps, "children"> {
   hasAddOn?: boolean;
   inputColSpan?: number;
   addonColSpan?: number;
-  disabled?:boolean
-  defaultValue?:any
+  disabled?:boolean;
+  defaultValue?:any; 
+  minDate?:string;
+  maxDate?:string;
 }
 
 const FormDateInput: React.FC<FormDateInputProps> = ({
@@ -24,7 +28,9 @@ const FormDateInput: React.FC<FormDateInputProps> = ({
   inputColSpan = 19,
   addonColSpan = 5,
   disabled=false,
-  defaultValue
+  defaultValue,
+  minDate=undefined,
+  maxDate=undefined
 }) => {
   const [suffix, setSuffix] = useState<string>("");
 
@@ -60,6 +66,7 @@ const FormDateInput: React.FC<FormDateInputProps> = ({
   };
 
 
+  const dateFormat = 'YYYY-MM-DD';
 
   return (
     <Row gutter={12}>
@@ -74,6 +81,8 @@ const FormDateInput: React.FC<FormDateInputProps> = ({
             format="YYYY/MM/DD"
             disabled={disabled}
             defaultValue={defaultValue}
+            minDate={minDate === undefined  ? undefined : dayjs(minDate, dateFormat)}
+            maxDate={maxDate === undefined  ? undefined :dayjs(maxDate, dateFormat)}
           />
         </Form.Item>
       </Col>

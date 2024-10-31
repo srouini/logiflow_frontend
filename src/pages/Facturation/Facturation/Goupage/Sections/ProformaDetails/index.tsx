@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Badge, Button, Card, Col, Divider, Drawer, Row, Tag } from "antd";
 import { ProDescriptions } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
-import { API_PRFORMAS_ENDPOINT } from "@/api/api";
+import {
+  API_PRFORMAS_ENDPOINT,
+  API_PROFORMAS_GROUPAGE_ENDPOINT,
+} from "@/api/api";
 import {
   columns,
   columns_prestation_article,
@@ -18,14 +21,16 @@ import Refetch from "@/components/Refetch";
 interface ProformaPageProps {
   proforma: Proforma;
   refetchProformas: any;
+  refetch_sub_article: () => void;
 }
 
-export default ({ proforma, refetchProformas }: ProformaPageProps) => {
+export default ({ proforma, refetchProformas,refetch_sub_article }: ProformaPageProps) => {
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
     setOpen(true);
     refetch();
+    
   };
 
   const onClose = () => {
@@ -39,11 +44,9 @@ export default ({ proforma, refetchProformas }: ProformaPageProps) => {
     isFetching,
     refetch,
   } = useData({
-    endpoint: `${API_PRFORMAS_ENDPOINT}${proforma?.id}/details/`,
-    name: `GET_PROFORMA_DETAILS_${proforma?.id}`,
-    params: {
-      expand: "groups_lignes.tc",
-    },
+    endpoint: `${API_PROFORMAS_GROUPAGE_ENDPOINT}${proforma?.id}/details/`,
+    name: `GET_PROFORMA_GROUPAGE_DETAILS_${proforma?.id}`,
+    params: {},
     enabled: false,
   });
 
@@ -90,7 +93,7 @@ export default ({ proforma, refetchProformas }: ProformaPageProps) => {
               </Col>
               <Col>
                 <Print
-                  endpoint={API_PRFORMAS_ENDPOINT}
+                  endpoint={API_PROFORMAS_GROUPAGE_ENDPOINT}
                   id={proforma?.id}
                   endpoint_suffex="generate_pdf/"
                   key={proforma?.id}
@@ -99,7 +102,7 @@ export default ({ proforma, refetchProformas }: ProformaPageProps) => {
               </Col>
               <Col>
                 <Print
-                  endpoint={API_PRFORMAS_ENDPOINT}
+                  endpoint={API_PROFORMAS_GROUPAGE_ENDPOINT}
                   id={proforma?.id}
                   endpoint_suffex="generate_pdf/"
                   key={proforma?.id}
@@ -108,6 +111,7 @@ export default ({ proforma, refetchProformas }: ProformaPageProps) => {
               </Col>
               <Col>
                 <ValidateProformaButton
+                refetch_sub_article={refetch_sub_article}
                   proforma={proforma}
                   key={proforma?.id}
                   refetch={refetchProformas}
@@ -127,54 +131,14 @@ export default ({ proforma, refetchProformas }: ProformaPageProps) => {
 
         <Divider />
 
-        {data?.data?.lignes_prestations_article?.length > 0 && (
-          <>
-            <CustomTableData
-              getColumns={columns_prestation_article}
-              data={data?.data?.lignes_prestations_article}
-              isLoading={isLoading}
-              refetch={refetch}
-              headerTitle="Préstation Artilce"
-              key="PROFORMA_LIGNE_PRESTATION_ARTICLE_TABLE"
-            />
-
-            <Divider />
-          </>
-        )}
-
-        {data?.data?.groups?.map((item: any) => {
-          return (
-            <>
-              <Card style={{ marginBottom: "20px", marginTop: "20px" }}>
-                <Row>
-                  {item?.dangereux && <Tag color="red">DGX</Tag>}
-                  {item?.frigo && <Tag color="blue">FRIGO</Tag>}
-                  {item?.type_description && (
-                    <Tag color="green">{item.type_description}</Tag>
-                  )}
-                  {data?.data?.groups_lignes?.map((container: any) => {
-                    return (
-                      container.groupe === item.id && (
-                        <Tag color="default">{container?.matricule}</Tag>
-                      )
-                    );
-                  })}
-                </Row>
-              </Card>
-
-              <CustomTableData
-                getColumns={columns_prestation_conteneurs}
-                data={data?.data?.lignes_prestations.filter(
-                  (elem: any) => elem.groupe == item.id
-                )}
-                isLoading={isLoading}
-                refetch={refetch}
-                headerTitle="Préstations"
-                key={`PROFORMA_LIGNE_PRESTATION_ARTICLE_TABLE_${item?.id}`}
-              />
-            </>
-          );
-        })}
+        <CustomTableData
+          getColumns={columns_prestation_conteneurs}
+          data={data?.data?.lignes_prestations}
+          isLoading={isLoading}
+          refetch={refetch}
+          headerTitle="Préstations"
+          key={`PROFORMA_LIGNE_PRESTATION_GROUPAGE_TABLE_${proforma?.id}`}
+        />
       </Drawer>
     </>
   );

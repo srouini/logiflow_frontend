@@ -14,14 +14,13 @@ export default () => {
   return (
     <div>
       <PageContainer
-
         contentWidth="Fluid"
         header={{
           breadcrumb: breadcrumb,
-          onBack:() => console.log("")        }}
+        }}
+        title=""
       >
-<Statistics />
-
+        <Statistics />
       </PageContainer>
     </div>
   );

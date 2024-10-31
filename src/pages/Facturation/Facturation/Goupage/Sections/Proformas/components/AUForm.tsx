@@ -20,7 +20,7 @@ const AUForm: React.FC<AUFormProps> = ({ article, refetch }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
-
+  console.log(article)
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
     values = formatDate("date_proforma", values);
@@ -41,6 +41,7 @@ const AUForm: React.FC<AUFormProps> = ({ article, refetch }) => {
     endpoint: API_PROFORMAS_GROUPAGE_ENDPOINT,
   });
 
+  const [disabled, setDisabled] = useState(article?.volume == null || article?.billed);
 
   return (
     <DraggableModel
@@ -48,6 +49,7 @@ const AUForm: React.FC<AUFormProps> = ({ article, refetch }) => {
       modalOpenButtonText="Proforma"
       addButtonIcon={<PlusOutlined />}
       modalTitle="+ PROFMRA"
+      disabledModalOpenButton={article?.volume == null || article?.billed}
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}

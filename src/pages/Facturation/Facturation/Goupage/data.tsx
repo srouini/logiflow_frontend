@@ -162,7 +162,7 @@ export const breadcrumb: any = {
       title: "Facturation",
     },
     {
-      title: "Ordinaire",
+      title: "Groupage",
     },
   ],
 };

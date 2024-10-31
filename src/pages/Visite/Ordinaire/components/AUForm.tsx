@@ -56,6 +56,8 @@ const AUForm: React.FC<AUFormProps> = ({
     endpoint: API_VISITES_ENDPOINT,
   });
 
+  const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
 
   return (
     <DraggableModel
@@ -74,7 +76,7 @@ const AUForm: React.FC<AUFormProps> = ({
       isLoading={isLoading}
       initialvalues={initialvalues}
     >
-      <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
+      <FormObject form={form} initialvalues={mapInitialValues(initialvalues? initialvalues : {type_visite:"Visite douane"})}>
         <Row gutter={24}>
           <FormRelatedSelectInput
             QUERY_NAME="GET_ARTICLES_BY_MRN"
@@ -115,6 +117,7 @@ const AUForm: React.FC<AUFormProps> = ({
             required
             span_md={24}
             type="date"
+            minDate={formattedDate}
           />
           <FormField
             label="Type"

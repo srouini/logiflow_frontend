@@ -14,8 +14,11 @@ import { ProDescriptions } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
 import {
   API_BONS_SORTIE_ENDPOINT,
+  API_BONS_SORTIE_GROUPAGE_ENDPOINT,
   API_FACTURE_ENDPOINT,
+  API_FACTURES_GROUPAGE_ENDPOINT,
   API_PRFORMAS_ENDPOINT,
+  API_PROFORMAS_GROUPAGE_ENDPOINT,
 } from "@/api/api";
 import {
   columns,
@@ -41,6 +44,7 @@ interface ProformaPageProps {
     options?: RefetchOptions | undefined
   ) => Promise<QueryObserverResult<AxiosResponse<any, any> | undefined, Error>>;
   isLoadingFacture: boolean;
+
 }
 
 export default ({
@@ -67,14 +71,11 @@ export default ({
     isFetching,
     refetch,
   } = useData({
-    endpoint: `${API_PRFORMAS_ENDPOINT}${facture?.proforma?.id}/details/`,
-    name: `GET_PROFORMA_DETAILS_${facture?.proforma?.id}`,
-    params: {
-      expand: "groups_lignes.tc",
-    },
+    endpoint: `${API_PROFORMAS_GROUPAGE_ENDPOINT}${facture?.proforma?.id}/details/`,
+    name: `GET_PROFORMA_GROUPAGE_DETAILS_${facture?.proforma?.id}`,
+    params: {},
     enabled: false,
   });
-
   const {
     data: bonSorties,
     // isLoading: isLoadingDataBonSortie,
@@ -82,16 +83,14 @@ export default ({
     // isFetching: isFetchingBonSortie,
     refetch: RefetchbonSorties,
   } = useData({
-    endpoint: API_BONS_SORTIE_ENDPOINT,
-    name: `GET_BONSORTIES_${facture?.id}`,
+    endpoint: API_BONS_SORTIE_GROUPAGE_ENDPOINT,
+    name: "GET_BONSORTIES_GROUPAGE",
     params: {
       all: true,
       facture__id: facture?.id,
-      expand: "bon_sortie_items",
     },
     enabled: false,
   });
-
 
   const { isLoading } = useLoading({
     loadingStates: [isLoadingData, isRefetching, isFetching],
@@ -99,9 +98,9 @@ export default ({
 
   const refetchAll = () => {
     refetchFacture();
-    RefetchbonSorties(); 
+    RefetchbonSorties();
     refetch();
-  }
+  };
   return (
     <>
       <Button onClick={showDrawer} color="red">
@@ -135,14 +134,11 @@ export default ({
           <Col>
             <Row gutter={8}>
               <Col>
-                <Refetch
-                  isLoading={isLoadingFacture}
-                  refetch={refetchAll}
-                />
+                <Refetch isLoading={isLoadingFacture} refetch={refetchAll} />
               </Col>
               <Col>
                 <Print
-                  endpoint={API_FACTURE_ENDPOINT}
+                  endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
                   endpoint_suffex="generate_pdf/"
                   id={facture?.id}
                   key={facture?.id}
@@ -151,7 +147,7 @@ export default ({
               </Col>
               <Col>
                 <Print
-                  endpoint={API_FACTURE_ENDPOINT}
+                  endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
                   endpoint_suffex="generate_pdf/"
                   id={facture?.id}
                   key={facture?.id}
@@ -197,13 +193,13 @@ export default ({
                       key={item?.id}
                     />
                     <Print
-                      endpoint={API_BONS_SORTIE_ENDPOINT}
+                      endpoint={API_BONS_SORTIE_GROUPAGE_ENDPOINT}
                       id={item?.id?.toString()}
                       type="View"
                       endpoint_suffex="generate_pdf/"
                     />
                     <Print
-                      endpoint={API_BONS_SORTIE_ENDPOINT}
+                      endpoint={API_BONS_SORTIE_GROUPAGE_ENDPOINT}
                       id={item?.id?.toString()}
                       type="Download"
                       endpoint_suffex="generate_pdf/"
@@ -227,7 +223,7 @@ export default ({
             ],
           }}
           getColumns={columns_paiementrs}
-          data={facture?.paiements}
+          data={facture?.paiementsgroupage}
           isLoading={isLoadingFacture}
           refetch={refetchFacture}
           headerTitle="Paiements"
@@ -235,54 +231,14 @@ export default ({
         />
         <Divider />
 
-        {data?.data?.lignes_prestations_article.length > 0 && (
-          <>
-            <CustomTableData
-              getColumns={columns_prestation_article}
-              data={data?.data?.lignes_prestations_article}
-              isLoading={isLoading}
-              refetch={refetch}
-              headerTitle="Préstation Artilce"
-              key="PRESTATIONS_ARTICLE_TABLE"
-            />
-
-            <Divider />
-          </>
-        )}
-
-        {data?.data?.groups?.map((item: any) => {
-          return (
-            <>
-              <Card style={{ marginBottom: "20px", marginTop: "20px" }}>
-                <Row>
-                  {item?.dangereux && <Tag color="red">DGX</Tag>}
-                  {item?.frigo && <Tag color="blue">FRIGO</Tag>}
-                  {item?.type_description && (
-                    <Tag color="green">{item.type_description}</Tag>
-                  )}
-                  {data?.data?.groups_lignes?.map((container: any) => {
-                    return (
-                      container.groupe === item.id && (
-                        <Tag color="default">{container?.matricule}</Tag>
-                      )
-                    );
-                  })}
-                </Row>
-              </Card>
-
-              <CustomTableData
-                getColumns={columns_prestation_conteneurs}
-                data={data?.data?.lignes_prestations.filter(
-                  (elem: any) => elem.groupe == item.id
-                )}
-                isLoading={isLoading}
-                refetch={refetch}
-                headerTitle="Préstations"
-                key={`PRESTATIIONS_TABLE_${item?.id}`}
-              />
-            </>
-          );
-        })}
+        <CustomTableData
+          getColumns={columns_prestation_conteneurs}
+          data={data?.data?.lignes_prestations}
+          isLoading={isLoading}
+          refetch={refetch}
+          headerTitle="Préstations"
+          key={`PRESTATIIONS_FACTURE_GROUPAGE_TABLE`}
+        />
       </Drawer>
     </>
   );
