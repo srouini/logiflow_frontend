@@ -6,86 +6,96 @@ import { API_CLIENTS_ENDPOINT, API_MRNS_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
 import AUForm from "./AUForm";
 
-export const getColumns = (refetch: () => void): ProColumns<any>[] => [
-  {
-    title: "Raison Sociale",
-    dataIndex: "raison_sociale",
-    copyable: true,
-    ellipsis: true,
-    key:"1",
-    width:350
-  },
-  {
-    title: "Adresse",
-    dataIndex: "adress",
-    ellipsis: true,
-    key:"2",
-    render: (record: any) => renderText(record),
-    width:350
-  },
-  {
-    title: "Email",
-    ellipsis: true,
-    key:"3",
-    dataIndex: "email",
-    render: (record: any) => renderText(record),
-    width:200
-  },
-  {
-    title: "Tél",
-    ellipsis: true,
-    key:"4",
-    dataIndex: "tel",
-    render: (record: any) => renderText(record),
-    width:200
-  },
-  {
-    title: "Code",
-    dataIndex: "code",
-    key:"5",
-    render: (record: any) => renderText(record),
-    width:200
-  },
-  {
-    title: "RC",
-    dataIndex: "RC",
-    ellipsis: false,
-    key:"6",
-    render: (record: any) => renderText(record),
-    width:200
-  },
-  {
-    title: "NIF",
-    dataIndex: "NIF",
-    ellipsis: false,
-    key:"7",
-    render: (record: any) => renderText(record),
-    width:200
-  },
-  {
-    title: "AI",
-    dataIndex: "AI",
-    ellipsis: false,
-    key:"7",
-    render: (record: any) => renderText(record),
-    width:200
-  },
-  {
-    title: "NIS",
-    dataIndex: "NIS",
-    ellipsis: false,
-    key:"7",
-    render: (record: any) => renderText(record),
-    width:200
-  },
-  {
-    title: "Soumis tva",
-    dataIndex: "soumis_tva",
-    ellipsis: false,
-    key:"7",
-    width:200,
-    render: (record: any) => record ? <Tag color="green"> Soumis au TVA </Tag> :<Tag color="red"> None soumis au TVA </Tag>  ,
-  },
+export const getColumns = (refetch: () => void) => [
+    {
+      title: "Raison Sociale",
+      dataIndex: "raison_sociale",
+      copyable: true,
+      ellipsis: true,
+      key: "1",
+      width: 350,
+      selected: true,
+    },
+    {
+      title: "Adresse",
+      dataIndex: "adress",
+      ellipsis: true,
+      key: "2",
+      render: (record: any) => renderText(record),
+      width: 350,
+      selected: true,
+    },
+    {
+      title: "Email",
+      ellipsis: true,
+      key: "3",
+      dataIndex: "email",
+      render: (record: any) => renderText(record),
+      width: 200,
+      selected: true,
+    },
+    {
+      title: "Tél",
+      ellipsis: true,
+      key: "4",
+      dataIndex: "tel",
+      render: (record: any) => renderText(record),
+      width: 200,
+      selected: true,
+    },
+    {
+      title: "Code",
+      dataIndex: "code",
+      key: "5",
+      render: (record: any) => renderText(record),
+      width: 200,
+      selected: true,
+    },
+    {
+      title: "RC",
+      dataIndex: "RC",
+      ellipsis: false,
+      key: "6",
+      render: (record: any) => renderText(record),
+      width: 200,
+      selected: true,
+    },
+    {
+      title: "NIF",
+      dataIndex: "NIF",
+      ellipsis: false,
+      key: "7",
+      render: (record: any) => renderText(record),
+      width: 200,
+      selected: true,
+    },
+    {
+      title: "AI",
+      dataIndex: "AI",
+      ellipsis: false,
+      key: "8",
+      render: (record: any) => renderText(record),
+      width: 200,
+      selected: true,
+    },
+    {
+      title: "NIS",
+      dataIndex: "NIS",
+      ellipsis: false,
+      key: "9",
+      render: (record: any) => renderText(record),
+      width: 200,
+      selected: true,
+    },
+    {
+      title: "Soumis tva",
+      dataIndex: "soumis_tva",
+      ellipsis: false,
+      key: "10",
+      width: 200,
+      render: (record: any) => record ? <Tag color="green"> Soumis au TVA </Tag> : <Tag color="red"> None soumis au TVA </Tag>,
+      selected: true,
+    },
   {
     title: "Actions",
     valueType: "option",
