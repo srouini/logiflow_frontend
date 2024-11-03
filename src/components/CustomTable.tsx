@@ -23,7 +23,8 @@ type CustomTableProps = {
   RowSelectionRnder?: React.ReactNode;
   scrollX?: number;
   scrollY?: number;
-  toolBar?:any
+  toolBar?:any,
+  toolbar?:any
 };
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -40,7 +41,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
   RowSelectionRnder,
   scrollX = 1200,
   scrollY,
-  toolBar
+  toolBar,
+  toolbar
 }) => {
   // Memoize table options to avoid unnecessary recalculations
   const tableOptions: any = useMemo(
@@ -73,7 +75,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
         defaultValue: {
           option: { fixed: "left" },
         },
-        
       }}
       rowKey={(item) => item?.id}
       search={false}
@@ -101,6 +102,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       tableAlertOptionRender={() =>
         RowSelectionRnder && <Space size={16}>{RowSelectionRnder}</Space>
       }
+      toolbar={toolbar}
     />
   );
 };

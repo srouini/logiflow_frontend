@@ -205,9 +205,10 @@ export default () => {
           >
             <ReferenceContextProvider>
               <Outlet />
+              <References />
             </ReferenceContextProvider>
 
-           <References />
+           
        
           </ProLayout>
         </ProConfigProvider>

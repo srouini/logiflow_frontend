@@ -2,9 +2,9 @@ import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
 import { Col, Row, Tag } from "antd";
 import { renderText } from "@/utils/functions";
-import { API_MRNS_ENDPOINT } from "@/api/api";
+import { API_CLIENTS_ENDPOINT, API_MRNS_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
-// import AUForm from "./components/AUForm";
+import AUForm from "./AUForm";
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
@@ -99,10 +99,10 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
           <Row gutter={8}>
             <Col>
               <Delete
-                url={API_MRNS_ENDPOINT}
+                url={API_CLIENTS_ENDPOINT}
                 id={record?.id}
                 refetch={refetch}
-                class_name="MRN"
+                class_name="Client"
                 type="dashed"
                 link={false}
                 text=""
@@ -110,12 +110,10 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
               />
             </Col>
             <Col>
-              {/* <AUForm
+              <AUForm
                 initialvalues={record}
                 refetch={refetch}
-                editText=""
-                hasIcon
-              /> */}
+              /> 
             </Col>
           </Row>,
         ]}

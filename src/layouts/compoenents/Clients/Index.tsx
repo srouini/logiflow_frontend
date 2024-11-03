@@ -11,6 +11,7 @@ import { getColumns } from "./data";
 import { Button, FloatButton, Modal } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
+import AUForm from "./AUForm";
 
 interface Props {
   hanleClose: () => void;
@@ -92,6 +93,11 @@ export default ({ hanleClose }: Props) => {
           setSearch={setSearch}
           key="CLIENTS_TABLE"
           scrollY={350}
+          toolbar={{
+            actions: [
+              <AUForm  initialvalues={null} refetch={refetch}/>
+            ],
+          }}
         />
 
       </Modal>
