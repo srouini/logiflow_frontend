@@ -33,7 +33,8 @@
     "react-router-dom": "^6.26.2",
     "react-use-keypress": "^1.3.1",
     "umi-request": "^1.2.3",
-    "vite-plugin-pwa": "^0.20.5"
+    "vite-plugin-pwa": "^0.20.5",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.7",
