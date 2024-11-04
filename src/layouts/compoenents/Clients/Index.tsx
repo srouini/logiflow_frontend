@@ -6,13 +6,14 @@ import useData from "@/hooks/useData";
 import { API_CLIENTS_ENDPOINT } from "@/api/api";
 // import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
-import { getColumns } from "./data";
+import { columns, getColumns } from "./data";
 // import AUForm from "./components/AUForm";
-import { Button, FloatButton, Modal } from "antd";
+import { FloatButton, Modal } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import AUForm from "./AUForm";
-
+import ColumnsSelect from "@/components/ColumnsSelect";
+import Export from "@/components/Export"
 interface Props {
   hanleClose: () => void;
 }
@@ -56,6 +57,8 @@ export default ({ hanleClose }: Props) => {
     setOpen(true);
   };
 
+  const [selctedColumns, setSelectedColumns] = useState<any>(columns)
+
   return (
     <div>
       <FloatButton
@@ -81,7 +84,8 @@ export default ({ hanleClose }: Props) => {
           resetFilters={resetFilters}
           setPage={setPage}
         />
-
+        
+        <ColumnsSelect columns={selctedColumns} setSelectedColumns={setSelectedColumns}/>
         <CustomTable
           getColumns={getColumns(refetch)}
           data={tableData}
@@ -95,7 +99,8 @@ export default ({ hanleClose }: Props) => {
           scrollY={350}
           toolbar={{
             actions: [
-              <AUForm  initialvalues={null} refetch={refetch}/>
+              <Export columns={selctedColumns} endpoint={API_CLIENTS_ENDPOINT} search={search} filters={filters} />,
+              <AUForm  initialvalues={null} refetch={refetch}/>,
             ],
           }}
         />

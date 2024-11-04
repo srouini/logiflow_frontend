@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import type { SelectProps } from "antd/es/select";
 import type { FormItemProps } from "antd/es/form";
 import dayjs from "dayjs";
-import moment from "moment";
 import { RangePickerProps } from "antd/es/date-picker";
 
 interface FormDateInputProps extends Omit<FormItemProps, "children"> {

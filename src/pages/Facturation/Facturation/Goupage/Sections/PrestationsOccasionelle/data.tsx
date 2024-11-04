@@ -1,7 +1,7 @@
 
 import { API_PRESTATIONS_OCCASIONNELLE_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
-import { renderDate, renderMoney, renderText } from "@/utils/functions";
+import { renderDate, renderMoney } from "@/utils/functions";
 import { ProColumns, TableDropdown } from "@ant-design/pro-components";
 import { Col, Row } from "antd";
 

@@ -1,7 +1,7 @@
-import { CommentOutlined, CustomerServiceOutlined, LogoutOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
+import {LogoutOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
 import type { ProSettings } from "@ant-design/pro-components";
 import { ProConfigProvider, ProLayout } from "@ant-design/pro-components";
-import { Button, Col, ColorPicker, ConfigProvider, Dropdown, FloatButton, Row } from "antd";
+import { Button, Col, ConfigProvider, Dropdown, Row } from "antd";
 import { useEffect, useState } from "react";
 import defaultProps from "./_defaultProps";
 import { useNavigate, Outlet, useLocation } from "react-router";

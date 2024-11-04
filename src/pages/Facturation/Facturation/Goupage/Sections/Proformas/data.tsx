@@ -1,4 +1,4 @@
-import { API_PRFORMAS_ENDPOINT, API_PROFORMAS_GROUPAGE_ENDPOINT } from "@/api/api";
+import { API_PROFORMAS_GROUPAGE_ENDPOINT } from "@/api/api";
 import Print from "@/components/Print";
 import { renderDate, renderDateTime, renderMoney, renderText } from "@/utils/functions";
 import { ProColumns, TableDropdown } from "@ant-design/pro-components";

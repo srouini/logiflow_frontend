@@ -8,22 +8,17 @@ import {
   Drawer,
   Flex,
   Row,
-  Tag,
 } from "antd";
 import { ProDescriptions } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
 import {
-  API_BONS_SORTIE_ENDPOINT,
   API_BONS_SORTIE_GROUPAGE_ENDPOINT,
-  API_FACTURE_ENDPOINT,
   API_FACTURES_GROUPAGE_ENDPOINT,
-  API_PRFORMAS_ENDPOINT,
   API_PROFORMAS_GROUPAGE_ENDPOINT,
 } from "@/api/api";
 import {
   columns,
   columns_paiementrs,
-  columns_prestation_article,
   columns_prestation_conteneurs,
 } from "./data";
 import useLoading from "@/hooks/useLoading";
@@ -172,7 +167,7 @@ export default ({
           <Card>
             <Flex align="center" justify="space-between">
               <span>BON LIVRAISON </span>
-              <AUForm facture={facture} refetch={RefetchbonSorties} />
+              <AUForm sous_article={facture.proforma.sous_article} facture={facture} refetch={RefetchbonSorties} />
             </Flex>
           </Card>
         )}

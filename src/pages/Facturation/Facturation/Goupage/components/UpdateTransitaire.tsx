@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Flex, Form, message } from "antd";
 import usePost from "../../../../../hooks/usePost";
 import { useReferenceContext } from "../../../../../context/ReferenceContext";
-import { API_CONTENEURS_ENDPOINT, API_SOUSARTICLES_ENDPOINT } from "@/api/api";
-import { ProForm, ProFormSelect } from "@ant-design/pro-components";
+import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
+import { ProFormSelect } from "@ant-design/pro-components";
 import { selectConfig } from "@/utils/config";
 
 
@@ -15,6 +15,7 @@ interface AUFormProps {
 
 const AUForm = ({ refetch, sous_article }:AUFormProps) => {
   const [form] = Form.useForm();
+  // @ts-ignore
   const [open, setOpen] = useState(false);
 
   const { transitaire } = useReferenceContext();
@@ -25,6 +26,7 @@ const AUForm = ({ refetch, sous_article }:AUFormProps) => {
 
   const {} = useReferenceContext();
 
+  // @ts-ignore
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
 

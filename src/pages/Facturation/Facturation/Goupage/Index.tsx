@@ -1,6 +1,6 @@
 import { PageContainer, ProCard } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
-import { API_ARTICLES_ENDPOINT, API_SOUSARTICLES_ENDPOINT } from "@/api/api";
+import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
 import { breadcrumb } from "./data";
 import { useParams } from "react-router";
 import Details from "@/components/Details";
@@ -11,8 +11,7 @@ import Proformas from "./Sections/Proformas/Index";
 import Commandes from "./Sections/Commandes/Index";
 import Visites from "./Sections/Visites/Index";
 import PrestationsOccasionnelle from "./Sections/PrestationsOccasionelle/Index";
-import FactureAvoire from "./Sections/FacturesAvoire/Index"
-import FactureComplementaire from "./Sections/FacturesComplementaire/Index";
+
 import { Divider, Flex } from "antd";
 import UpdateVolume from "./components/UpdateVolume"
 import UpdateBareme from "./components/UpdateBareme"
@@ -90,16 +89,16 @@ export default () => {
               key: "prestation_occasionnelle",
               children: <PrestationsOccasionnelle id={id} article={data?.data}/>,
             },
-            {
-              label: `Facture Complementaire`,
-              key: "facture_complementaire",
-              children: <FactureComplementaire id={id} article={data?.data}/>,
-            }, 
-            {
-              label: `Facture Avoire`,
-              key: "facture_avoire",
-              children: <FactureAvoire id={id} article={data?.data}/>,
-            },
+            // {
+            //   label: `Facture Complementaire`,
+            //   key: "facture_complementaire",
+            //   children: <FactureComplementaire id={id} article={data?.data}/>,
+            // }, 
+            // {
+            //   label: `Facture Avoire`,
+            //   key: "facture_avoire",
+            //   children: <FactureAvoire id={id} article={data?.data}/>,
+            // },
           ],
           onChange: (key) => {
             setTab(key);

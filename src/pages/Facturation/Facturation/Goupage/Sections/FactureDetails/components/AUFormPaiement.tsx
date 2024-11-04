@@ -9,7 +9,7 @@ import {
 } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { CreditCardOutlined } from "@ant-design/icons";
-import { Facture, FactureGroupage, Paiement } from "@/types/billing";
+import { FactureGroupage, Paiement } from "@/types/billing";
 import { PAIEMENTS_METHODE } from "@/utils/constants";
 import { formatDate, roundToDecimals } from "@/utils/functions";
 import dayjs from "dayjs";

@@ -1,4 +1,4 @@
-import { AreaChartOutlined, BorderTopOutlined, BranchesOutlined, DockerOutlined, PicCenterOutlined, RadiusSettingOutlined, SettingOutlined, UserAddOutlined } from '@ant-design/icons'
+import { BorderTopOutlined,PicCenterOutlined, RadiusSettingOutlined, SettingOutlined, UserAddOutlined } from '@ant-design/icons'
 import { FloatButton } from 'antd'
 import  { useState } from 'react'
 import Clients from "./Clients/Index"

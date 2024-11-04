@@ -1,22 +1,19 @@
-import { API_MRNS_ENDPOINT, API_USERS_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
-import usePost from "@/hooks/usePost";
-import { formatDate, mapInitialValues } from "@/utils/functions";
-import { Divider, Form, message, Row } from "antd";
+import { mapInitialValues } from "@/utils/functions";
+import { Divider, Form, Row } from "antd";
 import FormObject from "@/components/Form";
 import useData from "@/hooks/useData";
+import { API_USERS_ENDPOINT } from "@/api/api";
 
 interface Props{
     id:number
 }
+// @ts-ignore
 export default ({id}:Props) => {
   const [form] = Form.useForm();
 
   const {
     data,
-    isLoading: isLoadingData,
-    isRefetching,
-    refetch,
   } = useData({
     endpoint: API_USERS_ENDPOINT+id+"/",
     name: "GET_ACTIVE_ACCOUNT",
@@ -25,23 +22,23 @@ export default ({id}:Props) => {
   });
 
 
-  const handleFormSubmission = async () => {
-    let values = await form.validateFields();
-    //   if (initialvalues) {
-    //     values.id = initialvalues?.id;
-    //   }
-    values = formatDate("accostage", values);
-    mutate(values);
-  };
+  // const handleFormSubmission = async () => {
+  //   let values = await form.validateFields();
+  //   //   if (initialvalues) {
+  //   //     values.id = initialvalues?.id;
+  //   //   }
+  //   values = formatDate("accostage", values);
+  //   mutate(values);
+  // };
 
-  const onSuccess = () => {
-    message.success("Submission successful");
-  };
+  // const onSuccess = () => {
+  //   message.success("Submission successful");
+  // };
 
-  const { mutate, isLoading } = usePost({
-    onSuccess: onSuccess,
-    endpoint: API_MRNS_ENDPOINT,
-  });
+  // const { mutate, isLoading } = usePost({
+  //   onSuccess: onSuccess,
+  //   endpoint: API_MRNS_ENDPOINT,
+  // });
 
   return (
     <FormObject form={form} initialvalues={mapInitialValues(data?.data)}>

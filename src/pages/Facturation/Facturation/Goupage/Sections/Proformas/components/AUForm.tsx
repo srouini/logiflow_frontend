@@ -4,7 +4,7 @@ import FormObject from "@/components/Form";
 import { Divider, Form, message, Row } from "antd";
 import usePost from "@/hooks/usePost";
 import { formatDate } from "@/utils/functions";
-import { API_MRNS_ENDPOINT, API_PROFORMAS_GROUPAGE_ENDPOINT } from "@/api/api";
+import { API_PROFORMAS_GROUPAGE_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { PlusOutlined } from "@ant-design/icons";
 import { YES_NO_CHOICES } from "@/utils/constants";
@@ -41,7 +41,6 @@ const AUForm: React.FC<AUFormProps> = ({ article, refetch }) => {
     endpoint: API_PROFORMAS_GROUPAGE_ENDPOINT,
   });
 
-  const [disabled, setDisabled] = useState(article?.volume == null || article?.billed);
 
   return (
     <DraggableModel

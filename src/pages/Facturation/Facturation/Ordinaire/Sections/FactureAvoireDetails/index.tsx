@@ -4,7 +4,6 @@ import { ProDescriptions } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
 import {
   API_FACTURES_AVOIRE_ENDPOINT,
-  API_FACTURES_COMPLIMENTAIRE_ENDPOINT,
   API_LIGNES_FACTURE_AVOIRE_ENDPOINT,
 } from "@/api/api";
 import {

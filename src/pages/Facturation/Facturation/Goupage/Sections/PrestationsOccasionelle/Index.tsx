@@ -1,4 +1,4 @@
-import { API_PRESTATIONS_OCCASIONNELLE_ENDPOINT, API_PRESTATIONS_OCCASIONNELLE_GROUPAGE_ENDPOINT } from "@/api/api";
+import { API_PRESTATIONS_OCCASIONNELLE_GROUPAGE_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";

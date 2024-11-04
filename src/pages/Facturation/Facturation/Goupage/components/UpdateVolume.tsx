@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Flex, Form, InputNumber, message } from "antd";
+import { Flex, InputNumber, message } from "antd";
 import usePost from "../../../../../hooks/usePost";
 import { useReferenceContext } from "../../../../../context/ReferenceContext";
 import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
@@ -25,6 +25,7 @@ const AUForm = ({ refetch, sous_article }: AUFormProps) => {
     refetch();
   };
 
+  // @ts-ignore
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
     endpoint: API_SOUSARTICLES_ENDPOINT,

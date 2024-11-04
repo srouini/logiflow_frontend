@@ -1,4 +1,4 @@
-import { API_VISITES_ENDPOINT, API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
+import { API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";

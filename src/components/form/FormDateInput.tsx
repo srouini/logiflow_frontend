@@ -2,7 +2,6 @@ import { DatePicker, Form, Select, Col, Row } from "antd";
 import React, { useState } from "react";
 import type { SelectProps } from "antd/es/select";
 import type { FormItemProps } from "antd/es/form";
-import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
 
 interface FormDateInputProps extends Omit<FormItemProps, "children"> {

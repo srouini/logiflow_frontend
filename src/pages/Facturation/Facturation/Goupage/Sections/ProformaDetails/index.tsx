@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { Badge, Button, Card, Col, Divider, Drawer, Row, Tag } from "antd";
+import { Badge, Button,Col, Divider, Drawer, Row } from "antd";
 import { ProDescriptions } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
 import {
-  API_PRFORMAS_ENDPOINT,
   API_PROFORMAS_GROUPAGE_ENDPOINT,
 } from "@/api/api";
 import {
   columns,
-  columns_prestation_article,
   columns_prestation_conteneurs,
 } from "./data";
 import useLoading from "@/hooks/useLoading";

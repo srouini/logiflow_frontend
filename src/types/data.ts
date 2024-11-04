@@ -2,7 +2,7 @@ import {Navire, Armateur, Port, Consignataire, Client, Transitaire} from "./refe
 import {BaseModel} from "./commun"
 import { Bareme, Regime } from "./bareme";
 
-type Tc = any 
+
 // Gros Model
 export interface Gros extends BaseModel {
     numero?: string;

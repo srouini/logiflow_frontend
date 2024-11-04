@@ -107,6 +107,7 @@ export const DetailsColumns = [
     key: "groupage",
     dataIndex: "groupage",
     width: 120,
+    // @ts-ignore
     render: (record: any) => <Tag color="blue"> Groupage </Tag>,
   },
 

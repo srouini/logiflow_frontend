@@ -1,4 +1,4 @@
-import { API_FACTURE_ENDPOINT, API_FACTURES_GROUPAGE_ENDPOINT } from "@/api/api";
+import { API_FACTURES_GROUPAGE_ENDPOINT } from "@/api/api";
 import usePost from "@/hooks/usePost";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import { Button, message, Popconfirm } from "antd";

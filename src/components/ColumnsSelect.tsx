@@ -8,16 +8,17 @@ interface Column {
 }
 
 interface ColumnsSelectProps {
-  columns: Column[];
+  columns: any;
   setSelectedColumns: (columns: Column[]) => void;
 }
+
 
 const ColumnsSelect: React.FC<ColumnsSelectProps> = ({
   columns,
   setSelectedColumns,
 }) => {
   const handleTagClick = (key: string) => {
-    const updatedColumns = columns.map((column) => {
+    const updatedColumns = columns.map((column:any) => {
       if (column.key === key) {
         return { ...column, selected: !column.selected };
       }
@@ -27,20 +28,21 @@ const ColumnsSelect: React.FC<ColumnsSelectProps> = ({
   };
 
   return (
-    <div>
-      {columns?.map((column) => (
+    <div style={{paddingBottom:"20px", paddingTop:"10px"}}>
+      {columns?.map((column:any) => (
         <Tag
           key={column.key}
           onClick={() => handleTagClick(column.key)}
-          color={column.selected ? "#219C90" : "#CDE8E5"}
+          color="#FA541C"
           style={{
             marginBottom: "10px",
             paddingTop: "2px",
             paddingBottom: "2px",
-            borderRadius: "20px",
+            borderRadius: "8px",
             paddingRight: "10px",
             paddingLeft: "10px",
             cursor: "pointer",
+            opacity:column.selected ? "100%":"30%"
           }}
         >
           {column.title}

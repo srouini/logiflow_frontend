@@ -9,7 +9,6 @@ import {
 import FormField from "@/components/form/FormField";
 import { PlusOutlined } from "@ant-design/icons";
 import { FactureGroupage } from "@/types/billing";
-import dayjs from "dayjs";
 import { mapInitialValues } from "@/utils/functions";
 
 interface AUFormProps {
@@ -55,7 +54,6 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, facture }) => {
   // @ts-ignore
   const formattedDate = (new Date(facture?.proforma?.date_proforma)).toISOString().split('T')[0];
 
-  const current = dayjs();
 
   return (
     <DraggableModel

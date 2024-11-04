@@ -1,6 +1,5 @@
 import { PageContainer } from "@ant-design/pro-components";
-import { TabsPosition } from "antd/es/tabs";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Account from "./components/Account";
 import useAuth from "@/hooks/useAuth";
 import Profile from "./components/Profile";
@@ -25,7 +24,6 @@ const {account} = useAuth();
     ],
   };
 
-  const [tabPosition, setTabPosition] = useState<TabsPosition>("left");
 
   return (
     <PageContainer

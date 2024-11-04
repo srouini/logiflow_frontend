@@ -1,11 +1,10 @@
 import {
-  API_MRNS_ENDPOINT,
   API_USER_PROFILE_ENDPOINT,
   API_USERS_ENDPOINT,
 } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import usePost from "@/hooks/usePost";
-import { formatDate, mapInitialValues } from "@/utils/functions";
+import { mapInitialValues } from "@/utils/functions";
 import { Button, Col, ColorPicker, Divider, Form, message, Row } from "antd";
 import FormObject from "@/components/Form";
 import useData from "@/hooks/useData";
@@ -20,9 +19,7 @@ export default ({ id }: Props) => {
 
   const {
     data,
-    isLoading: isLoadingData,
-    isRefetching,
-    refetch,
+  
   } = useData({
     endpoint: API_USERS_ENDPOINT + id + "/",
     name: "GET_ACTIVE_ACCOUNT",
@@ -54,7 +51,7 @@ export default ({ id }: Props) => {
 
   };
 
-  const { mutate, isLoading } = usePost({
+  const { mutate } = usePost({
     onSuccess: onSuccess,
     endpoint: API_USER_PROFILE_ENDPOINT,
   });

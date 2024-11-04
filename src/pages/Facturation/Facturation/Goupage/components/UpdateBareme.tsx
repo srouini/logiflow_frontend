@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Flex, Form, message } from "antd";
 import usePost from "../../../../../hooks/usePost";
 import { useReferenceContext } from "../../../../../context/ReferenceContext";
 import {
   API_CLIENTS_ENDPOINT,
-  API_CONTENEURS_ENDPOINT,
-  API_SOUSARTICLES_ENDPOINT,
 } from "@/api/api";
-import { ProForm, ProFormSelect } from "@ant-design/pro-components";
+import { ProFormSelect } from "@ant-design/pro-components";
 import { selectConfig } from "@/utils/config";
 
 interface AUFormProps {
