@@ -143,3 +143,12 @@ export function roundToDecimals(num:number, decimals:number) {
   let factor = Math.pow(10, decimals);
   return Math.round(num * factor) / factor;
 }
+
+export function ensureHashPrefix(str:string) {
+  // Check if the string starts with '#'
+  if (str.startsWith('#')) {
+      return str; // Return the string as it is
+  } else {
+      return '#' + str; // Add '#' at the beginning and return
+  }
+}

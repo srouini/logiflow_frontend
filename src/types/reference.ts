@@ -69,6 +69,13 @@ import { BaseModel } from "./commun";
     bareme?: number | Bareme;  // Foreign key to Bareme, can be ID or object
   }
   
+  export interface Profile extends BaseModel {
+    layout?: string;
+    siderMenuType?: string;
+    colorPrimary?: string;
+  }
+  
+
   export interface Parc extends BaseModel {
     designation?: string;
   }

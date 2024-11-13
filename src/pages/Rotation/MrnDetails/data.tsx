@@ -120,7 +120,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
             <Col>
             <AUFormDepotage
               article={record?.id}
-              disable={record?.depote}
+              disable={record?.depote || !record?.groupage}
               refetch={refetch}
             />
             </Col>

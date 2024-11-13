@@ -1,4 +1,4 @@
-import {LogoutOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
+import { LogoutOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
 import type { ProSettings } from "@ant-design/pro-components";
 import { ProConfigProvider, ProLayout } from "@ant-design/pro-components";
 import { Button, Col, ConfigProvider, Dropdown, Row } from "antd";
@@ -9,15 +9,13 @@ import useAuth from "../hooks/useAuth";
 import useScreenSize from "../hooks/useScreenSize";
 import frFR from "antd/lib/locale/fr_FR";
 import ReferenceContextProvider from "../context/ReferenceContext";
-import useData from "@/hooks/useData";
-import { API_USERS_ENDPOINT } from "@/api/api";
 import References from "./compoenents/References";
+import useProfile from "@/hooks/useProfile";
 
 export default () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const {account} = useAuth();
-
+  const { profile } = useProfile();
 
   useEffect(() => {
     localStorage.getItem("theme")
@@ -25,7 +23,6 @@ export default () => {
       : setCurrentTheme("realDark");
   }, []);
   const [currentTheme, setCurrentTheme] = useState<any>("realDark");
-
 
   // Toggles between dark and light themes
   const toggleTheme = () => {
@@ -36,49 +33,18 @@ export default () => {
       setCurrentTheme("realDark");
       localStorage.setItem("theme", "realDark");
     }
-
   };
 
-  const [layoutType, setLayoutType] = useState<"top" | "side" | "mix" | undefined>("top");
-
-  useEffect(() => {
-    const updateLayoutType = () => {
-      setLayoutType(window.innerWidth >= 1920 ? "side" : "top");
-    };
-
-    updateLayoutType();
-    window.addEventListener("resize", updateLayoutType);
-
-    return () => {
-      window.removeEventListener("resize", updateLayoutType);
-    };
-  }, []);
-
-
-  const {
-    data:user,
-  } = useData({
-    endpoint: API_USERS_ENDPOINT + account?.id + "/",
-    name: "GET_ACTIVE_ACCOUNT",
-    params: {
-      expand: "profile",
-    },
-  });
-
-
-  const [settings,setSettings] = useState<Partial<ProSettings> | undefined>({
+  // @ts-ignore
+  const [settings, setSettings] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
-    layout: layoutType,
+    layout: profile?.layout,
     splitMenus: false,
     contentWidth: "Fluid",
-    colorPrimary: "#FA541C",
-    siderMenuType: "sub",
+    colorPrimary: profile?.colorPrimary,
+    siderMenuType: profile?.siderMenuType,
     fixedHeader: true,
   });
-
-  useEffect(() => {
-    setSettings({...settings,colorPrimary: user?.data?.profile?.colorPrimary,layout:user?.data?.profile?.layout,siderMenuType: user?.data?.profile?.siderMenuType })
-  },[user])
 
   const size = useScreenSize();
 
@@ -103,7 +69,6 @@ export default () => {
       >
         <ProConfigProvider hashed={false}>
           <ProLayout
-            
             prefixCls="my-prefix"
             {...defaultProps}
             location={{ pathname: location.pathname }}
@@ -120,8 +85,10 @@ export default () => {
             avatarProps={{
               src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
               size: "small",
-              title: account?.full_name,
-              shape:"square",
+              title: localStorage.getItem("userName")
+                ? localStorage.getItem("userName")
+                : "User Name",
+              shape: "square",
               // @ts-ignore
               render: (props, dom) => {
                 return (
@@ -172,8 +139,8 @@ export default () => {
                         fontSize: "10pt",
                         fontWeight: "bolder",
                         fontStyle: "italic",
-                        opacity:"80%",
-                        paddingRight:"40px"
+                        opacity: "80%",
+                        paddingRight: "40px",
                       }}
                     >
                       LOGIFLOW
@@ -188,7 +155,6 @@ export default () => {
               if (_.isMobile) return defaultDom;
               return <>{defaultDom}</>;
             }}
-           
             menuItemRender={(item, dom) => (
               <a
                 onClick={() => {
@@ -207,9 +173,6 @@ export default () => {
               <Outlet />
               <References />
             </ReferenceContextProvider>
-
-           
-       
           </ProLayout>
         </ProConfigProvider>
       </ConfigProvider>

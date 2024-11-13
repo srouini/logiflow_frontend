@@ -9,7 +9,6 @@ import {
   API_CONTENEURS_ENDPOINT,
 } from "@/api/api";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import useAuth from "@/hooks/useAuth";
 
 interface AUFormProps {
   refetch: () => void;
@@ -21,11 +20,11 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues,disabled }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const { user } = useReferenceContext();
-  const {account} = useAuth();
   useEffect(() => {
     user?.fetch();
   }, []);
 
+  const account = localStorage.getItem("cat")
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
     formatDateTime("date_entree_port_sec", values);

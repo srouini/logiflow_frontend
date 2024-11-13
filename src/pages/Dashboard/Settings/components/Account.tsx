@@ -5,17 +5,15 @@ import FormObject from "@/components/Form";
 import useData from "@/hooks/useData";
 import { API_USERS_ENDPOINT } from "@/api/api";
 
-interface Props{
-    id:number
-}
+
 // @ts-ignore
-export default ({id}:Props) => {
+export default () => {
   const [form] = Form.useForm();
 
   const {
     data,
   } = useData({
-    endpoint: API_USERS_ENDPOINT+id+"/",
+    endpoint: API_USERS_ENDPOINT+"/",
     name: "GET_ACTIVE_ACCOUNT",
     params: {
     },

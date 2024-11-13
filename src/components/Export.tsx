@@ -19,6 +19,7 @@ interface ExcelExportProps {
   search?: string;
   endpoint: string;
   expand?: string;
+  button_text?:string;
 }
 
 interface DataRowType {
@@ -37,6 +38,7 @@ const Excel: React.FC<ExcelExportProps> = ({
   search,
   endpoint,
   expand,
+  button_text="Exportez"
 }) => {
   const [fileName, setFileName] = useState<string>(() => `data_export_${new Date().toISOString().split("T")[0]}`);
 
@@ -73,7 +75,7 @@ const Excel: React.FC<ExcelExportProps> = ({
       const selectedColumns = columns.filter((column) => column.selected);
       const header = selectedColumns.map((column) => column.title);
 
-      // Prepare worksheet data and apply basic styling
+      // Prepare worksheet data
       const worksheetData = [
         header,
         ...(data.data.map((row: DataRowType) =>
@@ -92,18 +94,6 @@ const Excel: React.FC<ExcelExportProps> = ({
       // Set autofilter for the header row
       worksheet["!autofilter"] = { ref: `A1:${String.fromCharCode(65 + header.length - 1)}1` };
 
-      // Set custom styles for header row
-      header.forEach((_, index) => {
-        const cellAddress = XLSX.utils.encode_cell({ r: 0, c: index });
-        if (!worksheet[cellAddress]) return;
-
-        worksheet[cellAddress].s = {
-          font: { bold: true, color: { rgb: "FFFFFF" } },
-          alignment: { horizontal: "center" },
-          fill: { fgColor: { rgb: "FF5733" } }, // Custom header background color (e.g., orange-red)
-        };
-      });
-
       // Auto-adjust column widths
       // @ts-ignore
       const columnWidths = worksheetData[0].map((_, colIndex) => {
@@ -120,7 +110,6 @@ const Excel: React.FC<ExcelExportProps> = ({
       const excelBuffer = XLSX.write(workbook, {
         bookType: "xlsx",
         type: "array",
-        cellStyles: true,
       });
       const dataBlob = new Blob([excelBuffer], {
         type: "application/octet-stream",
@@ -152,7 +141,7 @@ const Excel: React.FC<ExcelExportProps> = ({
       loading={isLoading}
       icon={<CloudDownloadOutlined />}
     >
-      Export
+      {button_text}
     </Button>
   );
 };

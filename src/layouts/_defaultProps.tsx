@@ -9,7 +9,7 @@ export default {
         name: 'Dashboard',
         icon: <WindowsOutlined />,
         children: [
-          { path: '/dashboard/dashboard', name: 'Dashboard'},
+          { path: '/dashboard/', name: 'Dashboard'},
           { path: '/dashboard/settings', name: 'Settings' },
         ],
       },

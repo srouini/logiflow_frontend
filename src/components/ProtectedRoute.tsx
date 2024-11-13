@@ -8,12 +8,22 @@ const ProtectedComponent: React.FC<{ children: React.ReactNode }> = ({ children 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
+    // Redirect only after authentication is checked
+    if (isAuthenticated === false) {
       navigate('/login');
     }
-  }, [loading, isAuthenticated, navigate]);
+  }, []); // Only trigger when isAuthenticated changes
 
-  if (loading) return <Loader />;
+  
+  useEffect(() => {
+    // Redirect only after authentication is checked
+    if (isAuthenticated === false) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]); // Only trigger when isAuthenticated changes
+
+  // Show loading spinner until authentication check is done
+  if (loading || isAuthenticated === null) return <Loader />;
 
   return <>{children}</>;
 };

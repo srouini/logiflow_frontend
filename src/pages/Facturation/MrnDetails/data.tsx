@@ -18,7 +18,6 @@ export const getColumns = (): ProColumns<any>[] => [
       />
     ),
   },
-  
   {
     title: "BL",
     key: "2",

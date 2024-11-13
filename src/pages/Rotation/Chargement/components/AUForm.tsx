@@ -8,7 +8,6 @@ import { useReferenceContext } from "@/context/ReferenceContext";
 import FormField from "@/components/form/FormField";
 import { API_BULLETINS_ENDPOINT } from "@/api/api";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import useAuth from "@/hooks/useAuth";
 
 interface AUFormProps {
   refetch: () => void;
@@ -31,7 +30,6 @@ const AUForm: React.FC<AUFormProps> = ({
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const { mrn, user } = useReferenceContext();
-  const {account} = useAuth();
 
   useEffect(() => {
     mrn?.fetch();
@@ -56,6 +54,7 @@ const AUForm: React.FC<AUFormProps> = ({
     endpoint: API_BULLETINS_ENDPOINT,
   });
 
+  const account = localStorage.getItem("cat")
   return (
     <DraggableModel
       OkButtontext="Submit"
@@ -71,7 +70,7 @@ const AUForm: React.FC<AUFormProps> = ({
       isLoading={isLoading}
       initialvalues={initialvalues}
     >
-      <FormObject form={form} initialvalues={mapInitialValues({...initialvalues,charge_chargement:account})}>
+      <FormObject form={form} initialvalues={mapInitialValues({...initialvalues,charge_chargement:parseInt(account || "1")})}>
         <Row gutter={24}>
           <FormField
             label="Mrn"

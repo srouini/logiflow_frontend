@@ -1,6 +1,5 @@
 import {
   API_USER_PROFILE_ENDPOINT,
-  API_USERS_ENDPOINT,
 } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import usePost from "@/hooks/usePost";
@@ -9,46 +8,44 @@ import { Button, Col, ColorPicker, Divider, Form, message, Row } from "antd";
 import FormObject from "@/components/Form";
 import useData from "@/hooks/useData";
 import { useEffect, useState } from "react";
-import { ReloadOutlined } from "@ant-design/icons";
+import { ReloadOutlined, UndoOutlined } from "@ant-design/icons";
+import useProfile from "@/hooks/useProfile";
 
-interface Props {
-  id: number;
-}
-export default ({ id }: Props) => {
+
+export default () => {
   const [form] = Form.useForm();
 
+  const {profile} = useProfile();
   const {
     data,
-  
+    refetch
   } = useData({
-    endpoint: API_USERS_ENDPOINT + id + "/",
-    name: "GET_ACTIVE_ACCOUNT",
+    endpoint: API_USER_PROFILE_ENDPOINT + profile?.id + "/",
+    name: "GET_ACTIVE_PROFILE",
     params: {
-      expand: "profile",
     },
   });
 
-  const [primaryColor, setPrimaryColor] = useState(data?.data?.profile?.colorPrimary) 
+  useEffect(() => {
+    if(data?.data)
+      {if(profile!==data?.data){
+        localStorage.setItem("profile", JSON.stringify(data?.data));
+      }}
+  },[data])
+
+  const [primaryColor, setPrimaryColor] = useState(profile?.colorPrimary) 
 
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
-    //   if (initialvalues) {
-    //     values.id = initialvalues?.id;
-    //   }
-    // values = formatDate("accostage", values);
-    values["id"] = data?.data?.profile?.id;
+    values["id"] = profile?.id;
     values["colorPrimary"] = primaryColor;
     mutate(values);
   };
 
-  useEffect(() => {
-    setPrimaryColor(data?.data?.profile?.colorPrimary)
-  },[data])
 
   const onSuccess = () => {
     message.success("Submission successful");
-    window.location.reload();
-
+    refetch();
   };
 
   const { mutate } = usePost({
@@ -63,14 +60,14 @@ export default ({ id }: Props) => {
     setPrimaryColor("FA541C");
   }
 
-  useEffect(() => {
-    console.log(primaryColor)
-  },[primaryColor])
+  const handleWindowRefrech = () => {
+    window.location.reload();
+  }
 
   return (
     <FormObject
       form={form}
-      initialvalues={mapInitialValues(data?.data?.profile)}
+      initialvalues={mapInitialValues(profile)}
     >
       <Row gutter={24} style={{ width: "50%" }}>
         <FormField
@@ -84,7 +81,6 @@ export default ({ id }: Props) => {
           options={[
             { label: "Top", value: "top" },
             { label: "Side", value: "side" },
-            { label: "Mix", value: "mix" },
           ]}
           type="select"
         />
@@ -114,10 +110,15 @@ export default ({ id }: Props) => {
         </Col>
       </Row>
       <Divider dashed style={{ marginTop: "20px" }} />
-      <Row>
-        <Button type="primary" onClick={handleFormSubmission}>
+      <Row gutter={24}>
+        <Col><Button type="primary" onClick={handleFormSubmission}>
           Submit
+        </Button></Col>
+        <Col>
+        <Button type="dashed" onClick={handleWindowRefrech} icon={<UndoOutlined />}>
+          Apply new settings
         </Button>
+        </Col>
       </Row>
     </FormObject>
   );

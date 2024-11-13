@@ -1,44 +1,106 @@
-import { useEffect } from 'react';
-import axios, { AxiosInstance } from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { API_ENDPOINT } from '@/utils/constants';
+import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
+import { API_ENDPOINT } from "@/utils/constants";
+import useAuth from "../hooks/useAuth"; // Import the useAuth hook correctly
+import {jwtDecode} from "jwt-decode"; // Import jwt-decode correctly
 
 export const useAxios = (): AxiosInstance => {
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
 
   // Create an axios instance
   const axiosInstance = axios.create({
-    baseURL: API_ENDPOINT, // Your backend API base URL
-    withCredentials: true,  // Ensure cookies are sent with requests
+    baseURL: API_ENDPOINT,
   });
 
-  useEffect(() => {
-    // Response Interceptor to handle errors and token expiration
-    axiosInstance.interceptors.response.use(
-      (response) => response,
-      async (error) => {
-        const originalRequest = error.config;
+  // Function to refresh the token
+  const refreshToken = async (): Promise<boolean> => {
+    const refreshToken = localStorage.getItem("style");
 
-        // Handle 401 Unauthorized - Token is expired or invalid
-        if (error.response?.status === 401 && !originalRequest._retry) {
-          originalRequest._retry = true;
+    if (!refreshToken) return false;
 
-          try {
-            // Attempt to refresh the token (the refresh token is also in HttpOnly cookie)
-            await axiosInstance.post('/api/auth/token/refresh');
-            
-            // Retry the original request after the token is refreshed
-            return axiosInstance(originalRequest);
-          } catch (refreshError) {
-            // If refresh fails, redirect to login
-            navigate('/login'); // Redirect to login
+    try {
+      const response = await axios.post(`${API_ENDPOINT}/auth/refresh-token/`, {
+        refresh_token: refreshToken,
+      });
+
+      const newAccessToken = response.data.font; // Make sure to retrieve the correct token key
+      localStorage.setItem("font", newAccessToken);
+      return true;
+    } catch (error) {
+      console.error("Token refresh failed:", error);
+      return false;
+    }
+  };
+
+  // Function to check token validity
+  const isTokenValid = (token: string | null): boolean => {
+    if (!token) return false;
+    try {
+      const decoded: any = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      return decoded.exp > currentTime;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return false;
+    }
+  };
+
+  // Add request interceptor
+  axiosInstance.interceptors.request.use(
+    async (config) => {
+      const accessToken = localStorage.getItem("font");
+
+      if (accessToken) {
+        if (isTokenValid(accessToken)) {
+          config.headers["Authorization"] = `Bearer ${accessToken}`;
+        } else {
+          const refreshSuccess = await refreshToken();
+
+          if (refreshSuccess) {
+            const newToken = localStorage.getItem("font");
+            if (newToken) {
+              config.headers["Authorization"] = `Bearer ${newToken}`;
+            }
+          } else {
+            setIsAuthenticated(false);
+            localStorage.clear();
+            navigate("/login");
+            return Promise.reject(new AxiosError("Session expired, please login again."));
           }
         }
-
-        return Promise.reject(error);
       }
-    );
-  }, [axiosInstance, navigate]);
+
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  // Add response interceptor
+  axiosInstance.interceptors.response.use(
+    (response: AxiosResponse) => response,
+    async (error: AxiosError) => {
+      if (error.response && error.response.status === 401) {
+        const refreshSuccess = await refreshToken();
+
+        if (refreshSuccess) {
+          const originalRequest = error.config;
+          const newAccessToken = localStorage.getItem("font");
+          if (newAccessToken && originalRequest) {
+            originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+            return axios(originalRequest);
+          }
+        } else {
+          setIsAuthenticated(false);
+          localStorage.clear();
+          navigate("/login");
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
 
   return axiosInstance;
 };

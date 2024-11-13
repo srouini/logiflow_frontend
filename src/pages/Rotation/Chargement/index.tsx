@@ -25,8 +25,6 @@ export default () => {
     containerType?.fetch();
   }, []);
 
-
-
   const {
     data,
     isLoading: isLoadingData,

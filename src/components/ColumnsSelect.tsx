@@ -1,3 +1,5 @@
+import useProfile from "@/hooks/useProfile";
+import { ensureHashPrefix } from "@/utils/functions";
 import { Tag } from "antd";
 import React from "react";
 
@@ -12,6 +14,7 @@ interface ColumnsSelectProps {
   setSelectedColumns: (columns: Column[]) => void;
 }
 
+const {profile} = useProfile();
 
 const ColumnsSelect: React.FC<ColumnsSelectProps> = ({
   columns,
@@ -33,7 +36,7 @@ const ColumnsSelect: React.FC<ColumnsSelectProps> = ({
         <Tag
           key={column.key}
           onClick={() => handleTagClick(column.key)}
-          color="#FA541C"
+          color={ensureHashPrefix(profile?.colorPrimary)}
           style={{
             marginBottom: "10px",
             paddingTop: "2px",

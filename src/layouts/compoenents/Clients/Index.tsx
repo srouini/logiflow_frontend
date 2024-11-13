@@ -58,6 +58,16 @@ export default ({ hanleClose }: Props) => {
   };
 
   const [selctedColumns, setSelectedColumns] = useState<any>(columns)
+  console.log()
+
+  const countStr = () => {
+    let count_str = ""
+    if(data?.data?.count > 0){
+      count_str = `( ${data?.data?.count.toString()} )` 
+    } 
+
+    return count_str;
+  }
 
   return (
     <div>
@@ -99,7 +109,7 @@ export default ({ hanleClose }: Props) => {
           scrollY={350}
           toolbar={{
             actions: [
-              <Export columns={selctedColumns} endpoint={API_CLIENTS_ENDPOINT} search={search} filters={filters} />,
+              <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_CLIENTS_ENDPOINT} search={search} filters={filters} />,
               <AUForm  initialvalues={null} refetch={refetch}/>,
             ],
           }}
