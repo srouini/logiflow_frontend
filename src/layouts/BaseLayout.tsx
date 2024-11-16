@@ -1,7 +1,7 @@
 import { LogoutOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
 import type { ProSettings } from "@ant-design/pro-components";
 import { ProConfigProvider, ProLayout } from "@ant-design/pro-components";
-import { Button, Col, ConfigProvider, Dropdown, Row } from "antd";
+import { Button, Col, ConfigProvider, Dropdown, Popconfirm, Row } from "antd";
 import { useEffect, useState } from "react";
 import defaultProps from "./_defaultProps";
 import { useNavigate, Outlet, useLocation } from "react-router";
@@ -97,9 +97,19 @@ export default () => {
                       items: [
                         {
                           key: "logout",
-                          icon: <LogoutOutlined />,
-                          label: "Log Out",
-                          onClick: () => logout(),
+                          label: (
+                            <Popconfirm
+                              title="Are you sure you want to log out?"
+                              onConfirm={() => logout()}
+                              okText="Yes"
+                              cancelText="No"
+                            >
+                              <span style={{ cursor: "pointer", display: "block" }}>
+                                <LogoutOutlined style={{ marginRight: 8 }} />
+                                Log Out
+                              </span>
+                            </Popconfirm>
+                          ),
                         },
                       ],
                     }}
