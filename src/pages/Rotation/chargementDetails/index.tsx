@@ -34,6 +34,7 @@ export default () => {
     data: selectedRecord,
     isLoading: isLoadingRecord,
     isRefetching: isRefetchingRecord,
+    isFetching,
     refetch
   } = useData({
     endpoint: API_BULLETINS_ENDPOINT + id + "/",
@@ -116,6 +117,7 @@ const navigate = useNavigate();
       <CustomTable
         getColumns={getColumns({refetch:refetchLoaded,loaded:selectedRecord?.data?.loaded})}
         data={loaded}
+        isFetching={isFetchingLoaded}
         getPageSize={getPageSize}
         isLoading={isLoadingLoaded}
         refetch={refetchLoaded}

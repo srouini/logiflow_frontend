@@ -123,6 +123,7 @@ export default () => {
       headerTitle="Sous Articles"
         getColumns={subArticlesColumns()}
         data={dataSubArticles}
+        isFetching={isFetching}
         getPageSize={getPageSizeSubArticle}
         isLoading={isLoadingSubArticle}
         refetch={refechSubArticles}

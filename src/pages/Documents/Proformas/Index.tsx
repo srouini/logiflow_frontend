@@ -65,6 +65,7 @@ export default () => {
           getColumns={getColumns(refetch)}
           // @ts-ignore
           data={isLoading ? [] :data}
+          isFetching={isFetching}
           getPageSize={getPageSize}
           isLoading={isLoading}
           refetch={refetch}

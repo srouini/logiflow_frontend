@@ -69,6 +69,7 @@ export default () => {
         <CustomTable
           getColumns={memoizedColumns}
           data={data}
+          isFetching={isFetching}
           getPageSize={getPageSize}
           isLoading={isLoading}
           refetch={refetch}

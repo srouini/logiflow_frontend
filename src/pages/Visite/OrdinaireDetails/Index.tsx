@@ -34,6 +34,7 @@ export default () => {
     data: selectedRecord,
     isLoading: isLoadingRecord,
     isRefetching: isRefetchingRecord,
+    isFetching,
     refetch,
   } = useData({
     endpoint: API_VISITES_ENDPOINT + id + "/",
@@ -152,6 +153,7 @@ export default () => {
         data={dataVisiteItems}
         getPageSize={getPageSize}
         isLoading={isLoading}
+        isFetching={isFetching}
         refetch={refetchData}
         setPage={setPage}
         setPageSize={setPageSize}

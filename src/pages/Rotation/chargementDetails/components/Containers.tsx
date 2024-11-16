@@ -185,6 +185,7 @@ export default ({
         <CustomTable
           getColumns={columns()}
           data={data}
+          isFetching={isFetching}
           scrollX={800}
           getPageSize={getPageSize}
           isLoading={isLoading}

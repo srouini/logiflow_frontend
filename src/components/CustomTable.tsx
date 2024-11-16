@@ -3,7 +3,7 @@ import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { Space } from "antd";
 import { TableRowSelection } from "antd/es/table/interface";
 import { AxiosResponse } from "axios";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "@/index.css"
 type CustomTableProps = {
   getColumns: any;
@@ -24,7 +24,8 @@ type CustomTableProps = {
   scrollX?: number;
   scrollY?: number;
   toolBar?:any,
-  toolbar?:any
+  toolbar?:any,
+  isFetching?:boolean
 };
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -42,8 +43,16 @@ const CustomTable: React.FC<CustomTableProps> = ({
   scrollX = 1200,
   scrollY,
   toolBar,
-  toolbar
+  toolbar,
+  isFetching
 }) => {
+  const [tableData, setTableData] = useState(data);
+
+  useEffect(() => {
+    if (!isFetching) {
+      setTableData(data);
+    }
+  }, [data, isFetching]);
   // Memoize table options to avoid unnecessary recalculations
   const tableOptions: any = useMemo(
     () => ({
@@ -68,7 +77,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       cardBordered
       onReset={refetch}
       toolBarRender={toolBar}
-      dataSource={data?.data?.results}
+      dataSource={tableData?.data?.results}
       columnsState={{
         persistenceKey: "pro-table-singe-demos",
         persistenceType: "localStorage",
@@ -83,7 +92,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       loading={isLoading}
       pagination={{
         pageSize: getPageSize(),
-        total: data?.data?.count,
+        total: tableData?.data?.count,
         pageSizeOptions: [10, 20, 30, 100],
         showSizeChanger: true,
         onChange: (page: number, pageSize: number) => {

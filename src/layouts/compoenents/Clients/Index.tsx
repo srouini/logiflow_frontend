@@ -39,13 +39,6 @@ export default ({ hanleClose }: Props) => {
     },
   });
 
-  const [tableData, setTableData] = useState(data);
-
-  useEffect(() => {
-    if (!isFetching) {
-      setTableData(data);
-    }
-  }, [data, isFetching]);
 
   const { isLoading } = useLoading({
     loadingStates: [isLoadingData, isRefetching, isFetching],
@@ -98,7 +91,8 @@ export default ({ hanleClose }: Props) => {
         <ColumnsSelect columns={selctedColumns} setSelectedColumns={setSelectedColumns}/>
         <CustomTable
           getColumns={getColumns(refetch)}
-          data={tableData}
+          data={data}
+          isFetching={isFetching}
           getPageSize={getPageSize}
           isLoading={isLoading}
           refetch={refetch}

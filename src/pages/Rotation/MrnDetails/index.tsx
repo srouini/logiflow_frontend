@@ -108,6 +108,7 @@ export default () => {
       <CustomTable
         getColumns={getColumns(refetch)}
         data={data}
+        isFetching={isFetching}
         getPageSize={getPageSize}
         isLoading={isLoading}
         refetch={refetch}

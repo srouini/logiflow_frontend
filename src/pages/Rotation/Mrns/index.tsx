@@ -20,6 +20,7 @@ export default () => {
     isLoading: isLoadingData,
     isRefetching,
     refetch,
+    isFetching
   } = useData({
     endpoint: API_MRNS_ENDPOINT,
     name: "GET_MRNS",
@@ -64,6 +65,7 @@ export default () => {
         <CustomTable
           getColumns={getColumns(refetch)}
           data={data}
+          isFetching={isFetching}
           getPageSize={getPageSize}
           isLoading={isLoading}
           refetch={refetch}

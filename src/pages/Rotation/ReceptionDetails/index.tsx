@@ -120,6 +120,7 @@ export default () => {
           loaded: selectedRecord?.data?.receved,
         })}
         data={loaded}
+        isFetching={isFetchingLoaded}
         getPageSize={getPageSize}
         isLoading={isLoadingLoaded}
         refetch={refetchLoaded}

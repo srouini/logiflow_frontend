@@ -42,6 +42,7 @@ export default ({ mrn }: props) => {
     isLoading: isLoadingData,
     isRefetching,
     refetch,
+    isFetching
   } = useData({
     endpoint: API_CONTENEURS_ENDPOINT,
     name: "GET_CONTAINERS",
@@ -196,6 +197,7 @@ export default ({ mrn }: props) => {
         <CustomTable
           getColumns={columns()}
           data={data}
+          isFetching={isFetching}
           scrollX={800}
           getPageSize={getPageSize}
           isLoading={isLoading}
