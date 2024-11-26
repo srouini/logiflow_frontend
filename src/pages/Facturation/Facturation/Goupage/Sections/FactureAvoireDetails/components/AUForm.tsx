@@ -5,7 +5,7 @@ import { Form, message } from "antd";
 import usePost from "@/hooks/usePost";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import {
-  API_LIGNES_FACTURE_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
+  API_LIGNES_FACTURE_AVOIRE_GROUPAGE_ENDPOINT,
 } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { PlusOutlined } from "@ant-design/icons";
@@ -29,7 +29,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, facture }) => {
 
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
-    values.facture_complementaire = facture?.id 
+    values.facture_avoire = facture?.id 
     mutate(values);
     setOpen(false);
   };
@@ -43,7 +43,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, facture }) => {
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_LIGNES_FACTURE_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
+    endpoint: API_LIGNES_FACTURE_AVOIRE_GROUPAGE_ENDPOINT,
   });
 
 

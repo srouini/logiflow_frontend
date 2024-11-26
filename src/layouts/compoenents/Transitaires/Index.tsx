@@ -3,13 +3,13 @@ import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
-import { API_CLIENTS_ENDPOINT } from "@/api/api";
+import { API_TRANSITAIRE_ENDPOINT } from "@/api/api";
 // import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
 // import AUForm from "./components/AUForm";
 import { FloatButton, Modal } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserSwitchOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import AUForm from "./AUForm";
 import ColumnsSelect from "@/components/ColumnsSelect";
@@ -29,8 +29,8 @@ export default ({ hanleClose }: Props) => {
     isFetching,
     refetch,
   } = useData({
-    endpoint: API_CLIENTS_ENDPOINT,
-    name: "GET_CLIENTS",
+    endpoint: API_TRANSITAIRE_ENDPOINT,
+    name: "GET_TRANSITAIRE",
     params: {
       search: search,
       page: page,
@@ -51,6 +51,7 @@ export default ({ hanleClose }: Props) => {
   };
 
   const [selctedColumns, setSelectedColumns] = useState<any>(columns)
+  console.log()
 
   const countStr = () => {
     let count_str = ""
@@ -64,13 +65,13 @@ export default ({ hanleClose }: Props) => {
   return (
     <div>
       <FloatButton
-        tooltip="Client"
-        icon={<UserOutlined />}
+        tooltip="Transitaire"
+        icon={<UserSwitchOutlined />}
         onClick={showModal}
         style={{marginBottom:"8px"}}
       />
       <Modal
-        title="Clients"
+        title="Transitaires"
         destroyOnClose
         width={1200}  
         footer={false}
@@ -99,11 +100,11 @@ export default ({ hanleClose }: Props) => {
           setPage={setPage}
           setPageSize={setPageSize}
           setSearch={setSearch}
-          key="CLIENTS_TABLE"
+          key="TRASNITAIRE_TABLE"
           scrollY={350}
           toolbar={{
             actions: [
-              <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_CLIENTS_ENDPOINT} search={search} filters={filters} />,
+              <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_TRANSITAIRE_ENDPOINT} search={search} filters={filters} />,
               <AUForm  initialvalues={null} refetch={refetch}/>,
             ],
           }}

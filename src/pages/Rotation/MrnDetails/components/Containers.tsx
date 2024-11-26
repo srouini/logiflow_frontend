@@ -6,6 +6,7 @@ import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import usePost from "@/hooks/usePost";
 import { TableSelectionType } from "@/types/antdeing";
+import { renderText } from "@/utils/functions";
 import {
   AppstoreAddOutlined,
   CheckOutlined,
@@ -51,7 +52,7 @@ export default ({ mrn }: props) => {
       page: page,
       page_size: getPageSize(),
       article__gros__in: mrn,
-      expand: "type_tc",
+      expand: "type_tc,article",
     },
   });
 
@@ -64,6 +65,13 @@ export default ({ mrn }: props) => {
       title: "Matricule",
       dataIndex: "tc",
       key: "tc",
+      width: 100,
+    },
+    {
+      title: "Article",
+      dataIndex: "article",
+      key: "article",
+      render:(record:any) => renderText(record?.numero),
       width: 100,
     },
     {

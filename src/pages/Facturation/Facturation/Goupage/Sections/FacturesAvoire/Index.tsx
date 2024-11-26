@@ -1,8 +1,8 @@
-import { API_FACTURES_COMPLIMENTAIRE_GROUPAGE_ENDPOINT } from "@/api/api";
+import { API_FACTURES_AVOIRE_GROUPAGE_ENDPOINT } from "@/api/api";
 import useData from "@/hooks/useData";
 import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";
-import AUForm from "./components/AUForm";
+import AUFrom from "./components/AUForm"
 
 interface Props {
   id: string | undefined;
@@ -12,10 +12,10 @@ export default ({ id,article }: Props) => {
   const {
     data: factures,
     isLoading: isLoadingFactures,
-    refetch,
+    refetch: refetchFactures,
   } = useData({
-    endpoint: API_FACTURES_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
-    name: `GET_FACTURES_COMPLIMENTAIRE_GROUPAGE_${id}`,
+    endpoint: API_FACTURES_AVOIRE_GROUPAGE_ENDPOINT,
+    name: `GET_FACTURES_AVOIRE_GROUPAGE_${id}`,
     params: {
       expand: "facture",
       facture__proforma__sous_article__id: id,
@@ -23,18 +23,17 @@ export default ({ id,article }: Props) => {
     },
   });
 
-
   return (
     <ProTable<any>
-      headerTitle="Factures complimentaire"
+      headerTitle="Factures Avoire"
       // @ts-ignore
-      options={{ reload: refetch }}
-      columns={getColumns({refetch,isLoadingFacture:isLoadingFactures})}
+      options={{ reload: refetchFactures }}
+      columns={getColumns({refetch:refetchFactures,isLoadingFacture:isLoadingFactures})}
       loading={isLoadingFactures}
       dataSource={factures?.data}
       toolbar={{
         actions: [
-          <AUForm article={article} refetch={refetch}  key={id}/>
+          <AUFrom  article={article} refetch={refetchFactures} key={id}/>,
         ],
       }}
       rowKey={(item) => item?.id}
@@ -42,4 +41,3 @@ export default ({ id,article }: Props) => {
     />
   );
 };
-

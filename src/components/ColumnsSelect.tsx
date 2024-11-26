@@ -14,12 +14,15 @@ interface ColumnsSelectProps {
   setSelectedColumns: (columns: Column[]) => void;
 }
 
-const {profile} = useProfile();
+
 
 const ColumnsSelect: React.FC<ColumnsSelectProps> = ({
   columns,
   setSelectedColumns,
 }) => {
+
+  const {profile} = useProfile();
+  
   const handleTagClick = (key: string) => {
     const updatedColumns = columns.map((column:any) => {
       if (column.key === key) {

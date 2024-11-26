@@ -25,6 +25,8 @@ interface FormFieldProps {
   defaultValue?:any;
   maxDate?:any;
   minDate?:any;
+  minValue?:number;
+  maxValue?:number;
 }
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -44,7 +46,9 @@ const FormField: React.FC<FormFieldProps> = ({
   defaultValue,
   onChange, 
   minDate,
-  maxDate
+  maxDate, 
+  minValue, 
+  maxValue
 }) => {
   switch (type) {
     case "text":
@@ -71,7 +75,8 @@ const FormField: React.FC<FormFieldProps> = ({
             disabled={disabled}
             step={step}
             initialValue={initialValue}
-            
+            min={minValue}
+            max={maxValue}
           />
         </Col>
       );
@@ -96,7 +101,6 @@ const FormField: React.FC<FormFieldProps> = ({
           <Col span={span} md={span_md}>
             <FormDateTimeInput
              maxDate={maxDate}
-             minDate={minDate}
               name={name}
               label={label}
               required={required}

@@ -64,6 +64,8 @@ const Excel: React.FC<ExcelExportProps> = ({
     loadingStates: [isRefetching, isLoadingData, isFetching],
   });
 
+  const [shouldExport, setShouldExport] = useState(false);
+
   const exportToExcel = async () => {
     if (!data?.data?.length) {
       message.warning("No data available for export");
@@ -123,17 +125,21 @@ const Excel: React.FC<ExcelExportProps> = ({
     }
   };
 
-  // Only export data when it changes after fetching
+    // Export data only when it changes and shouldExport is true
   useEffect(() => {
-    if (data?.data?.length) exportToExcel();
-  }, [data]);
+    if (shouldExport && data?.data?.length) {
+      exportToExcel();
+      setShouldExport(false); // Reset the flag after export
+    }
+  }, [data, shouldExport, exportToExcel]);
 
   // Fetch data when the export button is clicked
   const handleClick = () => {
     setFileName(`data_export_${new Date().toISOString().split("T")[0]}`);
-    refetchExportData();
+    setShouldExport(true); // Enable export
+    refetchExportData(); // Fetch the latest data
   };
-
+  
   return (
     <Button
       type="primary"

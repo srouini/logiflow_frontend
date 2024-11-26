@@ -1,13 +1,13 @@
 import {
-  BorderTopOutlined,
-  PicCenterOutlined,
-  RadiusSettingOutlined,
   SettingOutlined,
-  UserAddOutlined,
 } from "@ant-design/icons";
 import { FloatButton } from "antd";
 import { useState } from "react";
 import Clients from "./Clients/Index";
+import Transitaires from "./Transitaires/Index";
+import Parcs from "./Parcs/Index";
+import Zones from "./Zones/Index";
+import Boxs from "./Box/Index";
 
 const References = () => {
   const [open, setOpen] = useState(false);
@@ -15,17 +15,18 @@ const References = () => {
     <FloatButton.Group
       onClick={() => setOpen(!open)}
       open={open}
-      shape="square"
+      shape="circle"
       trigger="click"
-      style={{ insetInlineEnd: 25 }}
+      style={{ insetInlineEnd: 80 }}
       icon={<SettingOutlined />}
       badge={{ dot: true }}
+      type="primary"
     >
       <Clients hanleClose={() => setOpen(false)} />
-      <FloatButton tooltip="Transitaire" icon={<UserAddOutlined />} />
-      <FloatButton tooltip="Parc" icon={<RadiusSettingOutlined />} />
-      <FloatButton tooltip="Zone" icon={<BorderTopOutlined />} />
-      <FloatButton tooltip="Box" icon={<PicCenterOutlined />} />
+      <Transitaires hanleClose={() => setOpen(false)} />
+      <Parcs hanleClose={() => setOpen(false)} />
+      <Zones hanleClose={() => setOpen(false)} />
+      <Boxs hanleClose={() => setOpen(false)} />
     </FloatButton.Group>
   );
 };

@@ -15,7 +15,6 @@ interface FormDateInputProps extends Omit<FormItemProps, "children"> {
   addonColSpan?: number;
   disabled?:boolean; 
   maxDate?:any;
-  minDate?:any;
 }
 
 const FormDateTimeInput: React.FC<FormDateInputProps> = ({
@@ -61,12 +60,12 @@ const FormDateTimeInput: React.FC<FormDateInputProps> = ({
     return hasAddOn ? name + suffix : name;
   };
 
-  const dateFormat = 'YYYY-MM-DD';
 
   const disabledDate: RangePickerProps['disabledDate'] = (current) => {
     // Can not select days before today and today
-    return current && current < dayjs().endOf('day');
+    return current && current < dayjs().subtract(1, 'day').endOf('day');
   };
+
 
   return (
     <Row gutter={12}>
@@ -81,7 +80,6 @@ const FormDateTimeInput: React.FC<FormDateInputProps> = ({
             format="YYYY-MM-DD HH:mm:ss"
             disabled={disabled}
             showTime
-            minDate={dayjs('2024-10-30', dateFormat)} 
             disabledDate={disabledDate}
           />
         </Form.Item>

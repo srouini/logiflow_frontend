@@ -5,7 +5,7 @@ import { Form, message, Row } from "antd";
 import usePost from "@/hooks/usePost";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import {
-  API_PAIEMENTS_FACTURE_COMPLIMENTAIRE_ENDPOINT,
+  API_PAIEMENTS_FACTURE_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
 } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { CreditCardOutlined } from "@ant-design/icons";
@@ -70,7 +70,7 @@ const AUFormPaiement: React.FC<AUFormProps> = ({ refetch, facture,paiementsFactu
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_PAIEMENTS_FACTURE_COMPLIMENTAIRE_ENDPOINT,
+    endpoint: API_PAIEMENTS_FACTURE_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
   });
 
   const handleModeChange = (value: string) => {

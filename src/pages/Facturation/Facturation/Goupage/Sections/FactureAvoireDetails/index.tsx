@@ -3,26 +3,23 @@ import { Badge, Button, Col, Divider, Drawer, Row } from "antd";
 import { ProDescriptions } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
 import {
-  API_FACTURES_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
-  API_LIGNES_FACTURE_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
-  API_PAIEMENTS_FACTURE_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
+  API_FACTURES_AVOIRE_ENDPOINT,
+  API_LIGNES_FACTURE_AVOIRE_GROUPAGE_ENDPOINT,
 } from "@/api/api";
 import {
   columns,
-  columns_paiementrs,
   columns_prestation_conteneurs,
 } from "./data";
 import useLoading from "@/hooks/useLoading";
 import CustomTableData from "@/components/CustomTableData";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
-import AUFormPaiement from "./components/AUFormPaiement";
 import AUForm from "./components/AUForm";
 import Print from "@/components/Print";
 import Refetch from "@/components/Refetch";
 
-interface FactureComplementaireDetailsPageProps {
-  factureComplementaire: any;
+interface factureAvoireDetailsPageProps {
+  factureAvoire: any;
   refetchFacture: (
     options?: RefetchOptions | undefined
   ) => Promise<QueryObserverResult<AxiosResponse<any, any> | undefined, Error>>;
@@ -30,15 +27,14 @@ interface FactureComplementaireDetailsPageProps {
 }
 
 export default ({
-  factureComplementaire,
+  factureAvoire,
   refetchFacture,
   isLoadingFacture,
-}: FactureComplementaireDetailsPageProps) => {
+}: factureAvoireDetailsPageProps) => {
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
     setOpen(true);
-    refetchPaiements();
     refetchLignesFacture();
   };
 
@@ -47,42 +43,17 @@ export default ({
   };
 
   const {
-    data: paiementsFacture,
-    isLoading: isLoadingPaiementsFacture,
-    isRefetching: isRefetchingPaiementsFacture,
-    isFetching: isFetchingPaiementsFacture,
-    refetch: refetchPaiements,
-  } = useData({
-    endpoint: API_PAIEMENTS_FACTURE_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
-    name: `GET_PAIEMENTS_FACTURE_COMPLIMENTAIRE_GROUPAGE_${factureComplementaire?.id}`,
-    params: {
-      all: true,
-      facture_complementaire__id: factureComplementaire?.id,
-      expand: "banque",
-    },
-    enabled: false,
-  });
-
-  const { isLoading: isLoadingPaiementsFactureCompelementaire } = useLoading({
-    loadingStates: [
-      isLoadingPaiementsFacture,
-      isRefetchingPaiementsFacture,
-      isFetchingPaiementsFacture,
-    ],
-  });
-
-  const {
     data: lignesFacture,
     isLoading: isLoadingLignesFacture,
     isRefetching: isRefetchingLignesFacture,
     isFetching: isFetchingLignesFacture,
     refetch: refetchLignesFacture,
   } = useData({
-    endpoint: API_LIGNES_FACTURE_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
-    name: `GET_LIGNES_FACTURE_COMPLIMENTAIRE_GROUPAGE_${factureComplementaire?.id}`,
+    endpoint: API_LIGNES_FACTURE_AVOIRE_GROUPAGE_ENDPOINT,
+    name: `GET_LIGNES_FACTURE_AVOIRE_GROUPAGE_${factureAvoire?.id}`,
     params: {
       all: true,
-      facture_complementaire__id: factureComplementaire?.id,
+      facture_avoire__id: factureAvoire?.id,
     },
     enabled: false,
   });
@@ -94,24 +65,16 @@ export default ({
       isFetchingLignesFacture,
     ],
   });
-  const refetchFacturePaiements = () => {
-    refetchFacture();
-    refetchPaiements();
-  };
 
   const refetchFactureLignes = () => {
     refetchFacture();
     refetchLignesFacture();
   };
 
-  const refetchAll = () => {
-    refetchFactureLignes();
-    refetchFacturePaiements();
-  };
   return (
     <>
       <Button onClick={showDrawer} color="red">
-        {factureComplementaire?.full_number}
+        {factureAvoire?.full_number}
       </Button>
 
       <Drawer
@@ -125,16 +88,16 @@ export default ({
           <Col>
             <Badge
               count={
-                factureComplementaire?.paid
+                factureAvoire?.paid
                   ? "Payé"
-                  : factureComplementaire?.a_terme
+                  : factureAvoire?.a_terme
                   ? "A terme"
                   : "Non payé"
               }
               color={
-                factureComplementaire?.paid
+                factureAvoire?.paid
                   ? "green"
-                  : factureComplementaire?.a_terme
+                  : factureAvoire?.a_terme
                   ? "gold"
                   : "red"
               }
@@ -145,23 +108,23 @@ export default ({
           <Col>
             <Row gutter={8}>
               <Col>
-                <Refetch isLoading={isLoadingFacture} refetch={refetchAll} />
+                <Refetch isLoading={isLoadingFacture} refetch={refetchFactureLignes} />
               </Col>
               <Col>
                 <Print
-                  endpoint={API_FACTURES_COMPLIMENTAIRE_GROUPAGE_ENDPOINT}
+                  endpoint={API_FACTURES_AVOIRE_ENDPOINT}
                   endpoint_suffex="generate_pdf/"
-                  id={factureComplementaire?.id}
-                  key={factureComplementaire?.id}
+                  id={factureAvoire?.id}
+                  key={factureAvoire?.id}
                   type="Download"
                 />
               </Col>
               <Col>
                 <Print
-                  endpoint={API_FACTURES_COMPLIMENTAIRE_GROUPAGE_ENDPOINT}
+                  endpoint={API_FACTURES_AVOIRE_ENDPOINT}
                   endpoint_suffex="generate_pdf/"
-                  id={factureComplementaire?.id}
-                  key={factureComplementaire?.id}
+                  id={factureAvoire?.id}
+                  key={factureAvoire?.id}
                   type="View"
                 />
               </Col>
@@ -171,7 +134,7 @@ export default ({
         <Divider style={{ marginTop: "10px" }} />
         <ProDescriptions
           loading={isLoadingFacture}
-          dataSource={factureComplementaire}
+          dataSource={factureAvoire}
           columns={columns}
           style={{ marginBottom: "10px", maxHeight: "50" }}
         ></ProDescriptions>
@@ -181,30 +144,10 @@ export default ({
         <CustomTableData
           toolbar={{
             actions: [
-              <AUFormPaiement
-                facture={factureComplementaire}
-                refetch={refetchFacturePaiements}
-                paiementsFacture={paiementsFacture?.data}
-                key={factureComplementaire?.id}
-              />,
-            ],
-          }}
-          getColumns={columns_paiementrs}
-          data={paiementsFacture?.data}
-          isLoading={isLoadingPaiementsFactureCompelementaire}
-          refetch={refetchPaiements}
-          headerTitle="Paiements"
-          key="PAIEMENTS_FACTURE_COMPLEMENTAIRE_GROUPAGE_TABLE"
-        />
-        <Divider />
-
-        <CustomTableData
-          toolbar={{
-            actions: [
               <AUForm
-                facture={factureComplementaire}
+                facture={factureAvoire}
                 refetch={refetchFactureLignes}
-                key={factureComplementaire?.id}
+                key={factureAvoire?.id}
               />,
             ],
           }}
@@ -213,7 +156,7 @@ export default ({
           isLoading={isLoadingLignesFactureCompelementaire}
           refetch={refetchLignesFacture}
           headerTitle="Lignes"
-          key={"LignesFactureComplemenatiregroupage"}
+          key={"LignesFactureComplemenatire"}
         />
       </Drawer>
     </>

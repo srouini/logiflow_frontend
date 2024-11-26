@@ -46,6 +46,10 @@ export default () => {
     fixedHeader: true,
   });
 
+  useEffect(() => {
+    console.log(profile)
+  },[profile])
+
   const size = useScreenSize();
 
   if (typeof document === "undefined") {

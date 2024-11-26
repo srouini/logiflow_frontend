@@ -1,11 +1,13 @@
 import { API_BONS_COMMANDE_ENDPOINT, API_CONTENEURS_ENDPOINT } from "@/api/api";
+import DraggableModel from "@/components/DraggableModel";
 import FormField from "@/components/form/FormField";
 import useData from "@/hooks/useData";
 import usePost from "@/hooks/usePost";
-import { PaperClipOutlined } from "@ant-design/icons";
-import { CheckCard, ProCard, StepsForm } from "@ant-design/pro-components";
-import { Button, Flex, message, Modal, Row } from "antd";
+import { PaperClipOutlined, PlusOutlined } from "@ant-design/icons";
+import { CheckCard } from "@ant-design/pro-components";
+import { Divider, Form, message, Row, Tag } from "antd";
 import { useEffect, useState } from "react";
+import FormObject from "@/components/Form";
 
 interface AUFormProps {
   article: any;
@@ -16,18 +18,26 @@ export default ({ article, refetch }: AUFormProps) => {
   // @ts-ignore
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  const TYPES = [
+    {
+      label: "Clarck Intégral",
+      value: "Clarck Intégral",
+    },
+    {
+      label: "Clarck Partiel",
+      value: "Clarck Partiel",
+    },
+    {
+      label: "Manutentions humaines Intégral",
+      value: "Manutentions humaines Intégral",
+    },
+    {
+      label: "Manutentions humaines Partiel",
+      value: "Manutentions humaines Partiel",
+    },
+  ];
 
   const onSuccess = async () => {
     message.success("Submission successful");
@@ -50,174 +60,115 @@ export default ({ article, refetch }: AUFormProps) => {
       article__id: article.id,
       all: true,
       billed: false,
+      expand: "type_tc",
     },
   });
 
   const [selectedContainers, setSelectedContainers] = useState([]);
+
+  const handleFormSubmission = async () => {
+    let values = await form.validateFields();
+
+    mutate({
+      article: article?.id,
+      commandes: selectedContainers?.map((tc: any) => {
+        return {
+          tc: tc,
+          type: values["type"],
+          quantite: values["quantite"],
+          observation: values["observation"],
+        };
+      }),
+    });
+  };
   return (
     <>
-      <Button
-        type="default"
-        onClick={showModal}
-        disabled={containers?.data?.length === 0}
-      >
-        + Bon Commande
-      </Button>
-      <Modal
-        title="+ Proforma"
-        destroyOnClose
-        width={600}
-        footer={false}
+      <DraggableModel
+        OkButtontext="Submit"
+        modalOpenButtonText="Commande"
+        addButtonIcon={<PlusOutlined />}
+        modalTitle="+ Commande"
+        onSubmit={handleFormSubmission}
+        setOpen={setIsModalOpen}
         open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
+        width={600}
+        isLoading={isLoading}
       >
-        <ProCard>
-          <StepsForm
-            onFinish={async (values: any) => {
-              mutate({
-                article: article?.id,
-                commandes: selectedContainers?.map((tc: any) => {
-                  return {
-                    tc: tc,
-                    type: values["type"],
-                    quantite: values["quantite"],
-                    observation: values["observation"],
-                  };
-                }),
-              });
-            }}
-            submitter={{
-              render: ({ form, onSubmit, step, onPre }) => {
-                return [
-                  <Button
-                    key="rest"
-                    onClick={() => {
-                      form?.resetFields();
-                    }}
-                  >
-                    Reset
-                  </Button>,
-                  step > 0 && (
-                    <Button
-                      key="pre"
-                      onClick={() => {
-                        onPre?.();
-                      }}
-                    >
-                      Précédent
-                    </Button>
-                  ),
-                  <Button
-                    key="next"
-                    loading={isLoading}
-                    type="primary"
-                    onClick={() => {
-                      onSubmit?.();
-                      refetchTcs();
-                    }}
-                    disabled={isLoading}
-                  >
-                    Suivant
-                  </Button>,
-                ];
-              },
-            }}
-            formProps={{
-              validateMessages: {
-                required: "Required",
-              },
-            }}
-          >
-            <StepsForm.StepForm
-              name="base"
-              title="Bon Commande"
-              onFinish={async () => {
-                setLoading(true);
-                setLoading(false);
-                return true;
+        <FormObject form={form} initialvalues={{ quantite: 1 }}>
+          <Divider dashed style={{ marginTop: "0px" }} />
+
+          <Row gutter={24}>
+            <FormField
+              label="Type"
+              name="type"
+              span={16}
+              required
+              span_md={16}
+              type="select"
+              option_label="label"
+              option_value="value"
+              options={TYPES}
+            />
+            <FormField
+              label="Quantité"
+              name="quantite"
+              span={8}
+              span_md={8}
+              minValue={1}
+              type="number"
+              required
+            />
+          </Row>
+          <Row>
+            <FormField
+              label="observation"
+              name="observation"
+              type="text"
+              span={24}
+              span_md={24}
+            />
+          </Row>
+
+          <Divider dashed style={{ marginTop: "0px" }} />
+          <Row>
+            <CheckCard.Group
+              multiple
+              onChange={(value: any) => {
+                setSelectedContainers(value);
               }}
+              style={{ width: "100%" }}
             >
-              <Row gutter={24}>
-                <FormField
-                  label="Type"
-                  name="type"
-                  span={18}
-                  required
-                  span_md={18}
-                  type="select"
-                  option_label="label"
-                  option_value="value"
-                  options={[
-                    {
-                      label: "Clarck Intégral",
-                      value: "Clarck Intégral",
-                    },
-                    {
-                      label: "Clarck Partiel",
-                      value: "Clarck Partiel",
-                    },
-                    {
-                      label: "Manutentions humaines Intégral",
-                      value: "Manutentions humaines Intégral",
-                    },
-                    {
-                      label: "Manutentions humaines Partiel",
-                      value: "Manutentions humaines Partiel",
-                    },
-                  ]}
-                />
-                <FormField
-                  label="Quantité"
-                  name="quantite"
-                  span={6}
-                  span_md={6}
-                  type="number"
-                  required
-                />
-              </Row>
-              <Row>
-                <FormField
-                  label="observation"
-                  name="observation"
-                  type="text"
-                  span={24}
-                  span_md={24}
-                />
-              </Row>
-            </StepsForm.StepForm>
-            <StepsForm.StepForm name="checkbox" title="Conteneurs">
-              <CheckCard.Group
-                multiple
-                onChange={(value: any) => {
-                  setSelectedContainers(value);
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "300px",
+                  overflow: "scroll",
                 }}
-                size="small"
               >
-                <Flex
-                  wrap
-                  justify="start"
-                  style={{ height: "300px", overflow: "scroll" }}
-                  align="flex-start"
-                  vertical
-                  gap={8}
-                >
-                  {containers?.data?.map((item: any) => {
-                    return (
-                        <CheckCard
-                          size="large"
-                          title={item?.tc}
-                          value={item?.id}
-                          avatar={<PaperClipOutlined />}  
-                        />
-                    );
-                  })}
-                </Flex>
-              </CheckCard.Group>
-            </StepsForm.StepForm>
-          </StepsForm>
-        </ProCard>
-      </Modal>
+                {containers?.data?.map((item: any) => {
+                  return (
+                    <CheckCard
+                      size="large"
+                      style={{ minHeight: "55px", width: "95%" }}
+                      title={item?.tc}
+                      extra={
+                        <>
+                          <Tag>{item?.type_tc?.designation}</Tag>
+                          {item?.dangereux && <Tag color="red">DGX</Tag>}
+                          {item?.frigo && <Tag color="blue">FRIGO</Tag>}
+                        </>
+                      }
+                      value={item?.id}
+                      avatar={<PaperClipOutlined />}
+                    />
+                  );
+                })}
+              </div>
+            </CheckCard.Group>
+          </Row>
+        </FormObject>
+      </DraggableModel>
     </>
   );
 };

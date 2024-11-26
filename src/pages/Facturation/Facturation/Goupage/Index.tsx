@@ -11,12 +11,12 @@ import Proformas from "./Sections/Proformas/Index";
 import Commandes from "./Sections/Commandes/Index";
 import Visites from "./Sections/Visites/Index";
 import PrestationsOccasionnelle from "./Sections/PrestationsOccasionelle/Index";
-
+import FactureAvoire from "./Sections/FacturesAvoire/Index"
 import { Divider, Flex } from "antd";
 import UpdateVolume from "./components/UpdateVolume"
 import UpdateBareme from "./components/UpdateBareme"
 import UpdateTransitaire from "./components/UpdateTransitaire"
-
+import FactureComplimentaire from "./Sections/FacturesComplementaire/Index"
 export default () => {
   const { id } = useParams();
 
@@ -89,16 +89,16 @@ export default () => {
               key: "prestation_occasionnelle",
               children: <PrestationsOccasionnelle id={id} article={data?.data}/>,
             },
-            // {
-            //   label: `Facture Complementaire`,
-            //   key: "facture_complementaire",
-            //   children: <FactureComplementaire id={id} article={data?.data}/>,
-            // }, 
-            // {
-            //   label: `Facture Avoire`,
-            //   key: "facture_avoire",
-            //   children: <FactureAvoire id={id} article={data?.data}/>,
-            // },
+            {
+              label: `Facture Complementaire`,
+              key: "facture_complementaire",
+              children: <FactureComplimentaire id={id} article={data?.data}/>,
+            }, 
+            {
+              label: `Facture Avoire`,
+              key: "facture_avoire",
+              children: <FactureAvoire id={id} article={data?.data}/>,
+            },
           ],
           onChange: (key) => {
             setTab(key);

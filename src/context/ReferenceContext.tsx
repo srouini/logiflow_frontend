@@ -13,6 +13,8 @@ import useBox from "@/hooks/references/useBox";
 import useBanque from "@/hooks/references/useBanque";
 import useRubrique from "@/hooks/references/useRubruique";
 import useBareme from "@/hooks/references/useBareme"
+import useZone from "@/hooks/references/useZone";
+import useParc from "@/hooks/references/useParc";
 
 const ReferenceContext = createContext<any>(null);
 
@@ -36,6 +38,8 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
   const banque = useBanque();
   const rubrique = useRubrique();
   const bareme = useBareme();
+  const zone = useZone();
+  const parc = useParc();
  
   const contextValues = {
     navire,
@@ -51,7 +55,9 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
     box, 
     banque, 
     rubrique, 
-    bareme
+    bareme, 
+    zone, 
+    parc
   };
 
   return (

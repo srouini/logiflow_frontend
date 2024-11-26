@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { ReloadOutlined, UndoOutlined } from "@ant-design/icons";
 import useProfile from "@/hooks/useProfile";
 
-
 export default () => {
   const [form] = Form.useForm();
 
@@ -64,6 +63,22 @@ export default () => {
     window.location.reload();
   }
 
+  const getProfile = () => {
+    const profile = localStorage.getItem("profile");
+    if (profile) {
+      return JSON.parse(profile);
+    } else {
+      return {};
+    }
+  };
+
+  const handleLayoutChange = (values:any) => {
+     console.log(values)
+     let profile = getProfile();
+     profile.layout = values;
+     localStorage.setItem("profile",JSON.stringify(profile))
+  }
+
   return (
     <FormObject
       form={form}
@@ -73,6 +88,7 @@ export default () => {
         <FormField
           label="Layout"
           name="layout"
+          onChange={handleLayoutChange}
           span={24}
           required
           span_md={24}

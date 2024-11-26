@@ -5,7 +5,7 @@ import { Form, message, Row } from "antd";
 import usePost from "@/hooks/usePost";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import FormField from "@/components/form/FormField";
-import { API_FACTURES_COMPLIMENTAIRE_GROUPAGE_ENDPOINT, API_FACTURES_GROUPAGE_ENDPOINT } from "@/api/api";
+import { API_FACTURES_GROUPAGE_ENDPOINT, API_FACTURES_AVOIRE_GROUPAGE_ENDPOINT } from "@/api/api";
 import { PlusOutlined } from "@ant-design/icons";
 import useData from "@/hooks/useData";
 import { YES_NO_CHOICES } from "@/utils/constants";
@@ -41,25 +41,24 @@ const AUForm: React.FC<AUFormProps> = ({
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_FACTURES_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
+    endpoint: API_FACTURES_AVOIRE_GROUPAGE_ENDPOINT,
   });
 
   // @ts-ignore
   const { data, refetch:refetchFactures } = useData({
     endpoint: API_FACTURES_GROUPAGE_ENDPOINT,
-    name: `GET_FACTURES_GROUPAGE`,
+    name: `GET_FACTURES`,
     params: {
       proforma__sous_article__id: article.id,
       all: true,
     },
-    enabled:true
   });
 
   return (
     <DraggableModel
       OkButtontext="Submit"
-      modalOpenButtonText="Facture complimentaire"
-      modalTitle="Facture complimentaire"
+      modalOpenButtonText="Facture Avoire"
+      modalTitle="Facture Avoire"
       addButtonType="dashed"
       addButtonIcon={
         <PlusOutlined />

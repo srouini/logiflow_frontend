@@ -52,6 +52,12 @@ const AUFormDepotage: React.FC<AUFormProps> = ({
   });
 
 
+  const today = new Date();
+  today.setDate(today.getDate() - 1);
+  const formattedDateTime = `${today.toISOString().split('T')[0]} ${today.toTimeString().split(' ')[0]}`;
+
+
+
   return (
     <DraggableModel
       OkButtontext="Submit"
@@ -72,7 +78,7 @@ const AUFormDepotage: React.FC<AUFormProps> = ({
         <Row gutter={24}>
           <FormField
             name="date_depotage"
-            label="Date de dépotage"
+            label="Date de  dépotage"
             type="dateTime"
             required
             span_md={24}
