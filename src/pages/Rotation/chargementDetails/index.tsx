@@ -34,7 +34,6 @@ export default () => {
     data: selectedRecord,
     isLoading: isLoadingRecord,
     isRefetching: isRefetchingRecord,
-    isFetching,
     refetch
   } = useData({
     endpoint: API_BULLETINS_ENDPOINT + id + "/",
@@ -79,13 +78,13 @@ export default () => {
 
   const handleBulltinValidation = () => {
   
-    const not_valid = loaded?.data?.results?.some((record:any) => record.matricule_camion === null)
-    if (not_valid){
-      message.error("Tous les matricules doivent être renseignés pour valider le bulletin.")
-    }else{
-      mutate({id:id,loaded:true})
-    }
-   
+    // const not_valid = loaded?.data?.results?.some((record:any) => record.matricule_camion === null)
+    // if (not_valid){
+    //   message.error("Tous les matricules doivent être renseignés pour valider le bulletin.")
+    // }else{
+    //   mutate({id:id,loaded:true})
+    // }
+    mutate({id:id,loaded:true})
 }
 const navigate = useNavigate();
   return (

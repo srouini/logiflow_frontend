@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Badge, Button, Col, Divider, Drawer, Row } from "antd";
+import { Button, Col, Divider, Drawer, Row } from "antd";
 import { ProDescriptions } from "@ant-design/pro-components";
 import useData from "@/hooks/useData";
 import {
-  API_FACTURES_AVOIRE_ENDPOINT,
+  API_FACTURES_AVOIRE_GROUPAGE_ENDPOINT,
   API_LIGNES_FACTURE_AVOIRE_GROUPAGE_ENDPOINT,
 } from "@/api/api";
 import {
@@ -86,24 +86,7 @@ export default ({
       >
         <Row justify={"space-between"}>
           <Col>
-            <Badge
-              count={
-                factureAvoire?.paid
-                  ? "Payé"
-                  : factureAvoire?.a_terme
-                  ? "A terme"
-                  : "Non payé"
-              }
-              color={
-                factureAvoire?.paid
-                  ? "green"
-                  : factureAvoire?.a_terme
-                  ? "gold"
-                  : "red"
-              }
-              size="default"
-              style={{ marginBottom: "10px" }}
-            ></Badge>
+           {factureAvoire?.full_number}
           </Col>
           <Col>
             <Row gutter={8}>
@@ -112,7 +95,7 @@ export default ({
               </Col>
               <Col>
                 <Print
-                  endpoint={API_FACTURES_AVOIRE_ENDPOINT}
+                  endpoint={API_FACTURES_AVOIRE_GROUPAGE_ENDPOINT}
                   endpoint_suffex="generate_pdf/"
                   id={factureAvoire?.id}
                   key={factureAvoire?.id}
@@ -121,7 +104,7 @@ export default ({
               </Col>
               <Col>
                 <Print
-                  endpoint={API_FACTURES_AVOIRE_ENDPOINT}
+                  endpoint={API_FACTURES_AVOIRE_GROUPAGE_ENDPOINT}
                   endpoint_suffex="generate_pdf/"
                   id={factureAvoire?.id}
                   key={factureAvoire?.id}

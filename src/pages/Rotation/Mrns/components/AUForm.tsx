@@ -17,9 +17,10 @@ interface AUFormProps {
   editText?:string; 
   addText?:string; 
   hasIcon?:boolean
+  disabled?:boolean
 }
 
-const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIFIER",addText="Mrn", hasIcon=false }) => {
+const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIFIER",addText="Mrn", hasIcon=false,disabled=false }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
@@ -62,6 +63,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIF
   return (
     <DraggableModel
       OkButtontext="Submit"
+      disabledModalOpenButton={disabled}
       modalOpenButtonText={initialvalues ? editText : addText}
       addButtonIcon={hasIcon && initialvalues ? <EditOutlined />:<PlusOutlined /> }
       modalTitle="MRN"

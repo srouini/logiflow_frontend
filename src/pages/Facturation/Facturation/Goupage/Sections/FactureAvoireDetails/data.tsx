@@ -96,21 +96,6 @@ export const columns = [
     key: "1",
   },
   {
-    title: "Etat",
-    dataIndex: "numero",
-    width: 150,
-    key: "2",
-    // @ts-ignore
-    render: (_, record: any) =>
-      record?.paid ? (
-        <Tag color="green"> Payée </Tag>
-      ) : record?.a_terme ? (
-        <Tag>A Terme</Tag>
-      ) : (
-        <Tag color="red">Non Payée</Tag>
-      ),
-  },
-  {
     title: "Date",
     dataIndex: "date_creation",
     key: "5",

@@ -86,24 +86,7 @@ export default ({
       >
         <Row justify={"space-between"}>
           <Col>
-            <Badge
-              count={
-                factureAvoire?.paid
-                  ? "Payé"
-                  : factureAvoire?.a_terme
-                  ? "A terme"
-                  : "Non payé"
-              }
-              color={
-                factureAvoire?.paid
-                  ? "green"
-                  : factureAvoire?.a_terme
-                  ? "gold"
-                  : "red"
-              }
-              size="default"
-              style={{ marginBottom: "10px" }}
-            ></Badge>
+            {factureAvoire?.full_number}
           </Col>
           <Col>
             <Row gutter={8}>

@@ -14,6 +14,7 @@ import Details from "@/components/Details";
 import Chargement from "../Mrns/components/Chargement";
 import Conteneurs from "./components/Containers"
 import { useReferenceContext } from "@/context/ReferenceContext";
+import Export from "./Export";
 
 export default () => {
   const { id } = useParams();
@@ -84,6 +85,7 @@ export default () => {
         breadcrumb: breadcrumb,
         title: `MRN -  ${selectedMrnData?.data?.gros}`,
         extra: [
+          <Export query_params={{gros__id: id}} endpoint={API_ARTICLES_ENDPOINT} expand="client,transitaire" key="ARTICLESEXPORT" />,
           <AUForm refetch={refetch} initialvalues={null} gros={id} addText="Article"/>,
           <Chargement refetch={refetch} mrn={selectedMrnData?.data?.id} />,
           <Conteneurs mrn={id}/>

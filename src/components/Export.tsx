@@ -20,6 +20,7 @@ interface ExcelExportProps {
   endpoint: string;
   expand?: string;
   button_text?:string;
+  query_params?:any
 }
 
 interface DataRowType {
@@ -38,7 +39,8 @@ const Excel: React.FC<ExcelExportProps> = ({
   search,
   endpoint,
   expand,
-  button_text="Exportez"
+  button_text="Exportez",
+  query_params
 }) => {
   const [fileName, setFileName] = useState<string>(() => `data_export_${new Date().toISOString().split("T")[0]}`);
 
@@ -56,6 +58,7 @@ const Excel: React.FC<ExcelExportProps> = ({
       all: true,
       search,
       ...filters,
+      ...query_params
     },
     enabled: false, // Disable auto-fetch
   });

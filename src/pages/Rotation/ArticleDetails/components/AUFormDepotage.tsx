@@ -54,7 +54,7 @@ const AUFormDepotage: React.FC<AUFormProps> = ({
 
   const today = new Date();
   today.setDate(today.getDate() - 1);
-  const formattedDateTime = `${today.toISOString().split('T')[0]} ${today.toTimeString().split(' ')[0]}`;
+  // const formattedDateTime = `${today.toISOString().split('T')[0]} ${today.toTimeString().split(' ')[0]}`;
 
 
 

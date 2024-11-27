@@ -9,6 +9,7 @@ import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { getColumns } from "./data";
 import AUForm from "./components/AUForm";
+import Export from "./Export";
 
 export default () => {
   const [search, setSearch] = useState("");
@@ -53,7 +54,7 @@ export default () => {
         contentWidth="Fluid"
         header={{
           breadcrumb: breadcrumb,
-          extra: [<AUForm refetch={refetch} initialvalues={null} />],
+          extra: [<Export endpoint={API_MRNS_ENDPOINT} expand="regime,armateur,consignataire,navire" key="MERNSEXPORT" />,<AUForm refetch={refetch} initialvalues={null} />],
         }}
       >
         <QueryFilters

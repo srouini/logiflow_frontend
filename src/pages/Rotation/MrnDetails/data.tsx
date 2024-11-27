@@ -22,7 +22,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
       />
     ),
   },
-  
+
   {
     title: "BL",
     key: "2",
@@ -74,7 +74,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     dataIndex: "transitaire",
     render: (record: any) => renderText(record?.raison_sociale),
   },
- 
+
   {
     title: "Date dépotage",
     dataIndex: "date_depotage",
@@ -82,11 +82,12 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     width: 150,
     render: (record) => renderDate(record),
   },
+  
   {
     title: "Actions",
     valueType: "option",
     key: "9",
-    fixed:"right",
+    fixed: "right",
     width: 350,
     render: (_, record: any) => [
       <TableDropdown
@@ -115,14 +116,21 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
               />
             </Col>
             <Col>
-            <Print type="View" endpoint={API_ARTICLES_ENDPOINT} disabled={!record?.groupage} id={record?.id} endpoint_suffex="generate_ticktage/" button_text="Ticktage"/>
+              <Print
+                type="View"
+                endpoint={API_ARTICLES_ENDPOINT}
+                disabled={!record?.groupage}
+                id={record?.id}
+                endpoint_suffex="generate_ticktage/"
+                button_text="Ticktage"
+              />
             </Col>
             <Col>
-            <AUFormDepotage
-              article={record?.id}
-              disable={record?.depote || !record?.groupage}
-              refetch={refetch}
-            />
+              <AUFormDepotage
+                article={record?.id}
+                disable={record?.depote || !record?.groupage}
+                refetch={refetch}
+              />
             </Col>
           </Row>,
         ]}
@@ -177,4 +185,65 @@ export const DetailsColumns = [
     ellipsis: false,
     render: (record: any) => renderText(record?.raison_sociale),
   },
+];
+
+export const columns = [
+  {
+    title: "Numero",
+    dataIndex: "numero",
+    key: "1",
+    selected:true
+  },
+
+  {
+    title: "BL",
+    key: "2",
+    dataIndex: "bl",
+    selected:false
+
+  },
+  {
+    title: "Groupage",
+    key: "3",
+    dataIndex: "groupage",
+    selected:true
+
+  },
+  {
+    title: "Depoté",
+    key: "7",
+    dataIndex: "depote",
+    selected:false
+
+  },
+  {
+    title: "Date dépotage",
+    dataIndex: "date_depotage",
+    key: "8",
+    selected:false
+
+  },
+  {
+    title: "Client",
+    key: "4",
+    dataIndex: "client",
+    schema:["client","raison_sociale"],
+    selected:true
+
+  },
+  {
+    title: "Transitaire",
+    key: "6",
+    dataIndex: "transitaire",
+    schema:["transitaire","raison_sociale"],
+    selected:true
+  },
+  {
+    title: "Designation",
+    key: "5",
+    dataIndex: "designation",
+    selected:true
+
+  },
+
 ];

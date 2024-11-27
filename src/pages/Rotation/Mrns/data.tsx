@@ -71,7 +71,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Actions",
     valueType: "option",
-    key: "8",
+    key: "actions",
     width: 100,
     fixed:"right",
     render: (_, record: any) => [
@@ -105,3 +105,50 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     ],
   },
 ];
+
+
+export const  columns =  [ {
+  title: "Numéro",
+  dataIndex: "gros",
+  selected:true,
+  key:"1"
+},
+{
+  title: "Regime",
+  dataIndex: "regime",
+  selected:true,
+  schema:["regime","designation"],
+  key:"2"
+},
+{
+  title: "Accostage",
+  dataIndex: "accostage",
+  selected:true,
+  key:"3"
+},
+{
+  title: "Escale",
+  index: "escale",
+  key:"4"
+},
+{
+  title: "Navire",
+  dataIndex: "navire",
+  selected:true,
+  schema:["navire","nom"],
+  key:"5"
+},
+{
+  title: "Armasteur",
+  dataIndex: "armateur",
+  selected:true,
+  schema:["armateur","raison_sociale"],
+  key:"6"
+},
+{
+  title: "Consignataire",
+  dataIndex: "consignataire",
+  selected:true,
+  schema:["consignataire","raison_sociale"],
+  key:"7"
+}]
