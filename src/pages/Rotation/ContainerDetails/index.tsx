@@ -12,6 +12,7 @@ import AUForm from "./components/AUForm";
 import usePost from "@/hooks/usePost";
 import { TableSelectionType } from "@/types/antdeing";
 import { useReferenceContext } from "@/context/ReferenceContext";
+import Export from "./components/Export";
 
 interface SubArticlePageProps {
   container: Container;
@@ -136,7 +137,10 @@ export default ({ container, columns }: SubArticlePageProps) => {
           rowSelectionFunction={rowSelectionFunction}
           RowSelectionRnder={RowSelectionRnder}
           headerTitle={
-            <AUForm refetch={refetch} tc={container?.id} initialvalues={null} />
+          [  <AUForm refetch={refetch} tc={container?.id} initialvalues={null} />,
+            <div style={{marginRight:"10px"}}></div>,
+            <Export query_params={{tc__id: container?.id}} endpoint={API_SOUSARTICLES_ENDPOINT} expand="client,transitaire,box" key="SOUSARTICLESEXPORT" />,]
+
           }
         />
       </Drawer>

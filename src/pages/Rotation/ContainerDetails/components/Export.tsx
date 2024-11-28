@@ -1,15 +1,13 @@
 import { useState } from "react";
 import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
-import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 // import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
-import { columns, exportColumns, getColumns } from "../data";
+import { columns, getColumns } from "../data";
 // import AUForm from "./components/AUForm";
 import { Button, Modal } from "antd";
 import { CloudDownloadOutlined } from "@ant-design/icons";
-import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
 
@@ -20,10 +18,9 @@ interface Props {
   article?:any,
   key?:any
 }
-export default ({article,key,expand,endpoint,query_params}:Props) => {
+export default ({key,expand,endpoint,query_params}:Props) => {
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
-  const { filters, resetFilters, setFilters } = useFilters();
 
   const {
     data,
@@ -38,7 +35,6 @@ export default ({article,key,expand,endpoint,query_params}:Props) => {
       search: search,
       page: page,
       page_size: getPageSize(),
-      ...filters,
       expand: expand,
       ...query_params
     },
@@ -55,7 +51,7 @@ export default ({article,key,expand,endpoint,query_params}:Props) => {
     setOpen(true);
   };
 
-  const [selctedColumns, setSelectedColumns] = useState<any>(exportColumns);
+  const [selctedColumns, setSelectedColumns] = useState<any>(columns);
 
   const countStr = () => {
     let count_str = "";
@@ -82,18 +78,13 @@ export default ({article,key,expand,endpoint,query_params}:Props) => {
           setOpen(false);
         }}
       >
-        <QueryFilters
-          setFilters={setFilters}
-          resetFilters={resetFilters}
-          setPage={setPage}
-        />
 
         <ColumnsSelect
           columns={selctedColumns}
           setSelectedColumns={setSelectedColumns}
         />
         <CustomTable
-          getColumns={getColumns(refetch,article).filter((col) => col.key !== "Actions")}
+          getColumns={getColumns(refetch).filter((col) => col.key !== "Actions")}
           data={data}
           isFetching={isFetching}
           getPageSize={getPageSize}
@@ -112,7 +103,6 @@ export default ({article,key,expand,endpoint,query_params}:Props) => {
                 endpoint={endpoint}
                 query_params={query_params}
                 search={search}
-                filters={filters}
                 expand={expand}
               />,
             ],
