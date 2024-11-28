@@ -9,7 +9,7 @@ import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { getColumns } from "./data";
 import AUForm from "./components/AUForm";
-import Export from "./Export";
+import Export from "./components/Export";
 
 export default () => {
   const [search, setSearch] = useState("");

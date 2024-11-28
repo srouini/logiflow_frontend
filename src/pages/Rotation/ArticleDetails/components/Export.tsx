@@ -5,20 +5,22 @@ import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 // import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
-import { columns, getColumns } from "./data";
+import { columns, exportColumns, getColumns } from "../data";
 // import AUForm from "./components/AUForm";
 import { Button, Modal } from "antd";
 import { CloudDownloadOutlined } from "@ant-design/icons";
-import QueryFilters from "./components/QueryFilters";
+import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
 
 interface Props {
   expand?:string, 
   endpoint:string, 
-  query_params?:any
+  query_params?:any, 
+  article?:any,
+  key?:any
 }
-export default ({expand,endpoint,query_params}:Props) => {
+export default ({article,key,expand,endpoint,query_params}:Props) => {
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();
@@ -31,7 +33,7 @@ export default ({expand,endpoint,query_params}:Props) => {
     isFetching,
   } = useData({
     endpoint: endpoint,
-    name: "GET_MRNS_EXPORT",
+    name: `${key}_ENDPOINT`,
     params: {
       search: search,
       page: page,
@@ -42,6 +44,7 @@ export default ({expand,endpoint,query_params}:Props) => {
     },
   });
 
+  
   const { isLoading } = useLoading({
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
@@ -52,7 +55,7 @@ export default ({expand,endpoint,query_params}:Props) => {
     setOpen(true);
   };
 
-  const [selctedColumns, setSelectedColumns] = useState<any>(columns);
+  const [selctedColumns, setSelectedColumns] = useState<any>(exportColumns);
 
   const countStr = () => {
     let count_str = "";
@@ -69,7 +72,7 @@ export default ({expand,endpoint,query_params}:Props) => {
         Exporter
       </Button>
       <Modal
-        title="Mrns"
+        title="| Export de données"
         destroyOnClose
         width={1200}
         footer={false}
@@ -90,7 +93,7 @@ export default ({expand,endpoint,query_params}:Props) => {
           setSelectedColumns={setSelectedColumns}
         />
         <CustomTable
-          getColumns={getColumns(refetch).filter((col) => col.key !== "9")}
+          getColumns={getColumns(refetch,article).filter((col) => col.key !== "Actions")}
           data={data}
           isFetching={isFetching}
           getPageSize={getPageSize}
@@ -99,7 +102,7 @@ export default ({expand,endpoint,query_params}:Props) => {
           setPage={setPage}
           setPageSize={setPageSize}
           setSearch={setSearch}
-          key="MRNS_EXPORT_TABLE"
+          key={`${key}_TABLE`}
           scrollY={350}
           toolbar={{
             actions: [

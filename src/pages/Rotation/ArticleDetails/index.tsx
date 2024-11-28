@@ -19,6 +19,7 @@ import usePost from "@/hooks/usePost";
 import Prestations from "./components/Prestations";
 import AUFormDepotage from "./components/AUFormDepotage";
 import Print from "@/components/Print";
+import Export from "./components/Export";
 
 export default () => {
   const { id } = useParams();
@@ -112,6 +113,7 @@ export default () => {
         breadcrumb: breadcrumb,
         title: `Article ${selectedArticleData?.data?.numero}`,
         extra: [
+          <Export query_params={{article__id: id}} endpoint={API_CONTENEURS_ENDPOINT} expand="type_tc,current_scelle" key="CONTAINERSEXPORT" />,
           <AUForm
             refetch={refetch}
             initialvalues={null}

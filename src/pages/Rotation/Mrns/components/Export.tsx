@@ -5,11 +5,11 @@ import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 // import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
-import { columns, getColumns } from "./data";
+import { columns, getColumns } from "../data";
 // import AUForm from "./components/AUForm";
 import { Button, Modal } from "antd";
 import { CloudDownloadOutlined } from "@ant-design/icons";
-import QueryFilters from "./components/QueryFilters";
+import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
 
@@ -88,7 +88,7 @@ export default ({expand,endpoint}:Props) => {
           setSelectedColumns={setSelectedColumns}
         />
         <CustomTable
-          getColumns={getColumns(refetch).filter((col) => col.key !== "actions")}
+          getColumns={getColumns(refetch).filter((col:any) => col.key !== "actions")}
           data={data}
           isFetching={isFetching}
           getPageSize={getPageSize}

@@ -59,8 +59,8 @@ export const getColumns = (
   {
     title: "Actions",
     valueType: "option",
-    key: "6",
-    fixed:"right",
+    key: "Actions",
+    fixed: "right",
     width: 100,
     render: (_, record: any) => [
       <TableDropdown
@@ -135,6 +135,52 @@ export const columns = [
         {record.frigo ? <Tag color="blue"> FRIGO </Tag> : ""}
       </>
     ),
+  },
+];
+
+export const exportColumns = [
+  {
+    title: "Matricule",
+    dataIndex: "tc",
+    key: "tc",
+    selected:true
+  },
+  
+  {
+    title: "Type",
+    key: "type_tc",
+    dataIndex: "type_tc",
+    schema:["type_tc","designation"],
+    selected:true
+
+  },
+  {
+    title: "Tar",
+    key: "tar",
+    dataIndex: "tar",
+    selected:true
+
+  },
+  {
+    title: "Poids",
+    key: "poids",
+    dataIndex: "poids",
+    selected:true
+
+  },
+  {
+    title: "Dangereux",
+    key: "dangereux",
+    dataIndex: "dangereux",
+    selected:true
+
+  },
+  {
+    title: "Frigo",
+    key: "frigo",
+    dataIndex: "frigo",
+    selected:true
+
   },
 ];
 

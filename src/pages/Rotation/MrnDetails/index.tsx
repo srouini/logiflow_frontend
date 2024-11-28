@@ -14,7 +14,7 @@ import Details from "@/components/Details";
 import Chargement from "../Mrns/components/Chargement";
 import Conteneurs from "./components/Containers"
 import { useReferenceContext } from "@/context/ReferenceContext";
-import Export from "./Export";
+import Export from "./components/Export";
 
 export default () => {
   const { id } = useParams();
