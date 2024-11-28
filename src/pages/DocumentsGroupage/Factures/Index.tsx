@@ -6,6 +6,7 @@ import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 import { API_FACTURES_GROUPAGE_ENDPOINT } from "@/api/api";
 import { getColumns } from "./data";
+import Export from "./components/Export";
 
 const QueryFilters = lazy(() => import("./components/QueryFilters"));
 const CustomTable = lazy(() => import("@/components/CustomTable"));
@@ -61,7 +62,7 @@ export default () => {
         contentWidth="Fluid"
         header={{
           breadcrumb: breadcrumb,
-          extra: [],
+          extra: [<Export expand="proforma.gros,proforma.sous_article.client,proforma.article" />],
         }}
       >
         <QueryFilters

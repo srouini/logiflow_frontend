@@ -6,6 +6,7 @@ import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 import { API_BONS_SORTIE_ENDPOINT } from "@/api/api";
 import { getColumns } from "./data";
+import Export from "./components/Export";
 
 const QueryFilters = lazy(() => import("./components/QueryFilters"));
 const CustomTable = lazy(() => import("@/components/CustomTable"));
@@ -58,7 +59,7 @@ export default () => {
         contentWidth="Fluid"
         header={{
           breadcrumb: breadcrumb,
-          extra: [],
+          extra: [<Export expand="facture" />],
         }}
       >
         <QueryFilters

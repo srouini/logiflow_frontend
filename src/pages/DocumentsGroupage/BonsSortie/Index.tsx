@@ -6,11 +6,11 @@ import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 import { API_BONS_SORTIE_GROUPAGE_ENDPOINT } from "@/api/api";
 import { getColumns } from "./data";
+import Export from "./components/Export";
+import CustomTable from "@/components/CustomTable";
+import QueryFilters from "./components/QueryFilters";
 
-const QueryFilters = lazy(() => import("./components/QueryFilters"));
-const CustomTable = lazy(() => import("@/components/CustomTable"));
-
-export default () => {
+const Index = () => {
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();
@@ -61,7 +61,7 @@ export default () => {
         contentWidth="Fluid"
         header={{
           breadcrumb: breadcrumb,
-          extra: [],
+          extra: [<Export expand="facture" />],
         }}
       >
         <QueryFilters
@@ -86,3 +86,5 @@ export default () => {
     </Suspense>
   );
 };
+
+export default Index;

@@ -8,6 +8,7 @@ import { API_PRFORMAS_ENDPOINT } from "@/api/api";
 import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { getColumns } from "./data";
+import Export from "./components/Export";
 
 export default () => {
   const [search, setSearch] = useState("");
@@ -37,7 +38,6 @@ export default () => {
   const breadcrumb = {
     items: [
       {
-      
         title: "Documents",
       },
       {
@@ -52,7 +52,7 @@ export default () => {
         contentWidth="Fluid"
         header={{
           breadcrumb: breadcrumb,
-          extra: [],
+          extra: [<Export expand="gros,article.client" />],
         }}
       >
         <QueryFilters
