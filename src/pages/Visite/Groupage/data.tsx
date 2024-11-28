@@ -109,3 +109,58 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     ],
   },
 ];
+
+export const exportColumns = [
+  {
+    title: "Numero",
+    dataIndex: "visite",
+    key: "numero",
+    selected: true
+  },
+  {
+    title: "Date Visite",
+    dataIndex: "date_visite",
+    key: "date_visite",
+    selected: true
+  },
+  {
+    title: "Mrn",
+    dataIndex: "gros",
+    key: "mrn",
+    schema: ["gros", "gros"],
+    selected: true
+  },
+  {
+    title: "Article",
+    dataIndex: "article",
+    key: "article",
+    schema: ["article", "numero"],
+    selected: true
+  },
+  {
+    title: "Sous Article",
+    dataIndex: "sous_article",
+    key: "sous_article",
+    schema: ["sous_article", "numero"],
+    selected: true
+  },
+  {
+    title: "Type",
+    dataIndex: "type_visite",
+    key: "type",
+    selected: true
+  },
+  {
+    title: "Transitaire",
+    dataIndex: "transitaire",
+    key: "transitaire",
+    schema: ["transitaire", "raison_sociale"],
+    selected: true
+  },
+  {
+    title: "Badge",
+    dataIndex: "badge",
+    key: "badge",
+    selected: true
+  }
+];

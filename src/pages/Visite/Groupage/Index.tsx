@@ -10,14 +10,13 @@ import CustomTable from "@/components/CustomTable";
 import { getColumns } from "./data";
 import AUForm from "./components/AUForm";
 import Calendair from "./components/Calendar"
+import Export from "./components/Export";
 
 export default () => {
-
 
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();
-
 
   const {
     data,
@@ -38,8 +37,6 @@ export default () => {
     },
   });
 
-
-
   const { isLoading } = useLoading({
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
@@ -57,43 +54,42 @@ export default () => {
     ],
   };
 
-
   return (
-
-        <PageContainer
-          contentWidth="Fluid"
-          header={{
-            breadcrumb: breadcrumb,
-            title: `Visite Groupage`,
-            extra: [
-              <AUForm
-                refetch={refetch}
-                initialvalues={null}
-                addText="Visite"
-              />,
-              <Calendair />,   
-            ],
-          }}
-          title=" "
-        >
-          <QueryFilters
-            setFilters={setFilters}
-            resetFilters={resetFilters}
-            setPage={setPage}
-          />
-
-          <CustomTable
-            getColumns={getColumns(refetch)}
-            data={data}
-            isFetching={isFetching}
-            getPageSize={getPageSize}
-            isLoading={isLoading}
+    <PageContainer
+      contentWidth="Fluid"
+      header={{
+        breadcrumb: breadcrumb,
+        title: `Visite Groupage`,
+        extra: [
+          <AUForm
             refetch={refetch}
-            setPage={setPage}
-            setPageSize={setPageSize}
-            setSearch={setSearch}
-            key="VISITE_GROUPAGE_TABLE"
-          />
-        </PageContainer>
+            initialvalues={null}
+            addText="Visite"
+          />,
+          <Calendair />,
+          <Export expand="gros,article,sous_article,transitaire" />,
+        ],
+      }}
+      title=" "
+    >
+      <QueryFilters
+        setFilters={setFilters}
+        resetFilters={resetFilters}
+        setPage={setPage}
+      />
+
+      <CustomTable
+        getColumns={getColumns(refetch)}
+        data={data}
+        isFetching={isFetching}
+        getPageSize={getPageSize}
+        isLoading={isLoading}
+        refetch={refetch}
+        setPage={setPage}
+        setPageSize={setPageSize}
+        setSearch={setSearch}
+        key="VISITE_GROUPAGE_TABLE"
+      />
+    </PageContainer>
   );
 };

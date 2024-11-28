@@ -10,6 +10,7 @@ import CustomTable from "@/components/CustomTable";
 import { getColumns } from "./data";
 import AUForm from "./components/AUForm";
 import Calendair from "./components/Calendar";
+import Export from "./components/Export";
 
 export default () => {
   const [search, setSearch] = useState("");
@@ -57,9 +58,10 @@ export default () => {
       contentWidth="Fluid"
       header={{
         breadcrumb: breadcrumb,
-        title: `Chargements`,
+        title: `Visite Ordinaire`,
         extra: [
           <AUForm refetch={refetch} initialvalues={null} addText="Visite" />,
+          <Export expand="gros,article,transitaire" />,
           <Calendair />,
         ],
       }}
