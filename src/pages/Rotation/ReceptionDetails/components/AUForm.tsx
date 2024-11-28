@@ -100,7 +100,11 @@ const AUForm: React.FC<AUFormProps> = ({
                     format="YYYY-MM-DD HH:mm:ss"
                     disabled={disabled}
                     showTime
-                    minDate={initialvalues?.date_sortie_port ? dayjs(initialvalues?.date_sortie_port) : undefined}
+                    minDate={
+                      initialvalues?.date_sortie_port
+                        ? dayjs(initialvalues?.date_sortie_port)
+                        : undefined
+                    }
                     maxDate={dayjs().startOf("day")}
                   />
                 </Form.Item>

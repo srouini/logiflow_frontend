@@ -11,6 +11,7 @@ import { getColumns } from "./data";
 import AUForm from "./components/AUForm";
 import { useParams } from "react-router";
 import { useReferenceContext } from "@/context/ReferenceContext";
+import Export from "./components/Export";
 
 export default () => {
   const { id } = useParams();
@@ -68,6 +69,8 @@ export default () => {
         breadcrumb: breadcrumb,
         title: `Chargements`,
         extra: [
+          <Export  endpoint={API_BULLETINS_ENDPOINT} query_params={{ordering: "-date_creation,-numero",}} expand="gros,charge_chargement,charge_reception" key="BULLETINSEXPORT" />,
+,
           <AUForm
             refetch={refetch}
             initialvalues={null}

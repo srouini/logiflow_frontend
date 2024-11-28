@@ -9,6 +9,7 @@ import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { getColumns } from "./data";
 import { useReferenceContext } from "@/context/ReferenceContext";
+import Export from "./components/Export";
 
 export default () => {
 
@@ -62,7 +63,9 @@ export default () => {
       header={{
         breadcrumb: breadcrumb,
         title: `Réception`,
-        extra: [],
+        extra: [
+          <Export  endpoint={API_BULLETINS_ENDPOINT} query_params={{ordering: "-date_creation,-numero",}} expand="gros,charge_chargement,charge_reception" key="BULLETINSEXPORT" />,
+        ],
       }}
       title=" "
     >
@@ -82,7 +85,7 @@ export default () => {
         setPage={setPage}
         setPageSize={setPageSize}
         setSearch={setSearch}
-        key="ARTICLES_TABLE"
+        key="RECEPTION_TABLE"
       />
     </PageContainer>
   );
