@@ -13,7 +13,7 @@ import moment from "moment";
 import dayjs from "dayjs";
 
 interface props {
-  mrn: string | undefined;
+  mrn: any;
   bulletin: string | undefined;
   refetchLoadedContainers: () => void;
   disabled?: boolean;
@@ -57,12 +57,14 @@ export default ({
       page: page,
       page_size: getPageSize(),
       expand: "article,type_tc",
-      article__gros__in: mrn,
+      article__gros__in: mrn?.id,
       bulletins__id__isnull: true,
     },
   });
 
-  const { isLoading } = useLoading({loadingStates: [ isLoadingData, isRefetching, isFetching] });
+  const { isLoading } = useLoading({
+    loadingStates: [isLoadingData, isRefetching, isFetching],
+  });
 
   const columns = () => [
     {
@@ -134,7 +136,8 @@ export default ({
   });
 
   const handleLoadingContainers = () => {
-    let formatted_selectedDate = selectedDate.format("YYYY-MM-DD");
+    let formatted_selectedDate = selectedDate.format("YYYY-MM-DD HH:mm");
+    console.log(formatted_selectedDate);
     mutate({
       ids: selectedRows,
       bulletin: bulletin,
@@ -145,12 +148,19 @@ export default ({
   const [selectedDate, setSelectedDate] = useState(moment());
 
   const onChange = (date: any) => {
+    console.log(date);
     setSelectedDate(date);
   };
-
   const RowSelectionRnder = (
     <>
-      <DatePicker onChange={onChange} size="middle" defaultValue={dayjs()} />
+      <DatePicker
+        showTime
+        onChange={onChange}
+        size="middle"
+        defaultValue={dayjs()}
+        minDate={mrn?.accostage ? dayjs(mrn.accostage) : undefined}
+        maxDate={dayjs().startOf('day')} 
+      />
       <Button
         type="primary"
         size="middle"

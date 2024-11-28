@@ -94,7 +94,7 @@ const navigate = useNavigate();
         breadcrumb: breadcrumb,
         title: `Bulletin -  ${selectedRecord?.data?.numero}`,
         extra: [
-          <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.loaded} loading={bulletin_is_patshing} onClick={handleBulltinValidation}>Validez</Button>,<Containers mrn={selectedRecord?.data?.gros?.id} bulletin={id} refetchLoadedContainers={refetchLoaded} disabled={selectedRecord?.data?.loaded} />
+          <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.loaded} loading={bulletin_is_patshing} onClick={handleBulltinValidation}>Validez</Button>,<Containers mrn={selectedRecord?.data?.gros} bulletin={id} refetchLoadedContainers={refetchLoaded} disabled={selectedRecord?.data?.loaded} />
         ],
         onBack : () =>  navigate(`/rotations/chargement/`)
       }}
