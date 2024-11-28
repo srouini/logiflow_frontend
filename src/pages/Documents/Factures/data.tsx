@@ -132,3 +132,83 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     ],
   },
 ];
+
+export const exportColumns = [
+  {
+    title: "Numéro",
+    dataIndex: "numero",
+    key: "numero",
+    selected: true
+  },
+  {
+    title: "Etat",
+    dataIndex: "paid",
+    key: "etat",
+    selected: true
+  },
+  {
+    title: "Mrn",
+    dataIndex: "proforma",
+    key: "mrn",
+    schema: ["proforma", "gros", "gros"],
+    selected: true
+  },
+  {
+    title: "Regime",
+    dataIndex: "proforma",
+    key: "regime",
+    schema: ["proforma", "gros", "regime", "designation"],
+    selected: true
+  },
+  {
+    title: "Article",
+    dataIndex: "proforma",
+    key: "article",
+    schema: ["proforma", "article", "numero"],
+    selected: true
+  },
+  {
+    title: "Date",
+    dataIndex: "date_creation",
+    key: "date",
+    selected: true
+  },
+  {
+    title: "Client",
+    dataIndex: "proforma",
+    key: "client",
+    schema: ["proforma", "article", "client", "raison_sociale"],
+    selected: true
+  },
+  {
+    title: "Proforma",
+    dataIndex: "proforma",
+    key: "proforma_num",
+    schema: ["proforma", "numero"],
+    selected: true
+  },
+  {
+    title: "HT",
+    dataIndex: "HT",
+    key: "ht",
+    selected: true
+  },
+  {
+    title: "TVA",
+    dataIndex: "TVA",
+    key: "tva",
+    selected: true
+  },
+  {
+    title: "Timber",
+    dataIndex: "timber",
+    key: "timber",
+    selected: true
+  },
+  {
+    title: "TTC",
+    dataIndex: "TTC",
+    key: "ttc",
+    selected: true
+  }
+];
