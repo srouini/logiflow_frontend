@@ -114,7 +114,7 @@ const navigate = useNavigate();
       />
 
       <CustomTable
-        getColumns={getColumns({refetch:refetchLoaded,loaded:selectedRecord?.data?.loaded})}
+        getColumns={getColumns({refetch:refetchLoaded,loaded:selectedRecord?.data?.loaded,mrn:selectedRecord?.data?.gros})}
         data={loaded}
         isFetching={isFetchingLoaded}
         getPageSize={getPageSize}

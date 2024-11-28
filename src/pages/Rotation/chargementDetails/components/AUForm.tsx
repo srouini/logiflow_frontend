@@ -1,23 +1,26 @@
 import { useState } from "react";
 import DraggableModel from "@/components/DraggableModel";
 import FormObject from "@/components/Form";
-import { Card, Col, Flex, Form, message, Row } from "antd";
+import { Card, Col, DatePicker, Flex, Form, message, Row } from "antd";
 import usePost from "@/hooks/usePost";
 import { formatDateTime, mapInitialValues } from "@/utils/functions";
 import FormField from "@/components/form/FormField";
 import { API_CONTENEURS_ENDPOINT, API_SCELLE_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
+import dayjs from "dayjs";
 
 interface AUFormProps {
   refetch: () => void;
   initialvalues: any;
   disabled?: boolean;
+  mrn: any;
 }
 
 const AUForm: React.FC<AUFormProps> = ({
   refetch,
   initialvalues,
   disabled,
+  mrn,
 }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
@@ -119,14 +122,18 @@ const AUForm: React.FC<AUFormProps> = ({
                 />
               )}
 
-              <FormField
-                label="Date"
-                name="date_sortie_port"
-                span={24}
-                required
-                span_md={24}
-                type="dateTime"
-              />
+              <Col span={24}>
+                <Form.Item label="Date" name="date_sortie_port"  required>
+                  <DatePicker
+                    style={{ width: "100%" }}
+                    format="YYYY-MM-DD HH:mm:ss"
+                    disabled={disabled}
+                    showTime
+                    minDate={mrn?.accostage ? dayjs(mrn.accostage) : undefined}
+                    maxDate={dayjs().startOf("day")}
+                  />
+                </Form.Item>
+              </Col>
               <FormField
                 label="Observation"
                 name="observation_chargement"

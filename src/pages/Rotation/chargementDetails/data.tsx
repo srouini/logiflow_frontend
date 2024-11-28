@@ -7,15 +7,16 @@ import DeleteBulletin from "./components/DeleteBulletin";
 
 interface Props {
   refetch: () => void,
-  loaded: any
+  loaded: any,
+  mrn:any
 }
-export const getColumns = ({refetch, loaded}:Props): ProColumns<any>[] => [
+export const getColumns = ({refetch, loaded,mrn}:Props): ProColumns<any>[] => [
   {
     title: "Matricule",
     dataIndex: "tc",
     key: "1",
     width: 200,
-    render: (_,record) => <AUForm initialvalues={record}  key={record?.id} refetch={refetch} disabled={loaded}/> 
+    render: (_,record) => <AUForm initialvalues={record} mrn={mrn} key={record?.id} refetch={refetch} disabled={loaded}/> 
   },
   {
     title: "Type",
