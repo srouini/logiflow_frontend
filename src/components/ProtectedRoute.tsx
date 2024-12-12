@@ -1,31 +1,44 @@
-import React, { useEffect } from 'react';
-import useAuth from '../hooks/useAuth';
-import Loader from './Loader';
-import { useNavigate } from 'react-router';
+import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+import { Spin } from 'antd';
 
-const ProtectedComponent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
+
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    // Redirect only after authentication is checked
-    if (isAuthenticated === false) {
-      navigate('/login');
-    }
-  }, []); // Only trigger when isAuthenticated changes
+  console.log('ProtectedRoute state:', { isAuthenticated, loading, pathname: location.pathname });
 
   
-  useEffect(() => {
-    // Redirect only after authentication is checked
-    if (isAuthenticated === false) {
-      navigate('/login');
-    }
-  }, [isAuthenticated, navigate]); // Only trigger when isAuthenticated changes
+  if (loading) {
+    return (
+      <div style={{ 
+        height: '100vh', 
+        display: 'flex', 
+        flexDirection: 'column',
+        justifyContent: 'center', 
+        alignItems: 'center',
+        background: '#f0f2f5'
+      }}>
+        <Spin size="large" />
+        <div style={{ marginTop: 16 }}>Loading...</div>
+      </div>
+    );
+  }
 
-  // Show loading spinner until authentication check is done
-  if (loading || isAuthenticated === null) return <Loader />;
+  if (!isAuthenticated) {
+    console.log('Not authenticated, redirecting to login');
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
+  console.log('Authenticated, rendering protected content');
   return <>{children}</>;
 };
 
-export default ProtectedComponent;
+export default ProtectedRoute;

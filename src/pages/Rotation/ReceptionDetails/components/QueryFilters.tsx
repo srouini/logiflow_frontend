@@ -16,12 +16,14 @@ type QueryFiltersProps = {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   setFilters: React.Dispatch<React.SetStateAction<number>>;
   resetFilters: () => void;
+  collapsed?: boolean;
 };
 
 const QueryFilters: React.FC<QueryFiltersProps> = ({
   setFilters,
   resetFilters,
   setPage,
+  collapsed = true,
 }) => {
   const { client, transitaire } = useReferenceContext();
 
@@ -36,16 +38,23 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   };
 
   return (
-<Card style={{marginBottom:"20px"}}>
+    <Card style={{ marginBottom: "20px" }}>
       <QueryFilter
-        defaultCollapsed
         split
         onFinish={handleSubmission}
         onReset={resetFilters}
-        style={{padding:"0px"}}
+        style={{ padding: "0px" }}
+        defaultCollapsed={collapsed}
       >
         <ProFormText name="numero" label="Numéro" />
-        <FilterSelect  label="Client" name="client"  mode="multiple" data={client?.results} option_value="id" option_label="raison_sociale"/>
+        <FilterSelect
+          label="Client"
+          name="client"
+          mode="multiple"
+          data={client?.results}
+          option_value="id"
+          option_label="raison_sociale"
+        />
         <ProFormSelect
           {...selectConfig}
           options={transitaire?.results}

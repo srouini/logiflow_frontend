@@ -76,6 +76,7 @@ export default ({ expand = "proforma.gros.regime,proforma.article,proforma.sous_
           setFilters={setFilters}
           resetFilters={resetFilters}
           setPage={setPage}
+          collapsed={false}
         />
 
         <ColumnsSelect

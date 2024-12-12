@@ -86,6 +86,7 @@ export default ({article,key,expand,endpoint,query_params}:Props) => {
           setFilters={setFilters}
           resetFilters={resetFilters}
           setPage={setPage}
+          collapsed={false}
         />
 
         <ColumnsSelect

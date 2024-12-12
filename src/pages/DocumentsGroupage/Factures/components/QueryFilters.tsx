@@ -19,12 +19,14 @@ type QueryFiltersProps = {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   setFilters: React.Dispatch<React.SetStateAction<number>>;
   resetFilters: () => void;
+  collapsed?: boolean
 };
 
 const QueryFilters: React.FC<QueryFiltersProps> = ({
   setFilters,
   resetFilters,
   setPage,
+  collapsed=true
 }) => {
   const { client,mrn } = useReferenceContext();
 
@@ -54,7 +56,7 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   return (
     <Card style={{ marginBottom: "20px" }}>
       <QueryFilter
-        defaultCollapsed
+        defaultCollapsed={collapsed}
         split
         onFinish={handleSubmission}
         onReset={resetFilters}

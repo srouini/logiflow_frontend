@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/AuthContext";
 import useProfile from "@/hooks/useProfile";
 import { ensureHashPrefix } from "@/utils/functions";
 import { Tag } from "antd";
@@ -21,7 +22,7 @@ const ColumnsSelect: React.FC<ColumnsSelectProps> = ({
   setSelectedColumns,
 }) => {
 
-  const {profile} = useProfile();
+  const {user} = useAuth();
   
   const handleTagClick = (key: string) => {
     const updatedColumns = columns.map((column:any) => {
@@ -39,7 +40,7 @@ const ColumnsSelect: React.FC<ColumnsSelectProps> = ({
         <Tag
           key={column.key}
           onClick={() => handleTagClick(column.key)}
-          color={ensureHashPrefix(profile?.colorPrimary)}
+          color={ensureHashPrefix(user?.profile?.theme_color || "#1890ff")}
           style={{
             marginBottom: "10px",
             paddingTop: "2px",

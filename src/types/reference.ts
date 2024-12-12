@@ -109,3 +109,9 @@ import { BaseModel } from "./commun";
   export interface ContainerType extends BaseModel {
     designation:string
   }
+
+  export interface User extends BaseModel {
+    first_name:string;
+    last_name:string;
+    full_name:string;
+  }

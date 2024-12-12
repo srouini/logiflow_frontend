@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import { Button, Col, ConfigProvider, Flex, Form, Input, Row, Typography } from "antd";
+import { Button, Col, ConfigProvider, Flex, Form, Input, message, Row, Typography } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { createStyles } from 'antd-style';
+import { useAuth } from "@/context/AuthContext"
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
   linearGradientButton: css`
@@ -30,22 +31,50 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
   `,
 }));
 
+interface LoginParams {
+  username: string;
+  password: string;
+}
+
+
 const LoginPage: React.FC = () => {
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login, isAuthenticated } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const from = (location.state as any)?.from?.pathname || '/';
+  console.log('Login page state:', { isAuthenticated, from });
+
+  // ----------------------------------------------------------------------
   const { styles } = useStyle();
-  const { login, loading } = useAuth();
   const [ passwordVisible, setPasswordVisible ] = useState(false);
   const { Title } = Typography;
 
-  const handleLogin = async (values: {
-    username: string;
-    password: string;
-  }) => {
-    login(values.username, values.password);
+  // Redirect if already logged in
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      console.log('Already authenticated, redirecting to:', from);
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, from]);
+
+  const handleSubmit = async (values: LoginParams) => {
+    setLoading(true);
+    try {
+      console.log('Attempting login...');
+      await login(values.username, values.password);
+      message.success('Login successful!');
+      // Navigation will be handled by the useEffect above
+    } catch (error) {
+      console.error('Login error:', error);
+      message.error('Invalid username or password');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(() => {
-    localStorage.clear();
-  },[])
+
   return (
     <div
       style={{
@@ -75,12 +104,12 @@ const LoginPage: React.FC = () => {
           </Flex>
        
         </Row>
-        <Row style={{ width: "300px" }}>
+        <Row style={{ width: "350px" }}>
           <Form
             name="normal_login"
             className="login-form"
             initialValues={{ remember: true }}
-            onFinish={handleLogin}
+            onFinish={handleSubmit}
             style={{ minWidth: "100%" }}
           >
             <Form.Item

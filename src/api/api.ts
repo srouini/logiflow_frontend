@@ -91,7 +91,7 @@ export const API_PRESTATIONS_VISITE_GROUPAGE_ENDPOINT = "/api/bareme/prestationv
 
 // AUTH
 
-export const API_USERS_ENDPOINT = "/api/auth/user/"
+export const API_USERS_ENDPOINT = "/api/auth/users/"
 export const API_USER_PROFILE_ENDPOINT = "/api/auth/profiles/"
 export const API_LOGIN_ENDPOINT = "/api/login/"
 export const API_LOGOUT_ENDPOINT = "/api/logout/"

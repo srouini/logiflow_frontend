@@ -3,7 +3,7 @@ import BaseLayout from './layouts/BaseLayout';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Settings from './pages/Dashboard/Settings/Index';
 import LoginPage from "./pages/Login/Index"
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './components/_ProtectedRoute';
 import NotFoundPage from "./pages/NotFoundPage/Index"
 import MrnsPage from './pages/Rotation/Mrns';
 import ChargementPage from './pages/Rotation/Chargement';

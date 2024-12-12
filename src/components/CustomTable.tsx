@@ -88,7 +88,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       rowKey={(item) => item?.id}
       search={false}
       options={tableOptions}
-      scroll={{ x: scrollX, y: scrollY }}
+      scroll={{ x: 'max-content', y: scrollY }}
       loading={isLoading}
       pagination={{
         pageSize: getPageSize(),

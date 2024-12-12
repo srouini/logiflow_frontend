@@ -76,6 +76,7 @@ export default ({ expand = "gros,article.client", query_params }: Props) => {
           setFilters={setFilters}
           resetFilters={resetFilters}
           setPage={setPage}
+          collapsed={false}
         />
 
         <ColumnsSelect

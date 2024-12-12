@@ -8,6 +8,7 @@ import FormField from "@/components/form/FormField";
 import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import dayjs from "dayjs";
+import { useAuth } from "@/context/AuthContext";
 
 interface AUFormProps {
   refetch: () => void;
@@ -22,9 +23,10 @@ const AUForm: React.FC<AUFormProps> = ({
 }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
-  const { user } = useReferenceContext();
+  const { user:users } = useReferenceContext();
+  const {user} = useAuth();
   useEffect(() => {
-    user?.fetch();
+    users?.fetch();
   }, []);
 
   const account = localStorage.getItem("cat");
@@ -76,12 +78,12 @@ const AUForm: React.FC<AUFormProps> = ({
             form={form}
             initialvalues={mapInitialValues({
               ...initialvalues,
-              receved_by: account,
+              receved_by: user,
             })}
           >
             <Row gutter={24}>
               <FormField
-                label="Chagé chargement"
+                label="Chagé réception"
                 name="receved_by"
                 disabled
                 option_label="full_name"
@@ -90,7 +92,7 @@ const AUForm: React.FC<AUFormProps> = ({
                 span_md={24}
                 span={24}
                 type="select"
-                options={user?.results}
+                options={users?.results}
               />
 
               <Col span={24}>
