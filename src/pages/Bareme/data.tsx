@@ -1,12 +1,14 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
-import { Col, Row, Tag } from "antd";
+import { Col, Row, Space, Tag } from "antd";
 import { renderDate, renderText } from "@/utils/functions";
 import { API_MRNS_ENDPOINT } from "@/api/api";
 import DetailsButton from "@/components/DetailsButton";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
 import BaremeDetails from "./components/BaremeDetails";
+import CloneButton from "@/components/CloneButton";
+import { API_BAREMES_ENDPOINT } from "@/api/api";
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
@@ -28,24 +30,29 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
         children={[
           <Row gutter={8}>
             <Col>
-              <Delete
-                url={API_MRNS_ENDPOINT}
-                id={record?.id}
-                refetch={refetch}
-                class_name="MRN"
-                type="dashed"
-                link={false}
-                text=""
-                has_icon
-              />
-            </Col>
-            <Col>
-              <AUForm
-                initialvalues={record}
-                refetch={refetch}
-                editText=""
-                hasIcon
-              />
+              <Space size="middle">
+                <AUForm
+                  initialvalues={record}
+                  refetch={refetch}
+                  editText=""
+                  hasIcon
+                />
+                <CloneButton
+                  endpoint={API_BAREMES_ENDPOINT}
+                  id={record.id}
+                  refetch={refetch}
+                />
+                <Delete
+                  url={API_BAREMES_ENDPOINT}
+                  id={record?.id}
+                  refetch={refetch}
+                  class_name="BAREME"
+                  type="dashed"
+                  link={false}
+                  text=""
+                  has_icon
+                />
+              </Space>
             </Col>
           </Row>,
         ]}
@@ -53,7 +60,6 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     ],
   },
 ];
-
 
 export const  columns =  [ {
   title: "Numéro",

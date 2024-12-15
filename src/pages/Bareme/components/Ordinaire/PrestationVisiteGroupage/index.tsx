@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import {  Divider, message, Segmented } from "antd";
+import { Divider, message } from "antd";
 import { Container } from "@/types/data";
 import CustomTable from "@/components/CustomTable";
 import useData from "@/hooks/useData";
-import { API_PRESTATIONS_ENDPOINT, API_SOUSARTICLES_ENDPOINT } from "@/api/api";
+import { API_PRESTATIONS_VISITE_GROUPAGE_ENDPOINT } from "@/api/api";
 import usePage from "@/hooks/usePage";
 import { getColumns } from "./data";
 import useLoading from "@/hooks/useLoading";
@@ -15,19 +15,20 @@ import { Bareme } from "@/types/bareme";
 import QueryFilters from "./components/QueryFilters";
 import useFilters from "@/hooks/useFilters";
 
-interface SubArticlePageProps {
+interface PrestationVisiteGroupagePageProps {
   container?: Container;
   columns?: any;
-  bareme:Bareme | undefined
+  bareme: Bareme | undefined;
 }
 
-export default ({ bareme,container, columns }: SubArticlePageProps) => {
+export default ({ bareme, container, columns }: PrestationVisiteGroupagePageProps) => {
   const [open, setOpen] = useState(false);
 
   const { box } = useReferenceContext();
   useEffect(() => {
     box?.fetch();
   }, []);
+
   const showDrawer = () => {
     setOpen(true);
   };
@@ -48,15 +49,14 @@ export default ({ bareme,container, columns }: SubArticlePageProps) => {
     isFetching,
     refetch,
   } = useData({
-    endpoint: API_PRESTATIONS_ENDPOINT,
-    name: `GET_PRESTATIONS`,
+    endpoint: API_PRESTATIONS_VISITE_GROUPAGE_ENDPOINT,
+    name: `GET_PRESTATION_VISITE_GROUPAGES`,
     params: {
       search: search,
       page: page,
       page_size: getPageSize(),
-      expand: "type_tc,rubrique,bareme",
+      expand: "bareme",
       bareme__id: bareme?.id,
-      rubrique__categorie__exact: "Automatique",
       ...filters,
     },
   });
@@ -67,7 +67,6 @@ export default ({ bareme,container, columns }: SubArticlePageProps) => {
 
   const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
   const rowSelectionFunction: TableSelectionType = {
-    // @ts-ignore
     onChange(selectedRowKeys, selectedRows, info) {
       setSelectedRows(selectedRowKeys);
     },
@@ -78,46 +77,30 @@ export default ({ bareme,container, columns }: SubArticlePageProps) => {
     refetch();
   };
 
-  const { mutate } = usePost({
-    onSuccess: onSuccess,
-    endpoint: API_SOUSARTICLES_ENDPOINT + "bulk_update_box/",
-  });
-
-  const handleContainerType = (values: any) => {
-    mutate({
-      ids: selectedRows,
-      box_id: values,
-    });
-  };
-
-
-
   return (
     <>
-    <Divider orientation="left">Préstations Automatique</Divider> 
-    <QueryFilters
+      <Divider orientation="left">Prestation Visite Groupage</Divider>
+      <QueryFilters
         setFilters={setFilters}
         resetFilters={resetFilters}
         setPage={setPage}
       />
-        <CustomTable
-          getColumns={getColumns(refetch)}
-          data={data}
-          isFetching={isFetching}
-          getPageSize={getPageSize}
-          isLoading={isLoading}
-          refetch={refetch}
-          setPage={setPage}
-          setPageSize={setPageSize}
-          setSearch={setSearch}
-          key="PRESTATIONS_TABLE"
-          headerTitle={
-          [  <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
-            <div style={{marginRight:"10px"}}></div>,]
-
-          }
-        />
-
+      <CustomTable
+        getColumns={getColumns(refetch)}
+        data={data}
+        isFetching={isFetching}
+        getPageSize={getPageSize}
+        isLoading={isLoading}
+        refetch={refetch}
+        setPage={setPage}
+        setPageSize={setPageSize}
+        setSearch={setSearch}
+        key="PRESTATION_VISITE_GROUPAGE_TABLE"
+        headerTitle={[
+          <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
+          <div style={{ marginRight: "10px" }}></div>,
+        ]}
+      />
     </>
   );
 };
