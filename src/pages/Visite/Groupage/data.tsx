@@ -12,7 +12,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     title: "Numero",
     dataIndex: "visite",
     key: "1",
-    width: 200,
+    width: 250,
   },
   {
     title: "Date Visite",

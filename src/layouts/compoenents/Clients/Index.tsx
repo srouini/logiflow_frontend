@@ -8,7 +8,7 @@ import { API_CLIENTS_ENDPOINT } from "@/api/api";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
 // import AUForm from "./components/AUForm";
-import { FloatButton, Modal } from "antd";
+import { Drawer, FloatButton, Modal } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import AUForm from "./AUForm";
@@ -69,23 +69,25 @@ export default ({ hanleClose }: Props) => {
         onClick={showModal}
         style={{marginBottom:"8px"}}
       />
-      <Modal
+      <Drawer
         title="Clients"
         destroyOnClose
-        width={1200}  
+        width="80%" 
         footer={false}
         open={open}
         closeIcon
-        onCancel={() => {
+        onClose={() => {
           setOpen(false);
           hanleClose();
         }}
+        placement="left"
       >
        
         <QueryFilters
           setFilters={setFilters}
           resetFilters={resetFilters}
           setPage={setPage}
+          collapsed={false}
         />
         
         <ColumnsSelect columns={selctedColumns} setSelectedColumns={setSelectedColumns}/>
@@ -109,7 +111,7 @@ export default ({ hanleClose }: Props) => {
           }}
         />
 
-      </Modal>
+      </Drawer>
     </div>
   );
 };

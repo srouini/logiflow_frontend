@@ -38,8 +38,7 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   return (
     <Card style={{ marginBottom: "20px" }}>
       <QueryFilter
-                defaultCollapsed={collapsed}
-
+        defaultCollapsed={collapsed}
         split
         onFinish={handleSubmission}
         onReset={resetFilters}

@@ -9,7 +9,7 @@ const useScreenSize = () => {
       if (window.innerWidth >= 1800) {
         setSize("middle");
       } else {
-        setSize("small");
+        setSize("middle");
       }
     };
 

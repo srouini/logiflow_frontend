@@ -5,7 +5,7 @@ import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 import CustomTable from "@/components/CustomTable";
 import { getColumns, exportColumns } from "../data";
-import { Button, Modal } from "antd";
+import { Button, Drawer, Modal } from "antd";
 import { CloudDownloadOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
@@ -61,14 +61,15 @@ export default ({ expand = "gros,article,transitaire", query_params }: Props) =>
         Exporter
       </Button>
 
-      <Modal
-        title="| Exportation de données"
+      <Drawer
+      placement="left"
+        title="Exportation de données"
         destroyOnClose
-        width={1200}
+       width={"80%"}
         footer={false}
         open={open}
         closeIcon
-        onCancel={() => {
+        onClose={() => {
           setOpen(false);
         }}
       >
@@ -76,6 +77,7 @@ export default ({ expand = "gros,article,transitaire", query_params }: Props) =>
           setFilters={setFilters}
           resetFilters={resetFilters}
           setPage={setPage}
+          collapsed={false}
         />
 
         <ColumnsSelect
@@ -94,7 +96,6 @@ export default ({ expand = "gros,article,transitaire", query_params }: Props) =>
           setPageSize={setPageSize}
           setSearch={setSearch}
           key="VISITES_ORDINAIRE_TABLE_EXPORT"
-          scrollY={350}
           toolbar={{
             actions: [
               <Export
@@ -109,7 +110,7 @@ export default ({ expand = "gros,article,transitaire", query_params }: Props) =>
             ],
           }}
         />
-      </Modal>
+      </Drawer>
     </>
   );
 };

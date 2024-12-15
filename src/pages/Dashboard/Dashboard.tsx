@@ -1,6 +1,6 @@
 import { PageContainer } from "@ant-design/pro-components";
 import Statistics from "./Statistics";
-
+import ChartDemo from "./ChartDemo"
 export default () => {
   const breadcrumb = {
     items: [
@@ -21,6 +21,7 @@ export default () => {
         title=""
       >
         <Statistics />
+        <ChartDemo />
       </PageContainer>
     </div>
   );

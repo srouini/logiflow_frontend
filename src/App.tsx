@@ -29,6 +29,7 @@ import FacturationGroupage from "./pages/Facturation/Facturation/Goupage/Index";
 import FacturationOrdinaire from "./pages/Facturation/Facturation/Ordinaire/Index";
 import FacturationArticleDetailsPage from "./pages/Facturation/ArticleDetails/Index";
 import ContainersPage from "./pages/Containers/index";
+import BaremePage from "./pages/Bareme/index";
 
 const App = () => {
   return (
@@ -83,7 +84,13 @@ const App = () => {
         <Route path="/documentsgroupage/factures" element={<FacturesGroupage />} />
         <Route path="/documentsgroupage/proformas" element={<ProformasGroupage />} />
         <Route path="/documentsgroupage/bonsorties" element={<BonsSortieGroupage />} />
+      
+       {/* Facturation Routes */}
+       <Route path="/bareme" element={<BaremePage />} />
+       
       </Route>
+
+     
 
       {/* 404 Route */}
       <Route path="*" element={<NotFoundPage />} />

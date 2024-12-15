@@ -94,7 +94,6 @@ export default ({key,expand,endpoint,query_params}:Props) => {
           setPageSize={setPageSize}
           setSearch={setSearch}
           key={`${key}_TABLE`}
-          scrollY={350}
           toolbar={{
             actions: [
               <Export

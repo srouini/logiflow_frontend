@@ -10,9 +10,9 @@ import { useEffect } from "react";
 import {
   transformRangeDateFilter,
   transformSelectFilter,
-} from "../../../../utils/functions";
-import { selectConfig } from "../../../../utils/config";
-import { useReferenceContext } from "../../../../context/ReferenceContext";
+} from "@/utils/functions";
+import { selectConfig } from "@/utils/config";
+import { useReferenceContext } from "@/context/ReferenceContext";
 import { Card } from "antd";
 
 type QueryFiltersProps = {

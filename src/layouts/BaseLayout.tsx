@@ -1,4 +1,4 @@
-import { LogoutOutlined, MoonOutlined, SettingOutlined, SunOutlined, WindowsOutlined, BranchesOutlined, FileProtectOutlined, FieldTimeOutlined, FileDoneOutlined, CodepenOutlined } from "@ant-design/icons";
+import { LogoutOutlined, MoonOutlined, SettingOutlined, SunOutlined, WindowsOutlined, BranchesOutlined, FileProtectOutlined, FieldTimeOutlined, FileDoneOutlined, CodepenOutlined, SlidersOutlined } from "@ant-design/icons";
 import { MenuDataItem, ProConfigProvider, ProLayout } from "@ant-design/pro-components";
 import { Button, Col, ConfigProvider, Dropdown, message, Modal, Popconfirm, Row, theme } from "antd";
 import { useEffect, useState } from "react";
@@ -119,6 +119,11 @@ export default () => {
           { path: '/documentsgroupage/proformas', name: 'Proformas Groupage' },
           { path: '/documentsgroupage/bonsorties', name: 'Bons Sortie Groupage' },
         ],
+      },
+      {
+        path: '/bareme',
+        name: 'Bareme',
+        icon: <SlidersOutlined />,
       },
     ];
   };

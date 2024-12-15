@@ -8,7 +8,7 @@ import { API_ZONES_ENDPOINT } from "@/api/api";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
 // import AUForm from "./components/AUForm";
-import { FloatButton, Modal } from "antd";
+import { Drawer, FloatButton, Modal } from "antd";
 import { BorderTopOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import AUForm from "./AUForm";
@@ -70,14 +70,15 @@ export default ({ hanleClose }: Props) => {
         onClick={showModal}
         style={{marginBottom:"8px"}}
       />
-      <Modal
+      <Drawer
         title="Zones"
         destroyOnClose
         width={1200}  
         footer={false}
         open={open}
         closeIcon
-        onCancel={() => {
+        placement="left"
+        onClose={() => {
           setOpen(false);
           hanleClose();
         }}
@@ -87,6 +88,7 @@ export default ({ hanleClose }: Props) => {
           setFilters={setFilters}
           resetFilters={resetFilters}
           setPage={setPage}
+          collapsed={false}
         />
         
         <ColumnsSelect columns={selctedColumns} setSelectedColumns={setSelectedColumns}/>
@@ -110,7 +112,7 @@ export default ({ hanleClose }: Props) => {
           }}
         />
 
-      </Modal>
+      </Drawer>
     </div>
   );
 };
