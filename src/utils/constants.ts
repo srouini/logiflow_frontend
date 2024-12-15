@@ -20,7 +20,7 @@ export const CONTAINER_NATURE_CHOICES = [
     {
       value: false,
       label: "Non",
-    },
+    }
   ];
   
 

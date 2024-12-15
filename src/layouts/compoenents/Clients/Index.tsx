@@ -102,7 +102,6 @@ export default ({ hanleClose }: Props) => {
           setPageSize={setPageSize}
           setSearch={setSearch}
           key="CLIENTS_TABLE"
-          scrollY={350}
           toolbar={{
             actions: [
               <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_CLIENTS_ENDPOINT} search={search} filters={filters} />,

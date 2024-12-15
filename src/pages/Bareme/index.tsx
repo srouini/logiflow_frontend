@@ -36,24 +36,11 @@ export default () => {
 
   const { isLoading } = useLoading({ loadingStates:[isLoadingData, isRefetching] });
 
-  const breadcrumb = {
-    items: [
-      {
-      
-        title: "Rotations",
-      },
-      {
-        title: "Mrns",
-      },
-    ],
-  };
-
   return (
     <div>
       <PageContainer
         contentWidth="Fluid"
         header={{
-          breadcrumb: breadcrumb,
           extra: [<Export endpoint={API_MRNS_ENDPOINT} expand="regime,armateur,consignataire,navire" key="MERNSEXPORT" />,<AUForm refetch={refetch} initialvalues={null} />],
         }}
       >
