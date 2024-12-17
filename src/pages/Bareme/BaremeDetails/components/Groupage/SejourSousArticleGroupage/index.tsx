@@ -21,21 +21,13 @@ interface SejourSousArticleGroupagePageProps {
   bareme: Bareme | undefined;
 }
 
-export default ({ bareme, container, columns }: SejourSousArticleGroupagePageProps) => {
-  const [open, setOpen] = useState(false);
+export default ({ bareme }: SejourSousArticleGroupagePageProps) => {
 
   const { box } = useReferenceContext();
   useEffect(() => {
     box?.fetch();
   }, []);
 
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
 
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
@@ -65,21 +57,8 @@ export default ({ bareme, container, columns }: SejourSousArticleGroupagePagePro
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
 
-  const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
-  const rowSelectionFunction: TableSelectionType = {
-    onChange(selectedRowKeys, selectedRows, info) {
-      setSelectedRows(selectedRowKeys);
-    },
-  };
-
-  const onSuccess = () => {
-    message.success("Submission successful");
-    refetch();
-  };
-
   return (
     <>
-      <Divider orientation="left">Séjour Sous Article Groupage</Divider>
       <QueryFilters
         setFilters={setFilters}
         resetFilters={resetFilters}

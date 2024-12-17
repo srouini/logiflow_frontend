@@ -30,6 +30,7 @@ import FacturationOrdinaire from "./pages/Facturation/Facturation/Ordinaire/Inde
 import FacturationArticleDetailsPage from "./pages/Facturation/ArticleDetails/Index";
 import ContainersPage from "./pages/Containers/index";
 import BaremePage from "./pages/Bareme/index";
+import BaremeDetailsPage from "./pages/Bareme/BaremeDetails/Index";
 
 const App = () => {
   return (
@@ -87,6 +88,7 @@ const App = () => {
       
        {/* Facturation Routes */}
        <Route path="/bareme" element={<BaremePage />} />
+       <Route path="/bareme/:id" element={<BaremeDetailsPage />} />
        
       </Route>
 

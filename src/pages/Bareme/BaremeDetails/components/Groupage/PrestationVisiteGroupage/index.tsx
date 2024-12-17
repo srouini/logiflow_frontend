@@ -8,8 +8,6 @@ import usePage from "@/hooks/usePage";
 import { getColumns } from "./data";
 import useLoading from "@/hooks/useLoading";
 import AUForm from "./components/AUForm";
-import usePost from "@/hooks/usePost";
-import { TableSelectionType } from "@/types/antdeing";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { Bareme } from "@/types/bareme";
 import QueryFilters from "./components/QueryFilters";
@@ -21,21 +19,13 @@ interface PrestationVisiteGroupagePageProps {
   bareme: Bareme | undefined;
 }
 
-export default ({ bareme, container, columns }: PrestationVisiteGroupagePageProps) => {
-  const [open, setOpen] = useState(false);
+export default ({ bareme }: PrestationVisiteGroupagePageProps) => {
 
   const { box } = useReferenceContext();
   useEffect(() => {
     box?.fetch();
   }, []);
 
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
 
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
@@ -65,21 +55,8 @@ export default ({ bareme, container, columns }: PrestationVisiteGroupagePageProp
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
 
-  const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
-  const rowSelectionFunction: TableSelectionType = {
-    onChange(selectedRowKeys, selectedRows, info) {
-      setSelectedRows(selectedRowKeys);
-    },
-  };
-
-  const onSuccess = () => {
-    message.success("Submission successful");
-    refetch();
-  };
-
   return (
     <>
-      <Divider orientation="left">Prestation Visite Groupage</Divider>
       <QueryFilters
         setFilters={setFilters}
         resetFilters={resetFilters}

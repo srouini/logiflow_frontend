@@ -1,41 +1,29 @@
 import { useEffect, useState } from "react";
-import { Divider, message } from "antd";
 import { Container } from "@/types/data";
 import CustomTable from "@/components/CustomTable";
 import useData from "@/hooks/useData";
-import { API_BRANCHEMENTS_ENDPOINT } from "@/api/api";
+import { API_SEJOURS_GROUPAGE_ENDPOINT } from "@/api/api";
 import usePage from "@/hooks/usePage";
 import { getColumns } from "./data";
 import useLoading from "@/hooks/useLoading";
 import AUForm from "./components/AUForm";
-import usePost from "@/hooks/usePost";
-import { TableSelectionType } from "@/types/antdeing";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { Bareme } from "@/types/bareme";
 import QueryFilters from "./components/QueryFilters";
 import useFilters from "@/hooks/useFilters";
 
-interface BranchementPageProps {
+interface SejourTcGroupagePageProps {
   container?: Container;
   columns?: any;
   bareme: Bareme | undefined;
 }
 
-export default ({ bareme, container, columns }: BranchementPageProps) => {
-  const [open, setOpen] = useState(false);
+export default ({ bareme }: SejourTcGroupagePageProps) => {
 
   const { box } = useReferenceContext();
   useEffect(() => {
     box?.fetch();
   }, []);
-
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
 
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
@@ -49,8 +37,8 @@ export default ({ bareme, container, columns }: BranchementPageProps) => {
     isFetching,
     refetch,
   } = useData({
-    endpoint: API_BRANCHEMENTS_ENDPOINT,
-    name: `GET_BRANCHEMENTS`,
+    endpoint: API_SEJOURS_GROUPAGE_ENDPOINT,
+    name: `GET_SEJOUR_TC_GROUPAGES`,
     params: {
       search: search,
       page: page,
@@ -65,21 +53,9 @@ export default ({ bareme, container, columns }: BranchementPageProps) => {
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
 
-  const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
-  const rowSelectionFunction: TableSelectionType = {
-    onChange(selectedRowKeys, selectedRows, info) {
-      setSelectedRows(selectedRowKeys);
-    },
-  };
-
-  const onSuccess = () => {
-    message.success("Submission successful");
-    refetch();
-  };
 
   return (
     <>
-      <Divider orientation="left">Branchement</Divider>
       <QueryFilters
         setFilters={setFilters}
         resetFilters={resetFilters}
@@ -95,7 +71,7 @@ export default ({ bareme, container, columns }: BranchementPageProps) => {
         setPage={setPage}
         setPageSize={setPageSize}
         setSearch={setSearch}
-        key="BRANCHEMENT_TABLE"
+        key="SEJOUR_TC_GROUPAGE_TABLE"
         headerTitle={[
           <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
           <div style={{ marginRight: "10px" }}></div>,

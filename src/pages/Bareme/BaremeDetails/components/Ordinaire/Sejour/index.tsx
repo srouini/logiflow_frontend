@@ -3,7 +3,7 @@ import { Divider, message } from "antd";
 import { Container } from "@/types/data";
 import CustomTable from "@/components/CustomTable";
 import useData from "@/hooks/useData";
-import { API_PRESTATIONS_GROUPAGE_ENDPOINT } from "@/api/api";
+import { API_SEJOURS_ENDPOINT } from "@/api/api";
 import usePage from "@/hooks/usePage";
 import { getColumns } from "./data";
 import useLoading from "@/hooks/useLoading";
@@ -15,27 +15,18 @@ import { Bareme } from "@/types/bareme";
 import QueryFilters from "./components/QueryFilters";
 import useFilters from "@/hooks/useFilters";
 
-interface PrestationGroupagePageProps {
+interface SejourPageProps {
   container?: Container;
   columns?: any;
   bareme: Bareme | undefined;
 }
 
-export default ({ bareme, container, columns }: PrestationGroupagePageProps) => {
-  const [open, setOpen] = useState(false);
+export default ({ bareme }: SejourPageProps) => {
 
   const { box } = useReferenceContext();
   useEffect(() => {
     box?.fetch();
   }, []);
-
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
 
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
@@ -49,13 +40,13 @@ export default ({ bareme, container, columns }: PrestationGroupagePageProps) => 
     isFetching,
     refetch,
   } = useData({
-    endpoint: API_PRESTATIONS_GROUPAGE_ENDPOINT,
-    name: `GET_PRESTATION_GROUPAGES`,
+    endpoint: API_SEJOURS_ENDPOINT,
+    name: `GET_SEJOURS`,
     params: {
       search: search,
       page: page,
       page_size: getPageSize(),
-      expand: "rubrique,bareme",
+      expand: "type_tc,bareme",
       bareme__id: bareme?.id,
       ...filters,
     },
@@ -65,21 +56,9 @@ export default ({ bareme, container, columns }: PrestationGroupagePageProps) => 
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
 
-  const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
-  const rowSelectionFunction: TableSelectionType = {
-    onChange(selectedRowKeys, selectedRows, info) {
-      setSelectedRows(selectedRowKeys);
-    },
-  };
-
-  const onSuccess = () => {
-    message.success("Submission successful");
-    refetch();
-  };
 
   return (
     <>
-      <Divider orientation="left">Prestation Groupage</Divider>
       <QueryFilters
         setFilters={setFilters}
         resetFilters={resetFilters}
@@ -95,7 +74,7 @@ export default ({ bareme, container, columns }: PrestationGroupagePageProps) => 
         setPage={setPage}
         setPageSize={setPageSize}
         setSearch={setSearch}
-        key="PRESTATION_GROUPAGE_TABLE"
+        key="SEJOUR_TABLE"
         headerTitle={[
           <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
           <div style={{ marginRight: "10px" }}></div>,

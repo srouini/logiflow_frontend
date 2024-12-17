@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Divider, message } from "antd";
+import {  Divider, message, Segmented } from "antd";
 import { Container } from "@/types/data";
 import CustomTable from "@/components/CustomTable";
 import useData from "@/hooks/useData";
-import { API_SEJOURS_ENDPOINT } from "@/api/api";
+import { API_PRESTATIONS_ENDPOINT, API_SOUSARTICLES_ENDPOINT } from "@/api/api";
 import usePage from "@/hooks/usePage";
 import { getColumns } from "./data";
 import useLoading from "@/hooks/useLoading";
@@ -15,13 +15,13 @@ import { Bareme } from "@/types/bareme";
 import QueryFilters from "./components/QueryFilters";
 import useFilters from "@/hooks/useFilters";
 
-interface SejourPageProps {
+interface SubArticlePageProps {
   container?: Container;
   columns?: any;
-  bareme: Bareme | undefined;
+  bareme:Bareme | undefined
 }
 
-export default ({ bareme, container, columns }: SejourPageProps) => {
+export default ({ bareme,container, columns }: SubArticlePageProps) => {
   const [open, setOpen] = useState(false);
 
   const { box } = useReferenceContext();
@@ -29,13 +29,6 @@ export default ({ bareme, container, columns }: SejourPageProps) => {
     box?.fetch();
   }, []);
 
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
 
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
@@ -49,14 +42,15 @@ export default ({ bareme, container, columns }: SejourPageProps) => {
     isFetching,
     refetch,
   } = useData({
-    endpoint: API_SEJOURS_ENDPOINT,
-    name: `GET_SEJOURS`,
+    endpoint: API_PRESTATIONS_ENDPOINT,
+    name: `GET_PRESTATIONS`,
     params: {
       search: search,
       page: page,
       page_size: getPageSize(),
-      expand: "type_tc,bareme",
+      expand: "type_tc,rubrique,bareme",
       bareme__id: bareme?.id,
+      rubrique__categorie__exact: "Automatique",
       ...filters,
     },
   });
@@ -67,6 +61,7 @@ export default ({ bareme, container, columns }: SejourPageProps) => {
 
   const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
   const rowSelectionFunction: TableSelectionType = {
+    // @ts-ignore
     onChange(selectedRowKeys, selectedRows, info) {
       setSelectedRows(selectedRowKeys);
     },
@@ -77,30 +72,45 @@ export default ({ bareme, container, columns }: SejourPageProps) => {
     refetch();
   };
 
+  const { mutate } = usePost({
+    onSuccess: onSuccess,
+    endpoint: API_SOUSARTICLES_ENDPOINT + "bulk_update_box/",
+  });
+
+  const handleContainerType = (values: any) => {
+    mutate({
+      ids: selectedRows,
+      box_id: values,
+    });
+  };
+
+
+
   return (
     <>
-      <Divider orientation="left">Séjour</Divider>
-      <QueryFilters
+    <QueryFilters
         setFilters={setFilters}
         resetFilters={resetFilters}
         setPage={setPage}
       />
-      <CustomTable
-        getColumns={getColumns(refetch)}
-        data={data}
-        isFetching={isFetching}
-        getPageSize={getPageSize}
-        isLoading={isLoading}
-        refetch={refetch}
-        setPage={setPage}
-        setPageSize={setPageSize}
-        setSearch={setSearch}
-        key="SEJOUR_TABLE"
-        headerTitle={[
-          <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
-          <div style={{ marginRight: "10px" }}></div>,
-        ]}
-      />
+        <CustomTable
+          getColumns={getColumns(refetch)}
+          data={data}
+          isFetching={isFetching}
+          getPageSize={getPageSize}
+          isLoading={isLoading}
+          refetch={refetch}
+          setPage={setPage}
+          setPageSize={setPageSize}
+          setSearch={setSearch}
+          key="PRESTATIONS_TABLE"
+          headerTitle={
+          [  <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
+            <div style={{marginRight:"10px"}}></div>,]
+
+          }
+        />
+
     </>
   );
 };

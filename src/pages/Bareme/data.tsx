@@ -1,12 +1,10 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
 import { Col, Row, Space, Tag } from "antd";
-import { renderDate, renderText } from "@/utils/functions";
-import { API_MRNS_ENDPOINT } from "@/api/api";
+
 import DetailsButton from "@/components/DetailsButton";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
-import BaremeDetails from "./components/BaremeDetails";
 import CloneButton from "@/components/CloneButton";
 import { API_BAREMES_ENDPOINT } from "@/api/api";
 
@@ -15,7 +13,13 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     title: "Designation",
     dataIndex: "designation",
     key:"designation",
-    render:(_,record:any) => <BaremeDetails bareme={record} columns={columns} />
+    render: (_, record) => (
+      <DetailsButton
+        text={record?.designation}
+        navigate_to={`/bareme/${record?.id}`}
+        key={record?.id}
+      />
+    ),
   },
   {
     title: "Actions",

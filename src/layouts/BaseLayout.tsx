@@ -248,6 +248,7 @@ export default () => {
         <ProConfigProvider hashed={false}>
           <ProLayout
             prefixCls="my-prefix"
+            fixedHeader
             layout={user?.profile?.layout_preference || 'top'}
             siderMenuType="sub"
             defaultCollapsed={false}

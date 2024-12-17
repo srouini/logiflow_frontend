@@ -3,39 +3,29 @@ import { Divider, message } from "antd";
 import { Container } from "@/types/data";
 import CustomTable from "@/components/CustomTable";
 import useData from "@/hooks/useData";
-import { API_SEJOURS_GROUPAGE_ENDPOINT } from "@/api/api";
+import { API_PRESTATIONS_GROUPAGE_ENDPOINT } from "@/api/api";
 import usePage from "@/hooks/usePage";
 import { getColumns } from "./data";
 import useLoading from "@/hooks/useLoading";
 import AUForm from "./components/AUForm";
-import usePost from "@/hooks/usePost";
-import { TableSelectionType } from "@/types/antdeing";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { Bareme } from "@/types/bareme";
 import QueryFilters from "./components/QueryFilters";
 import useFilters from "@/hooks/useFilters";
 
-interface SejourTcGroupagePageProps {
+interface PrestationGroupagePageProps {
   container?: Container;
   columns?: any;
   bareme: Bareme | undefined;
 }
 
-export default ({ bareme, container, columns }: SejourTcGroupagePageProps) => {
-  const [open, setOpen] = useState(false);
+export default ({ bareme }: PrestationGroupagePageProps) => {
 
   const { box } = useReferenceContext();
   useEffect(() => {
     box?.fetch();
   }, []);
 
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
 
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
@@ -49,13 +39,13 @@ export default ({ bareme, container, columns }: SejourTcGroupagePageProps) => {
     isFetching,
     refetch,
   } = useData({
-    endpoint: API_SEJOURS_GROUPAGE_ENDPOINT,
-    name: `GET_SEJOUR_TC_GROUPAGES`,
+    endpoint: API_PRESTATIONS_GROUPAGE_ENDPOINT,
+    name: `GET_PRESTATION_GROUPAGES`,
     params: {
       search: search,
       page: page,
       page_size: getPageSize(),
-      expand: "type_tc,bareme",
+      expand: "rubrique,bareme",
       bareme__id: bareme?.id,
       ...filters,
     },
@@ -65,21 +55,8 @@ export default ({ bareme, container, columns }: SejourTcGroupagePageProps) => {
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
 
-  const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
-  const rowSelectionFunction: TableSelectionType = {
-    onChange(selectedRowKeys, selectedRows, info) {
-      setSelectedRows(selectedRowKeys);
-    },
-  };
-
-  const onSuccess = () => {
-    message.success("Submission successful");
-    refetch();
-  };
-
   return (
     <>
-      <Divider orientation="left">Séjour TC Groupage</Divider>
       <QueryFilters
         setFilters={setFilters}
         resetFilters={resetFilters}
@@ -95,7 +72,7 @@ export default ({ bareme, container, columns }: SejourTcGroupagePageProps) => {
         setPage={setPage}
         setPageSize={setPageSize}
         setSearch={setSearch}
-        key="SEJOUR_TC_GROUPAGE_TABLE"
+        key="PRESTATION_GROUPAGE_TABLE"
         headerTitle={[
           <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
           <div style={{ marginRight: "10px" }}></div>,
