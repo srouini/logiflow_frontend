@@ -1,4 +1,4 @@
-import { Col, Row, Space } from "antd";
+import { Col, Row, Space, Tag } from "antd";
 import AUForm from "./components/AUForm";
 import Delete from "@/components/Delete";
 import { API_PRESTATIONS_VISITE_GROUPAGE_ENDPOINT } from "@/api/api";
@@ -9,7 +9,7 @@ export const getColumns = (refetch: () => void) => [
     title: "Dangereux",
     dataIndex: "dangereux",
     key: "dangereux",
-    render: (dangereux: boolean) => (dangereux ? "Oui" : "Non"),
+    render: (record: boolean) => record ? <Tag color="red"> DGX </Tag> : <Tag color=""> Ordinaire </Tag>,
   },
   {
     title: "Volume Min",
@@ -29,6 +29,8 @@ export const getColumns = (refetch: () => void) => [
   {
     title: "Actions",
     key: "action",
+    fixed: "right",
+    width: 100,
     render: (_: any, record: any) => 
     [
       <TableDropdown
@@ -42,7 +44,7 @@ export const getColumns = (refetch: () => void) => [
               bareme={record.bareme}
               hasIcon={true}
               editText=""
-            />,
+            />
           </Col>
           <Col>
             <Delete

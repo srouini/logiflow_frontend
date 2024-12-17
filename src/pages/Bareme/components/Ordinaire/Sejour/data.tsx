@@ -1,26 +1,27 @@
-import { Space } from "antd";
+import { Col, Row, Tag } from "antd";
 import AUForm from "./components/AUForm";
 import Delete from "@/components/Delete";
 import { API_SEJOURS_ENDPOINT } from "@/api/api";
+import { TableDropdown } from "@ant-design/pro-components";
+import { renderText } from "@/utils/functions";
 
 export const getColumns = (refetch: () => void) => [
   {
-    title: "Type",
-    dataIndex: "type_tc",
+    title: "Type Tc",
     key: "type_tc",
-    render: (type_tc: any) => type_tc?.designation,
+    dataIndex: "type_tc",
+    render: (record:any) => <Tag color="green"> {renderText(record?.designation)}</Tag>
   },
   {
-    title: "Dangereux",
-    dataIndex: "dangereux",
+    title: "Nature",
     key: "dangereux",
-    render: (dangereux: boolean) => (dangereux ? "Oui" : "Non"),
-  },
-  {
-    title: "Frigo",
-    dataIndex: "frigo",
-    key: "frigo",
-    render: (frigo: boolean) => (frigo ? "Oui" : "Non"),
+    render: (_,record: any) =>{ return (
+      <>
+        {record.dangereux ? <Tag color="red"> DGX </Tag> : ""}
+        {record.frigo ? <Tag color="blue"> FRIGO </Tag> : ""}
+        {!record.frigo && !record.dangereux ? <Tag color=""> Ordinaire </Tag> : ""}
+      </>
+    )}
   },
   {
     title: "Jour Min",
@@ -40,22 +41,38 @@ export const getColumns = (refetch: () => void) => [
   {
     title: "Actions",
     key: "action",
-    render: (_: any, record: any) => (
-      <Space size="middle">
-        <AUForm
-          refetch={refetch}
-          initialvalues={record}
-          bareme={record.bareme}
-          editText="MODIFIER"
-          hasIcon={true}
-        />
-        <Delete
-          url={API_SEJOURS_ENDPOINT}
-          class_name="Sejour"
-          id={record.id}
-          refetch={refetch}
-        />
-      </Space>
-    ),
-  },
+    fixed: "right",
+    width: 100,
+    render: (_: any, record: any) => 
+    [
+      <TableDropdown
+      key="actionGroup"
+      children={[
+        <Row gutter={8}>
+          <Col>
+            <AUForm
+              refetch={refetch}
+              initialvalues={record}
+              bareme={record.bareme}
+              hasIcon={true}
+              editText=""
+            />
+          </Col>
+          <Col>
+            <Delete
+              url={API_SEJOURS_ENDPOINT}
+              class_name='Sejour'
+              id={record.id}
+              refetch={refetch}
+              type="dashed"
+              link={false}
+              text=""
+              has_icon
+            />
+          </Col>
+        </Row>
+      ]}
+    />,
+    ]
+  }
 ];

@@ -23,12 +23,11 @@ const CloneButton = ({ endpoint, id, refetch }: CloneButtonProps) => {
 
   return (
     <Button
-      type="link"
+      type="dashed"
       icon={<CopyOutlined />}
       onClick={handleClone}
       loading={isLoading}
     >
-      CLONE
     </Button>
   );
 };

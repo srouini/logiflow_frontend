@@ -5,11 +5,12 @@ import { ArrowRightOutlined } from "@ant-design/icons";
 import Prestation from "./Ordinaire/Prestation/index";
 import PrestationArticle from "./Ordinaire/PrestationArticle/index";
 import Sejour from "./Ordinaire/Sejour/index";
-import SejourTcGroupage from "./Ordinaire/SejourTcGroupage/index";
-import SejourSousArticleGroupage from "./Ordinaire/SejourSousArticleGroupage/index";
+import SejourTcGroupage from "./Groupage/SejourTcGroupage/index";
+import SejourSousArticleGroupage from "./Groupage/SejourSousArticleGroupage/index";
 import Branchement from "./Ordinaire/Branchement/index";
-import PrestationGroupage from "./Ordinaire/PrestationGroupage/index";
-import PrestationVisiteGroupage from "./Ordinaire/PrestationVisiteGroupage/index";
+import PrestationGroupage from "./Groupage/PrestationGroupage/index";
+import PrestationVisiteGroupage from "./Groupage/PrestationVisiteGroupage/index";
+
 
 interface SubArticlePageProps {
   bareme?: Bareme;

@@ -1,27 +1,27 @@
-import { Col, Row } from 'antd';
+import { Col, Row, Tag } from 'antd';
 import AUForm from "./components/AUForm";
 import Delete from "@/components/Delete";
 import { API_SEJOURS_GROUPAGE_ENDPOINT } from "@/api/api";
 import { TableDropdown } from '@ant-design/pro-components';
+import { renderText } from '@/utils/functions';
 
 export const getColumns = (refetch: () => void) => [
   {
-    title: "Type",
-    dataIndex: "type_tc",
+    title: "Type Tc",
     key: "type_tc",
-    render: (type_tc: any) => type_tc?.designation,
+    dataIndex: "type_tc",
+    render: (record:any) => <Tag color="green"> {renderText(record?.designation)}</Tag>
   },
   {
-    title: "Dangereux",
-    dataIndex: "dangereux",
+    title: "Nature",
     key: "dangereux",
-    render: (dangereux: boolean) => (dangereux ? "Oui" : "Non"),
-  },
-  {
-    title: "Frigo",
-    dataIndex: "frigo",
-    key: "frigo",
-    render: (frigo: boolean) => (frigo ? "Oui" : "Non"),
+    render: (_,record: any) =>{ return (
+      <>
+        {record.dangereux ? <Tag color="red"> DGX </Tag> : ""}
+        {record.frigo ? <Tag color="blue"> FRIGO </Tag> : ""}
+        {!record.frigo && !record.dangereux ? <Tag color=""> Ordinaire </Tag> : ""}
+      </>
+    )}
   },
   {
     title: "Jour Min",
@@ -41,6 +41,8 @@ export const getColumns = (refetch: () => void) => [
   {
     title: "Actions",
     key: "action",
+    fixed: "right",
+    width: 100,
     render: (_: any, record: any) => [
       <TableDropdown
         key="actionGroup"
@@ -53,7 +55,7 @@ export const getColumns = (refetch: () => void) => [
                 bareme={record.bareme}
                 hasIcon={true}
                 editText=""
-              />,
+              />
             </Col>
             <Col>
               <Delete

@@ -1,4 +1,4 @@
-import { Col, Row, Space } from "antd";
+import { Col, Row, Space, Tag } from "antd";
 import AUForm from "./components/AUForm";
 import Delete from "@/components/Delete";
 import { API_PRESTATIONS_ARTICLE_ENDPOINT } from "@/api/api";
@@ -17,14 +17,16 @@ export const getColumns = (refetch: () => void) => [
     key: "prix",
   },
   {
-    title: "Groupage",
-    dataIndex: "groupage",
+    title: "groupage",
     key: "groupage",
-    render: (groupage: boolean) => (groupage ? "Oui" : "Non"),
+    dataIndex: "groupage",
+    render: (record:any) => record? <Tag color="blue"> Groupage </Tag> : <Tag> Ordinaire </Tag>
   },
   {
     title: "Actions",
     key: "action",
+    fixed: "right",
+    width: 100,
     render: (_: any, record: any) => 
     [
       <TableDropdown
@@ -38,7 +40,7 @@ export const getColumns = (refetch: () => void) => [
               bareme={record.bareme}
               hasIcon={true}
               editText=""
-            />,
+            />
           </Col>
           <Col>
             <Delete

@@ -27,6 +27,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
       <>
         {record.dangereux ? <Tag color="red"> DGX </Tag> : ""}
         {record.frigo ? <Tag color="blue"> FRIGO </Tag> : ""}
+        {!record.frigo && !record.dangereux ? <Tag color=""> Ordinaire </Tag> : ""}
       </>
     )}
   },
@@ -45,6 +46,8 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Actions",
     key: "action",
+    fixed: "right",
+    width: 100,
     render: (_: any, record: any) => 
     [
       <TableDropdown
@@ -58,7 +61,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
               bareme={record.bareme}
               hasIcon={true}
               editText=""
-            />,
+            />
           </Col>
           <Col>
             <Delete

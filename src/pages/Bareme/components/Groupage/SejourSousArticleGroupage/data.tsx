@@ -1,16 +1,19 @@
-import { Col, Row, Tag } from "antd";
+import { Col, Row, Space, Tag } from "antd";
 import AUForm from "./components/AUForm";
 import Delete from "@/components/Delete";
-import { API_BRANCHEMENTS_ENDPOINT } from "@/api/api";
+import { API_SEJOURS_SOUS_ARTICLE_GROUPAGE_ENDPOINT } from "@/api/api";
 import { TableDropdown } from "@ant-design/pro-components";
-import { renderText } from "@/utils/functions";
 
 export const getColumns = (refetch: () => void) => [
   {
-    title: "Type Tc",
-    key: "type_tc",
-    dataIndex: "type_tc",
-    render: (record:any) => <Tag color="green"> {renderText(record?.designation)}</Tag>
+    title: "Dangereux",
+    dataIndex: "dangereux",
+    key: "dangereux",
+    render: (record: any) =>{ return (
+      <>
+        {record ? <Tag color="red"> DGX </Tag> : <Tag color=""> Ordinaire </Tag>}
+      </>
+    )}
   },
   {
     title: "Jour Min",
@@ -49,8 +52,8 @@ export const getColumns = (refetch: () => void) => [
           </Col>
           <Col>
             <Delete
-              url={API_BRANCHEMENTS_ENDPOINT}
-              class_name='Branchement'
+              url={API_SEJOURS_SOUS_ARTICLE_GROUPAGE_ENDPOINT}
+              class_name='Sejour sous article'
               id={record.id}
               refetch={refetch}
               type="dashed"
@@ -63,5 +66,6 @@ export const getColumns = (refetch: () => void) => [
       ]}
     />,
     ]
-  },
+  }
+  
 ];

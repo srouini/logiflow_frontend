@@ -15,15 +15,14 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     title: "Designation",
     dataIndex: "designation",
     key:"designation",
-    width: 400,
     render:(_,record:any) => <BaremeDetails bareme={record} columns={columns} />
   },
   {
     title: "Actions",
     valueType: "option",
     key: "actions",
-    width: 100,
-    fixed:"right",
+    fixed: "right",
+    width: 150,
     render: (_, record: any) => [
       <TableDropdown
         key="actionGroup"
@@ -37,11 +36,6 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                   editText=""
                   hasIcon
                 />
-                <CloneButton
-                  endpoint={API_BAREMES_ENDPOINT}
-                  id={record.id}
-                  refetch={refetch}
-                />
                 <Delete
                   url={API_BAREMES_ENDPOINT}
                   id={record?.id}
@@ -51,6 +45,11 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                   link={false}
                   text=""
                   has_icon
+                />
+                <CloneButton
+                  endpoint={API_BAREMES_ENDPOINT}
+                  id={record.id}
+                  refetch={refetch}
                 />
               </Space>
             </Col>
