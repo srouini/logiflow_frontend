@@ -1,7 +1,7 @@
-import { Form } from "antd";
-import FormField from "@/components/form/FormField";
+import { Button, Form } from "antd";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { useEffect } from "react";
+import { LightFilter, ProFormSelect } from "@ant-design/pro-components";
 
 interface QueryFiltersProps {
   setFilters: (filters: any) => void;
@@ -14,37 +14,47 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   resetFilters,
   setPage,
 }) => {
-  const [form] = Form.useForm();
   const { containerType } = useReferenceContext();
+  const [form] = Form.useForm();
 
   useEffect(() => {
     containerType?.fetch();
   }, []);
 
-  const handleValuesChange = (changedValues: any, allValues: any) => {
+
+  const handleSubmission = (values: any) => {
     setPage(1);
-    setFilters(allValues);
+    setFilters(values);
+  };
+
+  const handleClear = () => {
+    // Reset all form fields
+    form.resetFields();
+    setFilters([])
   };
 
   return (
-    <Form
-      layout="vertical"
+
+
+    <LightFilter
+      onFinish={handleSubmission}
+      onReset={resetFilters}
+      style={{ padding: "0px", marginBottom: "15px" }}
       form={form}
-      onValuesChange={handleValuesChange}
-      style={{ marginBottom: "1rem" }}
     >
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <FormField
-          name="type_tc"
-          label="Type"
-          type="select"
-          options={containerType?.results}
-          option_label="designation"
-          allowClear
-          style={{ minWidth: "200px" }}
-        />
-      </div>
-    </Form>
+      <ProFormSelect
+        name="type_tc__id"
+        label="Type"
+        mode="single"
+        options={containerType?.results}
+        fieldProps={{
+          fieldNames: { label: "designation", value: "id" },
+        }}
+      />
+      <Button onClick={handleClear} type="default">
+        Clear Filters
+      </Button>
+    </LightFilter>
   );
 };
 

@@ -49,6 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     axios.defaults.withCredentials = true;
     axios.defaults.baseURL = 'http://localhost:8000';
 
+    // Request interceptor for CSRF token
     axios.interceptors.request.use(
       (config) => {
         const csrfToken = getCsrfToken();
@@ -61,7 +62,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return Promise.reject(error);
       }
     );
-  }, []);
+
+    // Response interceptor for handling auth errors
+    axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
+        
+        // Skip interceptor for auth-related endpoints to prevent infinite loops
+        if (originalRequest.url?.includes('/api/auth/')) {
+          return Promise.reject(error);
+        }
+        
+        // If the error is 401 and we haven't tried to verify the session yet
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+          
+          // Set auth state to false and redirect to login
+          setAuthState({
+            isAuthenticated: false,
+            user: null,
+          });
+          navigate('/login');
+        }
+        
+        return Promise.reject(error);
+      }
+    );
+  }, [navigate]);
 
   useEffect(() => {
     const verifySession = async () => {
@@ -85,6 +113,44 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     verifySession();
   }, []);
+
+  // Periodically verify session
+  useEffect(() => {
+    let isVerifying = false;
+    
+    if (authState.isAuthenticated) {
+      const interval = setInterval(async () => {
+        // Prevent multiple concurrent verification attempts
+        if (isVerifying) return;
+        
+        isVerifying = true;
+        try {
+          const response = await axios.get('/api/auth/verify/');
+          if (!response.data.isAuthenticated) {
+            setAuthState({
+              isAuthenticated: false,
+              user: null,
+            });
+            navigate('/login');
+          }
+        } catch (error) {
+          // Only log out on network errors or explicit 401s
+          if (!axios.isCancel(error) && (error.response?.status === 401 || !error.response)) {
+            console.error('Periodic session verification failed:', error);
+            setAuthState({
+              isAuthenticated: false,
+              user: null,
+            });
+            navigate('/login');
+          }
+        } finally {
+          isVerifying = false;
+        }
+      }, 5 * 60 * 1000); // Check every 5 minutes
+
+      return () => clearInterval(interval);
+    }
+  }, [authState.isAuthenticated, navigate]);
 
   const login = async (username: string, password: string) => {
     try {

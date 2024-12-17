@@ -88,6 +88,8 @@ const AUForm: React.FC<AUFormProps> = ({
           type="select"
           options={YES_NO_CHOICES}
           span_md={24}
+          option_value="value"
+          option_label="label"
         />
         <FormField
           name="prix"

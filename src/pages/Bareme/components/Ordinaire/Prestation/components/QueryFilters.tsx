@@ -9,6 +9,7 @@ import {
   transformSelectFilter,
 } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
+import { Button, Form } from "antd";
 
 type QueryFiltersProps = {
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -21,7 +22,8 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   resetFilters,
   setPage,
 }) => {
-  const { containerType,rubrique } = useReferenceContext();
+  const { containerType, rubrique } = useReferenceContext();
+  const [form] = Form.useForm();
 
   useEffect(() => {
     containerType.fetch();
@@ -33,13 +35,19 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
     setFilters(values);
   };
 
+  const handleClear = () => {
+    // Reset all form fields
+    form.resetFields();
+    resetFilters();
+  };
+
   return (
 
 
     <LightFilter
       onFinish={handleSubmission}
-      onReset={resetFilters}
       style={{ padding: "0px", marginBottom: "15px" }}
+      form={form}
     >
       <ProFormSelect
         name="type_tc__id"
@@ -64,7 +72,9 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         }}
         transform={(value) => transformSelectFilter("multiple", "rubrique", value)}
       />
-
+      <Button onClick={handleClear} type="default">
+        Clear Filters
+      </Button>
     </LightFilter>
   );
 };

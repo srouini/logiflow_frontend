@@ -1,7 +1,5 @@
-import { Form } from "antd";
-import FormField from "@/components/form/FormField";
-import { useEffect } from "react";
-import { YES_NO_CHOICES } from "@/utils/constants";
+import { Button, Form } from "antd";
+import { LightFilter, ProFormSwitch } from "@ant-design/pro-components";
 
 interface QueryFiltersProps {
   setFilters: (filters: any) => void;
@@ -16,29 +14,28 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
 }) => {
   const [form] = Form.useForm();
 
-  const handleValuesChange = (changedValues: any, allValues: any) => {
+  const handleSubmission = (values: any) => {
     setPage(1);
-    setFilters(allValues);
+    setFilters(values);
   };
-
+  const handleClear = () => {
+    // Reset all form fields
+    form.resetFields();
+    setFilters([])
+  };
   return (
-    <Form
-      layout="vertical"
+    <LightFilter
       form={form}
-      onValuesChange={handleValuesChange}
-      style={{ marginBottom: "1rem" }}
+      onFinish={handleSubmission}
+      onReset={resetFilters}
+      style={{ padding: "0px", marginBottom: "15px" }}
     >
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <FormField
-          name="dangereux"
-          label="Dangereux"
-          type="select"
-          options={YES_NO_CHOICES}
-          allowClear
-          style={{ minWidth: "200px" }}
-        />
-      </div>
-    </Form>
+      <ProFormSwitch name="dangereux" label="DGX" allowClear />
+      <Button onClick={handleClear} type="default">
+        Clear Filters
+      </Button>
+    </LightFilter>
+
   );
 };
 
