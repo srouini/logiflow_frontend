@@ -1,7 +1,9 @@
 import { Button, Form } from "antd";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { useEffect } from "react";
-import { LightFilter, ProFormSelect, ProFormSwitch } from "@ant-design/pro-components";
+import { LightFilter, ProFormSelect, ProFormSwitch, QueryFilter } from "@ant-design/pro-components";
+import { selectConfig } from "@/utils/config";
+import { YES_NO_CHOICES } from "@/utils/constants";
 
 interface QueryFiltersProps {
   setFilters: (filters: any) => void;
@@ -14,7 +16,6 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   resetFilters,
   setPage,
 }) => {
-  const [form] = Form.useForm();
   const { containerType } = useReferenceContext();
 
   useEffect(() => {
@@ -26,17 +27,12 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
     setFilters(values);
   };
 
-  const handleClear = () => {
-    // Reset all form fields
-    form.resetFields();
-    resetFilters();
-  };
 
   return (
-    <LightFilter
+    <QueryFilter
       onFinish={handleSubmission}
-      style={{ padding: "0px", marginBottom: "15px" }}
-      form={form}
+      onReset={resetFilters}
+      style={{ padding: "0px", marginBottom: "15px", marginTop: "15px" }}
     >
       <ProFormSelect
         name="type_tc__id"
@@ -47,12 +43,25 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           fieldNames: { label: "designation", value: "id" },
         }}
       />
-      <ProFormSwitch name="dangereux" label="DGX" />
-      <ProFormSwitch name="frigo" label="FRIGO" />
-      <Button onClick={handleClear} type="default">
-        Clear Filters
-      </Button>
-    </LightFilter>
+      <ProFormSelect
+        {...selectConfig}
+        // @ts-ignore
+        options={YES_NO_CHOICES}
+        label="Dangereux"
+        name="dangereux"
+        mode="single"
+      />
+
+      <ProFormSelect
+        {...selectConfig}
+        // @ts-ignore
+        options={YES_NO_CHOICES}
+        label="Frigo"
+        name="frigo"
+        mode="single"
+      />
+
+    </QueryFilter>
   );
 };
 

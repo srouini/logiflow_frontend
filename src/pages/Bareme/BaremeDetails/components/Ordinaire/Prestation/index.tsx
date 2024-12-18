@@ -1,28 +1,23 @@
 import { useEffect, useState } from "react";
-import {  Divider, message, Segmented } from "antd";
-import { Container } from "@/types/data";
 import CustomTable from "@/components/CustomTable";
 import useData from "@/hooks/useData";
-import { API_PRESTATIONS_ENDPOINT, API_SOUSARTICLES_ENDPOINT } from "@/api/api";
+import { API_PRESTATIONS_ENDPOINT } from "@/api/api";
 import usePage from "@/hooks/usePage";
-import { getColumns } from "./data";
+import { columns, getColumns } from "./data";
 import useLoading from "@/hooks/useLoading";
 import AUForm from "./components/AUForm";
-import usePost from "@/hooks/usePost";
-import { TableSelectionType } from "@/types/antdeing";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { Bareme } from "@/types/bareme";
 import QueryFilters from "./components/QueryFilters";
 import useFilters from "@/hooks/useFilters";
+import Export from "@/components/Export";
+import { Divider } from "antd";
 
-interface SubArticlePageProps {
-  container?: Container;
-  columns?: any;
-  bareme:Bareme | undefined
+interface PrestationProps {
+  bareme: Bareme | undefined
 }
 
-export default ({ bareme,container, columns }: SubArticlePageProps) => {
-  const [open, setOpen] = useState(false);
+export default ({ bareme }: PrestationProps) => {
 
   const { box } = useReferenceContext();
   useEffect(() => {
@@ -59,57 +54,35 @@ export default ({ bareme,container, columns }: SubArticlePageProps) => {
     loadingStates: [isLoadingData, isRefetching, isFetching],
   });
 
-  const [selectedRows, setSelectedRows] = useState<React.Key[]>([]);
-  const rowSelectionFunction: TableSelectionType = {
-    // @ts-ignore
-    onChange(selectedRowKeys, selectedRows, info) {
-      setSelectedRows(selectedRowKeys);
-    },
-  };
-
-  const onSuccess = () => {
-    message.success("Submission successful");
-    refetch();
-  };
-
-  const { mutate } = usePost({
-    onSuccess: onSuccess,
-    endpoint: API_SOUSARTICLES_ENDPOINT + "bulk_update_box/",
-  });
-
-  const handleContainerType = (values: any) => {
-    mutate({
-      ids: selectedRows,
-      box_id: values,
-    });
-  };
-
-
-
   return (
     <>
-    <QueryFilters
+      <QueryFilters
         setFilters={setFilters}
         resetFilters={resetFilters}
         setPage={setPage}
+    
       />
-        <CustomTable
-          getColumns={getColumns(refetch)}
-          data={data}
-          isFetching={isFetching}
-          getPageSize={getPageSize}
-          isLoading={isLoading}
-          refetch={refetch}
-          setPage={setPage}
-          setPageSize={setPageSize}
-          setSearch={setSearch}
-          key="PRESTATIONS_TABLE"
-          headerTitle={
-          [  <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
-            <div style={{marginRight:"10px"}}></div>,]
+      <Divider />
+      <CustomTable
+        getColumns={getColumns(refetch)}
+        data={data}
+        cardBordered={false}
+        isFetching={isFetching}
+        getPageSize={getPageSize}
+        isLoading={isLoading}
+        refetch={refetch}
+        setPage={setPage}
+        setPageSize={setPageSize}
+        setSearch={setSearch}
+        key="PRESTATIONS_TABLE"
+        headerTitle={
+          [<AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
+            <div style={{marginRight:"10px"}}></div>,
+            <Export filters={{"bareme__id":bareme?.id,...filters}} search={search} columns={columns} endpoint={API_PRESTATIONS_ENDPOINT} expand="type_tc,rubrique,bareme" key="PRESTATIONSEXPORT" />,
+          ]
 
-          }
-        />
+        }
+      />
 
     </>
   );

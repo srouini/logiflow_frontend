@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Divider, message } from "antd";
+import { Divider } from "antd";
 import { Container } from "@/types/data";
 import CustomTable from "@/components/CustomTable";
 import useData from "@/hooks/useData";
@@ -8,12 +8,12 @@ import usePage from "@/hooks/usePage";
 import { getColumns } from "./data";
 import useLoading from "@/hooks/useLoading";
 import AUForm from "./components/AUForm";
-import usePost from "@/hooks/usePost";
-import { TableSelectionType } from "@/types/antdeing";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { Bareme } from "@/types/bareme";
 import QueryFilters from "./components/QueryFilters";
 import useFilters from "@/hooks/useFilters";
+import Export from "@/components/Export";
+import { columns } from "./data";
 
 interface SejourSousArticleGroupagePageProps {
   container?: Container;
@@ -64,6 +64,7 @@ export default ({ bareme }: SejourSousArticleGroupagePageProps) => {
         resetFilters={resetFilters}
         setPage={setPage}
       />
+      <Divider />
       <CustomTable
         getColumns={getColumns(refetch)}
         data={data}
@@ -78,6 +79,8 @@ export default ({ bareme }: SejourSousArticleGroupagePageProps) => {
         headerTitle={[
           <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
           <div style={{ marginRight: "10px" }}></div>,
+          <Export filters={{"bareme__id":bareme?.id,...filters}} search={search} columns={columns} endpoint={API_SEJOURS_SOUS_ARTICLE_GROUPAGE_ENDPOINT} expand="bareme" key="SEJOURSSOUSARTICLEGROUPAGEEXPORT" />,
+
         ]}
       />
     </>

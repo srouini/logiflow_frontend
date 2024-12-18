@@ -69,3 +69,38 @@ export const getColumns = (refetch: () => void) => [
   }
   
 ];
+
+
+export const columns = [
+  {
+    title: "Bareme",
+    dataIndex: "bareme",
+    key: "bareme",
+    selected:true,
+    schema: ["bareme","designation"],
+  },
+  {
+    title: "DGX",
+    dataIndex: "dangereux",
+    key: "dangereux",
+    selected:true, 
+  },
+  {
+    title: "Jour min",
+    dataIndex: "jour_min",
+    key: "jour_min",
+    selected:true, 
+  },
+  {
+    title: "Jour max",
+    dataIndex: "jour_max",
+    key: "jour_max",
+    selected:true, 
+  },
+  {
+    title: "Prix",
+    dataIndex: "prix",
+    key: "prix",
+    selected:true, 
+  }
+]

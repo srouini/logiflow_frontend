@@ -5,11 +5,10 @@ import usePage from "@/hooks/usePage";
 import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 import { API_BAREMES_ENDPOINT, API_MRNS_ENDPOINT } from "@/api/api";
-import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
-import { getColumns } from "./data";
+import { columns, getColumns } from "./data";
 import AUForm from "./components/AUForm";
-import Export from "./components/Export";
+import Export from "@/components/Export";
 
 export default () => {
   const [search, setSearch] = useState("");
@@ -41,14 +40,9 @@ export default () => {
       <PageContainer
         contentWidth="Fluid"
         header={{
-          extra: [<Export endpoint={API_MRNS_ENDPOINT} expand="regime,armateur,consignataire,navire" key="MERNSEXPORT" />,<AUForm refetch={refetch} initialvalues={null} />],
+          extra: [<Export filters={[]} search={search} columns={columns} endpoint={API_BAREMES_ENDPOINT} expand="" key="BAREMESEXPORT" />,<AUForm refetch={refetch} initialvalues={null} />],
         }}
       >
-        <QueryFilters
-          setFilters={setFilters}
-          resetFilters={resetFilters}
-          setPage={setPage}
-        />
 
         <CustomTable
           getColumns={getColumns(refetch)}

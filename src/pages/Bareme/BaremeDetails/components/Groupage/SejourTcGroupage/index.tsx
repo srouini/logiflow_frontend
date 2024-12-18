@@ -11,6 +11,9 @@ import { useReferenceContext } from "@/context/ReferenceContext";
 import { Bareme } from "@/types/bareme";
 import QueryFilters from "./components/QueryFilters";
 import useFilters from "@/hooks/useFilters";
+import { Divider } from "antd";
+import Export from "@/components/Export";
+import { columns } from "./data";
 
 interface SejourTcGroupagePageProps {
   container?: Container;
@@ -61,7 +64,9 @@ export default ({ bareme }: SejourTcGroupagePageProps) => {
         resetFilters={resetFilters}
         setPage={setPage}
       />
+      <Divider />
       <CustomTable
+      cardBordered={false}
         getColumns={getColumns(refetch)}
         data={data}
         isFetching={isFetching}
@@ -75,6 +80,8 @@ export default ({ bareme }: SejourTcGroupagePageProps) => {
         headerTitle={[
           <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
           <div style={{ marginRight: "10px" }}></div>,
+          <Export filters={{"bareme__id":bareme?.id,...filters}} search={search} columns={columns} endpoint={API_SEJOURS_GROUPAGE_ENDPOINT} expand="type_tc,bareme" key="SEJOURTCGROUPAGEEXPORT" />,
+
         ]}
       />
     </>

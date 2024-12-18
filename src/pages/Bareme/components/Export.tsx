@@ -9,7 +9,6 @@ import { columns, getColumns } from "../data";
 // import AUForm from "./components/AUForm";
 import { Button, Drawer, Modal } from "antd";
 import { CloudDownloadOutlined } from "@ant-design/icons";
-import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
 
@@ -78,13 +77,6 @@ export default ({expand,endpoint}:Props) => {
           setOpen(false);
         }}
       >
-        <QueryFilters
-          setFilters={setFilters}
-          resetFilters={resetFilters}
-          setPage={setPage}
-          collapsed={false}
-        />
-
         <ColumnsSelect
           columns={selctedColumns}
           setSelectedColumns={setSelectedColumns}

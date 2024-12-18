@@ -4,14 +4,15 @@ import CustomTable from "@/components/CustomTable";
 import useData from "@/hooks/useData";
 import { API_BRANCHEMENTS_ENDPOINT } from "@/api/api";
 import usePage from "@/hooks/usePage";
-import { getColumns } from "./data";
+import { columns, getColumns } from "./data";
 import useLoading from "@/hooks/useLoading";
 import AUForm from "./components/AUForm";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { Bareme } from "@/types/bareme";
 import QueryFilters from "./components/QueryFilters";
 import useFilters from "@/hooks/useFilters";
-
+import { Divider } from "antd";
+import Export from "@/components/Export";
 interface BranchementPageProps {
   container?: Container;
   columns?: any;
@@ -61,7 +62,9 @@ export default ({ bareme }: BranchementPageProps) => {
         resetFilters={resetFilters}
         setPage={setPage}
       />
+      <Divider />
       <CustomTable
+      cardBordered={false}
         getColumns={getColumns(refetch)}
         data={data}
         isFetching={isFetching}
@@ -73,8 +76,11 @@ export default ({ bareme }: BranchementPageProps) => {
         setSearch={setSearch}
         key="BRANCHEMENT_TABLE"
         headerTitle={[
+
           <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
           <div style={{ marginRight: "10px" }}></div>,
+          <Export filters={{"bareme__id":bareme?.id,...filters}} search={search} columns={columns} endpoint={API_BRANCHEMENTS_ENDPOINT} expand="type_tc,bareme" key="BRANCHEMENTSEXPORT" />,
+          ,
         ]}
       />
     </>

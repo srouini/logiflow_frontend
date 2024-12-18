@@ -1,8 +1,10 @@
-import { Button, Form } from "antd";
+import { Form } from "antd";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { useEffect } from "react";
-import { LightFilter, ProFormSelect, ProFormSwitch } from "@ant-design/pro-components";
+import { ProFormSelect, QueryFilter } from "@ant-design/pro-components";
 import { transformSelectFilter } from "@/utils/functions";
+import { selectConfig } from "@/utils/config";
+import { YES_NO_CHOICES } from "@/utils/constants";
 
 interface QueryFiltersProps {
   setFilters: (filters: any) => void;
@@ -28,18 +30,13 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
     setFilters(values);
   };
 
-  const handleClear = () => {
-    // Reset all form fields
-    form.resetFields();
-    setFilters([])
-  };
-
   return (
-    <LightFilter
+    <QueryFilter
       onFinish={handleSubmission}
       onReset={resetFilters}
-      style={{ padding: "0px", marginBottom: "15px" }}
+      style={{ padding: "0px", marginBottom: "15px",marginTop: "15px" }}
       form={form}
+      defaultCollapsed={false}
     >
       <ProFormSelect
         name="rubrique"
@@ -52,12 +49,17 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         }}
         transform={(value) => transformSelectFilter("multiple", "rubrique", value)}
       />
-      <ProFormSwitch name="dangereux" label="DGX" allowClear />
 
-      <Button onClick={handleClear} type="default">
-        Clear Filters
-      </Button>
-    </LightFilter>
+<ProFormSelect
+        {...selectConfig}
+        // @ts-ignore
+        options={YES_NO_CHOICES}
+        label="Dangereux"
+        name="dangereux"
+        mode="single"
+      />
+
+    </QueryFilter>
   );
 };
 

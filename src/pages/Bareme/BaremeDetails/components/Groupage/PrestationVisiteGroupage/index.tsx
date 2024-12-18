@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
-import { Divider, message } from "antd";
+import { Divider } from "antd";
 import { Container } from "@/types/data";
 import CustomTable from "@/components/CustomTable";
 import useData from "@/hooks/useData";
 import { API_PRESTATIONS_VISITE_GROUPAGE_ENDPOINT } from "@/api/api";
 import usePage from "@/hooks/usePage";
-import { getColumns } from "./data";
+import { columns, getColumns } from "./data";
 import useLoading from "@/hooks/useLoading";
 import AUForm from "./components/AUForm";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { Bareme } from "@/types/bareme";
 import QueryFilters from "./components/QueryFilters";
 import useFilters from "@/hooks/useFilters";
+import Export from "@/components/Export";
 
 interface PrestationVisiteGroupagePageProps {
   container?: Container;
@@ -62,7 +63,9 @@ export default ({ bareme }: PrestationVisiteGroupagePageProps) => {
         resetFilters={resetFilters}
         setPage={setPage}
       />
+      <Divider />
       <CustomTable
+      cardBordered={false}
         getColumns={getColumns(refetch)}
         data={data}
         isFetching={isFetching}
@@ -76,6 +79,7 @@ export default ({ bareme }: PrestationVisiteGroupagePageProps) => {
         headerTitle={[
           <AUForm refetch={refetch} bareme={bareme} initialvalues={null} />,
           <div style={{ marginRight: "10px" }}></div>,
+          <Export filters={{"bareme__id":bareme?.id,...filters}} search={search} columns={columns} endpoint={API_PRESTATIONS_VISITE_GROUPAGE_ENDPOINT} expand="bareme" key="PPRESTATIONSVISITEGROUPAGEEXPORT" />,
         ]}
       />
     </>

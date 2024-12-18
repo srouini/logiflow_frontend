@@ -2,6 +2,7 @@ import {
   LightFilter,
   ProFormSelect,
   ProFormSwitch,
+  QueryFilter,
 } from "@ant-design/pro-components";
 import { useEffect } from "react";
 
@@ -10,6 +11,8 @@ import {
 } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { Button, Form } from "antd";
+import { YES_NO_CHOICES } from "@/utils/constants";
+import { selectConfig } from "@/utils/config";
 
 type QueryFiltersProps = {
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -19,11 +22,10 @@ type QueryFiltersProps = {
 
 const QueryFilters: React.FC<QueryFiltersProps> = ({
   setFilters,
-  resetFilters,
   setPage,
+  resetFilters
 }) => {
   const { containerType, rubrique } = useReferenceContext();
-  const [form] = Form.useForm();
 
   useEffect(() => {
     containerType.fetch();
@@ -35,19 +37,15 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
     setFilters(values);
   };
 
-  const handleClear = () => {
-    // Reset all form fields
-    form.resetFields();
-    resetFilters();
-  };
 
   return (
 
 
-    <LightFilter
+    <QueryFilter
       onFinish={handleSubmission}
-      style={{ padding: "0px", marginBottom: "15px" }}
-      form={form}
+      onReset={resetFilters}
+      style={{ padding: "0px", marginBottom: "15px", marginTop: "15px" }}
+      defaultCollapsed={false}
     >
       <ProFormSelect
         name="type_tc__id"
@@ -59,9 +57,32 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         }}
       />
 
-      <ProFormSwitch name="dangereux" label="DGX" />
-      <ProFormSwitch name="frigo" label="FRIGO" />
-      <ProFormSwitch name="groupage" label="GROUPAGE" />
+      <ProFormSelect
+        {...selectConfig}
+        // @ts-ignore
+        options={YES_NO_CHOICES}
+        label="Dangereux"
+        name="dangereux"
+        mode="single"
+      />
+
+      <ProFormSelect
+        {...selectConfig}
+        // @ts-ignore
+        options={YES_NO_CHOICES}
+        label="Frigo"
+        name="frigo"
+        mode="single"
+      />
+      <ProFormSelect
+        {...selectConfig}
+        // @ts-ignore
+        options={YES_NO_CHOICES}
+        label="GROUPAGE"
+        name="groupage"
+        mode="single"
+      />
+
       <ProFormSelect
         name="rubrique"
         label="Rubrique"
@@ -72,10 +93,8 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         }}
         transform={(value) => transformSelectFilter("multiple", "rubrique", value)}
       />
-      <Button onClick={handleClear} type="default">
-        Clear Filters
-      </Button>
-    </LightFilter>
+
+    </QueryFilter>
   );
 };
 

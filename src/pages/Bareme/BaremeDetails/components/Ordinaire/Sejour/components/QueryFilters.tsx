@@ -3,7 +3,8 @@ import FormField from "@/components/form/FormField";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { useEffect } from "react";
 import { YES_NO_CHOICES } from "@/utils/constants";
-import { LightFilter, ProFormSelect, ProFormSwitch } from "@ant-design/pro-components";
+import { LightFilter, ProFormSelect, ProFormSwitch, QueryFilter } from "@ant-design/pro-components";
+import { selectConfig } from "@/utils/config";
 
 interface QueryFiltersProps {
   setFilters: (filters: any) => void;
@@ -16,7 +17,6 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   resetFilters,
   setPage,
 }) => {
-  const [form] = Form.useForm();
   const { containerType } = useReferenceContext();
 
   useEffect(() => {
@@ -28,18 +28,13 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
     setFilters(allValues);
   };
 
-  const handleClear = () => {
-    // Reset all form fields
-    form.resetFields();
-    resetFilters();
-  };
-
 
   return (
-    <LightFilter
+    <QueryFilter
       onFinish={handleSubmission}
-      style={{ padding: "0px", marginBottom: "15px" }}
-      form={form}
+      style={{ padding: "0px", marginBottom: "15px", marginTop: "15px" }}
+      defaultCollapsed={false}
+      onReset={resetFilters}
     >
 
       <ProFormSelect
@@ -51,13 +46,25 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           fieldNames: { label: "designation", value: "id" },
         }}
       />
-      <ProFormSwitch name="dangereux" label="DGX" />
-      <ProFormSwitch name="frigo" label="FRIGO" />
-      <Button onClick={handleClear} type="default">
-        Clear Filters
-      </Button>
+           <ProFormSelect
+        {...selectConfig}
+        // @ts-ignore
+        options={YES_NO_CHOICES}
+        label="Dangereux"
+        name="dangereux"
+        mode="single"
+      />
 
-    </LightFilter>
+      <ProFormSelect
+        {...selectConfig}
+        // @ts-ignore
+        options={YES_NO_CHOICES}
+        label="Frigo"
+        name="frigo"
+        mode="single"
+      />
+
+    </QueryFilter>
   );
 };
 

@@ -1,7 +1,7 @@
 import { Button, Form } from "antd";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { useEffect } from "react";
-import { LightFilter, ProFormSelect } from "@ant-design/pro-components";
+import { LightFilter, ProFormSelect, QueryFilter } from "@ant-design/pro-components";
 
 interface QueryFiltersProps {
   setFilters: (filters: any) => void;
@@ -15,7 +15,6 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   setPage,
 }) => {
   const { containerType } = useReferenceContext();
-  const [form] = Form.useForm();
 
   useEffect(() => {
     containerType?.fetch();
@@ -27,20 +26,14 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
     setFilters(values);
   };
 
-  const handleClear = () => {
-    // Reset all form fields
-    form.resetFields();
-    setFilters([])
-  };
 
   return (
 
 
-    <LightFilter
+    <QueryFilter
       onFinish={handleSubmission}
       onReset={resetFilters}
-      style={{ padding: "0px", marginBottom: "15px" }}
-      form={form}
+      style={{ padding: "0px", marginBottom: "15px", marginTop: "15px" }}
     >
       <ProFormSelect
         name="type_tc__id"
@@ -51,10 +44,8 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           fieldNames: { label: "designation", value: "id" },
         }}
       />
-      <Button onClick={handleClear} type="default">
-        Clear Filters
-      </Button>
-    </LightFilter>
+
+    </QueryFilter>
   );
 };
 

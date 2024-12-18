@@ -25,7 +25,8 @@ type CustomTableProps = {
   scrollY?: number;
   toolBar?:any,
   toolbar?:any,
-  isFetching?:boolean
+  isFetching?:boolean,
+  cardBordered?:boolean
 };
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -44,7 +45,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
   scrollY,
   toolBar,
   toolbar,
-  isFetching
+  isFetching,
+  cardBordered=true
 }) => {
   const [tableData, setTableData] = useState(data);
 
@@ -74,7 +76,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   return (
     <ProTable
       columns={getColumns}
-      cardBordered
+      cardBordered={cardBordered}
       onReset={refetch}
       toolBarRender={toolBar}
       dataSource={tableData?.data?.results}

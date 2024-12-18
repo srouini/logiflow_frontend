@@ -41,24 +41,12 @@ export default () => {
   const { isLoading } = useLoading({ loadingStates: [isLoadingBareme, isRefetching, isFetching] });
 
 
-  const breadcrumb: any = {
-    items: [
-      {
-        title: "Barmes",
-      },
-      {
-        title: `${bareme?.data?.designation}`,
-      }
-    ],
-  };
-
   return (
     <>
       <PageContainer
       loading={isLoading}
         contentWidth="Fluid"
         header={{
-          breadcrumb: breadcrumb,
           title: `${bareme?.data?.designation}`,
           onBack: () => navigate("/bareme/")
         }}
@@ -66,12 +54,14 @@ export default () => {
       >
     
 
-        <div>
 
           <ProCard
+        
             style={{ marginBottom: 20 }}
             tabs={{
+              type: 'line',
               activeKey: tab,
+              tabPosition:"left",
               items: [
                 {
                   label: `Prestation`,
@@ -99,7 +89,7 @@ export default () => {
                   children: <SejourTcGroupage bareme={bareme?.data} />,
                 },
                 {
-                  label: `Sejour SousArticle Groupage`,
+                  label: `Sejour SousArticle`,
                   key: 'SejourSousArticleGroupage',
                   children: <SejourSousArticleGroupage bareme={bareme?.data} />,
                 },
@@ -109,7 +99,7 @@ export default () => {
                   children: <PrestationGroupage bareme={bareme?.data} />,
                 },
                 {
-                  label: `Prestation Visite Groupage`,
+                  label: `Visite Groupage`,
                   key: 'PrestationVisiteGroupage',
                   children: <PrestationVisiteGroupage bareme={bareme?.data} />,
                 },
@@ -120,9 +110,6 @@ export default () => {
             }}
           />
 
-         
-
-        </div>
       </PageContainer>
     </>
   );

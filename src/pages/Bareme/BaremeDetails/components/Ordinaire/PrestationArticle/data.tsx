@@ -61,3 +61,34 @@ export const getColumns = (refetch: () => void) => [
   },
 
 ];
+
+
+
+export const columns = [
+  {
+    title: "Bareme",
+    dataIndex: "bareme",
+    key: "bareme",
+    selected:true,
+    schema: ["bareme","designation"],
+  },
+  {
+    title: "Rubrique",
+    key: "rubrique",
+    dataIndex: "rubrique",
+    selected:true, 
+    schema: ["rubrique","designation"],
+  },
+  {
+    title: "Groupage",
+    dataIndex: "groupage",
+    key: "groupage",
+    selected:true, 
+  },
+  {
+    title: "Prix",
+    dataIndex: "prix",
+    key: "prix",
+    selected:true, 
+  }
+]

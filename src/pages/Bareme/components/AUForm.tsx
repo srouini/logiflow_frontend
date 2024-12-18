@@ -5,9 +5,10 @@ import { Divider, Form, message, Row } from "antd";
 import usePost from "@/hooks/usePost";
 import { formatDate, mapInitialValues } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { API_MRNS_ENDPOINT } from "@/api/api";
+import { API_BAREMES_ENDPOINT, API_MRNS_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { YES_NO_CHOICES } from "@/utils/constants";
 
 
 
@@ -20,21 +21,9 @@ interface AUFormProps {
   disabled?:boolean
 }
 
-const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIFIER",addText="Mrn", hasIcon=false,disabled=false }) => {
+const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIFIER",addText="Bareme", hasIcon=false,disabled=false }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
-
-
-  const { navire, regime, armateur, consignataire, port, mrn } =
-    useReferenceContext();
-
-  useEffect(() => {
-    navire.fetch();
-    regime.fetch();
-    armateur.fetch();
-    consignataire.fetch();
-    port.fetch();
-  }, []);
 
   const {} = useReferenceContext();
 
@@ -43,7 +32,6 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIF
     if (initialvalues) {
       values.id = initialvalues?.id;
     }
-    values = formatDate("accostage", values);
     mutate(values);
   };
 
@@ -51,12 +39,11 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIF
     message.success("Submission successful");
     setOpen(false);
     refetch();
-    mrn?.refetch()
   };
 
   const { mutate, isLoading } = usePost({
     onSuccess: onSuccess,
-    endpoint: API_MRNS_ENDPOINT,
+    endpoint: API_BAREMES_ENDPOINT,
   });
 
 
@@ -66,32 +53,17 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIF
       disabledModalOpenButton={disabled}
       modalOpenButtonText={initialvalues ? editText : addText}
       addButtonIcon={hasIcon && initialvalues ? <EditOutlined />:<PlusOutlined /> }
-      modalTitle="MRN"
+      modalTitle="Bareme"
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}
-      width={800}
+      width={500}
       isLoading={isLoading}
       initialvalues={initialvalues}
     >
       <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
-
-        <Row gutter={24}>
-          <FormField label="Numéro" name="numero"  span={24} required  span_md={12} type="text"/>
-          <FormField label="Accostage" name="accostage"  span={24} required  span_md={12} type="date"/>
-          <FormField label="Escale" name="escale"  span={24}  span_md={12} type="text"/>
-        </Row>
-
-        <Divider dashed style={{ marginTop: "0px" }} />
-        <Row gutter={24}>
-          <FormField label="Port emission" name="port_emission" placeholder="-" options={port?.results} option_label="raison_sociale"  option_value="id" span={24}  span_md={12} type="select"/>
-          <FormField label="Port réception" name="port_reception" placeholder="-" options={port?.results} option_label="raison_sociale"  option_value="id" span={24} required  span_md={12} type="select"/>
-          <FormField label="Consignataire" name="consignataire" placeholder="-" options={consignataire?.results} option_label="raison_sociale"  option_value="id" span={24} required  span_md={12} type="select"/>
-          <FormField label="Armateur" name="armateur" placeholder="-" options={armateur?.results} option_label="raison_sociale"  option_value="id" span={24} required  span_md={12} type="select"/>
-          <FormField label="Régime" name="regime" placeholder="-" options={regime?.results} option_label="designation"  option_value="id" span={24} required  span_md={12} type="select"/>
-          <FormField label="Navire" name="navire" placeholder="-" options={navire?.results} option_label="nom"  option_value="id" span={24} required  span_md={12} type="select"/>
-
-        </Row>
+          <FormField label="Designation" name="designation"  span={24} required  span_md={24} type="text"/>
+          <FormField label="À partir de la date d'accostage" name="accostage"  span={24} required  span_md={24} type="select" options={YES_NO_CHOICES} option_label="label" option_value="value"/>
 
       </FormObject>
     </DraggableModel>

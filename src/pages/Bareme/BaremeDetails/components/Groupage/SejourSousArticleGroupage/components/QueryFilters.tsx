@@ -1,5 +1,7 @@
 import { Button, Form } from "antd";
-import { LightFilter, ProFormSwitch } from "@ant-design/pro-components";
+import { LightFilter, ProFormSelect, ProFormSwitch, QueryFilter } from "@ant-design/pro-components";
+import { selectConfig } from "@/utils/config";
+import { YES_NO_CHOICES } from "@/utils/constants";
 
 interface QueryFiltersProps {
   setFilters: (filters: any) => void;
@@ -12,29 +14,29 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   resetFilters,
   setPage,
 }) => {
-  const [form] = Form.useForm();
 
   const handleSubmission = (values: any) => {
     setPage(1);
     setFilters(values);
   };
-  const handleClear = () => {
-    // Reset all form fields
-    form.resetFields();
-    setFilters([])
-  };
+ 
   return (
-    <LightFilter
-      form={form}
+    <QueryFilter
       onFinish={handleSubmission}
       onReset={resetFilters}
-      style={{ padding: "0px", marginBottom: "15px" }}
+      style={{ padding: "0px", marginBottom: "15px", marginTop: "15px" }}
+      defaultCollapsed={false}
     >
-      <ProFormSwitch name="dangereux" label="DGX" allowClear />
-      <Button onClick={handleClear} type="default">
-        Clear Filters
-      </Button>
-    </LightFilter>
+     <ProFormSelect
+        {...selectConfig}
+        // @ts-ignore
+        options={YES_NO_CHOICES}
+        label="Dangereux"
+        name="dangereux"
+        mode="single"
+      />
+ 
+    </QueryFilter>
 
   );
 };
