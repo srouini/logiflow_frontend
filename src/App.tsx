@@ -48,7 +48,7 @@ const App = () => {
         }
       >
         {/* Dashboard Routes */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/settings" element={<Settings />} />
 
         {/* Rotation Routes */}

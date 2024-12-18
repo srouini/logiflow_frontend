@@ -59,12 +59,9 @@ export default () => {
   const generateMenuFromRoutes = () => {
     return [
       {
-        path: '/dashboard',
+        path: '/',
         name: 'Dashboard',
         icon: <WindowsOutlined />,
-        children: [
-          { path: '/dashboard', name: 'Dashboard'},
-        ],
       },
       {
         path: '/rotations',
