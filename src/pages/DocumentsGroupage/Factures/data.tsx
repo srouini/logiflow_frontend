@@ -57,6 +57,13 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     render: (record:any) => renderText(record?.sous_article?.client?.raison_sociale)
   },
   {
+    title: "Groupeur",
+    dataIndex: "proforma",
+    width:300,
+    key:"7",
+    render: (record:any) => renderText(record?.article?.client?.raison_sociale)
+  },
+  {
     title: "Proforma",
     dataIndex: "proforma",
     key:"8",
@@ -179,6 +186,13 @@ export const exportColumns = [
     key: "client",
     schema: ["proforma", "sous_article", "client", "raison_sociale"],
     selected: true
+  },
+  {
+    title: "Groupeur",
+    dataIndex: "proforma",
+    width:300,
+    key:"groupeur",
+    schema: ["proforma","article","client","raison_sociale"]
   },
   {
     title: "Proforma",

@@ -30,7 +30,7 @@ export default () => {
       page: page,
       page_size: getPageSize(),
       ...filters,
-      expand: "proforma.gros,proforma.sous_article.client,proforma.article",
+      expand: "proforma.gros,proforma.sous_article.client,proforma.article.client,proforma.article",
       enabled: false,
       ordering:"-date_creation,-numero"
     },
@@ -62,7 +62,7 @@ export default () => {
         contentWidth="Fluid"
         header={{
           breadcrumb: breadcrumb,
-          extra: [<Export expand="proforma.gros,proforma.sous_article.client,proforma.article" />],
+          extra: [<Export expand="proforma.gros,proforma.sous_article.client,proforma.article.client,proforma.article" />],
         }}
       >
         <QueryFilters

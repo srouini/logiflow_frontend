@@ -17,7 +17,7 @@ interface Props {
   query_params?: any;
 }
 
-export default ({ expand = "proforma.gros.regime,proforma.article,proforma.sous_article.client", query_params }: Props) => {
+export default ({ expand = "proforma.gros,proforma.sous_article.client,proforma.article.client,proforma.article", query_params }: Props) => {
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();

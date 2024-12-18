@@ -101,7 +101,24 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           label="Date"
           transform={(value) => transformRangeDateFilter("proforma__date_proforma", value)}
         />
-        
+         <ProFormSelect
+          {...selectConfig}
+          options={client?.results}
+          label="Groupeur"
+          name="proforma__article__client__in"
+          fieldProps={{
+            fieldNames: { label: "raison_sociale", value: "id" },
+            maxTagCount: "responsive",
+          }}
+          mode="multiple"
+          transform={(value) =>
+            transformSelectFilter(
+              "multiple",
+              "proforma__article__client",
+              value
+            )
+          }
+        />
       </QueryFilter>
     </Card>
   );
