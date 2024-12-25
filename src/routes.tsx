@@ -27,6 +27,7 @@ import FacturationMrnsDetailsPage from "./pages/Facturation/MrnDetails/Index"
 import FacturationGroupage from "./pages/Facturation/Facturation/Goupage/Index"
 import FacturationOrdinaire from "./pages/Facturation/Facturation/Ordinaire/Index"
 import FacturationArticleDetailsPage from "./pages/Facturation/ArticleDetails/Index"
+import DynamicReport from './pages/DynamicReport/index';
 
 const AppRoutes = () => (
   <Router>
@@ -58,6 +59,7 @@ const AppRoutes = () => (
         <Route path="/documentsgroupage/bonsorties" element={<BonsSortieGroupage />} />
         <Route path="/documents/bonsorties" element={<BonsSortie />} />
         <Route path="/boncommande" element={<BonsCommande />} />
+        <Route path="/dynamic-report" element={<DynamicReport />} />
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />

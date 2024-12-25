@@ -15,6 +15,7 @@ import Chargement from "../Mrns/components/Chargement";
 import Conteneurs from "./components/Containers"
 import { useReferenceContext } from "@/context/ReferenceContext";
 import Export from "./components/Export";
+import ExcelImportExport from "./components/ExcelImportExport";
 
 export default () => {
   const { id } = useParams();
@@ -85,8 +86,8 @@ export default () => {
         breadcrumb: breadcrumb,
         title: `MRN -  ${selectedMrnData?.data?.gros}`,
         extra: [
-          <Export query_params={{gros__id: id}} endpoint={API_ARTICLES_ENDPOINT} expand="client,transitaire" key="ARTICLESEXPORT" />,
-          <AUForm refetch={refetch} initialvalues={null} gros={id} addText="Article"/>,
+          <ExcelImportExport key="excel" mrnId={Number(id)} refetch={refetch} />,
+
           <Chargement refetch={refetch} mrn={selectedMrnData?.data?.id} />,
           <Conteneurs mrn={id}/>
         ],
@@ -118,7 +119,10 @@ export default () => {
         setPageSize={setPageSize}
         setSearch={setSearch}
         key="ARTICLES_TABLE"
-
+        toolbar={{actions:[
+          <Export query_params={{gros__id: id}} endpoint={API_ARTICLES_ENDPOINT} expand="client,transitaire" key="ARTICLESEXPORT" />,
+          <AUForm refetch={refetch} initialvalues={null} gros={id} addText="Article"/>,
+        ]}}
       />
     </PageContainer>
   );

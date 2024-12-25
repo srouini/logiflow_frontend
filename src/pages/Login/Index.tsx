@@ -46,7 +46,6 @@ const LoginPage: React.FC = () => {
   const from = (location.state as any)?.from?.pathname || '/';
   console.log('Login page state:', { isAuthenticated, from });
 
-  // ----------------------------------------------------------------------
   const { styles } = useStyle();
   const [ passwordVisible, setPasswordVisible ] = useState(false);
   const { Title } = Typography;
@@ -77,123 +76,141 @@ const LoginPage: React.FC = () => {
 
   return (
     <div
+    style={{
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "white",
+    }}
+  >
+    <div
       style={{
+        flex: 2/3,
+        backgroundImage: "url('/background.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         minHeight: "100vh",
+      }}
+    ></div>
+
+    <div
+      style={{
+        flex: 1/3,
         display: "flex",
         justifyContent: "center",
-        width: "100dvw",
-        flexDirection: "column",
         alignItems: "center",
-        backgroundColor: "white",
+        flexDirection: "column",
+        padding: "20px",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
-          alignItems: "center",
-          paddingInline: "20px",
-        }}
-        className="kill"
-      >
-        <Row style={{ marginBottom: "40px" }} >
-          <Flex vertical align="center">
-          <img src="/logo.ico" width={70} />
+      <Row style={{ marginBottom: "40px" }}>
+        <div style={{ textAlign: "center" }}>
+          <img src="/logo.ico" alt="Logo" width={70} />
           <Title level={2}>LOGIXPERT</Title>
-          </Flex>
-       
-        </Row>
-        <Row style={{ width: "350px" }}>
-          <Form
-            name="normal_login"
-            className="login-form"
-            initialValues={{ remember: true }}
-            onFinish={handleSubmit}
-            style={{ minWidth: "100%" }}
+        </div>
+      </Row>
+
+      <Row style={{ width: "100%", maxWidth: "350px" }}>
+        <Form
+          name="normal_login"
+          initialValues={{ remember: true }}
+          onFinish={handleSubmit}
+          style={{ width: "100%" }}
+        >
+          <Form.Item
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Please input your username!",
+              },
+            ]}
           >
-            <Form.Item
-              name="username"
-              rules={[
-                {
-                  required: true,
-                  message: " ",
-                },
-              ]}
-            >
-              <Input
-                prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Nom d'utilisateur"
-                style={{ height: "40px", borderRadius: "18px" }}
-              />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: " ",
-                },
-                {
-                  min: 7,
-                  message: "Minimum length required 8 characters",
-                },
-              ]}
-            >
-              <Row gutter={8}>
-                <Col span={18}>
-                  <Input.Password
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    visibilityToggle={{
-                      visible: passwordVisible,
-                      onVisibleChange: setPasswordVisible,
-                    }}
-                    placeholder="Password"
-                    style={{ height: "40px", borderRadius: "18px" }}
-                  />
-                </Col>
-                <Col span={6}>
-                  <Button
-                    style={{
-                      width: "100%",
-                      height: "40px",
-                      borderRadius: "30px",
-                    }}
-                    onClick={() =>
-                      setPasswordVisible((prevState) => !prevState)
-                    }
-                  >
-                    {passwordVisible ? "Hide" : "Show"}
-                  </Button>
-                </Col>
-              </Row>
-            </Form.Item>
+            <Input
+              prefix={<UserOutlined />}
+              placeholder="Nom d'utilisateur"
+              style={{ height: "45px", borderRadius: "5px" }}
+            />
+          </Form.Item>
 
-            <ConfigProvider
-      button={{
-        className: styles.linearGradientButton,
-      }}
-    >
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+              {
+                min: 7,
+                message: "Minimum length required 8 characters",
+              },
+            ]}
+          >
+            <Row gutter={8}>
+              <Col span={18}>
+                <Input.Password
+                  prefix={<LockOutlined />}
+                  visibilityToggle={{
+                    visible: passwordVisible,
+                    onVisibleChange: setPasswordVisible,
+                  }}
+                  placeholder="Password"
+                  style={{ height: "45px", borderRadius: "5px" }}
+                />
+              </Col>
+              <Col span={6}>
+                <Button
+                  style={{
+                    width: "100%",
+                    height: "45px",
+                    borderRadius: "5px",
+                  }}
+                  onClick={() =>
+                    setPasswordVisible((prevState) => !prevState)
+                  }
+                >
+                  {passwordVisible ? "Hide" : "Show"}
+                </Button>
+              </Col>
+            </Row>
+          </Form.Item>
 
+          <ConfigProvider>
             <Form.Item>
-              
               <Button
                 type="primary"
+                className="linearGradientButton"
                 htmlType="submit"
-                className="login-form-button"
                 block
-                style={{ height: "40px", borderRadius: "30px" }}
+                style={{ height: "45px", borderRadius: "5px" }}
                 loading={loading}
               >
                 Log in
               </Button>
-           
             </Form.Item>
-            </ConfigProvider>
-          </Form>
-        </Row>
-      </div>
+          </ConfigProvider>
+        </Form>
+      </Row>
     </div>
+
+    <style jsx>{`
+      @media (max-width: 768px) {
+        div {
+          flex-direction: column !important;
+        }
+
+        div:first-child {
+          min-height: 50vh;
+        }
+
+        div:last-child {
+          min-height: 50vh;
+        }
+      }
+    `}</style>
+  </div>
   );
 };
 

@@ -8,12 +8,15 @@ import { API_CLIENTS_ENDPOINT } from "@/api/api";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
 // import AUForm from "./components/AUForm";
-import { Drawer, FloatButton, Modal } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Drawer, FloatButton, Modal, Button, message } from "antd";
+import { UserOutlined, MergeOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import AUForm from "./AUForm";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export"
+import usePost from "@/hooks/usePost";
+import ManualMergeModal from "./ManualMergeModal"; // Assuming ManualMergeModal is defined in this file
+
 interface Props {
   hanleClose: () => void;
 }
@@ -61,6 +64,32 @@ export default ({ hanleClose }: Props) => {
     return count_str;
   }
 
+  const [mergeModalVisible, setMergeModalVisible] = useState(false);
+  const [manualMergeVisible, setManualMergeVisible] = useState(false);
+
+  const { mutate: mergeDuplicates, isLoading: mergeLoading } = usePost({
+    endpoint: 'http://localhost:8000/api/reference/client/merge_duplicates/',
+    onSuccess: (data) => {
+      if (data.message === 'No duplicate clients found') {
+        Modal.info({
+          title: 'No Duplicates',
+          content: 'No duplicate clients were found.',
+        });
+      } else {
+        Modal.success({
+          title: 'Success',
+          content: 'Successfully merged duplicate clients.',
+        });
+        refetch();
+      }
+      setMergeModalVisible(false);
+    },
+  });
+
+  const handleMergeDuplicates = () => {
+    mergeDuplicates({});
+  };
+
   return (
     <div>
       <FloatButton
@@ -106,11 +135,43 @@ export default ({ hanleClose }: Props) => {
             actions: [
               <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_CLIENTS_ENDPOINT} search={search} filters={filters} />,
               <AUForm  initialvalues={null} refetch={refetch}/>,
+              <Button
+                key="merge"
+                type="primary"
+                icon={<MergeOutlined />}
+                onClick={() => setMergeModalVisible(true)}
+              >
+                Auto Merge
+              </Button>,
+              <Button
+                key="manual-merge"
+                type="primary"
+                icon={<MergeOutlined />}
+                onClick={() => setManualMergeVisible(true)}
+              >
+                Manual Merge
+              </Button>,
             ],
           }}
         />
 
       </Drawer>
+      <Modal
+        title="Auto Merge Duplicate Clients"
+        open={mergeModalVisible}
+        onOk={handleMergeDuplicates}
+        onCancel={() => setMergeModalVisible(false)}
+        confirmLoading={mergeLoading}
+      >
+        <p>This will automatically merge duplicate clients based on similar names. The client with the most references will be kept, and others will be merged into it.</p>
+        <p>Are you sure you want to continue?</p>
+      </Modal>
+
+      <ManualMergeModal
+        visible={manualMergeVisible}
+        onCancel={() => setManualMergeVisible(false)}
+        refetch={refetch}
+      />
     </div>
   );
 };

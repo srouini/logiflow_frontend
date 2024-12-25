@@ -122,6 +122,11 @@ export default () => {
         name: 'Bareme',
         icon: <SlidersOutlined />,
       },
+      {
+        path:'/dynamic-report',
+        name: 'Rapports Dynamiques',
+        icon: <SlidersOutlined />,
+      }
     ];
   };
 

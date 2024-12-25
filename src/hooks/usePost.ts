@@ -28,6 +28,7 @@ const usePost = ({ onSuccess, endpoint }: UsePostProps) => {
     },
     onError: (error: AxiosError<any>) => {
       let title = "Request failed";
+      let errors: Record<string, string[]> = {};
 
       if (error.response) {
         const { status, data } = error.response;
@@ -35,39 +36,44 @@ const usePost = ({ onSuccess, endpoint }: UsePostProps) => {
     
         // Check for 400 Bad Request errors
         if (status === 400 && keys.length > 0) {
-          // Display each error message in a separate notification
+          // Collect all error messages
           keys.forEach((key) => {
-            const errorMessages = data[key]; // Assuming `data[key]` is an array of error messages
+            const errorMessages = data[key];
             if (Array.isArray(errorMessages)) {
+              errors[key] = errorMessages;
               errorMessages.forEach((messageText) => {
                 message.error(`${key}: ${messageText}`);
-                console.log(`${key}: ${messageText}`);
               });
             } else {
+              errors[key] = [errorMessages];
               message.error(`${key}: ${errorMessages}`);
             }
           });
         }
     
-        // Handle 404 error with a single notification
+        // Handle 404 error
         if (status === 404) {
           title = "Page not found";
           const messageText = data.detail || "The requested resource could not be found.";
+          errors["detail"] = [messageText];
           message.error(`${title}: ${messageText}`);
         }
       } else {
         // Default error handling for other cases
+        errors["error"] = [error.message];
         message.error(error.message);
       }
-  
+
+      return errors;
     },
   });
 
-  // Access isLoading from the mutation result
-  const { mutate, status } = mutation;
-  const isLoading = status === 'pending'; // React-query uses `status` to track loading
+  // Access isLoading and error from the mutation result
+  const { mutate, status, error } = mutation;
+  const isLoading = status === 'pending';
+  const errors = error ? (error as AxiosError<any>).response?.data : null;
 
-  return { mutate, isLoading };
+  return { mutate, isLoading, errors };
 };
 
 export default usePost;

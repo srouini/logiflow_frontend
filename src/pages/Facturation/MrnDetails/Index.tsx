@@ -76,9 +76,7 @@ export default () => {
       contentWidth="Fluid"
       header={{
         breadcrumb: breadcrumb,
-        title: `MRN -  ${selectedMrnData?.data?.gros}`,
-        extra: [
-        ],
+        title: `MRN-  ${selectedMrnData?.data?.gros}`,
       }}
       title=" "
     >
