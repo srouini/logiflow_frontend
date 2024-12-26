@@ -47,7 +47,7 @@ const LoginPage: React.FC = () => {
   console.log('Login page state:', { isAuthenticated, from });
 
   const { styles } = useStyle();
-  const [ passwordVisible, setPasswordVisible ] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const { Title } = Typography;
 
   // Redirect if already logged in
@@ -76,39 +76,19 @@ const LoginPage: React.FC = () => {
 
   return (
     <div
-    style={{
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: "white",
-    }}
-  >
-    <div
       style={{
-        flex: 2/3,
-        backgroundImage: "url('/background.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
         minHeight: "100vh",
-      }}
-    ></div>
-
-    <div
-      style={{
-        flex: 1/3,
         display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
         flexDirection: "column",
-        padding: "20px",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "white",
       }}
     >
-      <Row style={{ marginBottom: "40px" }}>
-        <div style={{ textAlign: "center" }}>
-          <img src="/logo.ico" alt="Logo" width={70} />
-          <Title level={2}>LOGIXPERT</Title>
+
+      <Row style={{ marginBottom: "50px", outline:"none"  }}>
+        <div style={{ textAlign: "center", outline:"none"  }}>
+          <img src="/logo.svg" style={{ outline:"none"  }} alt="Logo" width={600} />
         </div>
       </Row>
 
@@ -131,7 +111,7 @@ const LoginPage: React.FC = () => {
             <Input
               prefix={<UserOutlined />}
               placeholder="Nom d'utilisateur"
-              style={{ height: "45px", borderRadius: "5px" }}
+              style={{ height: "45px", borderRadius: "15px" }}
             />
           </Form.Item>
 
@@ -157,7 +137,7 @@ const LoginPage: React.FC = () => {
                     onVisibleChange: setPasswordVisible,
                   }}
                   placeholder="Password"
-                  style={{ height: "45px", borderRadius: "5px" }}
+                  style={{ height: "45px", borderRadius: "15px" }}
                 />
               </Col>
               <Col span={6}>
@@ -165,7 +145,7 @@ const LoginPage: React.FC = () => {
                   style={{
                     width: "100%",
                     height: "45px",
-                    borderRadius: "5px",
+                    borderRadius: "15px",
                   }}
                   onClick={() =>
                     setPasswordVisible((prevState) => !prevState)
@@ -184,7 +164,7 @@ const LoginPage: React.FC = () => {
                 className="linearGradientButton"
                 htmlType="submit"
                 block
-                style={{ height: "45px", borderRadius: "5px" }}
+                style={{ height: "45px", borderRadius: "15px", backgroundColor:"#3D9970" }}
                 loading={loading}
               >
                 Log in
@@ -194,23 +174,6 @@ const LoginPage: React.FC = () => {
         </Form>
       </Row>
     </div>
-
-    <style jsx>{`
-      @media (max-width: 768px) {
-        div {
-          flex-direction: column !important;
-        }
-
-        div:first-child {
-          min-height: 50vh;
-        }
-
-        div:last-child {
-          min-height: 50vh;
-        }
-      }
-    `}</style>
-  </div>
   );
 };
 

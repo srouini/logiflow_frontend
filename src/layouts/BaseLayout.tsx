@@ -242,7 +242,7 @@ export default () => {
         theme={{
           algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
           token: {
-            colorPrimary: user?.profile?.theme_color || '#1890ff',
+            colorPrimary: user?.profile?.theme_color || '#3D9970',
           },
         }}
         locale={frFR}
@@ -258,20 +258,7 @@ export default () => {
               const defaultDom = (
                 <Row align="middle" justify="center" gutter={12}>
                   <Col style={{ display: "flex", alignItems: "center" }}>
-                    <img src="/logo.ico" width={25} alt="Logo" />
-                  </Col>
-                  <Col>
-                    <span
-                      style={{
-                        fontSize: "10pt",
-                        fontWeight: "bolder",
-                        fontStyle: "italic",
-                        opacity: "80%",
-                        paddingRight: "40px",
-                      }}
-                    >
-                      LOGIFLOW
-                    </span>
+                    <img src="/logo.ico" width={50} alt="Logo" />
                   </Col>
                 </Row>
               );
@@ -281,7 +268,7 @@ export default () => {
               return <>{defaultDom}</>;
             }}
       
-            title="LOGIFLOW"
+            title=""
             logo="/logo.ico"
 
             route={{
