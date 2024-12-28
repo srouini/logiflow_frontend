@@ -15,7 +15,8 @@ import Chargement from "../Mrns/components/Chargement";
 import Conteneurs from "./components/Containers"
 import { useReferenceContext } from "@/context/ReferenceContext";
 import Export from "./components/Export";
-import ExcelImportExport from "./components/ExcelImportExport";
+import ExcelUpload from "./components/ExcelUpload";
+import ExcelDownload from "./components/ExcelDownload";
 
 export default () => {
   const { id } = useParams();
@@ -86,8 +87,8 @@ export default () => {
         breadcrumb: breadcrumb,
         title: `MRN -  ${selectedMrnData?.data?.gros}`,
         extra: [
-          <ExcelImportExport key="excel" mrnId={Number(id)} refetch={refetch} />,
-
+          <ExcelDownload mrnId={Number(id)} />,
+          <ExcelUpload key="excel" mrnId={Number(id)} refetch={refetch} />,
           <Chargement refetch={refetch} mrn={selectedMrnData?.data?.id} />,
           <Conteneurs mrn={id}/>
         ],

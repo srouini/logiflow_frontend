@@ -152,3 +152,106 @@ export function ensureHashPrefix(str:string) {
       return '#' + str; // Add '#' at the beginning and return
   }
 }
+
+export const normalizeClientName = (name: string): string => {
+  return name
+    .toLowerCase()
+    .replace(/\s*(eurl|sarl|epe|spa|algeria|algerie)\s*/gi, ' ')
+    .trim();
+};
+
+
+export const normalizeString = (value: any): string => {
+  if (value === null || value === undefined) return '';
+  const str = String(value);
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim();
+};
+
+export const calculateSimilarity = (str1: string, str2: string): number => {
+  const longer = str1.length > str2.length ? str1 : str2;
+  const shorter = str1.length > str2.length ? str2 : str1;
+  
+  if (longer.length === 0) {
+    return 1.0;
+  }
+  
+  const costs = new Array();
+  for (let i = 0; i <= longer.length; i++) {
+    let lastValue = i;
+    for (let j = 0; j <= shorter.length; j++) {
+      if (i === 0) {
+        costs[j] = j;
+      } else {
+        if (j > 0) {
+          let newValue = costs[j - 1];
+          if (longer.charAt(i - 1) !== shorter.charAt(j - 1)) {
+            newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+          }
+          costs[j - 1] = lastValue;
+          lastValue = newValue;
+        }
+      }
+    }
+    if (i > 0) {
+      costs[shorter.length] = lastValue;
+    }
+  }
+  return (1 - costs[shorter.length] / longer.length) * 100;
+};
+
+
+export const findMatchingContainerType = (containerType:any,typeName: any) => {
+  if (!containerType?.results?.length || !typeName) return null;
+
+  const normalizedSearchName = normalizeString(typeName);
+
+  let bestMatch = null;
+  let highestSimilarity = 0;
+
+  containerType.results.forEach((existingType:any) => {
+    const normalizedExistingName = normalizeString(existingType.designation);
+    const similarity = calculateSimilarity(normalizedSearchName, normalizedExistingName);
+
+    if (similarity > 90 && similarity > highestSimilarity) {
+      highestSimilarity = similarity;
+      bestMatch = existingType;
+    }
+  });
+
+  return bestMatch;
+};
+
+export const findMatchingClient = (client: any, clientName: string) => {
+  if (!client?.results?.length || !clientName) return null;
+
+  const normalizedSearchName = normalizeClientName(clientName);
+  let bestMatch = null;
+  let highestSimilarity = 0;
+
+  client.results.forEach((existingClient:any) => {
+    const normalizedExistingName = normalizeClientName(existingClient.raison_sociale);
+    const similarity = calculateSimilarity(normalizedSearchName, normalizedExistingName);
+
+    if (similarity > 85 && similarity > highestSimilarity) {
+      highestSimilarity = similarity;
+      bestMatch = existingClient;
+    }
+  });
+
+  return bestMatch;
+};
+
+export const processBooleanValue = (value: any): boolean => {
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'string') {
+    const normalizedValue = value.toLowerCase().trim();
+    return ['vrai', 'yes', 'y', 'o', 'oui', 'true', '1'].includes(normalizedValue);
+  }
+  if (typeof value === 'number') return value === 1;
+  return false;
+}; 
