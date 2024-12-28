@@ -45,7 +45,7 @@ const PreviewSubArticles: React.FC<Props> = ({ data, loading }) => {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
-      width: 200,
+      width: 300,
     },
     {
       title: 'Client',
@@ -54,19 +54,46 @@ const PreviewSubArticles: React.FC<Props> = ({ data, loading }) => {
       width: 150,
     },
     {
-      title: 'Détails',
-      key: 'details',
-      width: 300,
-      render: (_, record) => (
-        <>
-          <div>Volume: {record.volume}</div>
-          <div>Surface: {record.surface}</div>
-          <div>Quantité: {record.quantite}</div>
-          <div>Poids: {record.poids}</div>
-          <div>Nombre colis: {record.nombre_colis}</div>
-          {record.dangereux && <Tag color="red">Dangereux</Tag>}
-        </>
-      ),
+      title: 'Dangereux',
+      dataIndex: 'dangereux',
+      key: 'dangereux',
+      width: 150,
+    },
+    {
+      title: 'Client',
+      dataIndex: 'client',
+      key: 'client',
+      width: 150,
+    },
+    {
+      title: 'Volume',
+      dataIndex: 'volume',
+      key: 'volume',
+      width: 150,
+    },
+    {
+      title: 'Surface',
+      dataIndex: 'surface',
+      key: 'surface',
+      width: 150,
+    },
+    {
+      title: 'Quantite',
+      dataIndex: 'quantite',
+      key: 'quantite',
+      width: 150,
+    },
+    {
+      title: 'Poids',
+      dataIndex: 'poids',
+      key: 'poids',
+      width: 150,
+    },
+    {
+      title: 'Nombre de colis',
+      dataIndex: 'nombre_colis',
+      key: 'nombre_colis',
+      width: 150,
     },
   ];
 
@@ -77,9 +104,10 @@ const PreviewSubArticles: React.FC<Props> = ({ data, loading }) => {
       loading={loading}
       size="small"
       pagination={false}
-      scroll={{ y: 240, x: 1000 }}
+      scroll={{ y: 240, x: "max-content" }}
     />
   );
 };
 
 export default PreviewSubArticles;
+            

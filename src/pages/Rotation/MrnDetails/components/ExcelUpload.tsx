@@ -51,6 +51,12 @@ const ExcelUpload: React.FC<Props> = ({ mrnId, refetch }) => {
     params: { article__gros__id: mrnId, all: true },
   });
 
+  const { data: existingSubArticles, refetch: refetchSubArticles } = useData({
+    endpoint: API_SOUSARTICLES_ENDPOINT,
+    name: "GET_MRN_SUBARTICLES",
+    params: { tc__article__gros__id: mrnId, all: true },
+  });
+
   const { mutate: mutateArticle } = usePost({
     endpoint: API_ARTICLES_ENDPOINT,
     onSuccess: () => {
@@ -69,7 +75,7 @@ const ExcelUpload: React.FC<Props> = ({ mrnId, refetch }) => {
   const { mutate: mutateSubArticle } = usePost({
     endpoint: API_SOUSARTICLES_ENDPOINT,
     onSuccess: () => {
-      console.log("SubactivelCreacted")
+      console.log("Subarticle Created")
     }
   });
 
@@ -252,10 +258,23 @@ const ExcelUpload: React.FC<Props> = ({ mrnId, refetch }) => {
       setProgress(0);
 
       await refetchContainers();
+      await refetchSubArticles();
+
+      const existingSubArticleSet = new Set(existingSubArticles?.data?.map((sa: any) => 
+        `${sa.tc}-${sa.numero}`  // Composite key using tc and numero
+      ));
+      
+      const newSubArticles = fileData.subArticles.filter(subArticle => {
+        const matchingContainer = existingContainers?.data?.find(
+          (c: any) => String(c.tc) === String(subArticle.tc)
+        );
+        return matchingContainer && !existingSubArticleSet.has(`${matchingContainer.id}-${subArticle.numero}`);
+      });
+
       let processed = 0;
       let invalid = 0;
 
-      for (const subArticle of fileData.subArticles) {
+      for (const subArticle of newSubArticles) {
         const matchingContainer = existingContainers?.data?.find(
           (c: any) => String(c.tc) === String(subArticle.tc)
         );
@@ -275,7 +294,7 @@ const ExcelUpload: React.FC<Props> = ({ mrnId, refetch }) => {
           }, {
             onSuccess: () => {
               processed++;
-              setProgress(Math.floor((processed / fileData.subArticles.length) * 100));
+              setProgress(Math.floor((processed / newSubArticles.length) * 100));
               resolve(true);
             },
             onError: (error) => reject(error)
@@ -283,8 +302,13 @@ const ExcelUpload: React.FC<Props> = ({ mrnId, refetch }) => {
         });
       }
 
+      const skipped = fileData.subArticles.length - newSubArticles.length;
+
       if (processed > 0) {
         message.success(`Successfully created ${processed} sub-article${processed > 1 ? 's' : ''}`);
+      }
+      if (skipped > 0) {
+        message.warning(`Skipped ${skipped} existing sub-article${skipped > 1 ? 's' : ''}`);
       }
       if (invalid > 0) {
         message.error(`${invalid} sub-article${invalid > 1 ? 's' : ''} could not be created due to missing container reference`);
@@ -316,27 +340,66 @@ const ExcelUpload: React.FC<Props> = ({ mrnId, refetch }) => {
     }
   };
 
+  const getArticleSummary = () => {
+    const existingNums = new Set(existingArticles?.data?.map(a => String(a.numero)));
+    const newArticles = fileData.articles.filter(article => !existingNums.has(String(article.numero)));
+
+    return {
+      total: fileData.articles.length,
+      new: newArticles.length,
+      skipped: fileData.articles.length - newArticles.length
+    };
+  };
+
+  const getContainerSummary = () => {
+    const existingTCs = new Set(existingContainers?.data?.map(c => String(c.tc)));
+    const validArticles = new Set(existingArticles?.data?.map(a => String(a.numero)));
+    
+    const containersWithValidArticles = fileData.containers.filter(container => 
+      validArticles.has(String(container.article))
+    );
+
+    const newContainers = containersWithValidArticles.filter(container => 
+      !existingTCs.has(String(container.tc))
+    );
+
+    const invalidContainers = fileData.containers.filter(container => 
+      !validArticles.has(String(container.article))
+    );
+
+    return {
+      total: fileData.containers.length,
+      new: newContainers.length,
+      skipped: containersWithValidArticles.length - newContainers.length,
+      invalid: invalidContainers.length
+    };
+  };
+
   const renderPreview = () => {
+    if (!fileData) return null;
+
     switch (currentStep) {
       case 'articles':
         return (
-          <PreviewArticles 
-            data={fileData.articles} 
-            loading={processing} 
+          <PreviewArticles
+            data={fileData.articles}
+            loading={processing}
+            summary={getArticleSummary()}
           />
         );
       case 'containers':
         return (
-          <PreviewContainers 
-            data={fileData.containers} 
-            loading={processing} 
+          <PreviewContainers
+            data={fileData.containers}
+            loading={processing}
+            summary={getContainerSummary()}
           />
         );
       case 'subArticles':
         return (
-          <PreviewSubArticles 
-            data={fileData.subArticles} 
-            loading={processing} 
+          <PreviewSubArticles
+            data={fileData.subArticles}
+            loading={processing}
           />
         );
       default:
@@ -412,29 +475,6 @@ const ExcelUpload: React.FC<Props> = ({ mrnId, refetch }) => {
       >
         {currentStep && (
           <>
-            <Alert
-              message="Import Summary"
-              description={
-                <div>
-                  {getSummary() && (
-                    <>
-                      <p>Total items: {getSummary()?.total}</p>
-                      <p>New items to import: {getSummary()?.new}</p>
-                      <p>Existing items (will be skipped): {getSummary()?.existing}</p>
-                    </>
-                  )}
-                </div>
-              }
-              type="info"
-              style={{ marginBottom: 16 }}
-            />
-            {processing && (
-              <Progress 
-                percent={progress} 
-                status="active" 
-                style={{ marginBottom: 16 }}
-              />
-            )}
             {renderPreview()}
           </>
         )}
