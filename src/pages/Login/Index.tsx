@@ -86,9 +86,9 @@ const LoginPage: React.FC = () => {
       }}
     >
 
-      <Row style={{ marginBottom: "50px", outline:"none"  }}>
+      <Row style={{ marginBottom: "20px", outline:"none"  }}>
         <div style={{ textAlign: "center", outline:"none"  }}>
-          <img src="/logo.svg" style={{ outline:"none"  }} alt="Logo" width={600} />
+          <img src="/logo.png" style={{ outline:"none"  }} alt="Logo" width={200} />
         </div>
       </Row>
 
@@ -164,7 +164,7 @@ const LoginPage: React.FC = () => {
                 className="linearGradientButton"
                 htmlType="submit"
                 block
-                style={{ height: "45px", borderRadius: "15px", backgroundColor:"#3D9970" }}
+                style={{ height: "45px", borderRadius: "15px", backgroundColor:"#14864d" }}
                 loading={loading}
               >
                 Log in

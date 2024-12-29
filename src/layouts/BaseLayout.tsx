@@ -258,7 +258,7 @@ export default () => {
               const defaultDom = (
                 <Row align="middle" justify="center" gutter={12}>
                   <Col style={{ display: "flex", alignItems: "center" }}>
-                    <img src="/logo.ico" width={50} alt="Logo" />
+                    <img src="/logo.png" width={50} alt="Logo" />
                   </Col>
                 </Row>
               );
@@ -268,9 +268,9 @@ export default () => {
               return <>{defaultDom}</>;
             }}
       
-            title=""
-            logo="/logo.ico"
-
+            title="LOGIFLOW"
+            logo="/logo.png"
+            
             route={{
               path: '/',
               routes: authorizedMenuItems
