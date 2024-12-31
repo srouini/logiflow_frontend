@@ -5,12 +5,13 @@ import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 import CustomTable from "@/components/CustomTable";
 import { getColumns, exportColumns } from "../data";
-import { Button, Drawer, Modal } from "antd";
-import { CloudDownloadOutlined } from "@ant-design/icons";
+import { Button, Drawer, Modal, message } from "antd";
+import { CloudDownloadOutlined, FilePdfOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
 import { API_FACTURE_ENDPOINT } from "@/api/api";
+import { useAxios } from "@/hooks/useAxios";
 
 interface Props {
   expand?: string;
@@ -23,6 +24,7 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
   const { filters, resetFilters, setFilters } = useFilters();
   const [open, setOpen] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState<any>(exportColumns);
+  const [loadingPdf, setLoadingPdf] = useState(false);
 
   const {
     data,
@@ -54,7 +56,42 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
     }
     return count_str;
   };
-
+  const api = useAxios()
+  const handleBatchPdfExport = async () => {
+    if (!data?.data?.results?.length) {
+      message.warning("No factures available for export");
+      return;
+    }
+  
+    setLoadingPdf(true);
+    try {
+      const response = await api.post(
+        `${API_FACTURE_ENDPOINT}generate_batch_pdf/`,
+        {
+          facture_ids: data?.data?.results.map((facture: any) => facture.id),
+        },
+        {
+          responseType: 'blob' // Important for binary data
+        }
+      );
+  
+      const blob = new Blob([response.data], { type: 'application/zip' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'factures.zip';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      message.success("PDFs generated and downloaded successfully");
+    } catch (error) {
+      console.error('Error generating PDFs:', error);
+      message.error("Failed to generate PDFs");
+    } finally {
+      setLoadingPdf(false);
+    }
+  };
   return (
     <>
       <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={() => setOpen(true)}>
@@ -62,10 +99,10 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
       </Button>
 
       <Drawer
-      placement="left"
+        placement="left"
         title="Exportation de données"
         destroyOnClose
-       width={"80%"}
+        width={"80%"}
         footer={false}
         open={open}
         closeIcon
@@ -107,6 +144,15 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
                 expand={expand}
                 query_params={query_params}
               />,
+              <Button
+                key="batch-pdf"
+                icon={<FilePdfOutlined />}
+                onClick={handleBatchPdfExport}
+                loading={loadingPdf}
+                style={{ marginLeft: 8 }}
+              >
+                Export PDF en lot
+              </Button>
             ],
           }}
         />
