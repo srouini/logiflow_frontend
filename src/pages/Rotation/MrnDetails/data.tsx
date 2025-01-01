@@ -88,7 +88,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     valueType: "option",
     key: "9",
     fixed: "right",
-    width: 350,
+    width: 100,
     render: (_, record: any) => [
       <TableDropdown
         key="actionGroup"
@@ -113,23 +113,6 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 gros={record?.gros}
                 editText=""
                 hasIcon
-              />
-            </Col>
-            <Col>
-              <Print
-                type="View"
-                endpoint={API_ARTICLES_ENDPOINT}
-                disabled={!record?.groupage}
-                id={record?.id}
-                endpoint_suffex="generate_ticktage/"
-                button_text="Ticktage"
-              />
-            </Col>
-            <Col>
-              <AUFormDepotage
-                article={record?.id}
-                disable={record?.depote || !record?.groupage}
-                refetch={refetch}
               />
             </Col>
           </Row>,

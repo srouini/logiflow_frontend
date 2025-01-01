@@ -100,7 +100,7 @@ export default ({ container, columns }: SubArticlePageProps) => {
 
   return (
     <>
-      <Button onClick={showDrawer}>{container?.tc}</Button>
+      <Button onClick={showDrawer} disabled={!container?.depote}>{container?.tc}</Button>
 
       <Drawer
         width={1000}

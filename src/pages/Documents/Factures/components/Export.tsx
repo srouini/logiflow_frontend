@@ -10,8 +10,10 @@ import { CloudDownloadOutlined, FilePdfOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
+import BatchPDF from "@/components/BatchPDF";
 import { API_FACTURE_ENDPOINT } from "@/api/api";
 import { useAxios } from "@/hooks/useAxios";
+import MergedPDF from "@/components/MergedPDF";
 
 interface Props {
   expand?: string;
@@ -97,7 +99,7 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
       <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={() => setOpen(true)}>
         Exporter
       </Button>
-
+ 
       <Drawer
         placement="left"
         title="Exportation de données"
@@ -144,15 +146,22 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
                 expand={expand}
                 query_params={query_params}
               />,
-              <Button
-                key="batch-pdf"
-                icon={<FilePdfOutlined />}
-                onClick={handleBatchPdfExport}
-                loading={loadingPdf}
-                style={{ marginLeft: 8 }}
-              >
-                Export PDF en lot
-              </Button>
+              <BatchPDF
+              endpoint={API_FACTURE_ENDPOINT}
+              filters={filters}
+              search={search}
+              expand={expand}
+              query_params={query_params}
+              button_text={`Factures (ZIP) ${countStr()}`}
+              />,
+              <MergedPDF
+              filters={filters}
+              search={search}
+              endpoint={API_FACTURE_ENDPOINT}
+              expand={expand}
+              query_params={query_params}
+              button_text={`Factures (PDF) ${countStr()}`}
+            />
             ],
           }}
         />

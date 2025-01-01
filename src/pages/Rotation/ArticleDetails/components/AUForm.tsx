@@ -108,6 +108,15 @@ const AUForm: React.FC<AUFormProps> = ({
           />
           <Divider style={{ marginTop: "0px" }} />
           <FormField
+            name="groupage"
+            label="Groupage"
+            type="select"
+            options={YES_NO_CHOICES}
+            required
+            option_value="value"
+            span_md={24}
+          />
+          <FormField
             name="dangereux"
             label="Dangereux"
             type="select"

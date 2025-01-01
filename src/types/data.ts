@@ -78,6 +78,8 @@ export interface Container extends BaseModel {
     observation_sortie_port_sec?: string;
     current_scelle?: number; // ForeignKey IDs
     receved?: boolean;
+    depote?: boolean;
+    date_depotage?: string; // Use string for date
 }
 
 // SousArticle Model

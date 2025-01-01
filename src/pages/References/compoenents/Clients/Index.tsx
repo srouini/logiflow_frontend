@@ -8,19 +8,19 @@ import { API_CLIENTS_ENDPOINT } from "@/api/api";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
 // import AUForm from "./components/AUForm";
-import { Drawer, FloatButton, Modal, Button, message } from "antd";
-import { UserOutlined, MergeOutlined } from "@ant-design/icons";
+import { Drawer, FloatButton, Modal, Button, message, Card } from "antd";
+import { UserOutlined, MergeOutlined, TeamOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import AUForm from "./AUForm";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export"
 import usePost from "@/hooks/usePost";
 import ManualMergeModal from "./ManualMergeModal"; // Assuming ManualMergeModal is defined in this file
+import { useAuth } from "@/context/AuthContext";
 
 interface Props {
-  hanleClose: () => void;
 }
-export default ({ hanleClose }: Props) => {
+export default ({ }: Props) => {
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();
@@ -57,9 +57,9 @@ export default ({ hanleClose }: Props) => {
 
   const countStr = () => {
     let count_str = ""
-    if(data?.data?.count > 0){
-      count_str = `( ${data?.data?.count.toString()} )` 
-    } 
+    if (data?.data?.count > 0) {
+      count_str = `( ${data?.data?.count.toString()} )`
+    }
 
     return count_str;
   }
@@ -69,7 +69,7 @@ export default ({ hanleClose }: Props) => {
 
   const { mutate: mergeDuplicates, isLoading: mergeLoading } = usePost({
     endpoint: 'http://localhost:8000/api/reference/client/merge_duplicates/',
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       if (data.message === 'No duplicate clients found') {
         Modal.info({
           title: 'No Duplicates',
@@ -90,36 +90,59 @@ export default ({ hanleClose }: Props) => {
     mergeDuplicates({});
   };
 
+  const { user } = useAuth();
+
+
+  const card = {
+    title: 'Clients',
+    icon: <TeamOutlined style={{ fontSize: '24px' }} />,
+    description: 'Gérer les clients',
+    color:user?.profile?.theme_color || '#3D9970',
+  }
+
   return (
     <div>
-      <FloatButton
-        tooltip="Client"
-        icon={<UserOutlined />}
+      <Card
+        hoverable
+        style={{
+          height: '100%',
+          borderTop: `2px solid ${card.color}`,
+          cursor: 'pointer',
+        }}
         onClick={showModal}
-        style={{marginBottom:"8px"}}
-      />
+      >
+        <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+          <div style={{ color: card.color }}>{card.icon}</div>
+        </div>
+        <Card.Meta
+          title={<div style={{ textAlign: 'center' }}>{card.title}</div>}
+          description={
+            <div style={{ textAlign: 'center' }}>{card.description}</div>
+          }
+        />
+      </Card>
+
       <Drawer
         title="Clients"
         destroyOnClose
-        width="80%" 
+        width="80%"
         footer={false}
         open={open}
         closeIcon
         onClose={() => {
           setOpen(false);
-          hanleClose();
         }}
         placement="left"
       >
-       
+
         <QueryFilters
           setFilters={setFilters}
           resetFilters={resetFilters}
           setPage={setPage}
           collapsed={false}
         />
-        
-        <ColumnsSelect columns={selctedColumns} setSelectedColumns={setSelectedColumns}/>
+
+        <ColumnsSelect columns={selctedColumns} setSelectedColumns={setSelectedColumns} />
         <CustomTable
           getColumns={getColumns(refetch)}
           data={data}
@@ -134,7 +157,7 @@ export default ({ hanleClose }: Props) => {
           toolbar={{
             actions: [
               <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_CLIENTS_ENDPOINT} search={search} filters={filters} />,
-              <AUForm  initialvalues={null} refetch={refetch}/>,
+              <AUForm initialvalues={null} refetch={refetch} />,
               <Button
                 key="merge"
                 type="primary"

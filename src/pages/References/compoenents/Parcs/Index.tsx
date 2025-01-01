@@ -3,21 +3,21 @@ import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
-import { API_TRANSITAIRE_ENDPOINT } from "@/api/api";
+import { API_PARCS_ENDPOINT } from "@/api/api";
 // import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
 // import AUForm from "./components/AUForm";
-import { Drawer, FloatButton, Modal } from "antd";
-import { UserSwitchOutlined } from "@ant-design/icons";
+import { Card, Drawer, FloatButton, Modal } from "antd";
+import { ContainerOutlined, RadiusSettingOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import AUForm from "./AUForm";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export"
+import { useAuth } from "@/context/AuthContext";
 interface Props {
-  hanleClose: () => void;
 }
-export default ({ hanleClose }: Props) => {
+export default ({ }: Props) => {
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();
@@ -29,8 +29,8 @@ export default ({ hanleClose }: Props) => {
     isFetching,
     refetch,
   } = useData({
-    endpoint: API_TRANSITAIRE_ENDPOINT,
-    name: "GET_TRANSITAIRE",
+    endpoint: API_PARCS_ENDPOINT,
+    name: "GET_PARCS",
     params: {
       search: search,
       page: page,
@@ -51,47 +51,68 @@ export default ({ hanleClose }: Props) => {
   };
 
   const [selctedColumns, setSelectedColumns] = useState<any>(columns)
-  console.log()
 
   const countStr = () => {
     let count_str = ""
-    if(data?.data?.count > 0){
-      count_str = `( ${data?.data?.count.toString()} )` 
-    } 
+    if (data?.data?.count > 0) {
+      count_str = `( ${data?.data?.count.toString()} )`
+    }
 
     return count_str;
   }
 
+  const { user } = useAuth();
+  
+  const card = {
+    title: 'Parcs',
+    icon: <ContainerOutlined style={{ fontSize: '24px' }} />,
+    description: 'Gérer les Parcs',
+    color:user?.profile?.theme_color || '#3D9970',
+  }
+
   return (
     <div>
-      <FloatButton
-        tooltip="Transitaire"
-        icon={<UserSwitchOutlined />}
+      <Card
+        hoverable
+        style={{
+          height: '100%',
+          borderTop: `2px solid ${card.color}`,
+          cursor: 'pointer',
+        }}
         onClick={showModal}
-        style={{marginBottom:"8px"}}
-      />
+      >
+        <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+          <div style={{ color: card.color }}>{card.icon}</div>
+        </div>
+        <Card.Meta
+          title={<div style={{ textAlign: 'center' }}>{card.title}</div>}
+          description={
+            <div style={{ textAlign: 'center' }}>{card.description}</div>
+          }
+        />
+      </Card>
+
       <Drawer
-        title="Transitaires"
+        title="Parcs"
         destroyOnClose
-        width={1200}  
+        width={1200}
         footer={false}
         open={open}
         closeIcon
         placement="left"
         onClose={() => {
           setOpen(false);
-          hanleClose();
         }}
       >
-       
+
         <QueryFilters
           setFilters={setFilters}
           resetFilters={resetFilters}
           setPage={setPage}
           collapsed={false}
         />
-        
-        <ColumnsSelect columns={selctedColumns} setSelectedColumns={setSelectedColumns}/>
+
+        <ColumnsSelect columns={selctedColumns} setSelectedColumns={setSelectedColumns} />
         <CustomTable
           getColumns={getColumns(refetch)}
           data={data}
@@ -102,11 +123,11 @@ export default ({ hanleClose }: Props) => {
           setPage={setPage}
           setPageSize={setPageSize}
           setSearch={setSearch}
-          key="TRASNITAIRE_TABLE"
+          key="PARCS_TABLE"
           toolbar={{
             actions: [
-              <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_TRANSITAIRE_ENDPOINT} search={search} filters={filters} />,
-              <AUForm  initialvalues={null} refetch={refetch}/>,
+              <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_PARCS_ENDPOINT} search={search} filters={filters} />,
+              <AUForm initialvalues={null} refetch={refetch} />,
             ],
           }}
         />

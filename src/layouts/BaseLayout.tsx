@@ -8,7 +8,6 @@ import {useAuth} from "@/context/AuthContext";
 import useScreenSize from "../hooks/useScreenSize";
 import frFR from "antd/lib/locale/fr_FR";
 import ReferenceContextProvider from "../context/ReferenceContext";
-import References from "./compoenents/References";
 import { MenuProps } from "antd/lib";
 import _defaultProps from "./_defaultProps";
 import { Link } from "react-router-dom";
@@ -125,6 +124,11 @@ export default () => {
       {
         path:'/dynamic-report',
         name: 'Rapports Dynamiques',
+        icon: <SlidersOutlined />,
+      },
+      {
+        path:'/references',
+        name: 'Reference',
         icon: <SlidersOutlined />,
       }
     ];
@@ -316,7 +320,6 @@ export default () => {
           >
             <ReferenceContextProvider>
               <Outlet />
-              <References />
             </ReferenceContextProvider>
           </ProLayout>
         </ProConfigProvider>

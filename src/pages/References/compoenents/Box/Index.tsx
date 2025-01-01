@@ -3,21 +3,21 @@ import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
-import { API_PARCS_ENDPOINT } from "@/api/api";
+import { API_BOXS_ENDPOINT } from "@/api/api";
 // import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
 // import AUForm from "./components/AUForm";
-import { Drawer, FloatButton, Modal } from "antd";
-import { RadiusSettingOutlined } from "@ant-design/icons";
+import { Card, Drawer, FloatButton, Modal } from "antd";
+import { PicCenterOutlined, SettingOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import AUForm from "./AUForm";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export"
+import { useAuth } from "@/context/AuthContext";
 interface Props {
-  hanleClose: () => void;
 }
-export default ({ hanleClose }: Props) => {
+export default ({  }: Props) => {
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();
@@ -29,13 +29,14 @@ export default ({ hanleClose }: Props) => {
     isFetching,
     refetch,
   } = useData({
-    endpoint: API_PARCS_ENDPOINT,
-    name: "GET_PARCS",
+    endpoint: API_BOXS_ENDPOINT,
+    name: "GET_BOXS",
     params: {
       search: search,
       page: page,
       page_size: getPageSize(),
       ...filters,
+      expand:"parc"
     },
   });
 
@@ -61,16 +62,37 @@ export default ({ hanleClose }: Props) => {
     return count_str;
   }
 
+  const { user } = useAuth();
+  
+  const card = {
+    title: 'Boxs',
+    icon: <SettingOutlined style={{ fontSize: '24px' }} />,
+    description: 'Gérer les Boxs',
+    color:user?.profile?.theme_color || '#3D9970',  }
+
   return (
     <div>
-      <FloatButton
-        tooltip="Parc"
-        icon={<RadiusSettingOutlined />}
+      <Card
+        hoverable
+        style={{
+          height: '100%',
+          borderTop: `2px solid ${card.color}`,
+          cursor: 'pointer',
+        }}
         onClick={showModal}
-        style={{marginBottom:"8px"}}
-      />
+      >
+        <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+          <div style={{ color: card.color }}>{card.icon}</div>
+        </div>
+        <Card.Meta
+          title={<div style={{ textAlign: 'center' }}>{card.title}</div>}
+          description={
+            <div style={{ textAlign: 'center' }}>{card.description}</div>
+          }
+        />
+      </Card>
       <Drawer
-        title="Parcs"
+        title="Boxs"
         destroyOnClose
         width={1200}  
         footer={false}
@@ -79,7 +101,6 @@ export default ({ hanleClose }: Props) => {
         placement="left"
         onClose={() => {
           setOpen(false);
-          hanleClose();
         }}
       >
        
@@ -87,7 +108,7 @@ export default ({ hanleClose }: Props) => {
           setFilters={setFilters}
           resetFilters={resetFilters}
           setPage={setPage}
-          collapsed={false} 
+          collapsed={false}
         />
         
         <ColumnsSelect columns={selctedColumns} setSelectedColumns={setSelectedColumns}/>
@@ -101,10 +122,10 @@ export default ({ hanleClose }: Props) => {
           setPage={setPage}
           setPageSize={setPageSize}
           setSearch={setSearch}
-          key="PARCS_TABLE"
+          key="BOXS_TABLE"
           toolbar={{
             actions: [
-              <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_PARCS_ENDPOINT} search={search} filters={filters} />,
+              <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_BOXS_ENDPOINT} search={search} filters={filters} expand="parc" />,
               <AUForm  initialvalues={null} refetch={refetch}/>,
             ],
           }}

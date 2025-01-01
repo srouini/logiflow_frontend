@@ -11,6 +11,8 @@ import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
 import { API_FACTURES_GROUPAGE_ENDPOINT } from "@/api/api";
+import BatchPDF from "@/components/BatchPDF";
+import MergedPDF from "@/components/MergedPDF";
 
 interface Props {
   expand?: string;
@@ -107,6 +109,22 @@ export default ({ expand = "proforma.gros,proforma.sous_article.client,proforma.
                 expand={expand}
                 query_params={query_params}
               />,
+              <BatchPDF
+              endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
+              filters={filters}
+              search={search}
+              expand={expand}
+              query_params={query_params}
+              button_text={`Factures (ZIP) ${countStr()}`}
+              />,
+              <MergedPDF
+              filters={filters}
+              search={search}
+              endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
+              expand={expand}
+              query_params={query_params}
+              button_text={`Factures (PDF) ${countStr()}`}
+            />
             ],
           }}
         />

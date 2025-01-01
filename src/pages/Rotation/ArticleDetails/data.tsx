@@ -6,6 +6,8 @@ import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import SubArticlePage from "../ContainerDetails";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
+import Print from "@/components/Print";
+import AUFormDepotageContainer from "./components/AUFormDepotageContainer";
 
 export const getColumns = (
   refetch: () => void,
@@ -17,7 +19,7 @@ export const getColumns = (
     key: "1",
     width: 100,
     render: (_, record) =>
-      article?.groupage ? (
+      record?.groupage ? (
         <SubArticlePage container={record} columns={columns} />
       ) : (
         record?.tc
@@ -61,7 +63,7 @@ export const getColumns = (
     valueType: "option",
     key: "Actions",
     fixed: "right",
-    width: 100,
+    width: 250,
     render: (_, record: any) => [
       <TableDropdown
         key="actionGroup"
@@ -86,6 +88,23 @@ export const getColumns = (
                 article={record?.article}
                 editText=""
                 hasIcon
+              />
+            </Col>
+            <Col>
+              <Print
+                type="View"
+                endpoint={API_CONTENEURS_ENDPOINT}
+                disabled={!record?.groupage}
+                id={record?.id}
+                endpoint_suffex="generate_ticktage/"
+                button_text="Ticktage"
+              />
+            </Col>
+            <Col>
+              <AUFormDepotageContainer
+                container={record}
+                disable={record?.depote || !record?.groupage}
+                refetch={refetch}
               />
             </Col>
           </Row>,
@@ -136,6 +155,29 @@ export const columns = [
       </>
     ),
   },
+  {
+    title: "Depoté",
+    key: "depote",
+    width: 100,
+    dataIndex: "depote",
+    // @ts-ignore
+    render: (_, record: any) =>
+      record.depote && record.groupage ? (
+        <Tag color="green"> Depté </Tag>
+      ) : record.groupage ? (
+        <Tag color="red"> Non depoté </Tag>
+      ) : (
+        "-"
+      ),
+  },
+  {
+    title: "Date dépotage",
+    dataIndex: "date_depotage",
+    key: "date_depotage",
+    width: 150,
+    render: (record: any) => renderDateTime(record),
+  },
+
 ];
 
 export const exportColumns = [

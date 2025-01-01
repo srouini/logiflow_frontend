@@ -120,21 +120,7 @@ export default () => {
             article={id}
             addText="Conteneur"
           />,
-          <Prestations article={id?.toString()} />,
-          selectedArticleData?.data?.groupage && (
-            <AUFormDepotage
-              article={id}
-              disable={selectedArticleData?.data.depote}
-              refetch={refetchSelectedArticle}
-            />
-          ),
-          <Print
-            type="View"
-            endpoint={API_ARTICLES_ENDPOINT}
-            id={id}
-            endpoint_suffex="generate_ticktage/"
-            button_text="Ticktage"
-          />,
+          <Prestations article={id?.toString()} />
         ],
 
         onBack: () =>

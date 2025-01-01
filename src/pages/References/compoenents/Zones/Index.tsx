@@ -8,16 +8,16 @@ import { API_ZONES_ENDPOINT } from "@/api/api";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
 // import AUForm from "./components/AUForm";
-import { Drawer, FloatButton, Modal } from "antd";
-import { BorderTopOutlined } from "@ant-design/icons";
+import { Card, Drawer, FloatButton, Modal } from "antd";
+import { BorderTopOutlined, TeamOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import AUForm from "./AUForm";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export"
+import { useAuth } from "@/context/AuthContext";
 interface Props {
-  hanleClose: () => void;
 }
-export default ({ hanleClose }: Props) => {
+export default ({  }: Props) => {
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
   const { filters, resetFilters, setFilters } = useFilters();
@@ -62,14 +62,36 @@ export default ({ hanleClose }: Props) => {
     return count_str;
   }
 
+  const { user } = useAuth();
+  
+  const card = {
+    title: 'Zones',
+    icon: <TeamOutlined style={{ fontSize: '24px' }} />,
+    description: 'Gérer les Zones',
+    color:user?.profile?.theme_color || '#3D9970',  }
+
   return (
     <div>
-      <FloatButton
-        tooltip="Zone"
-        icon={<BorderTopOutlined />}
+      <Card
+        hoverable
+        style={{
+          height: '100%',
+          borderTop: `2px solid ${card.color}`,
+          cursor: 'pointer',
+        }}
         onClick={showModal}
-        style={{marginBottom:"8px"}}
-      />
+      >
+        <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+          <div style={{ color: card.color }}>{card.icon}</div>
+        </div>
+        <Card.Meta
+          title={<div style={{ textAlign: 'center' }}>{card.title}</div>}
+          description={
+            <div style={{ textAlign: 'center' }}>{card.description}</div>
+          }
+        />
+      </Card>
+
       <Drawer
         title="Zones"
         destroyOnClose
@@ -80,7 +102,6 @@ export default ({ hanleClose }: Props) => {
         placement="left"
         onClose={() => {
           setOpen(false);
-          hanleClose();
         }}
       >
        

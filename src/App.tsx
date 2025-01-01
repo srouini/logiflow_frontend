@@ -32,6 +32,7 @@ import ContainersPage from "./pages/Containers/index";
 import BaremePage from "./pages/Bareme/index";
 import BaremeDetailsPage from "./pages/Bareme/BaremeDetails/Index";
 import DynamicReport from "./pages/DynamicReport";
+import References from "./pages/References";
 
 const App = () => {
   return (
@@ -93,6 +94,9 @@ const App = () => {
 
         {/* Facturation Routes */}
        <Route path="/dynamic-report" element={<DynamicReport />} />
+
+        {/* Facturation Routes */}
+        <Route path="/references" element={<References />} />
       </Route>
 
      
