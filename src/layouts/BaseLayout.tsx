@@ -262,7 +262,7 @@ export default () => {
               const defaultDom = (
                 <Row align="middle" justify="center" gutter={12}>
                   <Col style={{ display: "flex", alignItems: "center" }}>
-                    <img src="/logo.png" width={50} alt="Logo" />
+                    <img src="/logo_white.png" width={80} alt="Logo" />
                   </Col>
                 </Row>
               );
@@ -272,8 +272,8 @@ export default () => {
               return <>{defaultDom}</>;
             }}
       
-            title="LOGIFLOW"
-            logo="/logo.png"
+            title=""
+            logo="/logo_white.png"
             
             route={{
               path: '/',

@@ -86,9 +86,9 @@ const LoginPage: React.FC = () => {
       }}
     >
 
-      <Row style={{ marginBottom: "20px", outline:"none"  }}>
-        <div style={{ textAlign: "center", outline:"none"  }}>
-          <img src="/logo.png" style={{ outline:"none"  }} alt="Logo" width={200} />
+      <Row style={{ marginBottom: "50px",display  }}>
+        <div style={{ textAlign: "left", outline:"none"  }}>
+          <img src="/logo_white.png" style={{ outline:"none"  }} alt="Logo" width={150} />
         </div>
       </Row>
 
@@ -129,7 +129,7 @@ const LoginPage: React.FC = () => {
             ]}
           >
             <Row gutter={8}>
-              <Col span={18}>
+              <Col span={24}>
                 <Input.Password
                   prefix={<LockOutlined />}
                   visibilityToggle={{
@@ -140,20 +140,7 @@ const LoginPage: React.FC = () => {
                   style={{ height: "45px", borderRadius: "15px" }}
                 />
               </Col>
-              <Col span={6}>
-                <Button
-                  style={{
-                    width: "100%",
-                    height: "45px",
-                    borderRadius: "15px",
-                  }}
-                  onClick={() =>
-                    setPasswordVisible((prevState) => !prevState)
-                  }
-                >
-                  {passwordVisible ? "Hide" : "Show"}
-                </Button>
-              </Col>
+              
             </Row>
           </Form.Item>
 
