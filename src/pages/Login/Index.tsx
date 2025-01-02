@@ -85,13 +85,27 @@ const LoginPage: React.FC = () => {
         backgroundColor: "white",
       }}
     >
+<div style={{ width:"350px"}}>
+      <div style={{ textAlign: "left", outline: "none", position: "absolute", top: "20px", left: "20px" }}>
+        <img src="/logo_white.png" style={{ outline: "none" }} alt="Logo" width={150} />
+      </div>
 
-      <Row style={{ marginBottom: "50px",display  }}>
-        <div style={{ textAlign: "left", outline:"none"  }}>
-          <img src="/logo_white.png" style={{ outline:"none"  }} alt="Logo" width={150} />
+      <Row style={{ marginBottom: "10px", display: "flex", justifyContent:"left" }}>
+        <div style={{ textAlign: "left", outline: "none", fontSize:"20pt", fontWeight:"bold" }}>
+          Connexion.
         </div>
       </Row>
 
+      <Row style={{ marginBottom: "10px", display: "flex", justifyContent:"left" }}>
+        <div style={{ textAlign: "left", outline: "none", fontSize:"11pt", fontWeight:"light" }}>
+          Welcome to <b style={{ color: "#14864d" }}>Logiflow</b>,
+        </div>
+      </Row>
+      <Row style={{ marginBottom: "40px", display: "flex", justifyContent:"left" }}>
+        <div style={{ textAlign: "left", outline: "none", fontSize:"11pt", fontWeight:"light" }}>
+          Containers management made easy.
+        </div>
+      </Row>
       <Row style={{ width: "100%", maxWidth: "350px" }}>
         <Form
           name="normal_login"
@@ -140,7 +154,7 @@ const LoginPage: React.FC = () => {
                   style={{ height: "45px", borderRadius: "15px" }}
                 />
               </Col>
-              
+
             </Row>
           </Form.Item>
 
@@ -151,7 +165,7 @@ const LoginPage: React.FC = () => {
                 className="linearGradientButton"
                 htmlType="submit"
                 block
-                style={{ height: "45px", borderRadius: "15px", backgroundColor:"#14864d" }}
+                style={{ height: "45px", borderRadius: "15px", backgroundColor: "#14864d" }}
                 loading={loading}
               >
                 Log in
@@ -160,6 +174,7 @@ const LoginPage: React.FC = () => {
           </ConfigProvider>
         </Form>
       </Row>
+      </div>
     </div>
   );
 };
