@@ -9,7 +9,7 @@ export const getColumns = (): ProColumns<any>[] => [
     dataIndex: "tc",
     key: "1",
     width: 100,
-    render:(_:any,record:any) => <DetailsButton navigate_to={`/facturation/mrns/articles/${record?.article}/ordinaire`}  text={record?.tc} key={`subarticle_${record?.id}`} /> 
+    render:(_:any,record:any) => <DetailsButton disabled={!record?.depote} navigate_to={`/facturation/mrns/articles/${record?.article}/ordinaire`}  text={record?.tc} key={`subarticle_${record?.id}`} /> 
 
   },
   {

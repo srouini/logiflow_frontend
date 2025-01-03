@@ -146,7 +146,7 @@ useEffect(() => {
         key="SUB_ARTICLES_TABLE"
         toolbar={{actions:[ <Segmented
           options={data?.data?.map((item: any) => {
-            return { label: item.tc, value: item.id };
+            return { label: item.tc, value: item.id,disabled: !item.depote,  };
           })}
           onChange={handleContainerSelection}
           allowFullScreen
