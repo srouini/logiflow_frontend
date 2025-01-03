@@ -24,10 +24,11 @@ const AUForm: React.FC<AUFormProps> = ({
 }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
-  const { user: users } = useReferenceContext();
+  const { user: users, parc } = useReferenceContext();
   const { user } = useAuth();
   useEffect(() => {
     users?.fetch();
+    parc?.fetch();
   }, []);
 
   const account = localStorage.getItem("cat");
@@ -189,6 +190,18 @@ const AUForm: React.FC<AUFormProps> = ({
                   />
                 </Form.Item>
               </Col>
+
+              <FormField
+                label="Parc"
+                name="parc"
+                option_label="designation"
+                option_value="id"
+                required
+                span_md={24}
+                span={24}
+                type="select"
+                options={parc?.results}
+              />
 
               <FormField
                 label="Observation"

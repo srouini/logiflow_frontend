@@ -8,19 +8,13 @@ interface Props {
   loaded: any
 }
 export const getColumns = ({refetch, loaded}:Props): ProColumns<any>[] => [
-  {
-    title: "Reçu",
-    dataIndex: "tc",
-    key: "1",
-    width: 60,
-    render: (_,record) => record?.receved ? <Badge status="success" /> :  <Badge status="warning" />
-  },
+
   {
     title: "Matricule",
     dataIndex: "tc",
     key: "2",
     width: 200,
-    render: (_,record) => <AUForm initialvalues={record}  key={record?.id} refetch={refetch} disabled={loaded}/> 
+    render: (_,record) => <> {record?.receved ? <Badge status="success" style={{marginRight:"10px"}}/> :  <Badge status="warning" style={{marginRight:"10px"}} />}<AUForm initialvalues={record}  key={record?.id} refetch={refetch} disabled={loaded}/> </>
   },
   {
     title: "Type",
@@ -45,11 +39,32 @@ export const getColumns = ({refetch, loaded}:Props): ProColumns<any>[] => [
     render: (record: any) => renderDateTime(record),
   },
   {
+    title: "Parc",
+    key: "5",
+    dataIndex: "parc",
+    width: 200,
+    render: (record: any) => renderText(record?.designation),
+  },
+  {
     title: "Chargé réception",
     key: "6",
     dataIndex: "receved_by",
     width: 300,
     render: (record: any) => renderText(record?.full_name),
+  },
+  {
+    title: "Matricule camion",
+    key: "9",
+    dataIndex: "matricule_camion",
+    width: 150,
+    render: (record: any) => renderText(record),
+  },
+  {
+    title: "Scelle",
+    key: "10",
+    dataIndex: "current_scelle",
+    width: 150,
+    render: (record: any) => renderText(record?.numero),
   },
   {
     title: "Observation de réception",
@@ -65,20 +80,6 @@ export const getColumns = ({refetch, loaded}:Props): ProColumns<any>[] => [
     dataIndex: "date_sortie_port",
     width: 200,
     render: (record: any) => renderDateTime(record),
-  },
-  {
-    title: "Matricule",
-    key: "9",
-    dataIndex: "matricule_camion",
-    width: 150,
-    render: (record: any) => renderText(record),
-  },
-  {
-    title: "Scelle",
-    key: "10",
-    dataIndex: "current_scelle",
-    width: 150,
-    render: (record: any) => renderText(record?.numero),
   },
   {
     title: "Observation de chargement",

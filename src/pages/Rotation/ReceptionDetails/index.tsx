@@ -55,7 +55,7 @@ export default () => {
       page: page,
       page_size: getPageSize(),
       ...filters,
-      expand: "article,type_tc,current_scelle,receved_by",
+      expand: "article,type_tc,current_scelle,receved_by,parc",
       bulletins__id: id,
     },
   });

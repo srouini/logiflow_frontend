@@ -102,7 +102,7 @@ const navigate = useNavigate();
           cancelText="Non"
           onConfirm={handleBulltinValidation}
         >
-          <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.receved} loading={bulletin_is_patshing}>
+          <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.loaded} loading={bulletin_is_patshing}>
             Validez
           </Button>
         </Popconfirm>          ,
