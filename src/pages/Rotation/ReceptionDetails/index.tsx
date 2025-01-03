@@ -11,8 +11,9 @@ import { DetailsColumns, getColumns, breadcrumb } from "./data";
 import { useNavigate, useParams } from "react-router";
 import Details from "@/components/Details";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { message } from "antd";
+import { Button, message, Popconfirm } from "antd";
 import usePost from "@/hooks/usePost";
+import { CloudUploadOutlined } from "@ant-design/icons";
 
 export default () => {
   const { id } = useParams();
@@ -63,21 +64,18 @@ export default () => {
     loadingStates: [isLoadingLoadedData, isRefetchingLoaded, isFetchingLoaded],
   });
 
-  useEffect(() => {
-    check_bulletin();
-  }, [loaded]);
-
   const onSuccess = () => {
     message.success("Le bulletin a été bien validé.");
     refetch();
   };
 
-  const { mutate } = usePost({
+  
+  const { mutate,isLoading:bulletin_is_patshing } = usePost({
     onSuccess: onSuccess,
     endpoint: API_BULLETINS_ENDPOINT,
   });
 
-  const check_bulletin = () => {
+  const handleBulltinValidation = () => {
     let all_receved = loaded?.data?.results?.every(
       (item: any) => item?.receved === true
     );
@@ -86,6 +84,9 @@ export default () => {
       if (!selectedRecord?.data?.receved) {
         mutate({ id: selectedRecord?.data?.id, receved: true });
       }
+    }
+    else{
+      message.error("Tous les conteneurs doivent etre reçus.")
     }
   };
 
@@ -96,7 +97,20 @@ export default () => {
       header={{
         breadcrumb: breadcrumb,
         title: `Bulletin -  ${selectedRecord?.data?.numero}`,
-        extra: [],
+        extra: [
+          <Popconfirm
+            key="validate"
+            title="Confirmation"
+            description="Êtes-vous sûr de vouloir valider ce bulletin?"
+            okText="Oui"
+            cancelText="Non"
+            onConfirm={handleBulltinValidation}
+          >
+            <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.receved} loading={bulletin_is_patshing}>
+              Validez
+            </Button>
+          </Popconfirm>
+        ],
         onBack : () =>  navigate(`/rotations/reception/`)
 
       }}

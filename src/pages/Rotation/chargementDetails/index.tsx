@@ -12,7 +12,7 @@ import { useNavigate, useParams } from "react-router";
 import Details from "@/components/Details";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import Containers from "./components/Containers";
-import { Button, message } from "antd";
+import { Button, message, Popconfirm } from "antd";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import usePost from "@/hooks/usePost";
 
@@ -94,7 +94,19 @@ const navigate = useNavigate();
         breadcrumb: breadcrumb,
         title: `Bulletin -  ${selectedRecord?.data?.numero}`,
         extra: [
-          <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.loaded} loading={bulletin_is_patshing} onClick={handleBulltinValidation}>Validez</Button>,<Containers mrn={selectedRecord?.data?.gros} bulletin={id} refetchLoadedContainers={refetchLoaded} disabled={selectedRecord?.data?.loaded} />
+          <Popconfirm
+          key="validate"
+          title="Confirmation"
+          description="Êtes-vous sûr de vouloir valider ce bulletin?"
+          okText="Oui"
+          cancelText="Non"
+          onConfirm={handleBulltinValidation}
+        >
+          <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.receved} loading={bulletin_is_patshing}>
+            Validez
+          </Button>
+        </Popconfirm>          ,
+          <Containers mrn={selectedRecord?.data?.gros} bulletin={id} refetchLoadedContainers={refetchLoaded} disabled={selectedRecord?.data?.loaded} />
         ],
         onBack : () =>  navigate(`/rotations/chargement/`)
       }}
