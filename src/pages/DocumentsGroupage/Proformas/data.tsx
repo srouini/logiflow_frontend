@@ -95,6 +95,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 id={record?.id}
                 key={record?.id}
                 type="Download"
+                disabled={record?.trashed}
               />
             </Col>
             <Col>
@@ -104,6 +105,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 id={record?.id}
                 key={record?.id}
                 type="View"
+                disabled={record?.trashed}
               />
             </Col>
          </Row> 
