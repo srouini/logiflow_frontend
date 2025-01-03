@@ -13,7 +13,6 @@ export const getColumns = (): ProColumns<any>[] => [
     render: (_, record) => (
       <DetailsButton
         text={record.numero}
-        disabled={record.groupage && !record.depote}
         navigate_to={record?.groupage ? `/facturation/mrns/articles/${record?.id}` : `/facturation/mrns/articles/${record?.id}/ordinaire`}
       />
     ),

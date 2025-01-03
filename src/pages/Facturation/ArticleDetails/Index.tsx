@@ -1,4 +1,4 @@
-import { PageContainer } from "@ant-design/pro-components";
+import { PageContainer, ProFormSelect } from "@ant-design/pro-components";
 import { useEffect, useState } from "react";
 import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
@@ -15,7 +15,8 @@ import { useParams } from "react-router";
 import Details from "@/components/Details";
 import { DetailsColumns } from "./data";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { Divider } from "antd";
+import { Button, Divider, Segmented } from "antd";
+import { selectConfig } from "@/utils/config";
 
 
 export default () => {
@@ -63,6 +64,7 @@ export default () => {
     },
   });
 
+  const [selctedContainer, setSelectedContainer] = useState("");
   const {
     data: dataSubArticles,
     isLoading: isLoadingDataSubArticles,
@@ -77,8 +79,9 @@ export default () => {
       page: page,
       page_size: getPageSize(),
       expand: "client,box",
-      tc__article__id: id,
+      tc__id: selctedContainer,
     },
+    enabled:false
   });
 
   const { isLoading } = useLoading({
@@ -92,6 +95,16 @@ export default () => {
       isFetchingSubArticles,
     ],
   });
+
+useEffect(() => {
+  if (selctedContainer) {
+    refechSubArticles();
+  }
+}, [selctedContainer]);
+
+  const handleContainerSelection = (values: any) => {
+    setSelectedContainer(values);
+  };
 
   return (
     <PageContainer
@@ -131,6 +144,14 @@ export default () => {
         setPageSize={setPageSizeSubArticle}
         setSearch={null}
         key="SUB_ARTICLES_TABLE"
+        toolbar={{actions:[ <Segmented
+          options={data?.data?.map((item: any) => {
+            return { label: item.tc, value: item.id };
+          })}
+          onChange={handleContainerSelection}
+          allowFullScreen
+          defaultValue={false}
+        />]}}
       />
     </PageContainer>
   );

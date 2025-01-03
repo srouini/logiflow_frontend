@@ -98,7 +98,7 @@ const LoginPage: React.FC = () => {
 
       <Row style={{ marginBottom: "10px", display: "flex", justifyContent:"left" }}>
         <div style={{ textAlign: "left", outline: "none", fontSize:"11pt", fontWeight:"light" }}>
-          Welcome to <b style={{ color: "#14864d" }}>Logiflow</b>,
+          Welcome to <b style={{color:"#14864d" }}>Logiflow</b>,
         </div>
       </Row>
       <Row style={{ marginBottom: "40px", display: "flex", justifyContent:"left" }}>
