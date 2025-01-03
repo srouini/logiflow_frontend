@@ -42,7 +42,7 @@ export const getColumns = (): ProColumns<any>[] => [
     title: "Actions",
     valueType: "option",
     key: "8",
-    width: 60,
+    width: 100,
     fixed: "right",
     render: (_, record: any) => [
       <TableDropdown

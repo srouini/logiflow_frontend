@@ -33,7 +33,7 @@ export const getColumns = ({refetch,isLoadingFacture}:Props): ProColumns<any>[] 
       dataIndex: "date_creation",
       key:"5",
       render: record => renderDate(record),
-      width: 100,
+      width: 120,
     },
     {
       title: "Facture",

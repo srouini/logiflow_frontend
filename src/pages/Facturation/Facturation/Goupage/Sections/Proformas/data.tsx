@@ -78,6 +78,7 @@ export const getColumns = (refetch:any,refetch_sub_article:any): ProColumns<any>
                 endpoint_suffex="generate_pdf/"
                 key={record?.id}
                 type="Download"
+                disabled={record?.trashed}
               />
             </Col>
             <Col>
@@ -87,6 +88,7 @@ export const getColumns = (refetch:any,refetch_sub_article:any): ProColumns<any>
                 endpoint_suffex="generate_pdf/"
                 key={record?.id}
                 type="View"
+                disabled={record?.trashed}
               />
             </Col>
             <Col>
