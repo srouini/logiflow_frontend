@@ -11,7 +11,7 @@ import ReferenceContextProvider from "../context/ReferenceContext";
 import { MenuProps } from "antd/lib";
 import _defaultProps from "./_defaultProps";
 import { Link } from "react-router-dom";
-
+import avatar from "@/assets/avatar.png"
 interface MenuItem extends MenuDataItem {
   path: string;
   name: string;
@@ -302,7 +302,7 @@ export default () => {
               </Link>
             )}
             avatarProps={{
-              src: <img src='avatar.png' />,
+              src: <img src={avatar} />,
               title: user?.username,
               render: (props, dom) => (
                 <Dropdown 
