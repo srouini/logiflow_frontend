@@ -1,4 +1,4 @@
-import { API_VISITES_ENDPOINT } from "@/api/api";
+import { API_VISITES_ENDPOINT, API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
 import Print from "@/components/Print";
 import { renderDate, renderText } from "@/utils/functions";
 import { ProColumns, TableDropdown } from "@ant-design/pro-components";
@@ -42,7 +42,7 @@ export const getColumns = (): ProColumns<any>[] => [
     title: "Actions",
     valueType: "option",
     key: "8",
-    width: 60,
+    width: 100,
     fixed: "right",
     render: (_, record: any) => [
       <TableDropdown
@@ -51,22 +51,20 @@ export const getColumns = (): ProColumns<any>[] => [
           <Row gutter={8}>
             <Col>
               <Print
-                endpoint={API_VISITES_ENDPOINT}
+                endpoint={API_VISITESGROUPAGE_ENDPOINT}
                 endpoint_suffex="generate_pdf/"
                 id={record?.id}
                 key={record?.id}
                 type="View"
-                disabled={!record?.validated}
               />
             </Col>
             <Col>
               <Print
-                endpoint={API_VISITES_ENDPOINT}
+                endpoint={API_VISITESGROUPAGE_ENDPOINT}
                 endpoint_suffex="generate_pdf/"
                 id={record?.id}
                 key={record?.id}
                 type="Download"
-                disabled={!record?.validated}
               />
             </Col>
           </Row>,

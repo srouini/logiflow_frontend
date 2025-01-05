@@ -119,43 +119,46 @@ export default ({ article, refetch }: AUFormProps) => {
               type="number"
             />
           </Row>
-          <Row>
-            <CheckCard.Group
-              multiple
-              onChange={(value: any) => {
-                setSelectedContainers(value);
+          <Divider dashed style={{ marginTop: "0px" }} />
+
+
+          <CheckCard.Group
+            multiple
+            onChange={(value: any) => {
+              setSelectedContainers(value);
+            }}
+            size="small"
+            style={{ width: "100%" }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                maxHeight: "300px",
+                overflow: "scroll",
               }}
-              style={{ width: "100%" }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "300px",
-                  overflow: "scroll",
-                }}
-              >
-                {containers?.data?.map((item: any) => {
-                  return (
-                    <CheckCard
-                      size="large"
-                      style={{ minHeight: "55px", width: "95%" }}
-                      title={item?.tc}
-                      value={item?.id}
-                      avatar={<PaperClipOutlined />}
-                      extra={
-                        <>
-                          <Tag>{item?.type_tc?.designation}</Tag>
-                          {item?.dangereux && <Tag color="red">DGX</Tag>}
-                          {item?.frigo && <Tag color="blue">FRIGO</Tag>}
-                        </>
-                      }
-                    />
-                  );
-                })}
-              </div>
-            </CheckCard.Group>
-          </Row>
+              {containers?.data?.map((item: any) => {
+                return (
+                  <CheckCard
+                    size="large"
+                    style={{ minHeight: "55px", width: "95%" }}
+                    title={item?.tc}
+                    extra={
+                      <>
+                        <Tag>{item?.type_tc?.designation}</Tag>
+                        {item?.dangereux && <Tag color="red">DGX</Tag>}
+                      </>
+                    }
+                    loading={item.type_tc == null}
+                    value={item?.id}
+                    avatar={<PaperClipOutlined />}
+                  />
+                );
+              })}
+            </div>
+          </CheckCard.Group>
+          
         </FormObject>
       </DraggableModel>
     </>

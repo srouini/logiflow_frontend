@@ -8,7 +8,6 @@ import { DetailsColumns } from "./data";
 import { useState } from "react";
 import Factures from "./Sections/Factures/Index";
 import Proformas from "./Sections/Proformas/Index";
-import Commandes from "./Sections/Commandes/Index";
 import Visites from "./Sections/Visites/Index";
 import PrestationsOccasionnelle from "./Sections/PrestationsOccasionelle/Index";
 import FactureAvoire from "./Sections/FacturesAvoire/Index"
@@ -78,11 +77,6 @@ export default () => {
               label: `Visites`,
               key: "visites",
               children: <Visites id={id} article={data?.data}/>,
-            },
-            {
-              label: `Commandes`,
-              key: "commandes",
-              children: <Commandes id={id} article={data?.data}/>,
             },
             {
               label: `Préstations occasionnelle`,

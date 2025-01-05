@@ -66,8 +66,7 @@ const LoginPage: React.FC = () => {
       message.success('Login successful!');
       // Navigation will be handled by the useEffect above
     } catch (error) {
-      console.error('Login error:', error);
-      message.error('Invalid username or password');
+      //message.error('Login error:', error?.response?.data?.error || "Error logging in.");
     } finally {
       setLoading(false);
     }

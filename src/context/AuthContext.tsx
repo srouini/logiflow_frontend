@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { getCsrfToken } from '@/utils/csrf';
 import { useNavigate } from 'react-router-dom';
+import { message } from 'antd'; // Import message from antd
 
 interface Profile {
   layout_preference: 'top' | 'side';
@@ -32,6 +33,11 @@ interface AuthContextType extends AuthState {
   setUser: (user: User) => void;
   hasPagePermission: (pagePath: string) => boolean;
   updateProfile: (profileData: Partial<Profile>) => Promise<any>;
+}
+
+interface ErrorResponse {
+  error?: string;
+  message?: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -166,8 +172,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       navigate('/');
     } catch (error) {
-      console.error('Login failed:', error);
-      throw error;
+      const axiosError = error as AxiosError<ErrorResponse>;
+      console.log('Error:', axiosError);
+      const errorMessage = axiosError.response?.data?.error || 'Login failed. Please check your username and password.';
+      message.error(errorMessage);
+      throw axiosError;
     }
   };
 

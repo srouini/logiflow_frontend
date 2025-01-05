@@ -130,41 +130,50 @@ const DynamicReport: React.FC = () => {
   // Process fields when they change
   useEffect(() => {
     console.log('Processing fields:', fields);
-    const processFields = (fieldList: ModelField[]): ModelField[] => {
-      return fieldList.reduce((acc: ModelField[], field) => {
+    const processFields = (fieldList: ModelField[], parentPath = ''): ModelField[] => {
+      const processed: ModelField[] = [];
+      
+      fieldList.forEach(field => {
+        console.log('parentPath:', parentPath);
+        const currentPath = parentPath ? `${parentPath}__${field.name}` : field.name;
+        const currentVerbose = parentPath ? `${parentPath} - ${field.verbose_name}` : field.verbose_name;
+        
         // Add the current field
-        acc.push(field);
+        processed.push({
+          ...field,
+          name: currentPath,
+          verbose_name: currentVerbose
+        });
         
-        // If it has related fields, process them too
+        // Process related fields recursively
         if (field.is_relation && field.related_fields) {
-          // Add related fields with updated names
-          const relatedFields = field.related_fields.map(relatedField => ({
-            ...relatedField,
-            name: `${field.name}__${relatedField.name}`,
-            verbose_name: `${field.verbose_name} - ${relatedField.verbose_name}`
-          }));
-          acc.push(...processFields(relatedFields));
+          const nestedFields = processFields(field.related_fields, currentPath);
+          // Adjust the path by removing the first parent segment if it's nested
+          nestedFields.forEach(nestedField => {
+            nestedField.name = nestedField.name.replace(/^[^__]+__/, '');
+          });
+          processed.push(...nestedFields);
         }
-        
-        return acc;
-      }, []);
+      });
+      console.log('Processed fields:', processed);
+      return processed;
     };
 
     const processedFields = processFields(fields);
-    console.log('Processed fields:', processedFields);
     setFilterFields(processedFields);
   }, [fields]);
 
-  const handleModelChange = (value: string) => {
+  const handleModelChange = async (value: string) => {
     console.log('Model changed to:', value);
     setSelectedModel(value);
     setSelectedFields([]);
     setFilters([]);
     setData([]);
+    setRelatedRecords({});
   };
 
   const handleFieldsChange = (value: string[]) => {
-    console.log('Selected fields changed to:', value);
+    console.log('Selected fields before processing:', value);
     setSelectedFields(value);
   };
 
@@ -204,32 +213,29 @@ const DynamicReport: React.FC = () => {
 
   const handleFieldSelect = async (index: number, fieldPath: string) => {
     console.log('Field selected:', { index, fieldPath });
-    const field = filterFields.find(f => f.name === fieldPath);
+    // Remove any duplicate segments in the path
+    const parts = fieldPath.split('__');
+    // Remove duplicates while preserving order
+    const seen = new Set<string>();
+    const uniqueParts = parts.filter(part => {
+      if (seen.has(part)) {
+        return false;
+      }
+      seen.add(part);
+      return true;
+    });
+    const cleanedFieldPath = uniqueParts.join('__');
+    
+    const field = filterFields.find(f => f.name === cleanedFieldPath);
     console.log('Found field:', field);
 
     if (!field) {
       console.error('Field not found in filterFields');
+      message.error('Invalid field selected');
       return;
     }
 
-    // Fix the field path for related fields
-    let normalizedFieldPath = fieldPath;
-    if (field.is_relation && field.related_model) {
-      // If it's a related field path (contains dots), fix the path structure
-      if (fieldPath.includes('.')) {
-        const parts = fieldPath.split('.');
-        // Remove the model name prefix and use the field name for the relation
-        parts.shift(); // Remove the model name
-        normalizedFieldPath = parts.join('__');
-      }
-    } else {
-      // For non-relation fields, just use the field name
-      const parts = fieldPath.split('.');
-      normalizedFieldPath = parts[parts.length - 1];
-    }
-
-    console.log('Normalized field path:', normalizedFieldPath);
-    updateFilter(index, 'field', normalizedFieldPath);
+    updateFilter(index, 'field', cleanedFieldPath);
     updateFilter(index, 'operator', '');
     updateFilter(index, 'value', '');
 
@@ -241,31 +247,50 @@ const DynamicReport: React.FC = () => {
           field.related_model.model_name
         );
         console.log('Fetched related records:', records);
+        
+        if (!Array.isArray(records)) {
+          throw new Error('Invalid records format');
+        }
+
         setRelatedRecords(prev => ({
           ...prev,
-          [fieldPath]: records
+          [cleanedFieldPath]: records.map(record => ({
+            ...record,
+            label: record.display || String(record.id),
+            value: String(record.id)
+          }))
         }));
       } catch (error) {
         console.error('Error fetching related records:', error);
         message.error('Failed to fetch related records');
+        updateFilter(index, 'field', '');
       }
     }
   };
 
   const buildTreeData = (fields: ModelField[]): any[] => {
-    return fields.map((field) => ({
-      title: field.verbose_name,
-      value: field.name,
-      key: field.name,
-      selectable: true,
-      children: field.is_relation && field.related_fields 
-        ? buildTreeData(field.related_fields.map(rf => ({
-            ...rf,
-            name: `${field.name}__${rf.name}`,
-            verbose_name: `${field.verbose_name} - ${rf.verbose_name}`
-          })))
-        : undefined
-    }));
+    const processNode = (field: ModelField, parentPath = ''): any => {
+      const currentPath = parentPath ? `${parentPath}__${field.name}` : field.name;
+      
+      const node = {
+        title: field.verbose_name,
+        value: currentPath,
+        key: currentPath,
+        selectable: true // Allow all nodes to be selectable
+      };
+
+      if (field.is_relation && field.related_fields) {
+        const children = field.related_fields.map(rf => processNode(rf, currentPath));
+        return {
+          ...node,
+          children
+        };
+      }
+
+      return node;
+    };
+
+    return fields.map(field => processNode(field));
   };
 
   const getOperatorsForField = (field: ModelField): any[] => {
@@ -315,6 +340,8 @@ const DynamicReport: React.FC = () => {
           onChange={(values) => updateFilter(index, 'value', values.join(','))}
           options={choices}
           placeholder="Select options"
+          showSearch
+          optionFilterProp="label"
         />
       ) : (
         <Select
@@ -323,6 +350,8 @@ const DynamicReport: React.FC = () => {
           onChange={(value) => updateFilter(index, 'value', value)}
           options={choices}
           placeholder="Select an option"
+          showSearch
+          optionFilterProp="label"
         />
       );
     }
@@ -336,44 +365,40 @@ const DynamicReport: React.FC = () => {
           style={{ width: '100%' }}
           value={filter.value ? filter.value.split(',') : []}
           onChange={(values) => updateFilter(index, 'value', values.join(','))}
-          options={records.map((record) => ({
-            label: record.display,
-            value: record.id.toString(),
-          }))}
+          options={records}
           placeholder={`Select ${field.related_model?.verbose_name || 'records'}`}
+          showSearch
+          optionFilterProp="label"
+          loading={!records.length}
         />
       ) : (
         <Select
           style={{ width: '100%' }}
           value={filter.value}
           onChange={(value) => updateFilter(index, 'value', value)}
-          options={records.map((record) => ({
-            label: record.display,
-            value: record.id.toString(),
-          }))}
+          options={records}
           placeholder={`Select ${field.related_model?.verbose_name || 'a record'}`}
+          showSearch
+          optionFilterProp="label"
+          loading={!records.length}
         />
       );
     }
 
     switch (internal_type) {
       case 'DateTimeField':
-        return filter.operator.includes('date') ? (
+        return (
           <DatePicker
+            showTime={!filter.operator.includes('date')}
             style={{ width: '100%' }}
             onChange={(date) => 
-              updateFilter(index, 'value', date ? date.format('YYYY-MM-DD') : '')
+              updateFilter(index, 'value', date ? 
+                date.format(filter.operator.includes('date') ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss') 
+                : ''
+              )
             }
             value={filter.value ? dayjs(filter.value) : null}
-          />
-        ) : (
-          <DatePicker
-            showTime
-            style={{ width: '100%' }}
-            onChange={(date) => 
-              updateFilter(index, 'value', date ? date.format('YYYY-MM-DD HH:mm:ss') : '')
-            }
-            value={filter.value ? dayjs(filter.value) : null}
+            format={filter.operator.includes('date') ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'}
           />
         );
         
@@ -385,6 +410,7 @@ const DynamicReport: React.FC = () => {
               updateFilter(index, 'value', date ? date.format('YYYY-MM-DD') : '')
             }
             value={filter.value ? dayjs(filter.value) : null}
+            format="YYYY-MM-DD"
           />
         );
         
@@ -404,6 +430,7 @@ const DynamicReport: React.FC = () => {
             style={{ width: '100%' }}
             value={filter.value ? Number(filter.value) : null}
             onChange={(value) => updateFilter(index, 'value', value?.toString() || '')}
+            precision={internal_type === 'FloatField' || internal_type === 'DecimalField' ? 2 : 0}
           />
         );
         
@@ -429,9 +456,56 @@ const DynamicReport: React.FC = () => {
             value={filter.value}
             onChange={(e) => updateFilter(index, 'value', e.target.value)}
             placeholder="Enter value"
+            allowClear
           />
         );
     }
+  };
+
+  const getExportColumns = () => {
+    return selectedFields.map(field => {
+      const fieldObj = filterFields.find(f => f.name === field);
+      return {
+        title: fieldObj?.verbose_name || field,
+        dataIndex: field,
+        selected: true
+      };
+    });
+  };
+
+  const getExportFilters = () => {
+    const validFilters = filters
+      .filter(f => f.field && f.operator && (f.value !== undefined && f.value !== ''))
+      .map(f => {
+        let normalizedField = f.field;
+        if (f.field.includes('.')) {
+          const parts = f.field.split('.');
+          // Remove the model name prefix and use the field name for the relation
+          parts.shift(); // Remove the model name
+          normalizedField = parts.join('__');
+        }
+        return {
+          field: normalizedField,
+          operator: f.operator,
+          value: f.value
+        };
+      });
+
+    const queryParams: Record<string, any> = {};
+    validFilters.forEach(filter => {
+      if (filter.operator === 'in') {
+        // Handle array values for 'in' operator
+        const values = Array.isArray(filter.value) ? filter.value : filter.value.split(',');
+        queryParams[`${filter.field}__${filter.operator}`] = values.join(',');
+      } else if (filter.value === 'true' || filter.value === 'false') {
+        // Handle boolean values
+        queryParams[`${filter.field}__${filter.operator}`] = filter.value === 'true';
+      } else {
+        queryParams[`${filter.field}__${filter.operator}`] = filter.value;
+      }
+    });
+
+    return queryParams;
   };
 
   const handleQuery = async () => {
@@ -442,52 +516,58 @@ const DynamicReport: React.FC = () => {
 
     setLoading(true);
     try {
-      // Prepare filters by normalizing field paths
+      // Clean and validate filters
       const validFilters = filters
-        .filter(f => f.field && f.operator && (f.value !== undefined && f.value !== ''))
+        .filter(f => f.field && f.operator && f.value !== undefined && f.value !== '')
         .map(f => {
-          let normalizedField = f.field;
-          // If it's a related field path (contains dots)
-          if (f.field.includes('.')) {
-            const parts = f.field.split('.');
-            // Remove the model name prefix
-            parts.shift();
-            normalizedField = parts.join('__');
+          const field = filterFields.find(ff => ff.name === f.field);
+          if (!field) {
+            throw new Error(`Invalid field: ${f.field}`);
           }
+          
           return {
-            ...f,
-            field: normalizedField
+            field: f.field,
+            operator: f.operator,
+            value: processFilterValue(f)
           };
         });
 
-      // Normalize selected fields
-      const normalizedFields = selectedFields.map(field => {
-        if (field.includes('.')) {
-          const parts = field.split('.');
-          // Remove the model name prefix
-          parts.shift();
-          return parts.join('__');
-        }
-        return field;
-      });
+      // Clean and validate selected fields
+      const validFields = selectedFields
+        .map(field => {
+          const fieldObj = filterFields.find(f => f.name === field);
+          if (!fieldObj) {
+            console.warn(`Skipping invalid field: ${field}`);
+            return null;
+          }
+          return field;
+        })
+        .filter((field): field is string => field !== null);
+
+      if (validFields.length === 0) {
+        throw new Error('No valid fields selected');
+      }
 
       console.log('Sending query with:', {
         model: selectedModel,
-        fields: normalizedFields,
+        fields: validFields,
         filters: validFilters
       });
 
       const response = await axios.post('/api/reporting/api/query/', {
         model: selectedModel,
-        fields: normalizedFields,
+        fields: validFields,
         filters: validFilters,
       });
       
-      console.log('Query response:', response.data);
-      
       if (Array.isArray(response.data)) {
-        setData(response.data);
-        if (response.data.length === 0) {
+        const formattedData = response.data.map((item, index) => ({
+          ...item,
+          key: item.id || index,
+        }));
+        setData(formattedData);
+        
+        if (formattedData.length === 0) {
           message.info('No results found for your query');
         }
       } else {
@@ -495,52 +575,54 @@ const DynamicReport: React.FC = () => {
       }
     } catch (error: any) {
       console.error('Error querying data:', error);
-      message.error(
-        error.response?.data?.error || 
-        'Failed to fetch data. Please check your filters and try again.'
-      );
+      const errorMessage = error.response?.data?.error || error.message || 'Failed to fetch data';
+      message.error(errorMessage);
+      if (error.response?.data?.detail) {
+        message.error(error.response.data.detail);
+      }
       setData([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const getExportColumns = () => {
-    return selectedFields.map(field => ({
-      title: field,
-      dataIndex: field,
-      selected: true
-    }));
-  };
+  const processFilterValue = (filter: FilterCondition) => {
+    const field = filterFields.find(f => f.name === filter.field);
+    if (!field) {
+      console.warn(`Field not found: ${filter.field}`);
+      return filter.value;
+    }
 
-  const getExportFilters = () => {
-    const validFilters = filters
-      .filter(f => f.field && f.operator && (f.value !== undefined && f.value !== ''))
-      .map(f => {
-        let normalizedField = f.field;
-        if (f.field.includes('.')) {
-          const parts = f.field.split('.');
-          parts.shift();
-          normalizedField = parts.join('__');
-        }
-        return {
-          field: normalizedField,
-          operator: f.operator,
-          value: f.value
-        };
-      });
-
-    // Convert filters array to query params format
-    const queryParams: Record<string, any> = {};
-    validFilters.forEach(filter => {
+    try {
       if (filter.operator === 'in') {
-        queryParams[`${filter.field}__${filter.operator}`] = filter.value.join(',');
-      } else {
-        queryParams[`${filter.field}__${filter.operator}`] = filter.value;
+        return filter.value.split(',').map(v => v.trim()).filter(v => v !== '');
       }
-    });
 
-    return queryParams;
+      switch (field.internal_type) {
+        case 'BooleanField':
+          return filter.value === 'true';
+        case 'IntegerField':
+        case 'BigIntegerField':
+          const intValue = parseInt(filter.value, 10);
+          if (isNaN(intValue)) {
+            throw new Error(`Invalid integer value: ${filter.value}`);
+          }
+          return intValue;
+        case 'FloatField':
+        case 'DecimalField':
+          const floatValue = parseFloat(filter.value);
+          if (isNaN(floatValue)) {
+            throw new Error(`Invalid decimal value: ${filter.value}`);
+          }
+          return floatValue;
+        default:
+          return filter.value;
+      }
+    } catch (error) {
+      console.error('Error processing filter value:', error);
+      message.error(`Invalid value for field ${field.verbose_name}`);
+      return filter.value;
+    }
   };
 
   return (
@@ -555,8 +637,9 @@ const DynamicReport: React.FC = () => {
               value={selectedModel}
               onChange={handleModelChange}
               options={models.map((model) => ({
-                label: `${model.app_label}.${model.name}`,
-                value: `${model.app_label}.${model.name}`
+                label: model.verbose_name,
+                value: `${model.app_label}.${model.name}`,
+                title: `${model.app_label}.${model.name}`
               }))}
             />
           </Form.Item>
@@ -570,6 +653,7 @@ const DynamicReport: React.FC = () => {
               showCheckedStrategy={TreeSelect.SHOW_PARENT}
               placeholder="Select fields to display"
               style={{ width: '100%' }}
+              maxTagCount="responsive"
             />
           </Form.Item>
 
@@ -664,11 +748,20 @@ const DynamicReport: React.FC = () => {
 
           {data.length > 0 && (
             <Table
-              columns={selectedFields.map(field => ({
-                title: field,
-                dataIndex: field,
-                key: field,
-              }))}
+              columns={selectedFields.map(field => {
+                const fieldObj = filterFields.find(f => f.name === field);
+                return {
+                  title: fieldObj?.verbose_name || field,
+                  dataIndex: field,
+                  key: field,
+                  render: (value: any) => {
+                    if (value === true) return 'Yes';
+                    if (value === false) return 'No';
+                    if (value === null) return '-';
+                    return value;
+                  }
+                };
+              })}
               dataSource={data}
               rowKey="id"
               scroll={{ x: 'max-content' }}

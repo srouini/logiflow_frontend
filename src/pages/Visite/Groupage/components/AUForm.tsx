@@ -70,7 +70,7 @@ const AUForm: React.FC<AUFormProps> = ({
       disabledModalOpenButton={disabled}
       modalOpenButtonText={initialvalues ? editText : addText}
       addButtonIcon={
-        hasIcon && initialvalues ? <EditOutlined /> : <PlusOutlined />
+        <PlusOutlined />
       }
       modalTitle="Visite groupage"
       onSubmit={handleFormSubmission}
