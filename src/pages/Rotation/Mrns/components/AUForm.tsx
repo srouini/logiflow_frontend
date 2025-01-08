@@ -8,8 +8,7 @@ import { useReferenceContext } from "@/context/ReferenceContext";
 import { API_MRNS_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-
-
+import { usePermissions } from '@/utils/permissions';
 
 interface AUFormProps {
   refetch: () => void;
@@ -27,6 +26,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIF
 
   const { navire, regime, armateur, consignataire, port, mrn } =
     useReferenceContext();
+  const hasPermission = usePermissions();
 
   useEffect(() => {
     navire.fetch();
@@ -36,8 +36,6 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIF
     port.fetch();
   }, []);
 
-  const {} = useReferenceContext();
-
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
     if (initialvalues) {
@@ -45,6 +43,10 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIF
     }
     values = formatDate("accostage", values);
     mutate(values);
+  };
+
+  const onFinish = async (values: any) => {
+    handleFormSubmission();
   };
 
   const onSuccess = () => {
@@ -63,11 +65,11 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIF
   return (
     <DraggableModel
       OkButtontext="Submit"
-      disabledModalOpenButton={disabled}
+      disabledModalOpenButton={disabled || (!initialvalues && !hasPermission('app.add_gros')) || (initialvalues && !hasPermission('app.change_gros'))}
       modalOpenButtonText={initialvalues ? editText : addText}
       addButtonIcon={hasIcon && initialvalues ? <EditOutlined />:<PlusOutlined /> }
       modalTitle="MRN"
-      onSubmit={handleFormSubmission}
+      onSubmit={onFinish}
       setOpen={setOpen}
       open={open}
       width={800}

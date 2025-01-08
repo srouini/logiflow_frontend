@@ -20,6 +20,31 @@ export interface ReferenceContextProps {
   regime: UseDataResult;
 }
 
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  is_superuser: boolean;
+  user_permissions: string[];
+  groups: string[];
+  profile: {
+    layout_preference: string;
+    theme_color: string;
+    theme_mode: string;
+    allowed_pages: string[];
+  };
+}
+
+export interface AuthContextType {
+  user: User | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  login: (username: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  checkAuth: () => Promise<void>;
+}
 
 export interface BreadcrumbType {
    items: ({ path: null; title: JSX.Element; } | { path: string; title: string; })[]

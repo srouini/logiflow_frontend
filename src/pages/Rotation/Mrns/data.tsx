@@ -7,6 +7,7 @@ import DetailsButton from "@/components/DetailsButton";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
 
+
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
     title: "Numéro",
@@ -85,6 +86,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 id={record?.id}
                 refetch={refetch}
                 class_name="MRN"
+                permission="app.delete_gros"
                 type="dashed"
                 link={false}
                 text=""

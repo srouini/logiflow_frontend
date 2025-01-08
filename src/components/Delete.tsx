@@ -3,6 +3,8 @@ import { useAxios } from "../hooks/useAxios";
 import { Button, Popconfirm, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import { DeleteOutlined } from "@ant-design/icons";
+import { usePermissions } from '@/utils/permissions';
+
 
 interface DeleteProps {
   url: string;
@@ -15,6 +17,7 @@ interface DeleteProps {
   link?: boolean;
   has_icon?: boolean;
   text?: string;
+  permission?: string;
 }
 
 const Delete: React.FC<DeleteProps> = ({
@@ -28,9 +31,14 @@ const Delete: React.FC<DeleteProps> = ({
   link = true,
   has_icon = true,
   text = "SUPPRIMER",
+  permission
 }) => {
   let navigate = useNavigate();
   let api = useAxios();
+
+
+  const hasPermission = usePermissions();
+
 
   const handleDelete = async () => {
     try {
@@ -60,7 +68,7 @@ const Delete: React.FC<DeleteProps> = ({
       title="Vous allez supprimer cet enregistrement, êtes-vous sûr ?"
       onConfirm={confirm}
       key={id}
-      disabled={disabled}
+      disabled={disabled ||!hasPermission(permission || "disable")}
     >
       {link ? (
         disabled ? (
@@ -69,7 +77,7 @@ const Delete: React.FC<DeleteProps> = ({
           <a>{text}</a>
         )
       ) : (
-        <Button icon={has_icon && <DeleteOutlined />} type={type} disabled={disabled}>
+        <Button icon={has_icon && <DeleteOutlined />} type={type} disabled={disabled || !hasPermission(permission || "disable")}>
           {text}
         </Button>
       )}

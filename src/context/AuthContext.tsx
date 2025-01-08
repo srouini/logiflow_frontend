@@ -18,6 +18,8 @@ interface User {
   first_name: string;
   last_name: string;
   is_superuser: boolean;
+  user_permissions: string[];
+  groups: string[];
   profile: Profile;
 }
 
@@ -40,7 +42,7 @@ interface ErrorResponse {
   message?: string;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({
