@@ -14,6 +14,7 @@ import { useReferenceContext } from "@/context/ReferenceContext";
 import { Button, message, Popconfirm } from "antd";
 import usePost from "@/hooks/usePost";
 import { CloudUploadOutlined } from "@ant-design/icons";
+import TcDetailsButton from "./components/TcDetailsButton";
 
 export default () => {
   const { id } = useParams();
@@ -109,7 +110,8 @@ export default () => {
             <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.receved} loading={bulletin_is_patshing}>
               Validez
             </Button>
-          </Popconfirm>
+          </Popconfirm>, 
+          <TcDetailsButton bulletinId={id} />
         ],
         onBack : () =>  navigate(`/rotations/reception/`)
 
