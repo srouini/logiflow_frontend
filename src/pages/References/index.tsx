@@ -16,6 +16,7 @@ import TransitairesPage from "./compoenents/Transitaires/Index";
 import ParcsPage from "./compoenents/Parcs/Index";
 import ZonesPage from "./compoenents/Zones/Index";
 import BoxsPage from "./compoenents/Box/Index";
+import AgentDouanePage from "./compoenents/AgentDouane/Index";
 
 interface ReferenceCard {
   title: string;
@@ -43,6 +44,9 @@ const References: React.FC = () => {
         </Col>
         <Col xs={24} sm={12} md={8} lg={6}>
           <ZonesPage />
+        </Col>
+        <Col xs={24} sm={12} md={8} lg={6}>
+          <AgentDouanePage />
         </Col>
       </Row>
     </PageContainer>

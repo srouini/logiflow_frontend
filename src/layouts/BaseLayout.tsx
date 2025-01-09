@@ -54,7 +54,6 @@ export default () => {
   };
 
 
-
   const generateMenuFromRoutes = () => {
     return [
       {
@@ -130,6 +129,9 @@ export default () => {
         path:'/references',
         name: 'Reference',
         icon: <SlidersOutlined />,
+        children: [
+          { path: '/references/agent-douane', name: 'Agents Douane' },
+        ],
       }
     ];
   };
@@ -138,20 +140,20 @@ export default () => {
     return items
       .map((item) => {
         const hasPermission = hasPagePermission(item.path);
-  
+
         // Recursively filter children
         const filteredChildren = item.children ? filterMenuItems(item.children) : undefined;
-  
+
         // If the item has children, keep it if it has any authorized children
         if (filteredChildren && filteredChildren.length > 0) {
           return { ...item, children: filteredChildren };
         }
-  
+
         // Keep the item if it has permission and no children
         if (hasPermission) {
           return { ...item, children: undefined }; // Remove children if they're empty
         }
-  
+
         // Exclude the item otherwise
         return null;
       })
@@ -295,6 +297,7 @@ export default () => {
                   alignItems: 'center',
                   paddingLeft:'12px',
              
+
                 }}
               >
                 {item.icon && <span className="anticon">{item.icon}</span>}

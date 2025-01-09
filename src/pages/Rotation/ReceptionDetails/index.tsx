@@ -15,6 +15,7 @@ import { Button, message, Popconfirm } from "antd";
 import usePost from "@/hooks/usePost";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import TcDetailsButton from "./components/TcDetailsButton";
+import Print from "@/components/Print";
 
 export default () => {
   const { id } = useParams();
@@ -111,6 +112,7 @@ export default () => {
               Validez
             </Button>
           </Popconfirm>, 
+          <Print endpoint={API_BULLETINS_ENDPOINT} id={id} type="View" endpoint_suffex="generate_pdf/" />,
           <TcDetailsButton bulletinId={id} />
         ],
         onBack : () =>  navigate(`/rotations/reception/`)

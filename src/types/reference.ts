@@ -110,6 +110,14 @@ import { BaseModel } from "./commun";
     designation:string
   }
 
+  export interface AgentDouane {
+    id: number;
+    nom: string;
+    prenom: string;
+    code: string;
+    active: boolean;
+  }
+
   export interface User extends BaseModel {
     first_name:string;
     last_name:string;
