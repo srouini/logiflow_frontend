@@ -10,6 +10,7 @@ import { useReferenceContext } from "@/context/ReferenceContext";
 import dayjs from "dayjs";
 import { useAuth } from "@/context/AuthContext";
 import Delete from "@/components/Delete";
+import AgentDouane from "@/pages/Reference/AgentDouane";
 
 interface AUFormProps {
   refetch: () => void;
@@ -31,7 +32,6 @@ const AUForm: React.FC<AUFormProps> = ({
     parc?.fetch();
   }, []);
 
-  const account = localStorage.getItem("cat");
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
     formatDateTime("date_entree_port_sec", values);

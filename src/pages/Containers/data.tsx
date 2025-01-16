@@ -6,6 +6,7 @@ import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import SubArticlePage from "./ContainerDetails";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
+import Print from "@/components/Print";
 
 export const getColumns = (
   refetch: () => void,
@@ -139,12 +140,13 @@ export const getColumns = (
     valueType: "option",
     key: "Actions",
     fixed: "right",
-    width: 100,
+    width: 220,
     render: (_, record: any) => [
       <TableDropdown
         key="actionGroup"
         children={[
           <Row gutter={8}>
+
             <Col>
               <Delete
                 url={API_CONTENEURS_ENDPOINT}
@@ -164,6 +166,16 @@ export const getColumns = (
                 article={record?.article}
                 editText=""
                 hasIcon
+              />
+            </Col>
+            <Col>
+            <Print
+                endpoint={API_CONTENEURS_ENDPOINT}
+                endpoint_suffex="check_list/"
+                id={record?.id}
+                key={record?.id}
+                type="View"
+                button_text="Check list"
               />
             </Col>
           </Row>,

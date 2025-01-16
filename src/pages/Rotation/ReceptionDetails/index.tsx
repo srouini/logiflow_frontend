@@ -11,12 +11,12 @@ import { DetailsColumns, getColumns, breadcrumb } from "./data";
 import { useNavigate, useParams } from "react-router";
 import Details from "@/components/Details";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { Button, message, Popconfirm } from "antd";
+import { Button, Divider, Flex, message, Popconfirm } from "antd";
 import usePost from "@/hooks/usePost";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import TcDetailsButton from "./components/TcDetailsButton";
 import Print from "@/components/Print";
-
+import UpdateDouanier from "./components/UpdateDouanier";
 export default () => {
   const { id } = useParams();
 
@@ -57,7 +57,7 @@ export default () => {
       page: page,
       page_size: getPageSize(),
       ...filters,
-      expand: "article,type_tc,current_scelle,receved_by,parc",
+      expand: "article,type_tc,current_scelle,receved_by,parc,douanier",
       bulletins__id: id,
     },
   });
@@ -71,8 +71,8 @@ export default () => {
     refetch();
   };
 
-  
-  const { mutate,isLoading:bulletin_is_patshing } = usePost({
+
+  const { mutate, isLoading: bulletin_is_patshing } = usePost({
     onSuccess: onSuccess,
     endpoint: API_BULLETINS_ENDPOINT,
   });
@@ -87,7 +87,7 @@ export default () => {
         mutate({ id: selectedRecord?.data?.id, receved: true });
       }
     }
-    else{
+    else {
       message.error("Tous les conteneurs doivent etre reçus.")
     }
   };
@@ -111,11 +111,11 @@ export default () => {
             <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.receved} loading={bulletin_is_patshing}>
               Validez
             </Button>
-          </Popconfirm>, 
-          <Print endpoint={API_BULLETINS_ENDPOINT} id={id} type="View" endpoint_suffex="generate_pdf/" />,
+          </Popconfirm>,
+          <Print endpoint={API_BULLETINS_ENDPOINT} id={id} type="View" endpoint_suffex="generate_pdf/" button_text="Pv de réception" />,
           <TcDetailsButton bulletinId={id} />
         ],
-        onBack : () =>  navigate(`/rotations/reception/`)
+        onBack: () => navigate(`/rotations/reception/`)
 
       }}
       title=" "
@@ -131,6 +131,13 @@ export default () => {
         resetFilters={resetFilters}
         setPage={setPage}
       />
+
+      <Divider />
+      <Flex style={{ width: "100%" }} justify="end" gap={24}>
+
+        <UpdateDouanier refetch={refetch} bulletin={selectedRecord?.data} />
+
+      </Flex>
 
       <CustomTable
         getColumns={getColumns({

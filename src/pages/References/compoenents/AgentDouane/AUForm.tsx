@@ -59,16 +59,10 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
         initialValues={initialvalues}
       >
         <FormField
-          name="nom"
-          label="Nom"
+          name="full_name"
+          label="Nom complet"
           type="text"
           rules={[{ required: true, message: "Le nom est requis" }]}
-        />
-        <FormField
-          name="prenom"
-          label="Prénom"
-           type="text"
-          rules={[{ required: true, message: "Le prénom est requis" }]}
         />
         <FormField
           name="code"

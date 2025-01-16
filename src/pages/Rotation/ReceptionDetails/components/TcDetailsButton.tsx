@@ -2,6 +2,7 @@ import { Button, Modal, Table, Card, List } from 'antd';
 import { useState, useMemo } from 'react';
 import useData from '@/hooks/useData';
 import { API_CONTENEURS_ENDPOINT } from '@/api/api';
+import { ReadOutlined } from '@ant-design/icons';
 
 interface TcDetailsButtonProps {
   bulletinId: string | undefined;
@@ -93,11 +94,11 @@ const TcDetailsButton: React.FC<TcDetailsButtonProps> = ({ bulletinId }) => {
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Voir détails TC
+      <Button type="dashed" onClick={showModal} icon={<ReadOutlined />}>
+      Résumé d'opération 
       </Button>
       <Modal
-        title="Détails TC"
+        title="Résumé d'opération "
         open={isModalVisible}
         onCancel={handleCancel}
         footer={null}

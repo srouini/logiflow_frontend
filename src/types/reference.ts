@@ -112,8 +112,7 @@ import { BaseModel } from "./commun";
 
   export interface AgentDouane {
     id: number;
-    nom: string;
-    prenom: string;
+    full_name: string;
     code: string;
     active: boolean;
   }

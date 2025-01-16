@@ -4,21 +4,14 @@ import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
-import { API_ARTICLES_ENDPOINT, API_CONTENEURS_ENDPOINT } from "@/api/api";
+import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { breadcrumb, getColumns } from "./data";
-import AUForm from "./components/AUForm";
-import { useNavigate, useParams } from "react-router";
-import Details from "@/components/Details";
-import { DetailsColumns } from "./data";
 import { TableSelectionType } from "@/types/antdeing";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { message, Segmented } from "antd";
 import usePost from "@/hooks/usePost";
-import Prestations from "./components/Prestations";
-import AUFormDepotage from "./components/AUFormDepotage";
-import Print from "@/components/Print";
 import Export from "./components/Export";
 
 export default () => {
