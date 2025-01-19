@@ -86,7 +86,7 @@ export default ({
       >
         <Row justify={"space-between"}>
           <Col>
-            {factureAvoire?.full_number}
+            <Badge status="processing" style={{ marginBottom: "-10px" }}>{factureAvoire?.full_number}</Badge>
           </Col>
           <Col>
             <Row gutter={8}>
@@ -130,11 +130,11 @@ export default ({
               <AUForm
                 facture={factureAvoire}
                 refetch={refetchFactureLignes}
-                key={factureAvoire?.id}
+                key="add_ligne"
               />,
             ],
           }}
-          getColumns={columns_prestation_conteneurs}
+          getColumns={columns_prestation_conteneurs(refetchFactureLignes)}
           data={lignesFacture?.data}
           isLoading={isLoadingLignesFactureCompelementaire}
           refetch={refetchLignesFacture}

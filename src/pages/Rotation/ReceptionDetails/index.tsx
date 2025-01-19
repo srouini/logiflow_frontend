@@ -110,9 +110,10 @@ export default () => {
           >
             <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.receved} loading={bulletin_is_patshing}>
               Validez
-            </Button>
+            </Button> 
+            
           </Popconfirm>,
-          <Print endpoint={API_BULLETINS_ENDPOINT} id={id} type="View" endpoint_suffex="generate_pdf/" button_text="Pv de réception" />,
+          <Print endpoint={API_BULLETINS_ENDPOINT} id={id} disabled={!selectedRecord?.data?.receved} type="View" endpoint_suffex="generate_pdf/" button_text="Pv de réception" />,
           <TcDetailsButton bulletinId={id} />
         ],
         onBack: () => navigate(`/rotations/reception/`)

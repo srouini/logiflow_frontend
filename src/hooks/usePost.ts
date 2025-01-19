@@ -4,7 +4,7 @@ import { useAxios } from "./useAxios";
 import { message } from "antd";
 
 interface UsePostProps {
-  onSuccess: () => void;
+  onSuccess: (response: any) => void;
   endpoint: string;
   values?: any;
 }
@@ -23,8 +23,8 @@ const usePost = ({ onSuccess, endpoint }: UsePostProps) => {
       return response.data;
     },
     retry: 1,
-    onSuccess: () => {
-      onSuccess();
+    onSuccess: (response:any) => {
+      onSuccess(response);
     },
     onError: (error: AxiosError<any>) => {
       let title = "Request failed";
