@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Table, Tag } from 'antd';
+import { Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { StatisticCard } from '@ant-design/pro-components';
 

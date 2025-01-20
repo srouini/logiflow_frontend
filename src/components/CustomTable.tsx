@@ -41,7 +41,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
   headerTitle,
   rowSelectionFunction,
   RowSelectionRnder,
-  scrollX = 1200,
   scrollY,
   toolBar,
   toolbar,

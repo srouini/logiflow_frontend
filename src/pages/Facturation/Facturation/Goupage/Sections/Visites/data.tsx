@@ -1,4 +1,4 @@
-import { API_VISITES_ENDPOINT, API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
+import { API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
 import Print from "@/components/Print";
 import { renderDate, renderText } from "@/utils/functions";
 import { ProColumns, TableDropdown } from "@ant-design/pro-components";

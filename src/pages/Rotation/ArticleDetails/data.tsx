@@ -11,7 +11,6 @@ import AUFormDepotageContainer from "./components/AUFormDepotageContainer";
 
 export const getColumns = (
   refetch: () => void,
-  article: any
 ): ProColumns<any>[] => [
   {
     title: "Matricule",

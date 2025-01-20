@@ -44,7 +44,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIF
     values = formatDate("accostage", values);
     mutate(values);
   };
-
+//@ts-ignore
   const onFinish = async (values: any) => {
     handleFormSubmission();
   };

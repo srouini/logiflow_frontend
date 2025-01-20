@@ -1,14 +1,12 @@
 import { useState } from "react";
 import DraggableModel from "@/components/DraggableModel";
 import FormObject from "@/components/Form";
-import { Card, Col, DatePicker, Divider, Flex, Form, message, Row } from "antd";
+import { Col, DatePicker, Form, message, Row } from "antd";
 import usePost from "@/hooks/usePost";
 import { formatDateTime, mapInitialValues } from "@/utils/functions";
 import FormField from "@/components/form/FormField";
-import { API_CONTENEURS_ENDPOINT, API_SCELLE_ENDPOINT } from "@/api/api";
-import Delete from "@/components/Delete";
+import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import dayjs from "dayjs";
-import { ProCard } from "@ant-design/pro-components";
 
 interface AUFormProps {
   refetch: () => void;

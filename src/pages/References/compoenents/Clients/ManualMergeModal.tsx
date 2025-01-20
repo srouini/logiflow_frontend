@@ -29,7 +29,7 @@ const ManualMergeModal: React.FC<ManualMergeModalProps> = ({
   });
 
   const { mutate: mergeClients, isLoading: isMerging } = usePost({
-    endpoint: 'http://localhost:8000/api/reference/client/manual_merge/',
+    endpoint: `${API_CLIENTS_ENDPOINT}/manual_merge/`,
     onSuccess: () => {
       refetch();
       onCancel();
@@ -80,6 +80,7 @@ const ManualMergeModal: React.FC<ManualMergeModalProps> = ({
           required
           help="All data will be merged into this client"
         >
+         
           <Select
             showSearch
             placeholder="Select target client"
@@ -87,6 +88,7 @@ const ManualMergeModal: React.FC<ManualMergeModalProps> = ({
             loading={isLoading}
             onChange={(value) => setTargetClient(value)}
             filterOption={(input, option) =>
+               //@ts-ignore
               (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
             }
           />
@@ -101,11 +103,12 @@ const ManualMergeModal: React.FC<ManualMergeModalProps> = ({
             showSearch
             placeholder="Select clients to merge"
             options={clientOptions.filter(
-              (option) => option.value !== targetClient
+              (option:any) => option.value !== targetClient
             )}
             loading={isLoading}
             onChange={(values) => setClientsToMerge(values)}
             filterOption={(input, option) =>
+               //@ts-ignore
               (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
             }
           />

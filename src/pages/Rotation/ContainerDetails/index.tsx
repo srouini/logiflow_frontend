@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Divider, Drawer, message, Segmented } from "antd";
+import { Button, Divider, Drawer, message, Select } from "antd";
 import { Container } from "@/types/data";
 import { ProDescriptions } from "@ant-design/pro-components";
 import CustomTable from "@/components/CustomTable";
@@ -13,6 +13,7 @@ import usePost from "@/hooks/usePost";
 import { TableSelectionType } from "@/types/antdeing";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import Export from "./components/Export";
+import { selectConfig } from "@/utils/config";
 
 interface SubArticlePageProps {
   container: Container;
@@ -86,15 +87,22 @@ export default ({ container, columns }: SubArticlePageProps) => {
 
   const RowSelectionRnder = (
     <>
-      Type:
-      <Segmented
-        options={box.results?.map((item: any) => {
-          return { label: item.designation, value: item.id };
-        })}
-        onChange={handleContainerType}
-        allowFullScreen
-        defaultValue={false}
-      />
+        <Select
+      style={{ width: "300px", marginBottom: "0px", paddingBottom: "0px" }}
+      
+      {...selectConfig}
+
+      onChange={handleContainerType}
+      options={box?.results}
+
+      fieldNames={{
+        label: "designation",
+        value: "id",
+      }}
+
+
+    />
+     
     </>
   );
 

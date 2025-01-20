@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "@/utils/constants";
@@ -27,45 +27,6 @@ const useAuth = (): UseAuth => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // Allow null to indicate loading state
   const [loading, setLoading] = useState<boolean>(true); // Start loading as true
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   checkAuthentication();
-  // }, []);
-
-  const refreshToken = async () => {
-    const refreshToken = localStorage.getItem("style");
-    const apiEndpoint = `${API_ENDPOINT}/api/auth/refresh-token/`;
-
-    if (!refreshToken) {
-      throw new Error("No refresh token available.");
-    }
-
-    try {
-      const response = await axios.post(apiEndpoint, { refresh_token: refreshToken });
-      const newAccessToken = response.data.font;
-      if (!newAccessToken) {
-        throw new Error("Invalid token response");
-      }
-      localStorage.setItem("font", newAccessToken);
-      return true;
-    } catch (error) {
-      console.error("Token refresh failed:", error);
-      localStorage.clear(); // Clear all tokens on refresh failure
-      return false;
-    }
-  };
-
-  const checkAuthentication = async () => {
-    try {
-      const isAuthenticated = await refreshToken();
-      setIsAuthenticated(isAuthenticated);
-    } catch (error) {
-      setIsAuthenticated(false);
-      localStorage.clear(); // Clear all tokens on check failure
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const login = async (username: string, password: string) => {
     setLoading(true);

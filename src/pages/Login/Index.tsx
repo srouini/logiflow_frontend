@@ -1,35 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Button, Col, ConfigProvider, Flex, Form, Input, message, Row, Typography } from "antd";
+import React, { useState } from "react";
+import { Button, Col, ConfigProvider, Form, Input, message, Row } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { createStyles } from 'antd-style';
 import { useAuth } from "@/context/AuthContext"
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const useStyle = createStyles(({ prefixCls, css }) => ({
-  linearGradientButton: css`
-    &.${prefixCls}-btn-primary:not([disabled]):not(.${prefixCls}-btn-dangerous) {
-      border-width: 0;
-
-      > span {
-        position: relative;
-      }
-
-      &::before {
-        content: '';
-        background: linear-gradient(135deg, #C919D1,#3A94F1, #7138D4);
-        position: absolute;
-        inset: 0;
-        opacity: 1;
-        transition: all 0.3s;
-        border-radius: inherit;
-      }
-
-      &:hover::before {
-        opacity: 0;
-      }
-    }
-  `,
-}));
 
 interface LoginParams {
   username: string;
@@ -46,9 +20,7 @@ const LoginPage: React.FC = () => {
   const from = (location.state as any)?.from?.pathname || '/';
   console.log('Login page state:', { isAuthenticated, from });
 
-  const { styles } = useStyle();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { Title } = Typography;
 
   // Redirect if already logged in
   React.useEffect(() => {

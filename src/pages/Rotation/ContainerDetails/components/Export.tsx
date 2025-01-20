@@ -6,7 +6,7 @@ import useData from "@/hooks/useData";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "../data";
 // import AUForm from "./components/AUForm";
-import { Button, Drawer, Modal } from "antd";
+import { Button, Drawer } from "antd";
 import { CloudDownloadOutlined } from "@ant-design/icons";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";

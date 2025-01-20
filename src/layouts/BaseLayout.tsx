@@ -1,8 +1,7 @@
 import { LogoutOutlined, MoonOutlined, SettingOutlined, SunOutlined, WindowsOutlined, BranchesOutlined, FileProtectOutlined, FieldTimeOutlined, FileDoneOutlined, CodepenOutlined, SlidersOutlined } from "@ant-design/icons";
 import { MenuDataItem, ProConfigProvider, ProLayout } from "@ant-design/pro-components";
-import { Button, Col, ConfigProvider, Dropdown, message, Modal, Popconfirm, Row, theme } from "antd";
+import { Col, ConfigProvider, Dropdown, message, Modal, Row, theme } from "antd";
 import { useEffect, useState } from "react";
-import defaultProps from "./_defaultProps";
 import { useNavigate, Outlet, useLocation } from "react-router";
 import {useAuth} from "@/context/AuthContext";
 import useScreenSize from "../hooks/useScreenSize";
@@ -12,12 +11,6 @@ import { MenuProps } from "antd/lib";
 import _defaultProps from "./_defaultProps";
 import { Link } from "react-router-dom";
 import avatar from "@/assets/avatar.png"
-interface MenuItem extends MenuDataItem {
-  path: string;
-  name: string;
-  icon: React.ReactNode;
-  component: React.ComponentType;
-}
 
 
 export default () => {
@@ -139,6 +132,7 @@ export default () => {
   const filterMenuItems = (items: MenuDataItem[]): MenuDataItem[] => {
     return items
       .map((item) => {
+        //@ts-ignore
         const hasPermission = hasPagePermission(item.path);
 
         // Recursively filter children
@@ -260,6 +254,7 @@ export default () => {
             layout={user?.profile?.layout_preference || 'top'}
             siderMenuType="sub"
             defaultCollapsed={false}
+            //@ts-ignore
             headerTitleRender={(logo, title, _) => {
               const defaultDom = (
                 <Row align="middle" justify="center" gutter={12}>
@@ -287,6 +282,7 @@ export default () => {
             menu={{
               defaultOpenAll: true
             }}
+            //@ts-ignore
             menuItemRender={(item, dom) => (
               <Link 
                 to={item.path || '/'} 
@@ -307,6 +303,7 @@ export default () => {
             avatarProps={{
               src: <img src={avatar} />,
               title: user?.username,
+              //@ts-ignore
               render: (props, dom) => (
                 <Dropdown 
                   menu={{ items: userMenuItems }} 
@@ -317,6 +314,7 @@ export default () => {
                 </Dropdown>
               ),
             }}
+            //@ts-ignore
             actionsRender={(props) => [
               isDarkMode ? <SunOutlined onClick={handleThemeChange} style={{ color: isDarkMode ? '#fff' : 'inherit' }} /> : <MoonOutlined onClick={handleThemeChange} style={{ color: isDarkMode ? '#fff' : 'inherit' }} />
             ]}

@@ -1,4 +1,4 @@
-import { Col, Row, Space, Tag } from "antd";
+import { Col, Row, Tag } from "antd";
 import AUForm from "./components/AUForm";
 import Delete from "@/components/Delete";
 import { API_SEJOURS_SOUS_ARTICLE_GROUPAGE_ENDPOINT } from "@/api/api";

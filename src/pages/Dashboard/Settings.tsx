@@ -8,11 +8,9 @@ import {
   ColorPicker,
   message,
   Divider,
-  Space,
 } from 'antd';
 import { useAuth } from '@/context/AuthContext';
 import axios from 'axios';
-import type { Color } from 'antd/es/color-picker';
 
 const { Option } = Select;
 

@@ -1,6 +1,4 @@
-import { TableDropdown } from "@ant-design/pro-components";
 import { Tag } from "antd";
-import { renderText } from "@/utils/functions";
 import { API_AGENT_DOUANE_ENDPOINT } from "@/constants/reference";
 import Delete from "@/components/Delete";
 import AUForm from "./AUForm";
@@ -47,12 +45,14 @@ export const getColumns = (refetch: () => void) => [
     key: "5",
     fixed: "right",
     width: 100,
-    render: (text: any, record: any) => [
+    render: (record: any) => [
       <AUForm key="edit" refetch={refetch} initialvalues={record} />,
       <Delete
         key="delete"
-        endpoint={`${API_AGENT_DOUANE_ENDPOINT}${record.id}/`}
+        url={`${API_AGENT_DOUANE_ENDPOINT}${record.id}/`}
         refetch={refetch}
+        class_name="AgentDouane"
+        id={record?.id}
       />,
     ],
   },

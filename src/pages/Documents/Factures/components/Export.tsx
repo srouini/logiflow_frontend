@@ -5,8 +5,8 @@ import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 import CustomTable from "@/components/CustomTable";
 import { getColumns, exportColumns } from "../data";
-import { Button, Drawer, Modal, message } from "antd";
-import { CloudDownloadOutlined, FilePdfOutlined } from "@ant-design/icons";
+import { Button, Drawer, message } from "antd";
+import { CloudDownloadOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
@@ -26,6 +26,7 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
   const { filters, resetFilters, setFilters } = useFilters();
   const [open, setOpen] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState<any>(exportColumns);
+  //@ts-ignore
   const [loadingPdf, setLoadingPdf] = useState(false);
 
   const {
@@ -59,6 +60,7 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
     return count_str;
   };
   const api = useAxios()
+  //@ts-ignore
   const handleBatchPdfExport = async () => {
     if (!data?.data?.results?.length) {
       message.warning("No factures available for export");

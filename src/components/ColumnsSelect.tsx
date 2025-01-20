@@ -1,5 +1,4 @@
 import { useAuth } from "@/context/AuthContext";
-import useProfile from "@/hooks/useProfile";
 import { ensureHashPrefix } from "@/utils/functions";
 import { Tag } from "antd";
 import React from "react";

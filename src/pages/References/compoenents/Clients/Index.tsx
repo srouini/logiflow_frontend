@@ -8,8 +8,8 @@ import { API_CLIENTS_ENDPOINT } from "@/api/api";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
 // import AUForm from "./components/AUForm";
-import { Drawer, FloatButton, Modal, Button, message, Card } from "antd";
-import { UserOutlined, MergeOutlined, TeamOutlined } from "@ant-design/icons";
+import { Drawer, Modal, Button, Card } from "antd";
+import { MergeOutlined, TeamOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import AUForm from "./AUForm";
 import ColumnsSelect from "@/components/ColumnsSelect";
@@ -19,6 +19,7 @@ import ManualMergeModal from "./ManualMergeModal"; // Assuming ManualMergeModal 
 import { useAuth } from "@/context/AuthContext";
 
 interface Props {
+  hanleClose:() => void;
 }
 export default ({ }: Props) => {
   const [search, setSearch] = useState("");
@@ -68,7 +69,7 @@ export default ({ }: Props) => {
   const [manualMergeVisible, setManualMergeVisible] = useState(false);
 
   const { mutate: mergeDuplicates, isLoading: mergeLoading } = usePost({
-    endpoint: 'http://localhost:8000/api/reference/client/merge_duplicates/',
+    endpoint: `${API_CLIENTS_ENDPOINT}merge_duplicates/`,
     onSuccess: (data: any) => {
       if (data.message === 'No duplicate clients found') {
         Modal.info({

@@ -143,6 +143,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }
         } catch (error) {
           // Only log out on network errors or explicit 401s
+          //@ts-ignore
           if (!axios.isCancel(error) && (error.response?.status === 401 || !error.response)) {
             console.error('Periodic session verification failed:', error);
             setAuthState({

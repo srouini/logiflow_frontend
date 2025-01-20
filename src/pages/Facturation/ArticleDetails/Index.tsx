@@ -1,4 +1,4 @@
-import { PageContainer, ProFormSelect } from "@ant-design/pro-components";
+import { PageContainer } from "@ant-design/pro-components";
 import { useEffect, useState } from "react";
 import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
@@ -15,8 +15,7 @@ import { useParams } from "react-router";
 import Details from "@/components/Details";
 import { DetailsColumns } from "./data";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { Button, Divider, Segmented } from "antd";
-import { selectConfig } from "@/utils/config";
+import { Divider, Segmented } from "antd";
 
 
 export default () => {

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import DraggableModel from "../../../../components/DraggableModel";
-import FormObject from "../../../../components/Form";
+import DraggableModel from "@/components/DraggableModel";
+import FormObject from "@/components/Form";
 import { Form, message, Row } from "antd";
-import usePost from "../../../../hooks/usePost";
-import { formatDateTime } from "../../../../utils/functions";
-import { useReferenceContext } from "../../../../context/ReferenceContext";
-import { API_ARTICLES_ENDPOINT, API_CONTENEURS_ENDPOINT } from "@/api/api";
+import usePost from "@/hooks/usePost";
+import { useReferenceContext } from "@/context/ReferenceContext";
+import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { UnlockOutlined } from "@ant-design/icons";
 
@@ -37,7 +36,7 @@ const AUFormDepotageContainer: React.FC<AUFormProps> = ({
     values["id"] = parseInt(container);
     values["depote"] = true;
     let updated_container = {
-      ...container,
+      id:container?.id,
       depote: true,
       date_depotage: values["date_depotage"]?.format("YYYY-MM-DDTHH:mm:ss")
     }

@@ -100,6 +100,7 @@ const Excel: React.FC<ExcelExportProps> = ({
       
       // Calculate margins and content width based on orientation
       const pageWidth = pdfOrientation === 'landscape' ? 297 : 210;
+      //@ts-ignore
       const pageHeight = pdfOrientation === 'landscape' ? 210 : 297;
       const margin = 14;
       
@@ -181,6 +182,7 @@ const Excel: React.FC<ExcelExportProps> = ({
       worksheet["!autofilter"] = { ref: `A1:${String.fromCharCode(65 + header.length - 1)}1` };
 
       // Auto-adjust column widths
+      //@ts-ignore
       const columnWidths = worksheetData[0].map((_, colIndex) => {
         const maxWidth = worksheetData.reduce((maxWidth, row) => {
           const cell = row[colIndex] ?? "";

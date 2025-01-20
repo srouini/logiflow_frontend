@@ -81,7 +81,9 @@ const PreviewContainers: React.FC<Props> = ({ data, loading, summary }) => {
               status: 'warning',
             }}
           />
-          {summary?.invalid > 0 && (
+          
+          {//@ts-ignore 
+           summary?.invalid > 0 && (
             <StatisticCard
               statistic={{
                 title: 'Invalid (No Article)',

@@ -38,19 +38,19 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
     <DraggableModel
       OkButtontext="Soumettre"
       modalOpenButtonText=""
-      modalOpenButton={
+      addButtonIcon={
         initialvalues ? (
           <EditOutlined style={{ color: "#1890ff" }} />
         ) : (
           <PlusOutlined style={{ fontSize: "24px" }} />
         )
       }
-      title={initialvalues ? "Modifier Agent Douane" : "Ajouter Agent Douane"}
+      modalTitle=""
       open={open}
       setOpen={setOpen}
       onSubmit={handleFormSubmission}
-      confirmLoading={isLoading}
-      width={700}
+      isLoading={isLoading}
+      width={400}
     >
       <Form
         form={form}
@@ -63,17 +63,22 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues }) => {
           label="Nom complet"
           type="text"
           rules={[{ required: true, message: "Le nom est requis" }]}
+          span_md={24}
+          span={24}
         />
         <FormField
           name="code"
           label="Code"
           type="text"
+          span_md={24}
+          span={24}
         />
         <Form.Item 
           name="active" 
           label="Actif" 
           valuePropName="checked"
           initialValue={true}
+ 
         >
           <Switch />
         </Form.Item>

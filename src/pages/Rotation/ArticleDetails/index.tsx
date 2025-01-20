@@ -17,8 +17,6 @@ import { useReferenceContext } from "@/context/ReferenceContext";
 import { message, Segmented } from "antd";
 import usePost from "@/hooks/usePost";
 import Prestations from "./components/Prestations";
-import AUFormDepotage from "./components/AUFormDepotage";
-import Print from "@/components/Print";
 import Export from "./components/Export";
 
 export default () => {
@@ -37,7 +35,6 @@ export default () => {
     data: selectedArticleData,
     isLoading: isLoadingArticle,
     isRefetching: isRefetchingArticle,
-    refetch: refetchSelectedArticle,
   } = useData({
     endpoint: API_ARTICLES_ENDPOINT + id + "/",
     name: `GET_SELECTED_ARTICLE_${id}`,
@@ -140,7 +137,7 @@ export default () => {
       />
 
       <CustomTable
-        getColumns={getColumns(refetch, selectedArticleData?.data)}
+        getColumns={getColumns(refetch)}
         data={data}
         isFetching={isFetching}
         getPageSize={getPageSize}

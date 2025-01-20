@@ -1,7 +1,5 @@
 import {
-  LightFilter,
   ProFormSelect,
-  ProFormSwitch,
   QueryFilter,
 } from "@ant-design/pro-components";
 import { useEffect } from "react";
@@ -10,7 +8,6 @@ import {
   transformSelectFilter,
 } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { Button, Form } from "antd";
 import { YES_NO_CHOICES } from "@/utils/constants";
 import { selectConfig } from "@/utils/config";
 

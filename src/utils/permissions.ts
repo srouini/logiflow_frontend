@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import { useAuth } from '@/context/AuthContext';
 
 // Type for the permission check function

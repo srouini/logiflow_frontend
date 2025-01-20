@@ -1,5 +1,5 @@
 import { PageContainer } from "@ant-design/pro-components";
-import { lazy, Suspense, useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import useFilters from "@/hooks/useFilters";

@@ -4,7 +4,7 @@ import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
-import { API_BAREMES_ENDPOINT, API_MRNS_ENDPOINT } from "@/api/api";
+import { API_BAREMES_ENDPOINT } from "@/api/api";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
 import AUForm from "./components/AUForm";
@@ -13,7 +13,7 @@ import Export from "@/components/Export";
 export default () => {
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
-  const { filters, resetFilters, setFilters } = useFilters();
+  const { filters } = useFilters();
 
   const {
     data,

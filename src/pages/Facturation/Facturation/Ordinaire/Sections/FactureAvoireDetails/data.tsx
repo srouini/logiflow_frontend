@@ -99,21 +99,6 @@ export const columns = [
     key: "1",
   },
   {
-    title: "Etat",
-    dataIndex: "numero",
-    width: 150,
-    key: "2",
-    // @ts-ignore
-    render: (_, record: any) =>
-      record?.paid ? (
-        <Tag color="green"> Payée </Tag>
-      ) : record?.a_terme ? (
-        <Tag>A Terme</Tag>
-      ) : (
-        <Tag color="red">Non Payée</Tag>
-      ),
-  },
-  {
     title: "Date",
     dataIndex: "date_creation",
     key: "5",
@@ -142,13 +127,6 @@ export const columns = [
     width: 150,
   },
   {
-    title: "Timber",
-    dataIndex: "timber",
-    key: "10",
-    render: (record: any) => renderMoney(record),
-    width: 150,
-  },
-  {
     title: "TTC",
     dataIndex: "TTC",
     key: "11",
@@ -162,10 +140,8 @@ export const columns = [
     key: "2",
     // @ts-ignore
     render: (_, record: any) =>
-      record?.paid ? (
+      record?.tva ? (
         <Tag color="green"> OUI </Tag>
-      ) : record?.a_terme ? (
-        <Tag>A Terme</Tag>
       ) : (
         <Tag color="red">NO</Tag>
       ),
@@ -218,6 +194,7 @@ export const columns_prestation_conteneurs = (refetch: () => void) => [
     ellipsis: true,
     width: 60,
     key: "1",
+    //@ts-ignore
     render: (_,record: any) => <Row gutter={8}><Col><AUForm key={record?.id} initialvalues={record} refetch={refetch} /></Col><Col><Delete has_icon type="dashed" text="" link={false} class_name="Ligne" url={API_LIGNES_FACTURE_AVOIRE_ENDPOINT} id={record?.id} refetch={refetch} /> </Col></Row>,
   },
   {

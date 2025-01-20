@@ -45,10 +45,13 @@ const AUForm: React.FC<AUFormProps> = ({
 
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
+    
     if (initialvalues) {
       values.id = initialvalues?.id;
+      
+    }else{
+      values.article = parseInt(article);
     }
-    values.article = parseInt(article);
     values = formatDate("accostage", values);
     mutate(values);
   };

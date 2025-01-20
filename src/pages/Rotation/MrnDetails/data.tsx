@@ -6,8 +6,6 @@ import DetailsButton from "@/components/DetailsButton";
 import { API_ARTICLES_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
-import Print from "@/components/Print";
-import AUFormDepotage from "../ArticleDetails/components/AUFormDepotage";
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {

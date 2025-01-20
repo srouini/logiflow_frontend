@@ -11,7 +11,7 @@ import {
   API_SOUSARTICLES_ENDPOINT,
   API_VISITESGROUPAGE_ENDPOINT,
 } from "@/api/api";
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import FormThreeRelatedSelectInput from "@/components/form/FormThreeRelatedSelectInput";
 
 interface AUFormProps {
@@ -30,7 +30,6 @@ const AUForm: React.FC<AUFormProps> = ({
   disabled,
   editText = "MODIFIER",
   addText = "Visite",
-  hasIcon = false,
 }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);

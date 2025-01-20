@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { Divider, Select } from "antd";
-import { Bareme } from "@/types/bareme";
 import Prestation from "./components/Ordinaire/Prestation/index";
 import PrestationArticle from "./components/Ordinaire/PrestationArticle/index";
 import Sejour from "./components/Ordinaire/Sejour/index";
@@ -22,7 +20,6 @@ export default () => {
   const { id } = useParams();
 
   const [tab, setTab] = useState('Prestation');
-  const [tabGroupage, setTabGroupage] = useState('SejourTcGroupage');
   const navigate = useNavigate();
 
 

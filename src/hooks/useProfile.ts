@@ -15,7 +15,7 @@ const DEFAULT_SETTINGS: ProfileSettings = {
 };
 
 const useProfile = () => {
-  const [profile, setProfile] = useState<ProfileSettings>(DEFAULT_SETTINGS);
+  const [profile, setProfile] = useState<any>(DEFAULT_SETTINGS);
 
   useEffect(() => {
     const storedProfile = localStorage.getItem("profile");

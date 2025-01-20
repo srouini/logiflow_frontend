@@ -28,7 +28,6 @@ const MergedPDF: React.FC<MergedPDFProps> = ({
   // Get all data without pagination
   const {
     refetch: refetchExportData,
-    data,
     isLoading: isLoadingData,
     isRefetching,
     isFetching,

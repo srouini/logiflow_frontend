@@ -4,7 +4,6 @@ import usePost from "@/hooks/usePost";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import {
   API_BULLETINS_ENDPOINT,
-  API_CLIENTS_ENDPOINT,
 } from "@/api/api";
 import { ProFormSelect } from "@ant-design/pro-components";
 import { selectConfig } from "@/utils/config";

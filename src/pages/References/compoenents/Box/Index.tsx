@@ -8,14 +8,15 @@ import { API_BOXS_ENDPOINT } from "@/api/api";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
 // import AUForm from "./components/AUForm";
-import { Card, Drawer, FloatButton, Modal } from "antd";
-import { PicCenterOutlined, SettingOutlined } from "@ant-design/icons";
+import { Card, Drawer } from "antd";
+import { SettingOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import AUForm from "./AUForm";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export"
 import { useAuth } from "@/context/AuthContext";
 interface Props {
+  hanleClose:() => void;
 }
 export default ({  }: Props) => {
   const [search, setSearch] = useState("");

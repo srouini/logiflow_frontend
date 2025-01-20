@@ -14,7 +14,9 @@ import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
 import { useAuth } from "@/context/AuthContext";
 
-interface Props {}
+interface Props {
+  hanleClose: () => void;
+}
 
 const AgentDouanePage: React.FC<Props> = () => {
   const [search, setSearch] = useState("");

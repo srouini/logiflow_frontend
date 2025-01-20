@@ -5,9 +5,9 @@ import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
 // import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
-import { columns, exportColumns, getColumns } from "../data";
+import { exportColumns, getColumns } from "../data";
 // import AUForm from "./components/AUForm";
-import { Button, Drawer, Modal } from "antd";
+import { Button, Drawer } from "antd";
 import { CloudDownloadOutlined } from "@ant-design/icons";
 import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
@@ -20,6 +20,7 @@ interface Props {
   article?:any,
   key?:any
 }
+//@ts-ignore
 export default ({article,key,expand,endpoint,query_params}:Props) => {
   const [search, setSearch] = useState("");
   const { page, getPageSize, setPageSize, setPage } = usePage();
@@ -95,7 +96,7 @@ export default ({article,key,expand,endpoint,query_params}:Props) => {
           setSelectedColumns={setSelectedColumns}
         />
         <CustomTable
-          getColumns={getColumns(refetch,article).filter((col) => col.key !== "Actions")}
+          getColumns={getColumns(refetch).filter((col) => col.key !== "Actions")}
           data={data}
           isFetching={isFetching}
           getPageSize={getPageSize}

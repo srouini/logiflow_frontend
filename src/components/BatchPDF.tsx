@@ -29,7 +29,6 @@ const BatchPDF: React.FC<BatchPDFProps> = ({
 
   const {
     refetch: refetchExportData,
-    data,
     isLoading: isLoadingData,
     isRefetching,
     isFetching,

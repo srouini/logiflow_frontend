@@ -1,6 +1,6 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
-import { Col, Row, Space, Tag } from "antd";
+import { Col, Row, Space } from "antd";
 
 import DetailsButton from "@/components/DetailsButton";
 import Delete from "@/components/Delete";

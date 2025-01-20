@@ -7,7 +7,6 @@ import { API_ARTICLES_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
 import AUForm from "./components/AUForm";
 import Print from "@/components/Print";
-import AUFormDepotage from "../ArticleDetails/components/AUFormDepotage";
 
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
   {
@@ -123,13 +122,6 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 id={record?.id}
                 endpoint_suffex="generate_ticktage/"
                 button_text="Ticktage"
-              />
-            </Col>
-            <Col>
-              <AUFormDepotage
-                article={record?.id}
-                disable={record?.depote || !record?.groupage}
-                refetch={refetch}
               />
             </Col>
           </Row>,

@@ -1,9 +1,7 @@
-import { Button, Form } from "antd";
-import FormField from "@/components/form/FormField";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { useEffect } from "react";
 import { YES_NO_CHOICES } from "@/utils/constants";
-import { LightFilter, ProFormSelect, ProFormSwitch, QueryFilter } from "@ant-design/pro-components";
+import { ProFormSelect, QueryFilter } from "@ant-design/pro-components";
 import { selectConfig } from "@/utils/config";
 
 interface QueryFiltersProps {

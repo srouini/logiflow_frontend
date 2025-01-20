@@ -15,6 +15,7 @@ export const getColumns = (refetch: () => void) => [
   {
     title: "Nature",
     key: "dangereux",
+    //@ts-ignore
     render: (_,record: any) =>{ return (
       <>
         {record.dangereux ? <Tag color="red"> DGX </Tag> : ""}
