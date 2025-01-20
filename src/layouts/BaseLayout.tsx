@@ -114,11 +114,6 @@ export default () => {
         icon: <SlidersOutlined />,
       },
       {
-        path:'/dynamic-report',
-        name: 'Rapports Dynamiques',
-        icon: <SlidersOutlined />,
-      },
-      {
         path:'/references',
         name: 'Reference',
         icon: <SlidersOutlined />,
