@@ -19,6 +19,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Facture } from "@/types/billing";
 import useData from "@/hooks/useData";
 import useLoading from "@/hooks/useLoading";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -91,9 +92,11 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, facture }) => {
     endpoint: API_BONS_SORTIE_ENDPOINT,
   });
 
+  const hasPermission = usePermissions();
+
   return (
     <DraggableModel
-      disabledModalOpenButton={!facture?.a_terme && !facture?.paid}
+      disabledModalOpenButton={(!facture?.a_terme && !facture?.paid) ||  !hasPermission('billing.add_bonsortie')}
       OkButtontext="Submit"
       modalOpenButtonText="Bon Livraison"
       modalTitle="Bon Livraison"

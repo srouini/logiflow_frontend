@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import DraggableModel from "@/components/DraggableModel";
 import FormObject from "@/components/Form";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   article: any;
@@ -72,11 +73,15 @@ export default ({ article, refetch }: AUFormProps) => {
     });
   };
 
+  const hasPermission = usePermissions();
+
+
   return (
     <>
       <DraggableModel
         OkButtontext="Submit"
         modalOpenButtonText="Prestation occasionnelles"
+        disabledModalOpenButton={!hasPermission('bareme.add_prestationoccasionnelle')}
         addButtonIcon={<PlusOutlined />}
         modalTitle="+ Préstation occasionnelles"
         onSubmit={handleFormSubmission}

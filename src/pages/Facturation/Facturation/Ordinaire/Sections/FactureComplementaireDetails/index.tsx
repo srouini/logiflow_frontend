@@ -154,6 +154,7 @@ export default ({
                   id={factureComplementaire?.id}
                   key={factureComplementaire?.id}
                   type="Download"
+                  permission="billing.can_print_facturecomplementaire"
                 />
               </Col>
               <Col>
@@ -163,6 +164,7 @@ export default ({
                   id={factureComplementaire?.id}
                   key={factureComplementaire?.id}
                   type="View"
+                  permission="billing.can_print_facturecomplementaire"
                 />
               </Col>
             </Row>

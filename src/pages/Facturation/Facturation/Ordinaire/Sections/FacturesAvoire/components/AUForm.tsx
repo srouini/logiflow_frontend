@@ -9,6 +9,7 @@ import { API_FACTURE_ENDPOINT, API_FACTURES_AVOIRE_ENDPOINT } from "@/api/api";
 import { PlusOutlined } from "@ant-design/icons";
 import useData from "@/hooks/useData";
 import { YES_NO_CHOICES } from "@/utils/constants";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   article: any;
@@ -54,6 +55,8 @@ const AUForm: React.FC<AUFormProps> = ({
     },
   });
 
+  const hasPermission = usePermissions();
+  
   return (
     <DraggableModel
       OkButtontext="Submit"
@@ -68,6 +71,7 @@ const AUForm: React.FC<AUFormProps> = ({
       open={open}
       width={400}
       isLoading={isLoading}
+      disabledModalOpenButton={!hasPermission('billing.add_factureavoire')}
     >
       <FormObject form={form}>
         <Row gutter={24}>

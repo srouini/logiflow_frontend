@@ -88,6 +88,7 @@ export const getColumns = ({refetch,isLoadingFacture}): ProColumns<any>[] => [
                   id={record?.id}
                   key={record?.id}
                   type="Download"
+                  permission="billing.can_print_facture"
                 />
               </Col>
               <Col>
@@ -97,6 +98,7 @@ export const getColumns = ({refetch,isLoadingFacture}): ProColumns<any>[] => [
                   id={record?.id}
                   key={record?.id}
                   type="View"
+                   permission="billing.can_print_facture"
                 />
               </Col>
            </Row> 

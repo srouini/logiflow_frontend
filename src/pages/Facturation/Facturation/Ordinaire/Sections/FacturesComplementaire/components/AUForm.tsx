@@ -9,6 +9,7 @@ import { API_FACTURE_ENDPOINT, API_FACTURES_COMPLIMENTAIRE_ENDPOINT } from "@/ap
 import { PlusOutlined } from "@ant-design/icons";
 import useData from "@/hooks/useData";
 import { YES_NO_CHOICES } from "@/utils/constants";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   article: any;
@@ -54,9 +55,12 @@ const AUForm: React.FC<AUFormProps> = ({
     },
   });
 
+  const hasPermission = usePermissions();
+  
   return (
     <DraggableModel
       OkButtontext="Submit"
+      disabledModalOpenButton={!hasPermission('billing.add_facturecomplementaire')}
       modalOpenButtonText="Facture complimentaire"
       modalTitle="Facture complimentaire"
       addButtonType="dashed"

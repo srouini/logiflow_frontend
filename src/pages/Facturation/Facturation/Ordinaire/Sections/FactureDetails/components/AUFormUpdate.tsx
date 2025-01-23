@@ -7,6 +7,7 @@ import { API_BONS_SORTIE_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { EditOutlined } from "@ant-design/icons";
 import { BonSortie } from "@/types/billing";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -49,10 +50,13 @@ const AUFormUpdate: React.FC<AUFormProps> = ({ refetch, bon_sortie }) => {
     endpoint: API_BONS_SORTIE_ENDPOINT,
   });
 
+  const hasPermission = usePermissions();
+
 
   return (
     <DraggableModel
-      // disabledModalOpenButton={!facture?.a_terme && !facture?.paid}
+    disabledModalOpenButton={!hasPermission('billing.change_bonsortie')}
+
       OkButtontext="Submit"
       modalOpenButtonText=""
       modalTitle="Bon Livraison"

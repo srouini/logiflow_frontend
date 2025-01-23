@@ -13,7 +13,7 @@ interface props {
   refetchVisiteItems: () => void;
   disabled?: boolean;
 }
-export default ({ visite, disabled,refetchVisiteItems }: props) => {
+export default ({ visite, disabled, refetchVisiteItems }: props) => {
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
@@ -39,7 +39,10 @@ export default ({ visite, disabled,refetchVisiteItems }: props) => {
   } = useData({
     endpoint: API_VISITES_ENDPOINT + visite + "/non_visited_tcs/",
     name: "GET_NON_VISITED_TCS",
-    params: {},
+    params: { 
+      expand: "article,type_tc" 
+    },
+    
   });
 
   const { isLoading } = useLoading({
@@ -97,10 +100,10 @@ export default ({ visite, disabled,refetchVisiteItems }: props) => {
       title: "Action",
       key: "99",
       dataIndex: "tc",
-      fixed:"right",
+      fixed: "right",
       width: 120,
       // @ts-ignore
-      render: (_,record:any) => <AUForm tc={record} refetch={refetchVisiteItems} initialvalues={null} addText="" visite_id={visite} refetchNonVisitedContainers={refetch}/> 
+      render: (_, record: any) => <AUForm tc={record} refetch={refetchVisiteItems} initialvalues={null} addText="" visite_id={visite} refetchNonVisitedContainers={refetch} />
     },
   ];
 

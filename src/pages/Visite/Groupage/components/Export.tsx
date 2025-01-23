@@ -11,6 +11,7 @@ import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
 import { API_VISITESGROUPAGE_ENDPOINT } from "@/api/api";
+import { usePermissions } from "@/utils/permissions";
 
 interface Props {
   expand?: string;
@@ -55,9 +56,11 @@ export default ({ expand = "gros,article,sous_article,transitaire", query_params
     return count_str;
   };
 
+  const hasPermission = usePermissions();
+
   return (
     <>
-      <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={() => setOpen(true)}>
+      <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={() => setOpen(true)} disabled={!hasPermission("groupage.can_export_visitegroupage")}>
         Exporter
       </Button>
 

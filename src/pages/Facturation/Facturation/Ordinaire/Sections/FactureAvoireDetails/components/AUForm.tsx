@@ -11,6 +11,7 @@ import FormField from "@/components/form/FormField";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Facture } from "@/types/billing";
 import { mapInitialValues, removeDuplicatedRubriques } from "@/utils/functions";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -73,9 +74,11 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, facture, initialvalues }) => {
     endpoint: API_LIGNES_FACTURE_AVOIRE_ENDPOINT,
   });
 
+  const hasPermission = usePermissions();
+
   return (
     <DraggableModel
-      disabledModalOpenButton={facture?.paid}
+      disabledModalOpenButton={facture?.paid || (initialvalues && !hasPermission('billing.change_lignefactureavoire')) || (!initialvalues && !hasPermission('billing.add_lignefactureavoire'))}
       OkButtontext="Submit"
       modalOpenButtonText={formData ? "" : "Ligne"}
       modalTitle="Ligne"

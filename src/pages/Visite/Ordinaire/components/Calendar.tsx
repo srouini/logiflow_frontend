@@ -149,16 +149,14 @@ export default () => {
             size="large"
             style={{ width: "80px" }}
             onClick={handleSelectedDatePrint}
-            disabled={!hasPermission('app.print_visite')}
           ></Button>
           <Button
             type="dashed"
             icon={<CloudDownloadOutlined />}
             size="large"
-            
+
             style={{ width: "80px" }}
             onClick={handleSelectedDateDownload}
-            disabled={!hasPermission('app.print_visite')}
           ></Button>
         </Flex>
         <Divider />

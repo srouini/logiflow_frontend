@@ -100,6 +100,8 @@ export default ({
                   id={factureAvoire?.id}
                   key={factureAvoire?.id}
                   type="Download"
+                  permission="billing.can_print_factureavoire"
+
                 />
               </Col>
               <Col>
@@ -109,6 +111,8 @@ export default ({
                   id={factureAvoire?.id}
                   key={factureAvoire?.id}
                   type="View"
+                  permission="billing.can_print_factureavoire"
+
                 />
               </Col>
             </Row>

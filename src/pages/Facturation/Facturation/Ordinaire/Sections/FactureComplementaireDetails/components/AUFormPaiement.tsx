@@ -13,6 +13,7 @@ import { FactureComplementaire, Paiement, PaiementFactureComplementaire } from "
 import { PAIEMENTS_METHODE } from "@/utils/constants";
 import { formatDate, roundToDecimals } from "@/utils/functions";
 import dayjs from "dayjs";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -78,9 +79,10 @@ const AUFormPaiement: React.FC<AUFormProps> = ({ refetch, facture,paiementsFactu
     setMode(value);
   };
 
+  const hasPermission = usePermissions();
   return (
     <DraggableModel
-      disabledModalOpenButton={calculateRest() <= 0}
+      disabledModalOpenButton={calculateRest() <= 0 || !hasPermission('billing.add_paiementfacturecomplementaire')}
       OkButtontext="Submit"
       modalOpenButtonText="Paiement"
       modalTitle="Paiement"

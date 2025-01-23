@@ -41,6 +41,7 @@ export const getColumns = (refetch:() => void): ProColumns<any>[] => [
                 id={record?.id}
                 key={record?.id}
                 type="Download"
+                permission="billing.can_print_boncommande"
               />
             </Col>
             <Col>
@@ -50,10 +51,11 @@ export const getColumns = (refetch:() => void): ProColumns<any>[] => [
                 id={record?.id}
                 key={record?.id}
                 type="View"
+                permission="billing.can_print_boncommande"
               />
             </Col>
             <Col>
-            <Delete class_name="Bon commande" id={record?.id} refetch={refetch} url={API_BONS_COMMANDE_ENDPOINT} has_icon type="dashed" link={false} text="" />
+            <Delete permission="billing.delete_boncommande" class_name="Bon commande" id={record?.id} refetch={refetch} url={API_BONS_COMMANDE_ENDPOINT} has_icon type="dashed" link={false} text="" />
             </Col>
          </Row> 
         ]

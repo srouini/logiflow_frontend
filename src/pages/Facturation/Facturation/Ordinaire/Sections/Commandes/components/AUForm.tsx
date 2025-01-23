@@ -8,6 +8,7 @@ import { CheckCard } from "@ant-design/pro-components";
 import { Divider, Form, message, Row, Tag } from "antd";
 import { useEffect, useState } from "react";
 import FormObject from "@/components/Form";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   article: any;
@@ -81,11 +82,15 @@ export default ({ article, refetch }: AUFormProps) => {
       }),
     });
   };
+
+  const hasPermission = usePermissions();
+
   return (
     <>
       <DraggableModel
         OkButtontext="Submit"
         modalOpenButtonText="Commande"
+        disabledModalOpenButton={!hasPermission('billing.add_boncommande')}
         addButtonIcon={<PlusOutlined />}
         modalTitle="+ Commande"
         onSubmit={handleFormSubmission}

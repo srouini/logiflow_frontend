@@ -53,7 +53,7 @@ export const getColumns = (refetch:() => void): ProColumns<any>[] => [
         children={
          [<Row gutter={8}>
             <Col>
-              <Delete disabled={record?.tc?.billed} class_name="Prestation occasionnelle" id={record?.id} refetch={refetch} url={API_PRESTATIONS_OCCASIONNELLE_ENDPOINT} has_icon type="dashed" link={false} text="" />
+              <Delete disabled={record?.tc?.billed} permission="bareme.delete_prestationoccasionnelle" class_name="Prestation occasionnelle" id={record?.id} refetch={refetch} url={API_PRESTATIONS_OCCASIONNELLE_ENDPOINT} has_icon type="dashed" link={false} text="" />
             </Col>
          </Row> 
         ]

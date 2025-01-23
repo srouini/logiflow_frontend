@@ -19,6 +19,7 @@ import { AxiosInstance } from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { saveAs } from "file-saver";
+import { usePermissions } from "@/utils/permissions";
 
 
 export default () => {
@@ -121,15 +122,16 @@ export default () => {
     if(selectedDate) handleDownload() 
 }
 
+const hasPermission = usePermissions();
 
   return (
     <>
-      <Button onClick={showDrawer} type="primary" icon={<CalendarOutlined />}>
+      <Button onClick={showDrawer} type="primary" icon={<CalendarOutlined />} disabled={!hasPermission("groupage.view_visitegroupage")}>
         Calndrier des visites
       </Button>
 
       <Drawer
-        width={500}
+        width={500} 
         placement="right"
         closable={false}
         onClose={onClose}
@@ -167,8 +169,8 @@ export default () => {
                 <Flex justify="space-between">
                   <Row align={"middle"}>{item?.visite}</Row>
                   <Row gutter={8} style={{ paddingRight: "10px" }}>
-                    <Col><Print endpoint={API_VISITESGROUPAGE_ENDPOINT} endpoint_suffex="generate_pdf/" id={item?.id} type="View" /></Col>
-                    <Col><Print endpoint={API_VISITESGROUPAGE_ENDPOINT} endpoint_suffex="generate_pdf/" id={item?.id} type="Download" /></Col>
+                    <Col><Print endpoint={API_VISITESGROUPAGE_ENDPOINT} endpoint_suffex="generate_pdf/" id={item?.id} type="View" permission="groupage.can_print_visitegroupage"/></Col>
+                    <Col><Print endpoint={API_VISITESGROUPAGE_ENDPOINT} endpoint_suffex="generate_pdf/" id={item?.id} type="Download" permission="groupage.can_print_visitegroupage"/></Col>
                   </Row>
                 </Flex>
               </Card>

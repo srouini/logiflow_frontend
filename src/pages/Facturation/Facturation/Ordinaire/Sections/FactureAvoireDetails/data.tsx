@@ -195,7 +195,7 @@ export const columns_prestation_conteneurs = (refetch: () => void) => [
     width: 60,
     key: "1",
     //@ts-ignore
-    render: (_,record: any) => <Row gutter={8}><Col><AUForm key={record?.id} initialvalues={record} refetch={refetch} /></Col><Col><Delete has_icon type="dashed" text="" link={false} class_name="Ligne" url={API_LIGNES_FACTURE_AVOIRE_ENDPOINT} id={record?.id} refetch={refetch} /> </Col></Row>,
+    render: (_,record: any) => <Row gutter={8}><Col><AUForm key={record?.id} initialvalues={record} refetch={refetch} /></Col><Col><Delete permission="billing.delete_lignefactureavoire" has_icon type="dashed" text="" link={false} class_name="Ligne" url={API_LIGNES_FACTURE_AVOIRE_ENDPOINT} id={record?.id} refetch={refetch} /> </Col></Row>,
   },
   {
     title: "Rubrique",

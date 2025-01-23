@@ -80,6 +80,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 id={record?.id}
                 key={record?.id}
                 type="View"
+                permission="groupage.can_print_visitegroupage"
               />
             </Col>
             <Col>
@@ -92,6 +93,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 link={false}
                 text=""
                 has_icon
+                permission="groupage.delete_visitegroupage"
               />
             </Col>
             <Col>

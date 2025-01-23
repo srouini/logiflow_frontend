@@ -13,6 +13,7 @@ import {
 } from "@ant-design/icons";
 import { YES_NO_CHOICES } from "@/utils/constants";
 import { CheckCard } from "@ant-design/pro-components";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -205,6 +206,7 @@ const AUForm: React.FC<AUFormProps> = ({
     border: `1px dashed ${token.colorBorder}`,
     marginTop: 16,
   };
+
 
   return (
     <DraggableModelWithoutFooter

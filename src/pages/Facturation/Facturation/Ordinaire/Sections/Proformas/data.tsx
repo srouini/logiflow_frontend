@@ -79,6 +79,7 @@ export const getColumns = (refetch:any): ProColumns<any>[] => [
                 key={record?.id}
                 type="Download"
                 disabled={record?.trashed}
+                permission="billing.can_print_proforma"
               />
             </Col>
             <Col>
@@ -89,6 +90,8 @@ export const getColumns = (refetch:any): ProColumns<any>[] => [
                 key={record?.id}
                 type="View"
                 disabled={record?.trashed}
+                permission="billing.can_print_proforma"
+
               />
             </Col>
             <Col>

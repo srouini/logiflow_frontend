@@ -9,6 +9,7 @@ import {  Divider,  Form, message, Row, Tag } from "antd";
 import { useEffect, useState } from "react";
 import FormObject from "@/components/Form";
 import DraggableModel from "@/components/DraggableModel";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   article: any;
@@ -20,7 +21,6 @@ export default ({ article, refetch }: AUFormProps) => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-
 
   const onSuccess = async () => {
     message.success("Submission successful");
@@ -53,18 +53,33 @@ export default ({ article, refetch }: AUFormProps) => {
   const [selectedContainers, setSelectedContainers] = useState([]);
 
   const handleFormSubmission = async () => {
-    let values = await form.validateFields();
+    try {
+      // Validate form fields first
+      const values = await form.validateFields();
 
-    const date = new Date(values["date_proforma"]);
-    values["date_proforma"] = date.toISOString().split("T")[0];
-    values["article"] = article?.id;
-    values["gros"] = article?.gros?.id;
-    values["tcs"] = selectedContainers;
-    console.log(values);
-    mutate(values);
+      // Check for selected containers
+      if (!selectedContainers || selectedContainers.length === 0) {
+        message.warning("Veuillez sélectionner au moins un conteneur à facturer.");
+        return;
+      }
+
+      // Format date
+      const date = new Date(values["date_proforma"]);
+      values["date_proforma"] = date.toISOString().split("T")[0];
+      
+      // Add required fields
+      values["article"] = article?.id;
+      values["gros"] = article?.gros?.id;
+      values["tcs"] = selectedContainers;
+
+      mutate(values);
+    } catch (error) {
+      console.error("Form validation failed:", error);
+    }
   };
 
-  console.log(containers);
+  const hasPermission = usePermissions();
+  
   return (
     <>
       <DraggableModel
@@ -77,6 +92,7 @@ export default ({ article, refetch }: AUFormProps) => {
         open={isModalOpen}
         width={600}
         isLoading={isLoading}
+        disabledModalOpenButton={containers?.data.length === 0 || !hasPermission('billing.add_proforma')}
       >
         <FormObject form={form} initialvalues={{ quantite: 1 }}>
           <Divider dashed style={{ marginTop: "0px" }} />

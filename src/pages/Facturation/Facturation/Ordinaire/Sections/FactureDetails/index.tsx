@@ -147,6 +147,7 @@ export default ({
                   id={facture?.id}
                   key={facture?.id}
                   type="Download"
+                  permission="billing.can_print_facture"
                 />
               </Col>
               <Col>
@@ -156,6 +157,7 @@ export default ({
                   id={facture?.id}
                   key={facture?.id}
                   type="View"
+                  permission="billing.can_print_facture"
                 />
               </Col>
             </Row>
@@ -201,12 +203,14 @@ export default ({
                       id={item?.id?.toString()}
                       type="View"
                       endpoint_suffex="generate_pdf/"
+                      permission="billing.can_print_bonsortie"
                     />
                     <Print
                       endpoint={API_BONS_SORTIE_ENDPOINT}
                       id={item?.id?.toString()}
                       type="Download"
                       endpoint_suffex="generate_pdf/"
+                       permission="billing.can_print_bonsortie"
                     />
                   </Flex>
                 </Flex>

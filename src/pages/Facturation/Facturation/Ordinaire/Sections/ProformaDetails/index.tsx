@@ -95,6 +95,7 @@ export default ({ proforma, refetchProformas }: ProformaPageProps) => {
                   endpoint_suffex="generate_pdf/"
                   key={proforma?.id}
                   type="Download"
+                  permission="billing.can_print_proforma"
                 />
               </Col>
               <Col>
@@ -104,6 +105,7 @@ export default ({ proforma, refetchProformas }: ProformaPageProps) => {
                   endpoint_suffex="generate_pdf/"
                   key={proforma?.id}
                   type="View"
+                  permission="billing.can_print_proforma"
                 />
               </Col>
               <Col>
