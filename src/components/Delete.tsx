@@ -63,12 +63,14 @@ const Delete: React.FC<DeleteProps> = ({
 
   const confirm = () => handleDelete();
 
+  let verifyPermission = permission ? !hasPermission(permission) : false
+
   return (
     <Popconfirm
       title="Vous allez supprimer cet enregistrement, êtes-vous sûr ?"
       onConfirm={confirm}
       key={id}
-      disabled={disabled ||!hasPermission(permission || "disable")}
+      disabled={disabled ||verifyPermission}
     >
       {link ? (
         disabled ? (

@@ -9,6 +9,7 @@ import { CONTAINER_NATURE_CHOICES, YES_NO_CHOICES } from "@/utils/constants";
 import FormField from "@/components/form/FormField";
 import { API_ARTICLES_ENDPOINT } from "@/api/api";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -57,8 +58,11 @@ const AUForm: React.FC<AUFormProps> = ({
     endpoint: API_ARTICLES_ENDPOINT,
   });
 
+  const hasPermission = usePermissions();
+
   return (
     <DraggableModel
+      disabledModalOpenButton={(!initialvalues && !hasPermission('app.add_article')) || (initialvalues && !hasPermission('app.change_article'))}
       OkButtontext="Submit"
       modalOpenButtonText={initialvalues ? editText : addText}
       modalTitle="Article"

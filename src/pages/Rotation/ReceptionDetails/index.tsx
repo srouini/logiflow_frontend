@@ -11,12 +11,13 @@ import { DetailsColumns, getColumns, breadcrumb } from "./data";
 import { useNavigate, useParams } from "react-router";
 import Details from "@/components/Details";
 import { useReferenceContext } from "@/context/ReferenceContext";
-import { Button, Divider, Flex, message, Popconfirm } from "antd";
+import { Button, Divider, Flex, message, Popconfirm, Modal } from "antd";
 import usePost from "@/hooks/usePost";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import TcDetailsButton from "./components/TcDetailsButton";
 import Print from "@/components/Print";
 import UpdateDouanier from "./components/UpdateDouanier";
+
 export default () => {
   const { id } = useParams();
 
@@ -71,7 +72,6 @@ export default () => {
     refetch();
   };
 
-
   const { mutate, isLoading: bulletin_is_patshing } = usePost({
     onSuccess: onSuccess,
     endpoint: API_BULLETINS_ENDPOINT,
@@ -84,10 +84,21 @@ export default () => {
 
     if (all_receved) {
       if (!selectedRecord?.data?.receved) {
-        mutate({ id: selectedRecord?.data?.id, receved: true });
+        if (!selectedRecord?.data?.douanier) {
+          Modal.confirm({
+            title: 'Attention',
+            content: "L'agent de douane responsable n'est pas sélectionné. Voulez-vous continuer?",
+            okText: 'Oui',
+            cancelText: 'Non',
+            onOk() {
+              mutate({ id: selectedRecord?.data?.id, receved: true });
+            }
+          });
+        } else {
+          mutate({ id: selectedRecord?.data?.id, receved: true });
+        }
       }
-    }
-    else {
+    } else {
       message.error("Tous les conteneurs doivent etre reçus.")
     }
   };
@@ -110,11 +121,10 @@ export default () => {
           >
             <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.receved} loading={bulletin_is_patshing}>
               Validez
-            </Button> 
-            
+            </Button>
           </Popconfirm>,
-          <Print endpoint={API_BULLETINS_ENDPOINT} id={id} disabled={!selectedRecord?.data?.receved} type="View" endpoint_suffex="generate_pdf/" button_text="Pv de réception" />,
-          <TcDetailsButton bulletinId={id} />
+          <Print endpoint={API_BULLETINS_ENDPOINT} id={id} disabled={!selectedRecord?.data?.receved} type="View" endpoint_suffex="generate_pdf/" button_text="Pv de réception" permission="app.print_pc_de_reception" />,
+          <TcDetailsButton bulletinId={id} />,
         ],
         onBack: () => navigate(`/rotations/reception/`)
 

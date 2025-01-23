@@ -102,6 +102,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 link={false}
                 text=""
                 has_icon
+                permission="app.delete_article"
               />
             </Col>
             <Col>

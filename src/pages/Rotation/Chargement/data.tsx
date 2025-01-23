@@ -89,6 +89,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                   text=""
                   has_icon
                   disabled={record?.loaded}
+                  permission="app.delete_bulletinsescort"
                 />
               </Col>
               <Col>

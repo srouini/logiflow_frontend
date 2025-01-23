@@ -9,6 +9,7 @@ import FormField from "@/components/form/FormField";
 import { API_ARTICLES_ENDPOINT, API_VISITES_ENDPOINT } from "@/api/api";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import FormRelatedSelectInput from "@/components/form/FormRelatedSelectInput";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -59,11 +60,13 @@ const AUForm: React.FC<AUFormProps> = ({
   const today = new Date();
   const formattedDate = today.toISOString().split('T')[0];
 
+  const hasPermission = usePermissions();
+
   return (
     <DraggableModel
       OkButtontext="Submit"
       addButtonType="dashed"
-      disabledModalOpenButton={disabled}
+      disabledModalOpenButton={disabled || (!initialvalues && !hasPermission('app.add_visite')) || (initialvalues && !hasPermission('app.change_visite'))}
       modalOpenButtonText={initialvalues ? editText : addText}
       addButtonIcon={
         hasIcon && initialvalues ? <EditOutlined /> : <PlusOutlined />

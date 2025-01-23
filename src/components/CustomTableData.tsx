@@ -50,7 +50,6 @@ const CustomTableData: React.FC<CustomTableAllProps> = ({
 
   return (
     <ProTable
-      
       columns={getColumns}
       cardBordered
       onReset={refetch}

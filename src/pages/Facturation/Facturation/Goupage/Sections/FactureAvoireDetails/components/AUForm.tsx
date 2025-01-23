@@ -1,25 +1,29 @@
 import { useEffect, useState } from "react";
 import DraggableModel from "@/components/DraggableModel";
 import FormObject from "@/components/Form";
-import { Form, message } from "antd";
+import { Form, message, Switch, Space } from "antd";
 import usePost from "@/hooks/usePost";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import {
+  API_LIGNES_FACTURE_AVOIRE_ENDPOINT,
   API_LIGNES_FACTURE_AVOIRE_GROUPAGE_ENDPOINT,
 } from "@/api/api";
 import FormField from "@/components/form/FormField";
-import { PlusOutlined } from "@ant-design/icons";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Facture } from "@/types/billing";
-import { removeDuplicatedRubriques } from "@/utils/functions";
+import { mapInitialValues, removeDuplicatedRubriques } from "@/utils/functions";
 
 interface AUFormProps {
   refetch: () => void;
-  facture: Facture;
+  facture?: Facture;
+  initialvalues?: any
 }
 
-const AUForm: React.FC<AUFormProps> = ({ refetch, facture }) => {
+const AUForm: React.FC<AUFormProps> = ({ refetch, facture, initialvalues }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState(initialvalues);
+  const [isCustomRubrique, setIsCustomRubrique] = useState(false);
 
   const { rubrique } = useReferenceContext();
 
@@ -27,54 +31,101 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, facture }) => {
     rubrique.fetch();
   }, []);
 
+  useEffect(() => {
+    if (initialvalues) {
+      setFormData(initialvalues);
+      form.setFieldsValue(mapInitialValues(initialvalues));
+      // When updating, always set to predefined by default
+      setIsCustomRubrique(false);
+    }
+  }, [initialvalues, form]);
+
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
-    values.facture_avoire = facture?.id 
+    if(formData) {
+      values.id = formData?.id;
+    } else {
+      values.facture_avoire = facture?.id;
+    }
+    // If using custom rubrique, use the custom value
+    if (isCustomRubrique) {
+      values.rubrique = values.custom_rubrique;
+    }
     mutate(values);
-    setOpen(false);
   };
 
-  const onSuccess = async () => {
+  const onRubriqueTypeChange = (checked: boolean) => {
+    setIsCustomRubrique(checked);
+    form.setFieldValue('rubrique', null);
+    form.setFieldValue('custom_rubrique', null);
+  };
+
+  const onSuccess = async (result: any) => {
     message.success("Submission successful");
     setOpen(false);
+    if(initialvalues)
+    setFormData(result);
+  else form.resetFields();
     await refetch();
-    form.resetFields();
   };
 
   const { mutate, isLoading } = usePost({
-    onSuccess: onSuccess,
+    onSuccess,
     endpoint: API_LIGNES_FACTURE_AVOIRE_GROUPAGE_ENDPOINT,
   });
-
-
 
   return (
     <DraggableModel
       disabledModalOpenButton={facture?.paid}
       OkButtontext="Submit"
-      modalOpenButtonText="Ligne"
+      modalOpenButtonText={formData ? "" : "Ligne"}
       modalTitle="Ligne"
       addButtonType="dashed"
-      addButtonIcon={<PlusOutlined />}
+      addButtonIcon={formData ? <EditOutlined /> : <PlusOutlined />}
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}
       width={600}
       isLoading={isLoading}
     >
-      <FormObject form={form}>
-        <FormField
-          label="Rubrique"
-          name="rubrique"
-          span={24}
-          required
-          initialValue={null}
-          span_md={24}
-          type="select"
-          option_label="designation"
-          option_value="designation"
-          options={removeDuplicatedRubriques(rubrique?.results)}
-        />
+      <FormObject form={form} initialvalues={mapInitialValues(formData)}>
+        <Space direction="horizontal" style={{ marginBottom: 16 }}>
+          <span>Type de Rubrique:</span>
+          <Switch
+            checkedChildren="Personnalisée"
+            unCheckedChildren="Prédéfinie"
+            checked={isCustomRubrique}
+            onChange={onRubriqueTypeChange}
+            disabled={formData}
+          />
+        </Space>
+        
+        {!isCustomRubrique ? (
+          <FormField
+            label="Rubrique"
+            name="rubrique"
+            span={24}
+            required
+            initialValue={null}
+            span_md={24}
+            type="select"
+            option_label="designation"
+            option_value="designation"
+            options={removeDuplicatedRubriques(rubrique?.results)}
+            disabled={formData}
+          />
+        ) : (
+          <FormField
+            label="Rubrique Personnalisée"
+            name="custom_rubrique"
+            span={24}
+            required
+            initialValue={null}
+            span_md={24}
+            type="text"
+            disabled={formData}
+          />
+        )}
         <FormField
           type="number"
           label="Tarif"

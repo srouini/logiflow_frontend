@@ -11,8 +11,9 @@ import {
   API_SOUSARTICLES_ENDPOINT,
   API_VISITESGROUPAGE_ENDPOINT,
 } from "@/api/api";
-import { PlusOutlined } from "@ant-design/icons";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import FormThreeRelatedSelectInput from "@/components/form/FormThreeRelatedSelectInput";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -62,14 +63,16 @@ const AUForm: React.FC<AUFormProps> = ({
   const today = new Date();
   const formattedDate = today.toISOString().split("T")[0];
 
+  const hasPermission = usePermissions();
+
   return (
     <DraggableModel
       OkButtontext="Submit"
       addButtonType="dashed"
-      disabledModalOpenButton={disabled}
+      disabledModalOpenButton={disabled || (!initialvalues && !hasPermission('groupage.add_visitegroupage')) || (initialvalues && !hasPermission('groupage.change_visitegroupage'))}
       modalOpenButtonText={initialvalues ? editText : addText}
       addButtonIcon={
-        <PlusOutlined />
+        initialvalues ? <EditOutlined />:<PlusOutlined />
       }
       modalTitle="Visite groupage"
       onSubmit={handleFormSubmission}

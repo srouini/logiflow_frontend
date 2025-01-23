@@ -11,6 +11,7 @@ import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
 import { API_VISITES_ENDPOINT } from "@/api/api";
+import { usePermissions } from "@/utils/permissions";
 
 interface Props {
   expand?: string;
@@ -55,9 +56,12 @@ export default ({ expand = "gros,article,transitaire", query_params }: Props) =>
     return count_str;
   };
 
+  const hasPermission = usePermissions();
+
+
   return (
     <>
-      <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={() => setOpen(true)}>
+      <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={() => setOpen(true)} disabled={!hasPermission("app.can_export_visite")}>
         Exporter
       </Button>
 

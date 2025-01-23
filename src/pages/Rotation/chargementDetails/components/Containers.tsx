@@ -11,6 +11,7 @@ import { Button, DatePicker, Drawer, message, Tag } from "antd";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import dayjs from "dayjs";
+import { usePermissions } from "@/utils/permissions";
 
 interface props {
   mrn: any;
@@ -174,13 +175,15 @@ export default ({
     </>
   );
 
+  const hasPermission = usePermissions();
+
   return (
     <>
       <Button
         onClick={showDrawer}
         type="primary"
         icon={<AppstoreAddOutlined />}
-        disabled={disabled}
+        disabled={disabled || !hasPermission('app.change_bulletinsescort')}
       >
         Conteneurs
       </Button>

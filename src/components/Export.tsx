@@ -22,7 +22,7 @@ interface ExcelExportProps {
   endpoint: string;
   expand?: string;
   button_text?:string;
-  query_params?:any
+  query_params?:any,
 }
 
 interface DataRowType {
@@ -42,7 +42,8 @@ const Excel: React.FC<ExcelExportProps> = ({
   endpoint,
   expand,
   button_text="Exportez",
-  query_params
+  query_params,
+  permission
 }) => {
   const [fileName, setFileName] = useState<string>(() => `data_export_${new Date().toISOString().split("T")[0]}`);
   const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv' | 'pdf'>('xlsx');
@@ -282,6 +283,7 @@ const Excel: React.FC<ExcelExportProps> = ({
       <Button
         type="primary"
         icon={<CloudDownloadOutlined />}
+        loading={isLoading}
       >
         {button_text}
       </Button>

@@ -78,6 +78,7 @@ export const getColumns = (
                 link={false}
                 text=""
                 has_icon
+                permission="app.delete_tc"
               />
             </Col>
             <Col>
@@ -97,6 +98,7 @@ export const getColumns = (
                 id={record?.id}
                 endpoint_suffex="generate_ticktage/"
                 button_text="Ticktage"
+                permission="app.print_ticktage"
               />
             </Col>
             <Col>

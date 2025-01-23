@@ -13,6 +13,7 @@ import Export from "@/components/Export";
 import { API_FACTURES_GROUPAGE_ENDPOINT } from "@/api/api";
 import BatchPDF from "@/components/BatchPDF";
 import MergedPDF from "@/components/MergedPDF";
+import ExportEtatDFC from "./ExportEtatDFC";
 
 interface Props {
   expand?: string;
@@ -25,7 +26,8 @@ export default ({ expand = "proforma.gros,proforma.sous_article.client,proforma.
   const { filters, resetFilters, setFilters } = useFilters();
   const [open, setOpen] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState<any>(exportColumns);
-
+ 
+  
   const {
     data,
     isLoading: isLoadingData,
@@ -64,10 +66,10 @@ export default ({ expand = "proforma.gros,proforma.sous_article.client,proforma.
       </Button>
 
       <Drawer
-      placement="left"
+        placement="left"
         title="Exportation de données"
         destroyOnClose
-       width={"80%"}
+        width={"80%"}
         footer={false}
         open={open}
         closeIcon
@@ -110,21 +112,30 @@ export default ({ expand = "proforma.gros,proforma.sous_article.client,proforma.
                 query_params={query_params}
               />,
               <BatchPDF
-              endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
-              filters={filters}
-              search={search}
-              expand={expand}
-              query_params={query_params}
-              button_text={`Factures (ZIP) ${countStr()}`}
+                endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
+                filters={filters}
+                search={search}
+                expand={expand}
+                query_params={query_params}
+                button_text={`Factures (ZIP) ${countStr()}`}
               />,
               <MergedPDF
-              filters={filters}
-              search={search}
-              endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
-              expand={expand}
-              query_params={query_params}
-              button_text={`Factures (PDF) ${countStr()}`}
-            />
+                filters={filters}
+                search={search}
+                endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
+                expand={expand}
+                query_params={query_params}
+                button_text={`Factures (PDF) ${countStr()}`}
+              />,
+              <ExportEtatDFC
+                columns={selectedColumns}
+                endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
+                search={search}
+                filters={filters}
+                expand="proforma.gros,proforma.sous_article.client,proforma.article.client,proforma.article,proforma.lignesProformagroupage"
+                query_params={query_params}
+                button_text={`Etat DFC ${countStr()}`}
+              />,
             ],
           }}
         />

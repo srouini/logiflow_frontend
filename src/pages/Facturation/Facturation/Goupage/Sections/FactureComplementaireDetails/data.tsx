@@ -1,6 +1,10 @@
 import { type ProColumns } from "@ant-design/pro-components";
-import { Tag } from "antd";
+import { Col, Row, Tag } from "antd";
 import { renderDate, renderMoney, renderText } from "@/utils/functions";
+import AUForm from "./components/AUForm";
+import Delete from "@/components/Delete";
+import { API_LIGNES_FACTURE_COMPLIMENTAIRE_GROUPAGE_ENDPOINT } from "@/api/api";
+import { Facture } from "@/types/billing";
 
 // @ts-ignore
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
@@ -207,7 +211,22 @@ export const columns_prestation_article = [
   },
 ];
 
-export const columns_prestation_conteneurs = [
+export const columns_prestation_conteneurs = (refetch: () => void, facture:Facture) => [
+  {
+    title: "Action",
+    dataIndex: "action",
+    width: 60,
+    key: "1",
+    render: (_:any,record: any) => 
+      <Row gutter={8}>
+        <Col>
+          <AUForm key={record?.id} facture={facture} initialvalues={record} refetch={refetch}/>
+        </Col>
+        <Col>
+          <Delete has_icon type="dashed" text="" link={false} class_name="Ligne" url={API_LIGNES_FACTURE_COMPLIMENTAIRE_GROUPAGE_ENDPOINT} disabled={facture?.paid} id={record?.id} refetch={refetch} />
+        </Col>
+      </Row>,
+  },
   {
     title: "Rubrique",
     dataIndex: "rubrique",

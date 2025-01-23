@@ -10,6 +10,7 @@ import { API_EDI_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
 import { formatStringDate } from "@/utils/functions";
 import { useAxios } from "@/hooks/useAxios";
+import { usePermissions } from "@/utils/permissions";
 
 interface ChargementProps {
   refetch: () => void;
@@ -88,9 +89,13 @@ const Chargement = ({ refetch, mrn }: ChargementProps) => {
     },
   });
 
+  const hasPermission = usePermissions();
+
+
   return (
     <DraggableModel
       OkButtontext="Submit"
+      disabledModalOpenButton={!hasPermission('app.can_populate_gros')}
       modalOpenButtonText="EDI"
       modalTitle="EDI"
       onSubmit={handleFormSubmission}

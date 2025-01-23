@@ -122,6 +122,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 id={record?.id}
                 endpoint_suffex="generate_ticktage/"
                 button_text="Ticktage"
+                permission='app.view_sousarticle'
               />
             </Col>
           </Row>,

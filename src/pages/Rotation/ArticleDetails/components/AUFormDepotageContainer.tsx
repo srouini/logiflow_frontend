@@ -7,6 +7,7 @@ import { useReferenceContext } from "@/context/ReferenceContext";
 import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { UnlockOutlined } from "@ant-design/icons";
+import { usePermissions } from "@/utils/permissions";
 
 
 interface AUFormProps {
@@ -60,9 +61,11 @@ const AUFormDepotageContainer: React.FC<AUFormProps> = ({
   // const formattedDateTime = `${today.toISOString().split('T')[0]} ${today.toTimeString().split(' ')[0]}`;
 
 
+  const hasPermission = usePermissions();
 
   return (
     <DraggableModel
+    disabledModalOpenButton={disable || !hasPermission('app.depot_tc')}
       OkButtontext="Submit"
       modalOpenButtonText="Dépoter" 
       modalTitle="Dépotage"
@@ -70,7 +73,6 @@ const AUFormDepotageContainer: React.FC<AUFormProps> = ({
       addButtonIcon={
        <UnlockOutlined />
       }
-      disabledModalOpenButton={disable}
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}

@@ -3,6 +3,7 @@ import { Button, Popconfirm, message } from "antd";
 import usePost from "@/hooks/usePost";
 import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import { DeleteOutlined } from "@ant-design/icons";
+import { usePermissions } from "@/utils/permissions";
 
 interface DeleteProps {
   refetch: () => void;
@@ -32,6 +33,7 @@ const DeleteBulletin: React.FC<DeleteProps> = ({ refetch, id, disabled }) => {
 
   const confirm = () => handleContainerLoadUndo();
 
+  const hasPermission = usePermissions();
   return (
     <Popconfirm
       title="Vous allez supprimer cet enregistrement, êtes-vous sûr ?"
@@ -40,7 +42,7 @@ const DeleteBulletin: React.FC<DeleteProps> = ({ refetch, id, disabled }) => {
       disabled={disabled}
     >
 
-     <Button type="dashed" loading={isLoading} disabled={isLoading} icon={<DeleteOutlined /> } />
+     <Button type="dashed" loading={isLoading} disabled={isLoading || !hasPermission('app.change_bulletinsescort')} icon={<DeleteOutlined /> } />
      </Popconfirm>
   );
 };

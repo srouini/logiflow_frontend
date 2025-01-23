@@ -10,6 +10,7 @@ import PreviewSubArticles from './PreviewSubArticles';
 import useData from '@/hooks/useData';
 import { useReferenceContext } from '@/context/ReferenceContext';
 import { findMatchingClient, findMatchingContainerType, processBooleanValue } from '@/utils/functions';
+import { usePermissions } from '@/utils/permissions';
 
 interface Props {
   mrnId: number;
@@ -429,6 +430,9 @@ const ExcelUpload: React.FC<Props> = ({ mrnId, refetch }) => {
     }
   };
 
+  const hasPermission = usePermissions();
+
+
   return (
     <>
       <Upload
@@ -437,7 +441,7 @@ const ExcelUpload: React.FC<Props> = ({ mrnId, refetch }) => {
         customRequest={({ file }) => handleFileRead(file as File)}
         showUploadList={false}
       >
-        <Button icon={<UploadOutlined />}>Upload</Button>
+        <Button icon={<UploadOutlined />} disabled={!hasPermission('app.can_populate_gros')}>Upload</Button>
       </Upload>
 
       <Modal

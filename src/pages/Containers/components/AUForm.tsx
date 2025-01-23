@@ -9,6 +9,7 @@ import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { YES_NO_CHOICES } from "@/utils/constants";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { usePermissions } from "@/utils/permissions";
 
 const formatDate = (field: string, values: any) => {
   if (values[field]) values[field] = values[field].format("YYYY-MM-DD");
@@ -22,6 +23,8 @@ interface AUFormProps {
   editText?: string;
   addText?: string;
   hasIcon?: boolean;
+  disabled?:boolean
+
 }
 
 const AUForm: React.FC<AUFormProps> = ({
@@ -31,6 +34,7 @@ const AUForm: React.FC<AUFormProps> = ({
   editText = "MODIFIER",
   addText = "Mrn",
   hasIcon = false,
+  disabled=false
 }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
@@ -66,6 +70,8 @@ const AUForm: React.FC<AUFormProps> = ({
     endpoint: API_CONTENEURS_ENDPOINT,
   });
 
+  const hasPermission = usePermissions();
+
   return (
     <DraggableModel
       OkButtontext="Submit"
@@ -75,6 +81,7 @@ const AUForm: React.FC<AUFormProps> = ({
       addButtonIcon={
         hasIcon && initialvalues ? <EditOutlined /> : <PlusOutlined />
       }
+      disabledModalOpenButton={disabled || (!initialvalues && !hasPermission('app.add_tc')) || (initialvalues && !hasPermission('app.change_tc'))}
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import * as XLSX from 'xlsx';
+import { usePermissions } from '@/utils/permissions';
 
 interface Props {
   mrnId: number;
@@ -81,11 +82,12 @@ const ExcelDownload: React.FC<Props> = () => {
     // Save to file
     XLSX.writeFile(wb, 'import_template.xlsx');
   };
-
+  const hasPermission = usePermissions();
   return (
     <Button 
       icon={<DownloadOutlined />} 
       onClick={handleDownloadTemplate}
+      disabled={!hasPermission('app.can_populate_gros')}
     >
       Canvas
     </Button>

@@ -81,6 +81,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 key={record?.id}
                 type="View"
                 disabled={!record?.validated}
+                permission="app.print_visite"
               />
             </Col>
             <Col>
@@ -94,6 +95,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 text=""
                 has_icon
                 disabled={record?.validated}
+                permission="app.delete_visite"
               />
             </Col>
             <Col>

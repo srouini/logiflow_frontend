@@ -10,6 +10,7 @@ import { useReferenceContext } from "@/context/ReferenceContext";
 import dayjs from "dayjs";
 import { useAuth } from "@/context/AuthContext";
 import Delete from "@/components/Delete";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -70,6 +71,8 @@ const AUForm: React.FC<AUFormProps> = ({
     endpoint: API_CONTENEURS_ENDPOINT,
   });
 
+  const hasPermission = usePermissions();
+
   return (
     <>
       {disabled ? (
@@ -87,6 +90,7 @@ const AUForm: React.FC<AUFormProps> = ({
           width={500}
           isLoading={isLoading}
           initialvalues={initialvalues}
+          disabledModalOpenButton={!hasPermission("app.change_bulletinsescort")}
         >
           {initialvalues?.current_scelle && (
             <Card style={{ marginTop: "20px" }} size="small">

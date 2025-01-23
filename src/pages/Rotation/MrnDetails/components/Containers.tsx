@@ -7,6 +7,7 @@ import usePage from "@/hooks/usePage";
 import usePost from "@/hooks/usePost";
 import { TableSelectionType } from "@/types/antdeing";
 import { renderText } from "@/utils/functions";
+import { usePermissions } from "@/utils/permissions";
 import {
   AppstoreAddOutlined,
   CheckOutlined,
@@ -185,12 +186,15 @@ export default ({ mrn }: props) => {
     </>
   );
 
+  const hasPermission = usePermissions();
+
   return (
     <>
       <Button
         onClick={showDrawer}
         type="primary"
         icon={<AppstoreAddOutlined />}
+        disabled={!hasPermission('app.change_tc')}
       >
         Conteneurs
       </Button>

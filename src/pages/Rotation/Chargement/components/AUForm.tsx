@@ -9,6 +9,7 @@ import FormField from "@/components/form/FormField";
 import { API_BULLETINS_ENDPOINT } from "@/api/api";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useAuth } from "@/context/AuthContext";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -25,6 +26,7 @@ const AUForm: React.FC<AUFormProps> = ({
   initialvalues,
   disabled,
   editText = "MODIFIER",
+
   addText = "Mrn",
   hasIcon = false,
 }) => {
@@ -58,12 +60,13 @@ const AUForm: React.FC<AUFormProps> = ({
     endpoint: API_BULLETINS_ENDPOINT,
   });
 
+  const hasPermission = usePermissions();
 
   return (
     <DraggableModel
       OkButtontext="Submit"
       addButtonType="dashed"
-      disabledModalOpenButton={disabled}
+      disabledModalOpenButton={disabled || (!initialvalues && !hasPermission('app.add_bulletinsescort')) || (initialvalues && !hasPermission('app.change_bulletinsescort'))}
       modalOpenButtonText={initialvalues ? editText : addText}
       addButtonIcon={hasIcon && initialvalues ? <EditOutlined />:<PlusOutlined /> }
       modalTitle="Bulletin"

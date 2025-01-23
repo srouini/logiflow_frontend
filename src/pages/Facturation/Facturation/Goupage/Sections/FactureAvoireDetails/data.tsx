@@ -1,6 +1,9 @@
 import { type ProColumns } from "@ant-design/pro-components";
-import { Tag } from "antd";
+import { Col, Row, Tag } from "antd";
 import { renderDate, renderMoney, renderText } from "@/utils/functions";
+import AUForm from "./components/AUForm";
+import Delete from "@/components/Delete";
+import { API_LIGNES_FACTURE_AVOIRE_GROUPAGE_ENDPOINT } from "@/api/api";
 
 // @ts-ignore
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
@@ -124,13 +127,6 @@ export const columns = [
     width: 150,
   },
   {
-    title: "Timber",
-    dataIndex: "timber",
-    key: "10",
-    render: (record: any) => renderMoney(record),
-    width: 150,
-  },
-  {
     title: "TTC",
     dataIndex: "TTC",
     key: "11",
@@ -144,13 +140,11 @@ export const columns = [
     key: "2",
     // @ts-ignore
     render: (_, record: any) =>
-      record?.paid ? (
+      record?.tva ? (
         <Tag color="green"> OUI </Tag>
-      ) : record?.a_terme ? (
-        <Tag>A Terme</Tag>
       ) : (
-        <Tag color="red">NO</Tag>
-      ),
+        <Tag color="red"> NO </Tag>
+      ), 
   },
 ];
 
@@ -192,7 +186,15 @@ export const columns_prestation_article = [
   },
 ];
 
-export const columns_prestation_conteneurs = [
+export const columns_prestation_conteneurs = (refetch: () => void) => [
+  {
+    title: "Action",
+    dataIndex: "action",
+    width: 60,
+    key: "1",
+
+    render: (_:any,record: any) => <Row gutter={8}><Col><AUForm key={record?.id} initialvalues={record} refetch={refetch} /></Col><Col><Delete has_icon type="dashed" text="" link={false} class_name="Ligne" url={API_LIGNES_FACTURE_AVOIRE_GROUPAGE_ENDPOINT} id={record?.id} refetch={refetch} /> </Col></Row>,
+  },
   {
     title: "Rubrique",
     dataIndex: "rubrique",

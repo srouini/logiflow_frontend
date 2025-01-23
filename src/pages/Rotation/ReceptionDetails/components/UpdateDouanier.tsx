@@ -7,6 +7,7 @@ import {
 } from "@/api/api";
 import { ProFormSelect } from "@ant-design/pro-components";
 import { selectConfig } from "@/utils/config";
+import { usePermissions } from "@/utils/permissions";
 
 
 interface AUFormProps {
@@ -46,11 +47,13 @@ const UpdateDouanier = ({ refetch, bulletin }: AUFormProps) => {
     }
   }, [bulletin, form]);
 
+  const hasPermission = usePermissions();
+
   return (
     <Form form={form}>
       <Flex align="baseline">
         <ProFormSelect
-        disabled={bulletin?.receved}
+        disabled={bulletin?.receved || !hasPermission("app.change_bulletinsescort")}
           {...selectConfig}
           width="lg"
           // onChange={onChange}

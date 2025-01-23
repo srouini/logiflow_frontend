@@ -134,7 +134,7 @@ export default ({
               />,
             ],
           }}
-          getColumns={columns_prestation_conteneurs}
+          getColumns={columns_prestation_conteneurs(refetchFactureLignes)}
           data={lignesFacture?.data}
           isLoading={isLoadingLignesFactureCompelementaire}
           refetch={refetchLignesFacture}

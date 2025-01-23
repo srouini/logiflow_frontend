@@ -9,6 +9,7 @@ import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { YES_NO_CHOICES } from "@/utils/constants";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { usePermissions } from "@/utils/permissions";
 
 const formatDate = (field: string, values: any) => {
   if (values[field]) values[field] = values[field].format("YYYY-MM-DD");
@@ -67,8 +68,11 @@ const AUForm: React.FC<AUFormProps> = ({
     endpoint: API_CONTENEURS_ENDPOINT,
   });
 
+  const hasPermission = usePermissions();
+
   return (
     <DraggableModel
+    disabledModalOpenButton={(!initialvalues && !hasPermission('app.add_tc')) || (initialvalues && !hasPermission('app.change_tc'))}
       OkButtontext="Submit"
       modalOpenButtonText={initialvalues ? editText : addText} 
       modalTitle="Conteneur"

@@ -14,6 +14,7 @@ import BatchPDF from "@/components/BatchPDF";
 import { API_FACTURE_ENDPOINT } from "@/api/api";
 import { useAxios } from "@/hooks/useAxios";
 import MergedPDF from "@/components/MergedPDF";
+import ExportEtatDFC from "./ExportEtatDFC";
 
 interface Props {
   expand?: string;
@@ -66,7 +67,7 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
       message.warning("No factures available for export");
       return;
     }
-  
+
     setLoadingPdf(true);
     try {
       const response = await api.post(
@@ -78,7 +79,7 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
           responseType: 'blob' // Important for binary data
         }
       );
-  
+
       const blob = new Blob([response.data], { type: 'application/zip' });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -101,7 +102,7 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
       <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={() => setOpen(true)}>
         Exporter
       </Button>
- 
+
       <Drawer
         placement="left"
         title="Exportation de données"
@@ -125,9 +126,9 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
           columns={selectedColumns}
           setSelectedColumns={setSelectedColumns}
         />
-        
+
         <CustomTable
-          getColumns={getColumns(() => {}).filter((col) => col.key !== "12")}
+          getColumns={getColumns(() => { }).filter((col) => col.key !== "12")}
           data={data}
           isFetching={isFetching}
           getPageSize={getPageSize}
@@ -149,21 +150,30 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
                 query_params={query_params}
               />,
               <BatchPDF
-              endpoint={API_FACTURE_ENDPOINT}
-              filters={filters}
-              search={search}
-              expand={expand}
-              query_params={query_params}
-              button_text={`Factures (ZIP) ${countStr()}`}
+                endpoint={API_FACTURE_ENDPOINT}
+                filters={filters}
+                search={search}
+                expand={expand}
+                query_params={query_params}
+                button_text={`Factures (ZIP) ${countStr()}`}
               />,
               <MergedPDF
-              filters={filters}
-              search={search}
-              endpoint={API_FACTURE_ENDPOINT}
-              expand={expand}
-              query_params={query_params}
-              button_text={`Factures (PDF) ${countStr()}`}
-            />
+                filters={filters}
+                search={search}
+                endpoint={API_FACTURE_ENDPOINT}
+                expand={expand}
+                query_params={query_params}
+                button_text={`Factures (PDF) ${countStr()}`}
+              />,
+              <ExportEtatDFC
+                columns={selectedColumns}
+                endpoint={API_FACTURE_ENDPOINT}
+                search={search}
+                filters={filters}
+                expand="proforma.gros.regime,proforma.article.client,proforma.ligneprestation,proforma.ligneprestationarticle"
+                query_params={query_params}
+                button_text={`Etat DFC ${countStr()}`}
+              />,
             ],
           }}
         />

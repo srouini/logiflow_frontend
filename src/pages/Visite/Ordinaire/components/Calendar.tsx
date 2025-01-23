@@ -19,6 +19,7 @@ import { AxiosInstance } from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { saveAs } from "file-saver";
+import { usePermissions } from "@/utils/permissions";
 
 
 export default () => {
@@ -49,7 +50,7 @@ export default () => {
       ordering: "-date_creation,-numero",
       date_visite: selectedDate,
       all: true,
-      validated:true,
+      validated: true,
     },
   });
 
@@ -62,9 +63,9 @@ export default () => {
   });
 
   // @ts-ignore
-  const onChange: DatePickerProps["onChange"] = (date,stringDate) => {
-    if(stringDate)
-    setSelectedDate(stringDate);
+  const onChange: DatePickerProps["onChange"] = (date, stringDate) => {
+    if (stringDate)
+      setSelectedDate(stringDate);
   };
 
   const api: AxiosInstance = useAxios();
@@ -76,7 +77,7 @@ export default () => {
         url: API_PRINT_SELCTED_DATE_VISITES_ENDPOINT,
         method: "GET",
         responseType: "blob", // Important for handling binary data (PDF)
-        params:{date:selectedDate}
+        params: { date: selectedDate }
       });
 
       // Extract the filename from the content-disposition header
@@ -99,7 +100,7 @@ export default () => {
         url: API_PRINT_SELCTED_DATE_VISITES_ENDPOINT,
         method: "GET",
         responseType: "blob", // Important for handling binary data (PDF)
-        params:{date:selectedDate}
+        params: { date: selectedDate }
       });
 
       // Create a Blob URL for the PDF and open it in a new tab
@@ -113,17 +114,18 @@ export default () => {
 
 
   const handleSelectedDatePrint = () => {
-      if(selectedDate) handleViewPDF() 
+    if (selectedDate) handleViewPDF()
   }
 
   const handleSelectedDateDownload = () => {
-    if(selectedDate) handleDownload() 
-}
+    if (selectedDate) handleDownload()
+  }
 
+  const hasPermission = usePermissions();
 
   return (
     <>
-      <Button onClick={showDrawer} type="primary" icon={<CalendarOutlined />}>
+      <Button onClick={showDrawer} type="primary" icon={<CalendarOutlined />} disabled={!hasPermission("app.view_visite")}>
         Calndrier des visites
       </Button>
 
@@ -136,7 +138,7 @@ export default () => {
       >
         <Flex gap={4}>
           <DatePicker
-          allowClear={false}
+            allowClear={false}
             onChange={onChange}
             size="large"
             style={{ width: "100%" }}
@@ -147,13 +149,16 @@ export default () => {
             size="large"
             style={{ width: "80px" }}
             onClick={handleSelectedDatePrint}
+            disabled={!hasPermission('app.print_visite')}
           ></Button>
-                    <Button
+          <Button
             type="dashed"
             icon={<CloudDownloadOutlined />}
             size="large"
+            
             style={{ width: "80px" }}
             onClick={handleSelectedDateDownload}
+            disabled={!hasPermission('app.print_visite')}
           ></Button>
         </Flex>
         <Divider />
@@ -166,8 +171,8 @@ export default () => {
                 <Flex justify="space-between">
                   <Row align={"middle"}>{item?.visite}</Row>
                   <Row gutter={8} style={{ paddingRight: "10px" }}>
-                    <Col><Print endpoint={API_VISITES_ENDPOINT} endpoint_suffex="generate_pdf/" id={item?.id} type="View" /></Col>
-                    <Col><Print endpoint={API_VISITES_ENDPOINT} endpoint_suffex="generate_pdf/" id={item?.id} type="Download" /></Col>
+                    <Col><Print endpoint={API_VISITES_ENDPOINT} endpoint_suffex="generate_pdf/" id={item?.id} type="View" permission="app.print_visite" /></Col>
+                    <Col><Print endpoint={API_VISITES_ENDPOINT} endpoint_suffex="generate_pdf/" id={item?.id} type="Download" permission="app.print_visite" /></Col>
                   </Row>
                 </Flex>
               </Card>

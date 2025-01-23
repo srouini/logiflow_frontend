@@ -15,6 +15,7 @@ import Containers from "./components/Containers";
 import { Button, message, Popconfirm } from "antd";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import usePost from "@/hooks/usePost";
+import { usePermissions } from "@/utils/permissions";
 
 
 export default () => {
@@ -86,6 +87,7 @@ export default () => {
     // }
     mutate({id:id,loaded:true})
 }
+const hasPermission = usePermissions();
 const navigate = useNavigate();
   return (
     <PageContainer
@@ -102,7 +104,7 @@ const navigate = useNavigate();
           cancelText="Non"
           onConfirm={handleBulltinValidation}
         >
-          <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.loaded} loading={bulletin_is_patshing}>
+          <Button type="default" icon={<CloudUploadOutlined />} disabled={selectedRecord?.data?.loaded || !hasPermission('app.validate_bulletin')} loading={bulletin_is_patshing}>
             Validez
           </Button>
         </Popconfirm>          ,

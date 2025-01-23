@@ -4,6 +4,7 @@ import { Button } from "antd";
 import { saveAs } from "file-saver";
 import { AxiosInstance } from "axios";
 import { useAxios } from "@/hooks/useAxios";
+import { usePermissions } from "@/utils/permissions";
 
 interface PrintProps {
   id: string | undefined;
@@ -11,12 +12,13 @@ interface PrintProps {
   type: "Download" | "View";
   disabled?: boolean,
   button_text?:string,
-  endpoint_suffex?:string
+  endpoint_suffex?:string, 
+  permission?:string
 }
 
-const Print: React.FC<PrintProps> = ({ endpoint, id, type, disabled=false,button_text,endpoint_suffex }: PrintProps) => {
+const Print: React.FC<PrintProps> = ({ endpoint, id, type, disabled=false,button_text,endpoint_suffex,permission }: PrintProps) => {
   const api: AxiosInstance = useAxios();
-
+  const hasPermission = usePermissions();
   const handleDownload = async () => {
     try {
 
@@ -67,12 +69,14 @@ const Print: React.FC<PrintProps> = ({ endpoint, id, type, disabled=false,button
     }
   };
 
+  let verifyPermission = permission ? !hasPermission(permission) : false
+
   return (
     <Button
       type="dashed"
       icon={type==="Download" ? <CloudDownloadOutlined /> : <PrinterOutlined />}
       onClick={handleClick}
-      disabled={disabled}
+      disabled={verifyPermission || disabled}
     >{button_text}</Button>
   );
 };

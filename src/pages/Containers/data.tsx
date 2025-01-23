@@ -157,6 +157,7 @@ export const getColumns = (
                 link={false}
                 text=""
                 has_icon
+                permission="app.delete_tc"
               />
             </Col>
             <Col>
@@ -176,6 +177,7 @@ export const getColumns = (
                 key={record?.id}
                 type="View"
                 button_text="Check list"
+                permission='app.print_checklist_tc'
               />
             </Col>
           </Row>,
