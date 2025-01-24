@@ -92,6 +92,7 @@ export default ({ expand = "proforma.gros,proforma.sous_article.client,proforma.
         <CustomTable
           getColumns={getColumns(() => {}).filter((col) => col.key !== "13")}
           data={data}
+          hasoptions={false}
           isFetching={isFetching}
           getPageSize={getPageSize}
           isLoading={isLoading}
@@ -128,7 +129,6 @@ export default ({ expand = "proforma.gros,proforma.sous_article.client,proforma.
                 button_text={`Factures (PDF) ${countStr()}`}
               />,
               <ExportEtatDFC
-                columns={selectedColumns}
                 endpoint={API_FACTURES_GROUPAGE_ENDPOINT}
                 search={search}
                 filters={filters}

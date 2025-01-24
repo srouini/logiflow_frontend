@@ -54,6 +54,10 @@ const LoginPage: React.FC = () => {
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "white",
+        backgroundImage: "url(/background.png)",
+        backgroundSize: "contain",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
 <div style={{ width:"350px"}}>

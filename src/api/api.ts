@@ -1,4 +1,3 @@
-
 // references
 
 export const API_PORTS_ENDPOINT = "/api/reference/port/"
@@ -40,6 +39,7 @@ export const API_POSITIONGROUPAGE_ENDPOINT = "/api/groupage/positiongroupage/"
 
 // billing
 
+export const API_BILLING_ENDPOINT = "/api/billing/"
 export const API_PRFORMAS_ENDPOINT = "/api/billing/proforma/"
 export const API_GROUPS_ENDPOINT = "/api/billing/groupe/"
 export const API_GROUPES_LIGNE_ENDPOINT = "/api/billing/groupeligne/"
@@ -70,7 +70,7 @@ export const API_LIGNES_PROFORMA_GROUPAGE_ENDPOINT = "/api/billing/ligneproforma
 export const API_FACTURES_GROUPAGE_ENDPOINT = "/api/billing/facturegroupage/"
 export const API_PAIEMENTSGROUPAGE_ENDPOINT = "/api/billing/paiementgroupage/"
 export const API_BONS_SORTIE_GROUPAGE_ENDPOINT = "/api/billing/bonsortiegroupage/"
-
+export const API_REPORTING_ENDPOINT = `${API_BILLING_ENDPOINT}reporting/`;
 
 // bareme
 

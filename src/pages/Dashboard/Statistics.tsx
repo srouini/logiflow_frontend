@@ -1,136 +1,181 @@
 import { ProCard, StatisticCard } from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import { Typography, Space, Card } from 'antd';
+import { getEarningsStats } from '@/services/billing/reporting';
 
 const { Statistic } = StatisticCard;
+const { Text } = Typography;
+
+interface EarningsStats {
+  current: number;
+  previous: number;
+  percentage_change: number;
+  difference: number;
+  trend: 'up' | 'down';
+  color: 'green' | 'red';
+}
+
+interface EarningsData {
+  daily: EarningsStats;
+  monthly: EarningsStats;
+  yearly: EarningsStats;
+}
+
+const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat('fr-DZ', {
+    style: 'currency',
+    currency: 'DZD',
+    minimumFractionDigits: 2
+  }).format(value);
+};
 
 export default () => {
   const [responsive, setResponsive] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [earningsData, setEarningsData] = useState<EarningsData | null>(null);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const data = await getEarningsStats();
+      setEarningsData(data);
+    } catch (error) {
+      console.error('Failed to fetch earnings stats:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    const interval = setInterval(fetchData, 300000); // Refresh every 5 minutes
+    return () => clearInterval(interval);
+  }, []);
+
+  const getArrowsCount = (percentage: number): number => {
+    const absPercentage = Math.abs(percentage);
+    if (absPercentage >= 100) return 4;
+    if (absPercentage >= 50) return 3;
+    if (absPercentage >= 25) return 2;
+    return 1;
+  };
+
+  const renderTrendIndicator = (stats: EarningsStats) => {
+    const Icon = stats.trend === 'up' ? ArrowUpOutlined : ArrowDownOutlined;
+    const arrowsCount = getArrowsCount(stats.percentage_change);
+    
+    return (
+      <div className="trend-indicator" style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: '16px',
+        padding: '12px',
+        background: stats.color === 'green' ? 'rgba(82, 196, 26, 0.1)' : 'rgba(255, 77, 79, 0.1)',
+        borderRadius: '8px',
+        marginTop: '8px'
+      }}>
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'flex-start',
+          flex: 1
+        }}>
+          <Text style={{ 
+            color: stats.color, 
+            fontSize: '16px', 
+            fontWeight: 500 
+          }}>
+            {Array(arrowsCount).fill(null).map((_, index) => (
+              <Icon key={index} style={{ marginRight: '2px' }} />
+            ))}
+            {' '}{Math.abs(stats.percentage_change)}%
+          </Text>
+          <Text style={{ 
+            color: stats.color, 
+            fontSize: '14px',
+            marginTop: '4px'
+          }}>
+            {stats.difference > 0 ? '+' : ''}{formatCurrency(stats.difference)}
+          </Text>
+        </div>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '40px',
+          height: '40px',
+          borderRadius: '50%',
+          background: stats.color,
+        }}>
+          <Icon style={{ 
+            fontSize: '24px', 
+            color: '#fff',
+            transform: stats.trend === 'up' ? 'rotate(-45deg)' : 'rotate(45deg)'
+          }} />
+        </div>
+      </div>
+    );
+  };
+
+  const renderStatisticCard = (
+    title: string,
+    stats: EarningsStats | undefined,
+    loading: boolean
+  ) => (
+    <Card
+      loading={loading}
+      style={{
+        height: '100%',
+        flex: 1,
+        minWidth: responsive ? '100%' : '300px'
+      }}
+      bodyStyle={{
+        height: '100%',
+        padding: '24px',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
+      <Text style={{ fontSize: '16px', marginBottom: '16px' }}>{title}</Text>
+      <Text style={{ 
+        fontSize: '24px', 
+        fontWeight: 'bold',
+        marginBottom: '16px'
+      }}>
+        {formatCurrency(stats?.current || 0)}
+      </Text>
+      {stats && (
+        <>
+          <Text type="secondary" style={{ fontSize: '14px' }}>
+            vs {title.includes('Today') ? 'Yesterday' : 
+                title.includes('Month') ? 'Last Month' : 'Last Year'}
+          </Text>
+          {renderTrendIndicator(stats)}
+        </>
+      )}
+    </Card>
+  );
 
   return (
     <RcResizeObserver
       key="resize-observer"
       onResize={(offset) => {
-        setResponsive(offset.width < 596);
+        setResponsive(offset.width < 896);
       }}
     >
-      <ProCard split={responsive ? 'horizontal' : 'vertical'}>
-        <StatisticCard
-          colSpan={responsive ? 24 : 6}
-          title="财年业绩目标"
-          statistic={{
-            value: 82.6,
-            suffix: '亿',
-            description: <Statistic title="日同比" value="6.47%" trend="up" />,
-          }}
-          chart={
-            <img
-              src="https://gw.alipayobjects.com/zos/alicdn/PmKfn4qvD/mubiaowancheng-lan.svg"
-              alt="进度条"
-              width="100%"
-            />
-          }
-          footer={
-            <>
-              <Statistic
-                value="70.98%"
-                title="财年业绩完成率"
-                layout="horizontal"
-              />
-              <Statistic
-                value="86.98%"
-                title="去年同期业绩完成率"
-                layout="horizontal"
-              />
-              <Statistic
-                value="88.98%"
-                title="前年同期业绩完成率"
-                layout="horizontal"
-              />
-            </>
-          }
-        />
-        <StatisticCard.Group
-          colSpan={responsive ? 24 : 18}
-          direction={responsive ? 'column' : undefined}
-        >
-          <StatisticCard
-            statistic={{
-              title: '财年总收入',
-              value: 601987768,
-              description: (
-                <Statistic title="日同比" value="6.15%" trend="up" />
-              ),
-            }}
-            chart={
-              <img
-                src="https://gw.alipayobjects.com/zos/alicdn/zevpN7Nv_/xiaozhexiantu.svg"
-                alt="折线图"
-                width="100%"
-              />
-            }
-          >
-            <Statistic
-              title="大盘总收入"
-              value={1982312}
-              layout="vertical"
-              description={
-                <Statistic title="日同比" value="6.15%" trend="down" />
-              }
-            />
-          </StatisticCard>
-          <StatisticCard
-            statistic={{
-              title: '当日排名',
-              value: 6,
-              description: (
-                <Statistic title="日同比" value="3.85%" trend="down" />
-              ),
-            }}
-            chart={
-              <img
-                src="https://gw.alipayobjects.com/zos/alicdn/zevpN7Nv_/xiaozhexiantu.svg"
-                alt="折线图"
-                width="100%"
-              />
-            }
-          >
-            <Statistic
-              title="近7日收入"
-              value={17458}
-              layout="vertical"
-              description={
-                <Statistic title="日同比" value="6.47%" trend="up" />
-              }
-            />
-          </StatisticCard>
-          <StatisticCard
-            statistic={{
-              title: '财年业绩收入排名',
-              value: 2,
-              description: (
-                <Statistic title="日同比" value="6.47%" trend="up" />
-              ),
-            }}
-            chart={
-              <img
-                src="https://gw.alipayobjects.com/zos/alicdn/zevpN7Nv_/xiaozhexiantu.svg"
-                alt="折线图"
-                width="100%"
-              />
-            }
-          >
-            <Statistic
-              title="月付费个数"
-              value={601}
-              layout="vertical"
-              description={
-                <Statistic title="日同比" value="6.47%" trend="down" />
-              }
-            />
-          </StatisticCard>
-        </StatisticCard.Group>
-      </ProCard>
+      <div style={{
+        display: 'flex',
+        flexDirection: responsive ? 'column' : 'row',
+        gap: '16px',
+        padding: '0px'
+      }}>
+        
+        {renderStatisticCard("Today's Earnings", earningsData?.daily, loading)}
+        {renderStatisticCard("This Month's Earnings", earningsData?.monthly, loading)}
+        {renderStatisticCard("This Year's Earnings", earningsData?.yearly, loading)}
+      </div>
     </RcResizeObserver>
   );
 };
