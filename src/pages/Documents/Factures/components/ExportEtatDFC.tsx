@@ -23,7 +23,6 @@ interface Props {
 }
 
 const ExportEtatDFC: React.FC<Props> = ({
-  columns,
   filters,
   search,
   endpoint,
@@ -36,6 +35,7 @@ const ExportEtatDFC: React.FC<Props> = ({
     isLoading: isLoadingData,
     isRefetching,
     isFetching,
+    refetch
   } = useData({
     endpoint,
     name: "GET_DOCUMENTS_FACTURES_DFC",
@@ -46,6 +46,7 @@ const ExportEtatDFC: React.FC<Props> = ({
       expand,
       ...query_params
     },
+    enabled: false
   });
 
   const { isLoading } = useLoading({
@@ -132,15 +133,17 @@ const ExportEtatDFC: React.FC<Props> = ({
   };
 
   const handleExport = async () => {
-    if (!data?.data?.length) {
-      message.warning("No data available for export");
-      return;
-    }
-
     try {
+      const result = await refetch();
+      
+      if (!result.data?.data?.length) {
+        message.warning("No data available for export");
+        return;
+      }
+
       const rows: any[] = [];
 
-      for (const item of data.data) {
+      for (const item of result.data.data) {
         // Combine ligneprestation and ligneprestationarticle
         const lignes = [
           ...(item.proforma?.ligneprestation || []),

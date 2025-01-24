@@ -5,15 +5,7 @@ import useData from "@/hooks/useData";
 import useLoading from "@/hooks/useLoading";
 import { Decimal } from "decimal.js";
 
-interface ColumnType {
-  title: string;
-  dataIndex?: string;
-  schema?: string[];
-  selected?: boolean;
-}
-
 interface Props {
-  columns: ColumnType[];
   filters?: any;
   search?: string;
   endpoint: string;
@@ -23,7 +15,6 @@ interface Props {
 }
 
 const ExportEtatDFC: React.FC<Props> = ({
-  columns,
   filters,
   search,
   endpoint,
@@ -32,10 +23,10 @@ const ExportEtatDFC: React.FC<Props> = ({
   query_params
 }) => {
   const {
-    data,
     isLoading: isLoadingData,
     isRefetching,
     isFetching,
+    refetch
   } = useData({
     endpoint,
     name: "GET_DOCUMENTS_FACTURES_GROUPAGE_DFC",
@@ -47,6 +38,7 @@ const ExportEtatDFC: React.FC<Props> = ({
       expand,
       ...query_params
     },
+    enabled: false,
   });
 
   const { isLoading } = useLoading({
@@ -133,15 +125,16 @@ const ExportEtatDFC: React.FC<Props> = ({
   };
 
   const handleExport = async () => {
-    if (!data?.data?.length) {
-      message.warning("No data available for export");
-      return;
-    }
-
     try {
+      const result = await refetch();
+      
+      if (!result.data?.data?.length) {
+        message.warning("No data available for export");
+        return;
+      }
       const rows: any[] = [];
 
-      for (const item of data.data) {
+      for (const item of result.data.data) {
         let lignes = item.proforma?.lignesProformagroupage || item.lignes_facture || item.get_factrue_lines || [];
         lignes = concatenateQueryset(lignes);
         lignes = handleEnterposage(lignes);

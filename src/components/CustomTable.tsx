@@ -27,6 +27,7 @@ type CustomTableProps = {
   toolbar?:any,
   isFetching?:boolean,
   cardBordered?:boolean
+  hasoptions?:boolean
 };
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -45,7 +46,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
   toolBar,
   toolbar,
   isFetching,
-  cardBordered=true
+  cardBordered=true,
+  hasoptions=true
 }) => {
   const [tableData, setTableData] = useState(data);
 
@@ -72,6 +74,21 @@ const CustomTable: React.FC<CustomTableProps> = ({
     [refetch, setSearch]
   );
 
+  const mintableOptions: any = useMemo(
+    () => ({
+      reload: refetch,
+      setting: false,
+      density: false,
+      search: setSearch !== null ? {
+        onSearch(keyword: any) {
+          setSearch(keyword);
+        },
+        allowClear: false,
+      } : null,
+    }),
+    [refetch, setSearch]
+  );
+
   return (
     <ProTable
       columns={getColumns}
@@ -88,7 +105,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       }}
       rowKey={(item) => item?.id}
       search={false}
-      options={tableOptions}
+      options={hasoptions && tableOptions || mintableOptions}
       scroll={{ x: 'max-content', y: scrollY }}
       loading={isLoading}
       pagination={{

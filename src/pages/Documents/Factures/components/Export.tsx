@@ -129,6 +129,7 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
 
         <CustomTable
           getColumns={getColumns(() => { }).filter((col) => col.key !== "12")}
+          hasoptions={false}
           data={data}
           isFetching={isFetching}
           getPageSize={getPageSize}
