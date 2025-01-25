@@ -73,12 +73,12 @@ const LoginPage: React.FC = () => {
 
       <Row style={{ marginBottom: "10px", display: "flex", justifyContent:"left" }}>
         <div style={{ textAlign: "left", outline: "none", fontSize:"11pt", fontWeight:"light" }}>
-          Welcome to <b style={{color:"#14864d" }}>Logiflow</b>,
+          Welcome to <b style={{color:"#968b6a" }}>CONTAINERS</b>,
         </div>
       </Row>
       <Row style={{ marginBottom: "40px", display: "flex", justifyContent:"left" }}>
         <div style={{ textAlign: "left", outline: "none", fontSize:"11pt", fontWeight:"light" }}>
-          Containers management made easy.
+          management made easy.
         </div>
       </Row>
       <Row style={{ width: "100%", maxWidth: "350px" }}>
@@ -140,7 +140,7 @@ const LoginPage: React.FC = () => {
                 className="linearGradientButton"
                 htmlType="submit"
                 block
-                style={{ height: "45px", borderRadius: "15px", backgroundColor: "#14864d" }}
+                style={{ height: "45px", borderRadius: "15px", backgroundColor: "#968b6a" }}
                 loading={loading}
               >
                 Log in

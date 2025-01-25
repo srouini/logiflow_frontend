@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Card, Select, Space, Spin, Button, theme } from 'antd';
+import { Card, Select, Space, Spin, Button, theme, Empty } from 'antd';
 import { Column } from '@ant-design/plots';
 import { DownloadOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
@@ -13,7 +13,7 @@ const ClientPaymentsChart: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any[]>([]);
   const [selectedClients, setSelectedClients] = useState<number[]>([]);
-  const [selectedYear, setSelectedYear] = useState(dayjs().year());
+  const [selectedYear, setSelectedYear] = useState(dayjs().year() - 1);
   const chartRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const isDarkMode = user?.profile?.theme_mode === 'dark';
@@ -49,16 +49,18 @@ const ClientPaymentsChart: React.FC = () => {
 
   useEffect(() => {
     clients.fetch();
-    fetchData();
   }, []);
 
   useEffect(() => {
-    fetchData();
-  }, [selectedYear]);
+    if (selectedClients.length > 0 || selectedYear) {
+      fetchData();
+    } else {
+      setData([]);
+    }
+  }, [selectedClients, selectedYear]);
 
   const handleClientChange = (values: number[]) => {
     setSelectedClients(values);
-    fetchData();
   };
 
   const handleDownload = async () => {
@@ -168,7 +170,7 @@ const ClientPaymentsChart: React.FC = () => {
     <Card
       title={`Client - ${selectedYear}`}
       style={{
-        background: isDarkMode ? '#141414' : '#ffffff',marginTop:"20px"
+        background: isDarkMode ? '#141414' : '#ffffff',marginTop:"20px", borderRadius:"16px"
       }}
       headStyle={{
         color: isDarkMode ? '#ffffff' : '#000000',
@@ -184,10 +186,19 @@ const ClientPaymentsChart: React.FC = () => {
             placeholder="Select clients"
             onChange={handleClientChange}
             value={selectedClients}
-            options={clients.data?.map((client: any) => ({
-              label: client.name,
+            options={clients.results?.map((client: any) => ({
+              label: client.raison_sociale,
               value: client.id,
             }))}
+            maxCount={10}
+            maxTagCount="responsive"
+            maxTagPlaceholder={(omittedTags) => `+${omittedTags.length} autres`}
+            maxTagTextLength={20}
+            allowClear
+            filterOption={(input, option) =>
+              //@ts-ignore
+              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+            }
           />
           <Select
             value={selectedYear}
@@ -216,7 +227,20 @@ const ClientPaymentsChart: React.FC = () => {
             padding: '20px',
           }}
         >
-          <Column {...config} />
+          {loading ? (
+            <div style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Spin size="large" />
+            </div>
+          ) : data.length === 0 ? (
+            <div style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Empty 
+                description="No data available" 
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+              />
+            </div>
+          ) : (
+            <Column {...config} />
+          )}
         </div>
       </Spin>
     </Card>

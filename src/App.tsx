@@ -1,6 +1,7 @@
 import "./App.css"
 import ProtectedRoute from './components/ProtectedRoute';
 import { Routes, Route } from 'react-router-dom';
+import { ConfigProvider } from 'antd';
 import LoginPage from './pages/Login/Index';
 import BaseLayout from './layouts/BaseLayout';
 import Dashboard from './pages/Dashboard/Dashboard';
@@ -36,74 +37,82 @@ import References from "./pages/References";
 
 const App = () => {
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route path="/login" element={<LoginPage />} />
+    <ConfigProvider
+      theme={{
+        token: {
+          borderRadius: 10,
+        },
+      }}
+    >
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<LoginPage />} />
 
-      {/* Protected Routes */}
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <BaseLayout />
-          </ProtectedRoute>
-        }
-      >
-        {/* Dashboard Routes */}
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/settings" element={<Settings />} />
+        {/* Protected Routes */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <BaseLayout />
+            </ProtectedRoute>
+          }
+        >
+          {/* Dashboard Routes */}
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/settings" element={<Settings />} />
 
-        {/* Rotation Routes */}
-        <Route path="/rotations/mrns" element={<MrnsPage />} />
-        <Route path="/rotations/chargement" element={<ChargementPage />} />
-        <Route path="/rotations/chargement/:id" element={<ChargementDetails />} />
-        <Route path="/rotations/mrns/:id" element={<MrnDetailsPage />} />
-        <Route path="/rotations/mrns/articles/:id" element={<ArticleDetailsPage />} />
-        <Route path="/rotations/reception" element={<Reception />} />
-        <Route path="/rotations/reception/:id" element={<ReceptionDetails />} />
+          {/* Rotation Routes */}
+          <Route path="/rotations/mrns" element={<MrnsPage />} />
+          <Route path="/rotations/chargement" element={<ChargementPage />} />
+          <Route path="/rotations/chargement/:id" element={<ChargementDetails />} />
+          <Route path="/rotations/mrns/:id" element={<MrnDetailsPage />} />
+          <Route path="/rotations/mrns/articles/:id" element={<ArticleDetailsPage />} />
+          <Route path="/rotations/reception" element={<Reception />} />
+          <Route path="/rotations/reception/:id" element={<ReceptionDetails />} />
 
-        {/* Facturation Routes */}
-        <Route path="/conteneurs" element={<ContainersPage />} />
+          {/* Facturation Routes */}
+          <Route path="/conteneurs" element={<ContainersPage />} />
 
-        {/* Facturation Routes */}
-        <Route path="/facturation" element={<FacturationMrnsPage />} />
-        <Route path="/facturation/mrns/:id" element={<FacturationMrnsDetailsPage />} />
-        <Route path="/facturation/mrns/articles/:id" element={<FacturationArticleDetailsPage />} />
-        <Route path="/facturation/mrns/articles/:id/groupage" element={<FacturationGroupage />} />
-        <Route path="/facturation/mrns/articles/:id/ordinaire" element={<FacturationOrdinaire />} />
+          {/* Facturation Routes */}
+          <Route path="/facturation" element={<FacturationMrnsPage />} />
+          <Route path="/facturation/mrns/:id" element={<FacturationMrnsDetailsPage />} />
+          <Route path="/facturation/mrns/articles/:id" element={<FacturationArticleDetailsPage />} />
+          <Route path="/facturation/mrns/articles/:id/groupage" element={<FacturationGroupage />} />
+          <Route path="/facturation/mrns/articles/:id/ordinaire" element={<FacturationOrdinaire />} />
 
-        {/* Visites Routes */}
-        <Route path="/visites/ordinaire" element={<Visites />} />
-        <Route path="/visites/ordinaire/:id" element={<VisitesDetails />} />
-        <Route path="/visites/groupage" element={<VisitesGroupage />} />
+          {/* Visites Routes */}
+          <Route path="/visites/ordinaire" element={<Visites />} />
+          <Route path="/visites/ordinaire/:id" element={<VisitesDetails />} />
+          <Route path="/visites/groupage" element={<VisitesGroupage />} />
 
-        {/* Documents Routes */}
-        <Route path="/documents/factures" element={<Factures />} />
-        <Route path="/documents/proformas" element={<Proformas />} />
-        <Route path="/documents/bonsorties" element={<BonsSortie />} />
-        <Route path="/documents/boncommande" element={<BonsCommande />} />
+          {/* Documents Routes */}
+          <Route path="/documents/factures" element={<Factures />} />
+          <Route path="/documents/proformas" element={<Proformas />} />
+          <Route path="/documents/bonsorties" element={<BonsSortie />} />
+          <Route path="/documents/boncommande" element={<BonsCommande />} />
 
-        {/* Documents Groupage Routes */}
-        <Route path="/documentsgroupage/factures" element={<FacturesGroupage />} />
-        <Route path="/documentsgroupage/proformas" element={<ProformasGroupage />} />
-        <Route path="/documentsgroupage/bonsorties" element={<BonsSortieGroupage />} />
-      
-       {/* Facturation Routes */}
-       <Route path="/bareme" element={<BaremePage />} />
-       <Route path="/bareme/:id" element={<BaremeDetailsPage />} />
+          {/* Documents Groupage Routes */}
+          <Route path="/documentsgroupage/factures" element={<FacturesGroupage />} />
+          <Route path="/documentsgroupage/proformas" element={<ProformasGroupage />} />
+          <Route path="/documentsgroupage/bonsorties" element={<BonsSortieGroupage />} />
+        
+         {/* Facturation Routes */}
+         <Route path="/bareme" element={<BaremePage />} />
+         <Route path="/bareme/:id" element={<BaremeDetailsPage />} />
 
-        {/* Facturation Routes */}
-       <Route path="/dynamic-report" element={<DynamicReport />} />
+          {/* Facturation Routes */}
+         <Route path="/dynamic-report" element={<DynamicReport />} />
 
-        {/* Facturation Routes */}
-        <Route path="/references" element={<References />} />
-      </Route>
+          {/* Facturation Routes */}
+          <Route path="/references" element={<References />} />
+        </Route>
 
-     
+       
 
-      {/* 404 Route */}
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+        {/* 404 Route */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </ConfigProvider>
   );
 };
 

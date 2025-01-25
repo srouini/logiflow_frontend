@@ -29,7 +29,7 @@ const ManualMergeModal: React.FC<ManualMergeModalProps> = ({
   });
 
   const { mutate: mergeClients, isLoading: isMerging } = usePost({
-    endpoint: `${API_CLIENTS_ENDPOINT}/manual_merge/`,
+    endpoint: `${API_CLIENTS_ENDPOINT}manual_merge/`,
     onSuccess: () => {
       refetch();
       onCancel();

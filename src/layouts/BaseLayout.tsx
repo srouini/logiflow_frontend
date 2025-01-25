@@ -153,7 +153,7 @@ export default () => {
   const authorizedMenuItems = filterMenuItems(generateMenuFromRoutes());
 
   const handleLogout = async () => {
-    const themeColor = user?.profile?.theme_color || '#1890ff';
+    const themeColor = user?.profile?.theme_color || '#968b6a';
     
     Modal.confirm({
       title: (

@@ -3,8 +3,7 @@ import RcResizeObserver from 'rc-resize-observer';
 import { useState, useEffect } from 'react';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import { Typography, Space, Card } from 'antd';
-import { getEarningsStats } from '@/services/billing/reporting';
-
+import { getYearlyEarningsStats } from '@/services/billing/reporting';
 const { Statistic } = StatisticCard;
 const { Text } = Typography;
 
@@ -34,12 +33,12 @@ const formatCurrency = (value: number) => {
 export default () => {
   const [responsive, setResponsive] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [earningsData, setEarningsData] = useState<EarningsData | null>(null);
+  const [earningsData, setEarningsData] = useState<EarningsStats | null>(null);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const data = await getEarningsStats();
+      const data = await getYearlyEarningsStats();
       setEarningsData(data);
     } catch (error) {
       console.error('Failed to fetch earnings stats:', error);
@@ -129,7 +128,8 @@ export default () => {
       style={{
         height: '100%',
         flex: 1,
-        minWidth: responsive ? '100%' : '300px'
+        minWidth: responsive ? '100%' : '300px',
+                borderRadius: '16px'
       }}
       bodyStyle={{
         height: '100%',
@@ -138,20 +138,16 @@ export default () => {
         flexDirection: 'column'
       }}
     >
-      <Text style={{ fontSize: '16px', marginBottom: '16px' }}>{title}</Text>
+      <Text style={{ fontSize: '16px' }}>{title}</Text>
       <Text style={{ 
         fontSize: '24px', 
         fontWeight: 'bold',
-        marginBottom: '16px'
+        marginBottom:"5px"
       }}>
         {formatCurrency(stats?.current || 0)}
       </Text>
       {stats && (
         <>
-          <Text type="secondary" style={{ fontSize: '14px' }}>
-            vs {title.includes('Today') ? 'Yesterday' : 
-                title.includes('Month') ? 'Last Month' : 'Last Year'}
-          </Text>
           {renderTrendIndicator(stats)}
         </>
       )}
@@ -169,12 +165,10 @@ export default () => {
         display: 'flex',
         flexDirection: responsive ? 'column' : 'row',
         gap: '16px',
-        padding: '0px'
+        padding: '0px',
       }}>
         
-        {renderStatisticCard("Today's Earnings", earningsData?.daily, loading)}
-        {renderStatisticCard("This Month's Earnings", earningsData?.monthly, loading)}
-        {renderStatisticCard("This Year's Earnings", earningsData?.yearly, loading)}
+        {renderStatisticCard("This Year's Earnings", earningsData || undefined, loading)}
       </div>
     </RcResizeObserver>
   );

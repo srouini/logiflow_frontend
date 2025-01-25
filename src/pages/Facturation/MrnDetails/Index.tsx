@@ -75,8 +75,7 @@ export default () => {
     <PageContainer
       contentWidth="Fluid"
       header={{
-        breadcrumb: breadcrumb,
-        title: `MRN-  ${selectedMrnData?.data?.gros}`,
+        title: `Facturation | MRN`,
       }}
       title=" "
     >

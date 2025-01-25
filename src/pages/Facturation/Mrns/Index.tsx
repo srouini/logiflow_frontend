@@ -51,7 +51,6 @@ export default () => {
       <PageContainer
         contentWidth="Fluid"
         header={{
-          breadcrumb: breadcrumb,
           extra: [],
         }}
       >

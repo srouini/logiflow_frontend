@@ -89,7 +89,6 @@ export default () => {
     <PageContainer
       contentWidth="Fluid"
       header={{
-        breadcrumb: breadcrumb,
         title: "Conteneurs",
         extra: [
           <Export endpoint={API_CONTENEURS_ENDPOINT} expand="type_tc,current_scelle,article.gros,charge_chargement" key="ALLCONTAINERS" />,
