@@ -36,21 +36,17 @@ const ValidateProformaButton = ({ proforma,refetch }: ValidateProformaButtonProp
   };
   // @ts-ignore
   const cancel: PopconfirmProps["onCancel"] = (e) => {
-    mutate({
-      proforma: proforma?.id,
-      a_terme: true,
-      date_creation: dateString,
-    });
+   
   };
   const hasPermission = usePermissions();
   return (
     <Popconfirm
-      title="Modalité de paiement"
-      description="Voulez-vous créer une facture à terme ? "
+      title="Validation de la proforma"
+      description="Êtes-vous sûr de vouloir valider cette proforma ?"
       onConfirm={confirm}
       onCancel={cancel}
-      okText="Non"
-      cancelText="Oui"
+      okText="Oui"
+      cancelText="Non"
         disabled={proforma?.trashed || proforma?.valide || isLoading || !hasPermission('billing.can_validate_proforma')}
     >
       <Button

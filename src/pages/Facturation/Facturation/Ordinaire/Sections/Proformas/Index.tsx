@@ -27,6 +27,7 @@ export default ({ id,article }: Props) => {
   });
 
 
+  
   return (
     <ProTable<any>
       headerTitle="Proformas"

@@ -7,7 +7,7 @@ import useData from "@/hooks/useData";
 import { API_CONTENEURS_ENDPOINT } from "@/api/api";
 import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
-import { breadcrumb, getColumns } from "./data";
+import { getColumns } from "./data";
 import { TableSelectionType } from "@/types/antdeing";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { message, Segmented } from "antd";

@@ -31,7 +31,6 @@ const ExportEtatDFC: React.FC<Props> = ({
   query_params
 }) => {
   const {
-    data,
     isLoading: isLoadingData,
     isRefetching,
     isFetching,

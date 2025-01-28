@@ -5,7 +5,6 @@ import { Form, message, Switch, Space } from "antd";
 import usePost from "@/hooks/usePost";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import {
-  API_LIGNES_FACTURE_AVOIRE_ENDPOINT,
   API_LIGNES_FACTURE_AVOIRE_GROUPAGE_ENDPOINT,
 } from "@/api/api";
 import FormField from "@/components/form/FormField";

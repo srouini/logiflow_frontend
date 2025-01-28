@@ -8,7 +8,6 @@ import PerformanceChart from './PerformanceChart';
 import { Flex, Typography } from 'antd';
 import {useAuth} from "@/context/AuthContext";
 import dayjs from "dayjs";
-import { LuCalendarDays } from "react-icons/lu";
 
 const { Title,Text } = Typography;
 

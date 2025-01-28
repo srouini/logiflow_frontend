@@ -68,7 +68,6 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           options={[
             { label: "Payée", value: "paid" },
             { label: "Non Payée", value: "not_paid" },
-            { label: "A Terme", value: "a_terme" },
           ]}
           label="Etat"
           name="state"

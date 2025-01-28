@@ -43,7 +43,7 @@ const Excel: React.FC<ExcelExportProps> = ({
   expand,
   button_text="Exportez",
   query_params,
-  permission
+  
 }) => {
   const [fileName, setFileName] = useState<string>(() => `data_export_${new Date().toISOString().split("T")[0]}`);
   const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv' | 'pdf'>('xlsx');

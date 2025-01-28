@@ -19,7 +19,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     dataIndex: "numero",
     width: 150,
     key:"2",
-    render:(_,record:any) => record?.paid ?  <Tag color="green"> Payée </Tag>: record?.a_terme ? <Tag>A Terme</Tag> : <Tag color="red">Non Payée</Tag>  
+    render:(_,record:any) => record?.paid ?  <Tag color="green"> Payée </Tag>: <Tag color="red">Non Payée</Tag>  
   },
   {
     title: "Mrn",

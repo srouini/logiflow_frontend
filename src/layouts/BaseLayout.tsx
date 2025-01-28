@@ -10,7 +10,7 @@ import ReferenceContextProvider from "../context/ReferenceContext";
 import { MenuProps } from "antd/lib";
 import _defaultProps from "./_defaultProps";
 import { Link } from "react-router-dom";
-import avatar from "@/assets/avatar.png"
+import avatar from "/avatar.png"
 
 
 export default () => {

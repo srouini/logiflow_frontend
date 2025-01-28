@@ -13,7 +13,6 @@ import {
 } from "@ant-design/icons";
 import { YES_NO_CHOICES } from "@/utils/constants";
 import { CheckCard } from "@ant-design/pro-components";
-import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;

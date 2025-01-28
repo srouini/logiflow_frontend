@@ -79,7 +79,7 @@ const PerformanceChart: React.FC = () => {
 
   if (error) {
     return (
-      <Card title="Performance">
+      <Card title="Performance" style={{ width: '100%' }}>
         <Empty
           description={<span style={{ color: 'red' }}>{error}</span>}
         />
@@ -89,7 +89,7 @@ const PerformanceChart: React.FC = () => {
 
   if (!data || !data.dates || data.dates.length === 0) {
     return (
-      <Card title="Performance" loading={loading}>
+      <Card title="Performance" loading={loading} style={{ width: '100%' }}>
         <Empty description="No performance data available" />
       </Card>
     );
@@ -168,8 +168,7 @@ const PerformanceChart: React.FC = () => {
               dayjs()
             ]}
           />
-        <Button
-           
+          <Button
             icon={<DownloadOutlined />}
             onClick={handleDownload}
           >
@@ -177,7 +176,7 @@ const PerformanceChart: React.FC = () => {
           </Button>
         </Space>
       }
-      style={{ width: '100%' , height: '500px', borderRadius: '16px' }}
+      style={{ width: '100%', height: '500px', borderRadius: '16px' }}
       loading={loading}
     >
       <div ref={chartRef} style={{ height: 400 }}>

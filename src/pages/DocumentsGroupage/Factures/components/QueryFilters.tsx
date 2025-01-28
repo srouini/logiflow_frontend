@@ -42,10 +42,6 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
       }
       if (values["state"] === "not_paid") {
         values["paid"] = false;
-        values["a_terme"] = false;
-      }
-      if (values["state"] === "a_terme") {
-        values["a_terme"] = true;
       }
       delete values["state"];
     }
@@ -68,7 +64,6 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           options={[
             { label: "Payée", value: "paid" },
             { label: "Non Payée", value: "not_paid" },
-            { label: "A Terme", value: "a_terme" },
           ]}
           label="Etat"
           name="state"

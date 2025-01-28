@@ -16,7 +16,7 @@ interface AUFormProps {
   refetch: () => void;
 }
 
-export default ({ article, refetch }: AUFormProps) => {
+export default ({ article, refetch}: AUFormProps) => {
   // @ts-ignore
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,6 +80,7 @@ export default ({ article, refetch }: AUFormProps) => {
 
   const hasPermission = usePermissions();
   
+ 
   return (
     <>
       <DraggableModel

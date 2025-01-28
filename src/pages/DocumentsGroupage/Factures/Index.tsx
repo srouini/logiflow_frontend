@@ -7,7 +7,6 @@ import useData from "@/hooks/useData";
 import { API_FACTURES_GROUPAGE_ENDPOINT } from "@/api/api";
 import { getColumns } from "./data";
 import Export from "./components/Export";
-import ExportEtatDFC from "./components/ExportEtatDFC";
 
 const QueryFilters = lazy(() => import("./components/QueryFilters"));
 const CustomTable = lazy(() => import("@/components/CustomTable"));

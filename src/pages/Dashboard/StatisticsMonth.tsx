@@ -1,10 +1,8 @@
-import { ProCard, StatisticCard } from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 import { useState, useEffect } from 'react';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
-import { Typography, Space, Card } from 'antd';
+import { Typography, Card } from 'antd';
 import { getMonthlyEarningsStats } from '@/services/billing/reporting';
-const { Statistic } = StatisticCard;
 const { Text } = Typography;
 
 interface EarningsStats {

@@ -34,17 +34,7 @@ export default () => {
 
   const { isLoading } = useLoading({ loadingStates:[isLoadingData, isRefetching] });
 
-  const breadcrumb = {
-    items: [
-      {
-      
-        title: "Facturation",
-      },
-      {
-        title: "Mrns",
-      },
-    ],
-  };
+
 
   return (
     <div>

@@ -5,8 +5,6 @@ import { Form, message, Switch, Space } from "antd";
 import usePost from "@/hooks/usePost";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import {
-  API_LIGNES_FACTURE_AVOIRE_ENDPOINT,
-  API_LIGNES_FACTURE_AVOIRE_GROUPAGE_ENDPOINT,
   API_LIGNES_FACTURE_COMPLIMENTAIRE_GROUPAGE_ENDPOINT,
 } from "@/api/api";
 import FormField from "@/components/form/FormField";
@@ -21,7 +19,7 @@ interface AUFormProps {
   disabled?:boolean
 }
 
-const AUForm: React.FC<AUFormProps> = ({ refetch, facture, initialvalues,disabled }) => {
+const AUForm: React.FC<AUFormProps> = ({ refetch, facture, initialvalues }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState(initialvalues);

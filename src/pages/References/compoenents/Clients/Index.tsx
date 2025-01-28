@@ -69,7 +69,7 @@ export default ({ }: Props) => {
   const [manualMergeVisible, setManualMergeVisible] = useState(false);
 
   const { mutate: mergeDuplicates, isLoading: mergeLoading } = usePost({
-    endpoint: `${API_CLIENTS_ENDPOINT}/merge_duplicates/`,
+    endpoint: `${API_CLIENTS_ENDPOINT}merge_duplicates/`,
     onSuccess: (data: any) => {
       if (data.message === 'No duplicate clients found') {
         Modal.info({
