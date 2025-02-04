@@ -1,10 +1,10 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { TableDropdown } from "@ant-design/pro-components";
-import { Col, Row, Tag } from "antd";
+import { Button, Col, Row, Tag } from "antd";
 import { renderDate, renderText } from "@/utils/functions";
 import {  API_VISITES_ITEMS_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete"
-import { UnlockOutlined } from "@ant-design/icons";
+import { CloudUploadOutlined, UnlockOutlined } from "@ant-design/icons";
 import Update from "./components/Update";
 
 
@@ -79,6 +79,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                   disabled={record?.visite?.validated}
                 />
               </Col>
+ 
             </Row>,
           ]
         }

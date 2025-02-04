@@ -18,6 +18,8 @@ RUN npm run build
 # Production stage
 FROM nginx:alpine
 
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 # Copy built assets from build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 

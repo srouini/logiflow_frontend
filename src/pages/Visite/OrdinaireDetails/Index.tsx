@@ -99,6 +99,11 @@ export default () => {
     mutate({ id: id, validated: true });
   };
 
+  const handleBulltinInvalidation = () => {
+    mutate({ id: id, validated: false });
+  };
+
+
   const navigate = useNavigate();
   
   return (
@@ -126,6 +131,15 @@ export default () => {
           >
             Validez
           </Button>,
+           <Button
+           type="default"
+           icon={<CloudUploadOutlined />}
+           disabled={dataVisiteItems?.data?.count === 0 || !selectedRecord?.data?.validated}
+           loading={visite_is_patshing}
+           onClick={handleBulltinInvalidation}
+         >
+           Invalidez
+         </Button>,
           <Containers
             visite={id}
             refetchVisiteItems={refetchData}

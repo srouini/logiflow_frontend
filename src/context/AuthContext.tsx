@@ -3,6 +3,8 @@ import axios, { AxiosError } from 'axios';
 import { getCsrfToken } from '@/utils/csrf';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd'; // Import message from antd
+import { API_ENDPOINT } from "@/utils/constants";
+
 
 interface Profile {
   layout_preference: 'top' | 'side';
@@ -55,7 +57,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Configure axios defaults
   useEffect(() => {
     axios.defaults.withCredentials = true;
-    axios.defaults.baseURL = 'http://localhost:8000';
+    axios.defaults.baseURL = API_ENDPOINT;
 
     // Request interceptor for CSRF token
     axios.interceptors.request.use(
