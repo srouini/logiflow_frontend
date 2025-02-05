@@ -114,6 +114,24 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
             )
           }
         />
+        <ProFormSelect
+          {...selectConfig}
+          options={client?.results}
+          label="Client"
+          name="proforma__sous_article__client__in"
+          fieldProps={{
+            fieldNames: { label: "raison_sociale", value: "id" },
+            maxTagCount: "responsive",
+          }}
+          mode="multiple"
+          transform={(value) =>
+            transformSelectFilter(
+              "multiple",
+              "proforma__sous_article__client",
+              value
+            )
+          }
+        />
       </QueryFilter>
     </Card>
   );

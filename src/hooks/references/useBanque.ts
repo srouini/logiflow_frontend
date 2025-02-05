@@ -17,7 +17,7 @@ const useBanque = (): UseResult => {
     endpoint: API_BANQUES_ENDPOINT,
     name: "GET_BANQUE",
     enabled: false,
-    params: { all: true, fields: "id,raison_sociale" },
+    params: { all: true, fields: "id,raison_sociale", ordering : "raison_sociale" },
   });
 
   const fetch = () => {

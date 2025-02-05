@@ -7,6 +7,7 @@ import useData from "@/hooks/useData";
 import { API_FACTURES_GROUPAGE_ENDPOINT } from "@/api/api";
 import { getColumns } from "./data";
 import Export from "./components/Export";
+import PaiementFactureGroupage from "./components/PaiementFactureGroupage";
 
 const QueryFilters = lazy(() => import("./components/QueryFilters"));
 const CustomTable = lazy(() => import("@/components/CustomTable"));
@@ -63,7 +64,8 @@ export default () => {
         header={{
           breadcrumb: breadcrumb,
           extra: [
-            <Export expand="proforma.gros,proforma.sous_article.client,proforma.article.client,proforma.article" />
+            <Export expand="proforma.gros,proforma.sous_article.client,proforma.article.client,proforma.article" />,
+            <PaiementFactureGroupage expand="proforma.gros,proforma.sous_article.client,proforma.article.client,proforma.article" />
           ],
         }}
       >
