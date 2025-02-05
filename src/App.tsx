@@ -34,7 +34,7 @@ import BaremePage from "./pages/Bareme/index";
 import BaremeDetailsPage from "./pages/Bareme/BaremeDetails/Index";
 import DynamicReport from "./pages/DynamicReport";
 import References from "./pages/References";
-
+import Paiements from "./pages/Documents/Paiements/Index";
 const App = () => {
   return (
     <ConfigProvider
@@ -90,6 +90,7 @@ const App = () => {
           <Route path="/documents/proformas" element={<Proformas />} />
           <Route path="/documents/bonsorties" element={<BonsSortie />} />
           <Route path="/documents/boncommande" element={<BonsCommande />} />
+          <Route path="/documents/paiements" element={<Paiements />} />
 
           {/* Documents Groupage Routes */}
           <Route path="/documentsgroupage/factures" element={<FacturesGroupage />} />

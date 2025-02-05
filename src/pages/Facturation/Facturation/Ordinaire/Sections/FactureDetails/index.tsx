@@ -7,6 +7,8 @@ import {
   Divider,
   Drawer,
   Flex,
+  message,
+  Popconfirm,
   Row,
   Tag,
 } from "antd";
@@ -34,6 +36,7 @@ import Print from "@/components/Print";
 import AUForm from "./components/AUForm";
 import AUFormUpdate from "./components/AUFormUpdate";
 import Refetch from "@/components/Refetch";
+import usePost from "@/hooks/usePost";
 
 interface ProformaPageProps {
   facture: any;
@@ -92,9 +95,19 @@ export default ({
     enabled: false,
   });
 
+  const onSuccess = async () => {
+    message.success("Facture annulée avec succès");
+    refetch();
+  };
+
+  const { mutate, isLoading:isCanclingFacture } = usePost({
+    onSuccess: onSuccess,
+    endpoint:`${API_FACTURE_ENDPOINT}${facture?.id}/annuler/`,
+  });
+
 
   const { isLoading } = useLoading({
-    loadingStates: [isLoadingData, isRefetching, isFetching],
+    loadingStates: [isLoadingData, isRefetching, isFetching,isCanclingFacture],
   });
 
   const refetchAll = () => {
@@ -102,6 +115,12 @@ export default ({
     RefetchbonSorties(); 
     refetch();
   }
+
+
+  const confirm = () => {
+    mutate({});
+  };
+
   return (
     <>
       <Button onClick={showDrawer} color="red">
@@ -159,6 +178,17 @@ export default ({
                   type="View"
                   permission="billing.can_print_facture"
                 />
+              </Col>
+              <Col>
+              <Popconfirm
+                title="Annuler la facture ?"
+                description="Êtes-vous sûr de vouloir annuler cette facture ?"
+                onConfirm={confirm}
+                okText="OUI"
+                cancelText="NON"
+              >
+              <Button loading={isCanclingFacture}>Annuler</Button>
+              </Popconfirm>
               </Col>
             </Row>
           </Col>

@@ -23,7 +23,28 @@ type ReferenceContextProps = {
   children: React.ReactNode;
 };
 
-const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
+type Retuentype = {
+  navire: any,
+  regime: any,
+  consignataire: any,
+  armateur: any,
+  port: any,
+  mrn: any,
+  client: any,
+  transitaire: any,
+  containerType: any,
+  user: any,
+  box: any,
+  banque: any,
+  rubrique: any,
+  bareme: any,
+  zone: any,
+  parc: any,
+  AgentDouane: any
+
+}
+
+const ReferenceContextProvider = ({ children }: ReferenceContextProps):Retuentype => {
 
   const navire = useNavire();
   const regime = useRegime();
@@ -42,7 +63,7 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
   const zone = useZone();
   const parc = useParc();
   const AgentDouane = useAgentDouane();
- 
+
   const contextValues = {
     navire,
     regime,
@@ -53,12 +74,12 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
     client,
     transitaire,
     containerType,
-    user, 
-    box, 
-    banque, 
-    rubrique, 
-    bareme, 
-    zone, 
+    user,
+    box,
+    banque,
+    rubrique,
+    bareme,
+    zone,
     parc,
     AgentDouane
   };

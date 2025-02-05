@@ -21,8 +21,8 @@ interface ExcelExportProps {
   search?: string;
   endpoint: string;
   expand?: string;
-  button_text?:string;
-  query_params?:any,
+  button_text?: string;
+  query_params?: any,
 }
 
 interface DataRowType {
@@ -41,9 +41,9 @@ const Excel: React.FC<ExcelExportProps> = ({
   search,
   endpoint,
   expand,
-  button_text="Exportez",
+  button_text = "Exportez",
   query_params,
-  
+
 }) => {
   const [fileName, setFileName] = useState<string>(() => `data_export_${new Date().toISOString().split("T")[0]}`);
   const [fileFormat, setFileFormat] = useState<'xlsx' | 'csv' | 'pdf'>('xlsx');
@@ -83,12 +83,15 @@ const Excel: React.FC<ExcelExportProps> = ({
     try {
       const selectedColumns = columns.filter((column) => column.selected);
       const header = selectedColumns.map((column) => column.title);
-      
+
       const body = data.data.map((row: DataRowType) =>
         selectedColumns.map((column) => {
           const cellData = column.schema
             ? getNestedValue(row, column.schema)
             : row[column.dataIndex as string];
+          if (typeof cellData === 'boolean') {
+            return cellData ? "OUI" : "NON";
+          }
           return cellData?.toString() || "-";
         })
       );
@@ -98,17 +101,17 @@ const Excel: React.FC<ExcelExportProps> = ({
         unit: 'mm',
         format: 'a4'
       });
-      
+
       // Calculate margins and content width based on orientation
       const pageWidth = pdfOrientation === 'landscape' ? 297 : 210;
       //@ts-ignore
       const pageHeight = pdfOrientation === 'landscape' ? 210 : 297;
       const margin = 14;
-      
+
       // Add title
       doc.setFontSize(16);
       doc.text(fileName, margin, 15);
-      
+
       // Add date
       doc.setFontSize(10);
       doc.text(`Generated using LOGIXFLOW on: ${new Date().toLocaleString()}`, margin, 25);
@@ -131,7 +134,7 @@ const Excel: React.FC<ExcelExportProps> = ({
         alternateRowStyles: {
           fillColor: [245, 245, 245],
         },
-        margin: { 
+        margin: {
           top: 30,
           left: margin,
           right: margin,
@@ -171,6 +174,9 @@ const Excel: React.FC<ExcelExportProps> = ({
             const cellData = column.schema
               ? getNestedValue(row, column.schema)
               : row[column.dataIndex as string];
+            if (typeof cellData === 'boolean') {
+              return cellData ? "OUI" : "NON";
+            }
             return cellData;
           })
         ) || []),
@@ -200,10 +206,11 @@ const Excel: React.FC<ExcelExportProps> = ({
         type: "array",
       });
       const dataBlob = new Blob(
-        [buffer], 
-        { type: fileFormat === 'xlsx' 
-          ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
-          : 'text/csv;charset=utf-8'
+        [buffer],
+        {
+          type: fileFormat === 'xlsx'
+            ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            : 'text/csv;charset=utf-8'
         }
       );
 
@@ -246,8 +253,8 @@ const Excel: React.FC<ExcelExportProps> = ({
         ]}
       />
       {fileFormat === 'pdf' && (
-        <Radio.Group 
-          value={pdfOrientation} 
+        <Radio.Group
+          value={pdfOrientation}
           onChange={(e) => setPdfOrientation(e.target.value)}
           optionType="button"
           buttonStyle="solid"
@@ -261,8 +268,8 @@ const Excel: React.FC<ExcelExportProps> = ({
           </Radio.Button>
         </Radio.Group>
       )}
-      <Button 
-        type="primary" 
+      <Button
+        type="primary"
         onClick={handleClick}
         loading={isLoading}
         icon={<CloudDownloadOutlined />}
@@ -272,9 +279,9 @@ const Excel: React.FC<ExcelExportProps> = ({
       </Button>
     </Space>
   );
-  
+
   return (
-    <Popover 
+    <Popover
       content={exportContent}
       title="Export Options"
       trigger="click"

@@ -28,10 +28,13 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
   setPage,
   collapsed = true,
 }) => {
-  const { navire } = useReferenceContext();
+  const { navire, regime, consignataire, armateur  } = useReferenceContext();
 
   useEffect(() => {
     navire.fetch();
+    regime.fetch();
+    consignataire.fetch();
+    armateur.fetch();
   }, []);
 
   const handleSubmission = (values: any) => {
@@ -50,9 +53,21 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         defaultCollapsed={collapsed}
       >
         <ProFormText name="numero__icontains" label="Numéro" />
-        <ProFormText name="status" label="Status" />
-        <ProFormText name="status" label="Status" />
-        <ProFormText name="status" label="Status" />
+        <ProFormSelect
+          {...selectConfig}
+          options={regime?.results}
+          label="Regime"
+          name="regime__in"
+          fieldProps={{
+            fieldNames: { label: "designation", value: "id" },
+            maxTagCount: 'responsive',
+          }}
+          mode="multiple"
+          transform={(value) =>
+            transformSelectFilter("multiple", "regime", value)
+          }
+        />
+        
         <ProFormDatePicker name="accostage" label="Accostage" />
         <ProFormDateRangePicker
           name="accostage__range"
@@ -71,6 +86,34 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
           mode="multiple"
           transform={(value) =>
             transformSelectFilter("multiple", "navire", value)
+          }
+        />
+                <ProFormSelect
+          {...selectConfig}
+          options={consignataire?.results}
+          label="Consignataire"
+          name="consignataire"
+          fieldProps={{
+            fieldNames: { label: "raison_sociale", value: "id" },
+            maxTagCount: 'responsive',
+          }}
+          mode="multiple"
+          transform={(value) =>
+            transformSelectFilter("multiple", "consignataire", value)
+          }
+        />
+                <ProFormSelect
+          {...selectConfig}
+          options={armateur?.results}
+          label="Armateur"
+          name="armateur"
+          fieldProps={{
+            fieldNames: { label: "raison_sociale", value: "id" },
+            maxTagCount: 'responsive',
+          }}
+          mode="multiple"
+          transform={(value) =>
+            transformSelectFilter("multiple", "armateur", value)
           }
         />
       </QueryFilter>
