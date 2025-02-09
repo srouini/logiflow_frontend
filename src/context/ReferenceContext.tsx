@@ -44,7 +44,7 @@ type Retuentype = {
 
 }
 
-const ReferenceContextProvider = ({ children }: ReferenceContextProps):Retuentype => {
+const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
 
   const navire = useNavire();
   const regime = useRegime();

@@ -5,13 +5,14 @@ import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import usePost from "@/hooks/usePost";
 import { TableSelectionType } from "@/types/antdeing";
-import { renderText } from "@/utils/functions";
+import { renderText, transformSelectFilter } from "@/utils/functions";
 import { AppstoreAddOutlined } from "@ant-design/icons";
 import { Button, DatePicker, Drawer, message, Tag } from "antd";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import dayjs from "dayjs";
 import { usePermissions } from "@/utils/permissions";
+import QueryFilters from "./ContainersQueryFilters";
 
 interface props {
   mrn: any;
@@ -42,6 +43,7 @@ export default ({
   }, [open]);
 
   const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState([]);
   const { page, getPageSize, setPageSize, setPage } = usePage();
 
   const {
@@ -60,8 +62,13 @@ export default ({
       expand: "article,type_tc",
       article__gros__in: mrn?.id,
       bulletins__id__isnull: true,
+      ...filters,
     },
   });
+
+  useEffect(() => {
+    refetch();
+  },[filters])
 
   const { isLoading } = useLoading({
     loadingStates: [isLoadingData, isRefetching, isFetching],
@@ -195,6 +202,8 @@ export default ({
         onClose={onClose}
         open={open}
       >
+        <QueryFilters mrn={mrn?.id} setPage={setPage}  setFilters={setFilters}  resetFilters={() => setFilters([]) }   />
+
         <CustomTable
           getColumns={columns()}
           data={data}

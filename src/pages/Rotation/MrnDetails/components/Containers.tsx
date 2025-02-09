@@ -6,7 +6,7 @@ import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import usePost from "@/hooks/usePost";
 import { TableSelectionType } from "@/types/antdeing";
-import { renderText } from "@/utils/functions";
+import { renderText, transformSelectFilter } from "@/utils/functions";
 import { usePermissions } from "@/utils/permissions";
 import {
   AppstoreAddOutlined,
@@ -15,6 +15,7 @@ import {
 } from "@ant-design/icons";
 import { Button, Drawer, message, Segmented, Switch, Tag } from "antd";
 import { useEffect, useState } from "react";
+import QueryFilters from "./ContainersQueryFilters";
 
 interface props {
   mrn: string | undefined;
@@ -37,7 +38,12 @@ export default ({ mrn }: props) => {
   };
 
   const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState([]);
   const { page, getPageSize, setPageSize, setPage } = usePage();
+
+
+
+
 
   const {
     data,
@@ -53,9 +59,14 @@ export default ({ mrn }: props) => {
       page: page,
       page_size: getPageSize(),
       article__gros__in: mrn,
+      ...filters,
       expand: "type_tc,article",
     },
   });
+
+  useEffect(() => {
+    refetch();
+  },[filters])
 
   const { isLoading } = useLoading({
     loadingStates: [isLoadingData, isRefetching],
@@ -186,6 +197,9 @@ export default ({ mrn }: props) => {
     </>
   );
 
+
+
+
   const hasPermission = usePermissions();
 
   return (
@@ -205,7 +219,9 @@ export default ({ mrn }: props) => {
         closable={false}
         onClose={onClose}
         open={open}
+
       >
+        <QueryFilters mrn={mrn} setPage={setPage}  setFilters={setFilters}  resetFilters={() => setFilters([]) }   />
         <CustomTable
           getColumns={columns()}
           data={data}
@@ -220,6 +236,7 @@ export default ({ mrn }: props) => {
           key="CONTENEUR_AFFECTATION_TYPE"
           rowSelectionFunction={rowSelectionFunction}
           RowSelectionRnder={RowSelectionRnder}
+       
         />
       </Drawer>
     </>
