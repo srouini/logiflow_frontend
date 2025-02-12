@@ -1,5 +1,6 @@
 import { API_FACTURES_GROUPAGE_ENDPOINT } from "@/api/api";
 import usePost from "@/hooks/usePost";
+import { usePermissions } from "@/utils/permissions";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import { Button, message, Popconfirm } from "antd";
 import { PopconfirmProps } from "antd/lib";
@@ -43,7 +44,9 @@ const ValidateProformaButton = ({ proforma,refetch,refetch_sub_article }: Valida
       date_creation: dateString,
     });
   };
+  const hasPermission = usePermissions();
 
+  
   return (
     <Popconfirm
       title="Modalité de paiement"
@@ -52,13 +55,13 @@ const ValidateProformaButton = ({ proforma,refetch,refetch_sub_article }: Valida
       onCancel={cancel}
       okText="Non"
       cancelText="Oui"
-        disabled={proforma?.trashed || proforma?.valide || isLoading}
+        disabled={proforma?.trashed || proforma?.valide || isLoading || !hasPermission('billing.can_validate_proformagroupage')}
     >
       <Button
         type="default"
         icon={<CloudUploadOutlined />}
         loading={isLoading}
-        disabled={proforma?.trashed || proforma?.valide || isLoading}
+        disabled={proforma?.trashed || proforma?.valide || isLoading || !hasPermission('billing.can_validate_proformagroupage')}
         
       >
         Valider

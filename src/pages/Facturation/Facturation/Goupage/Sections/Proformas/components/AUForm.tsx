@@ -8,6 +8,7 @@ import { API_PROFORMAS_GROUPAGE_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { PlusOutlined } from "@ant-design/icons";
 import { YES_NO_CHOICES } from "@/utils/constants";
+import { usePermissions } from "@/utils/permissions";
 
 
 
@@ -41,6 +42,7 @@ const AUForm: React.FC<AUFormProps> = ({ article, refetch }) => {
     endpoint: API_PROFORMAS_GROUPAGE_ENDPOINT,
   });
 
+  const hasPermission = usePermissions();
 
   return (
     <DraggableModel
@@ -48,7 +50,7 @@ const AUForm: React.FC<AUFormProps> = ({ article, refetch }) => {
       modalOpenButtonText="Proforma"
       addButtonIcon={<PlusOutlined />}
       modalTitle="+ PROFMRA"
-      disabledModalOpenButton={article?.volume == null || article?.billed}
+      disabledModalOpenButton={article?.volume == null || article?.billed || !hasPermission('billing.add_proformagroupage')}
       onSubmit={handleFormSubmission}
       setOpen={setOpen}
       open={open}

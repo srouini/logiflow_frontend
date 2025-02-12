@@ -103,6 +103,7 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
                 editText=""
                 hasIcon
                 gros={record?.gros}
+                type="edit"
               />
             </Col>
           </Row>,

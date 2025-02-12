@@ -34,7 +34,7 @@ console.log(article)
       dataSource={data?.data}
       toolbar={{
         actions: [
-           <AUForm disabled={article?.billed} refetch={refetch} addText="Viste" editText="Visite" hasIcon gros={article?.tc?.article?.gros?.id} initialvalues={{gros:article?.tc?.article?.gros?.id,article:article?.tc?.article?.id,sous_article:article?.id,type_visite:"Visite douane"}}/>
+           <AUForm disabled={article?.billed} refetch={refetch} addText="Viste" editText="Visite" type="add" hasIcon gros={article?.tc?.article?.gros?.id} initialvalues={{gros:article?.tc?.article?.gros?.id,article:article?.tc?.article?.id,sous_article:article?.id,type_visite:"Visite douane"}}/>
         ],
       }}
       rowKey={(item) => item?.id}

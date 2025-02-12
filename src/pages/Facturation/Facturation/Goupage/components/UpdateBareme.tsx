@@ -7,6 +7,7 @@ import {
 } from "@/api/api";
 import { ProFormSelect } from "@ant-design/pro-components";
 import { selectConfig } from "@/utils/config";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -45,11 +46,13 @@ const AUForm = ({ refetch, sous_article }: AUFormProps) => {
     }
   }, [sous_article, form]);
 
+  const hasPermission = usePermissions();
+
   return (
     <Form form={form}>
       <Flex align="baseline">
         <ProFormSelect
-        disabled={sous_article?.billed}
+        disabled={sous_article?.billed || !hasPermission('app.change_sousarticle')}
           {...selectConfig}
           width="lg"
           // onChange={onChange}

@@ -4,6 +4,7 @@ import usePost from "../../../../../hooks/usePost";
 import { useReferenceContext } from "../../../../../context/ReferenceContext";
 import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
 import { SousArticle } from "@/types/data";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -46,6 +47,7 @@ const AUForm = ({ refetch, sous_article }: AUFormProps) => {
     }
   };
 
+  const hasPermission = usePermissions();
   return (
     <Flex align="baseline">
       <span style={{ marginRight: "10px" }}>Volume: </span>
@@ -54,7 +56,7 @@ const AUForm = ({ refetch, sous_article }: AUFormProps) => {
         step={0.01}
         onChange={(value) => setValue(value as number)}
         onKeyPress={handleKeyPress}
-        disabled={sous_article?.billed}
+        disabled={sous_article?.billed || !hasPermission('app.change_sousarticle')}
       />
     </Flex>
   );

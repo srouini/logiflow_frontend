@@ -11,6 +11,7 @@ import { Button, Drawer } from "antd";
 import { CloudDownloadOutlined } from "@ant-design/icons";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
+import { usePermissions } from "@/utils/permissions";
 
 interface Props {
   expand?:string, 
@@ -60,9 +61,11 @@ export default ({expand,endpoint}:Props) => {
     return count_str;
   };
 
+  const hasPermission = usePermissions();
+
   return (
     <div>
-      <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={showModal}>
+      <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={showModal} disabled={!hasPermission("app.can_export_bareme")}>
         Exporter
       </Button>
       <Drawer

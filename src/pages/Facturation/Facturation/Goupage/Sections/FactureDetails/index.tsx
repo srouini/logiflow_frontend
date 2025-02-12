@@ -138,6 +138,7 @@ export default ({
                   id={facture?.id}
                   key={facture?.id}
                   type="Download"
+                  permission="billing.can_print_facturegroupage"
                 />
               </Col>
               <Col>
@@ -147,6 +148,7 @@ export default ({
                   id={facture?.id}
                   key={facture?.id}
                   type="View"
+                  permission="billing.can_print_facturegroupage"
                 />
               </Col>
             </Row>

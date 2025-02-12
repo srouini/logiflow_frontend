@@ -83,10 +83,11 @@ const AUFormDepotageContainer: React.FC<AUFormProps> = ({
         <Row gutter={24}>
           <FormField
             name="date_depotage"
-            label="Date de  dépotage"
+            label="Date de dépotage"
             type="dateTime"
             required
             span_md={24}
+            minDate={undefined}
           />
           <FormField name="observation_depotage" label="Observation" type="text" span_md={24} />
         </Row>

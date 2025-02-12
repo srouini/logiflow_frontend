@@ -5,6 +5,7 @@ import { useReferenceContext } from "../../../../../context/ReferenceContext";
 import { API_SOUSARTICLES_ENDPOINT } from "@/api/api";
 import { ProFormSelect } from "@ant-design/pro-components";
 import { selectConfig } from "@/utils/config";
+import { usePermissions } from "@/utils/permissions";
 
 
 
@@ -57,14 +58,14 @@ const AUForm = ({ refetch, sous_article }:AUFormProps) => {
       form.setFieldsValue({ transitaire: sous_article.transitaire.id });
     }
   }, [sous_article, form]);
-
   
+  const hasPermission = usePermissions();
 
   return (
     <Form form={form}>
     <Flex align="baseline">
       <ProFormSelect
-        disabled={sous_article?.billed}
+        disabled={sous_article?.billed || !hasPermission('app.change_sousarticle') }
             {...selectConfig}
             width="lg"
             // onChange={onChange}

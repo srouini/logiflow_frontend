@@ -13,6 +13,7 @@ import { FactureGroupage, Paiement } from "@/types/billing";
 import { PAIEMENTS_METHODE } from "@/utils/constants";
 import { formatDate, roundToDecimals } from "@/utils/functions";
 import dayjs from "dayjs";
+import { usePermissions } from "@/utils/permissions";
 
 interface AUFormProps {
   refetch: () => void;
@@ -74,6 +75,8 @@ const AUFormPaiement: React.FC<AUFormProps> = ({ refetch, facture }) => {
   const handleModeChange = (value: string) => {
     setMode(value);
   };
+
+  const hasPermission = usePermissions();
 
   return (
     <DraggableModel

@@ -80,7 +80,7 @@ const FormDateTimeInput: React.FC<FormDateInputProps> = ({
             format="YYYY-MM-DD HH:mm:ss"
             disabled={disabled}
             showTime
-            disabledDate={disabledDate}
+            // disabledDate={disabledDate}
           />
         </Form.Item>
       </Col>

@@ -15,6 +15,7 @@ import { API_FACTURE_ENDPOINT } from "@/api/api";
 import { useAxios } from "@/hooks/useAxios";
 import MergedPDF from "@/components/MergedPDF";
 import ExportEtatDFC from "./ExportEtatDFC";
+import { usePermissions } from "@/utils/permissions";
 
 interface Props {
   expand?: string;
@@ -97,9 +98,11 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
       setLoadingPdf(false);
     }
   };
+  const hasPermission = usePermissions();
+
   return (
-    <>
-      <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={() => setOpen(true)}>
+    <div>
+      <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={() => setOpen(true)} disabled={!hasPermission("app.can_export_facture")}>
         Exporter
       </Button>
 
@@ -179,6 +182,6 @@ export default ({ expand = "proforma.gros.regime,proforma.article.client", query
           }}
         />
       </Drawer>
-    </>
+    </div>
   );
 };

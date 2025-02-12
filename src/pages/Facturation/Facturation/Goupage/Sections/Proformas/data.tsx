@@ -6,14 +6,14 @@ import { Row, Col, Tag } from "antd";
 import ProfomaDetails from "../ProformaDetails/index"
 import ValidateProformaButton from "../ProformaDetails/components/ValidateProformaButton";
 
-export const getColumns = (refetch:any,refetch_sub_article:any): ProColumns<any>[] => [
+export const getColumns = (refetch: any, refetch_sub_article: any): ProColumns<any>[] => [
   {
     title: "Numéro",
     dataIndex: "numero",
     copyable: true,
     width: 150,
     key: "1",
-    render:(_,record) => <ProfomaDetails proforma={record} refetchProformas={refetch} refetch_sub_article={refetch_sub_article} />
+    render: (_, record) => <ProfomaDetails proforma={record} refetchProformas={refetch} refetch_sub_article={refetch_sub_article} />
   },
   {
     title: "Etat",
@@ -79,6 +79,7 @@ export const getColumns = (refetch:any,refetch_sub_article:any): ProColumns<any>
                 key={record?.id}
                 type="Download"
                 disabled={record?.trashed}
+                permission="billing.can_print_proformagroupage"
               />
             </Col>
             <Col>
@@ -89,10 +90,11 @@ export const getColumns = (refetch:any,refetch_sub_article:any): ProColumns<any>
                 key={record?.id}
                 type="View"
                 disabled={record?.trashed}
+                permission="billing.can_print_proformagroupage"
               />
             </Col>
             <Col>
-            <ValidateProformaButton proforma={record} key={record?.id} refetch={refetch} refetch_sub_article={refetch_sub_article} />
+              <ValidateProformaButton proforma={record} key={record?.id} refetch={refetch} refetch_sub_article={refetch_sub_article} />
             </Col>
           </Row>,
         ]}

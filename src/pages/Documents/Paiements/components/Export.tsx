@@ -11,6 +11,7 @@ import QueryFilters from "./QueryFilters";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Export from "@/components/Export";
 import { API_PRFORMAS_ENDPOINT } from "@/api/api";
+import { usePermissions } from "@/utils/permissions";
 
 interface Props {
   expand?: string;
@@ -55,17 +56,19 @@ export default ({ expand = "gros,article.client", query_params }: Props) => {
     return count_str;
   };
 
+  const hasPermission = usePermissions();
+
   return (
-    <>
-      <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={() => setOpen(true)}>
+    <div>
+      <Button icon={<CloudDownloadOutlined />} type="dashed" onClick={() => setOpen(true)} disabled={!hasPermission("app.can_export_paiement")}>
         Exporter
       </Button>
 
       <Drawer
-      placement="left"
+        placement="left"
         title="Exportation de données"
         destroyOnClose
-       width={"80%"}
+        width={"80%"}
         footer={false}
         open={open}
         closeIcon
@@ -111,6 +114,6 @@ export default ({ expand = "gros,article.client", query_params }: Props) => {
           }}
         />
       </Drawer>
-    </>
+    </div>
   );
 };

@@ -23,6 +23,7 @@ interface AUFormProps {
   editText?: string;
   addText?: string;
   hasIcon?: boolean;
+  type?:  "add" | "edit";
 }
 
 const AUForm: React.FC<AUFormProps> = ({
@@ -31,6 +32,7 @@ const AUForm: React.FC<AUFormProps> = ({
   disabled,
   editText = "MODIFIER",
   addText = "Visite",
+  type = "add",
 }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
@@ -69,10 +71,10 @@ const AUForm: React.FC<AUFormProps> = ({
     <DraggableModel
       OkButtontext="Submit"
       addButtonType="dashed"
-      disabledModalOpenButton={disabled || (!initialvalues && !hasPermission('groupage.add_visitegroupage')) || (initialvalues && !hasPermission('groupage.change_visitegroupage'))}
-      modalOpenButtonText={initialvalues ? editText : addText}
+      disabledModalOpenButton={disabled || (type==="add" && !hasPermission('groupage.add_visitegroupage')) || (type==="edit" && !hasPermission('groupage.change_visitegroupage'))}
+      modalOpenButtonText={type==="edit" ? editText : addText}
       addButtonIcon={
-        initialvalues ? <EditOutlined />:<PlusOutlined />
+        type==="edit" ? <EditOutlined />:<PlusOutlined />
       }
       modalTitle="Visite groupage"
       onSubmit={handleFormSubmission}
