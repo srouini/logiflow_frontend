@@ -4,14 +4,16 @@ import { ProTable } from "@ant-design/pro-components";
 import { getColumns } from "./data";
 
 import AUForm from "./components/AUFormTwo";
+import { useEffect } from "react";
 
 interface Props {
   id: string | undefined;
   article?:any,
+  activeTab?:string
 }
 
 
-export default ({ id,article }: Props) => {
+export default ({ id,article,activeTab }: Props) => {
   const {
     data,
     isLoading,
@@ -26,6 +28,13 @@ export default ({ id,article }: Props) => {
     },
   });
 
+
+  useEffect(() =>{
+    if(activeTab === "proformas"){
+      refetch();
+    }
+
+  },[activeTab])
 
   
   return (

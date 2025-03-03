@@ -84,7 +84,7 @@ export default ({ article, refetch}: AUFormProps) => {
   return (
     <>
       <DraggableModel
-        OkButtontext="Submit"
+        OkButtontext="Soumettre"
         modalOpenButtonText="Proforma"
         addButtonIcon={<PlusOutlined />}
         modalTitle="+ Proforma"
@@ -148,25 +148,7 @@ export default ({ article, refetch}: AUFormProps) => {
               step={0.01}
             />
           </Row>
-          <Row gutter={24}>
-            <FormField
-              name="debeur"
-              label="Debours"
-              type="select"
-              options={YES_NO_CHOICES}
-              option_value="value"
-              span_md={8}
-              initialValue={false}
-            />
-            <FormField
-              label="Debours"
-              name="DEBEUR"
-              span={24}
-              span_md={16}
-              type="number"
-              step={0.01}
-            />
-          </Row>
+
 
           <Divider dashed style={{ marginTop: "0px" }} />
 

@@ -59,7 +59,7 @@ const AUForm: React.FC<AUFormProps> = ({
 
   return (
     <DraggableModel
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText={initialvalues ? editText : addText}
       modalTitle="Article"
       addButtonType="dashed"

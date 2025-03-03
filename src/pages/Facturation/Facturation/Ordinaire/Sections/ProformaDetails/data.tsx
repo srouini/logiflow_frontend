@@ -1,6 +1,7 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { Tag } from "antd";
 import { renderDate, renderMoney, renderText } from "@/utils/functions";
+import { render } from "@react-pdf/renderer";
 
 // @ts-ignore
 export const getColumns = (refetch: () => void): ProColumns<any>[] => [
@@ -133,6 +134,13 @@ export const columns = [
     width: 150,
   },
   {
+    title: "Debeur",
+    dataIndex: "debeur",
+    key: "9",
+    render: (record: any) => renderMoney(record),
+    width: 150,
+  },
+  {
     title: "TTC",
     dataIndex: "TTC",
     key: "9",
@@ -183,10 +191,9 @@ export const columns_prestation_conteneurs = [
   {
     title: "Rubrique",
     dataIndex: "rubrique",
-    copyable: true,
-    ellipsis: true,
     width: 300,
     key: "1",
+    render:(_:any,record:any) => <>{record?.debeur && <Tag color="green">D</Tag> } {record.rubrique}</>
   },
   {
     title: "Tcs",

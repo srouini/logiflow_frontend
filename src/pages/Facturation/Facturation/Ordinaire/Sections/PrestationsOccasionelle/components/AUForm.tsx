@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import DraggableModel from "@/components/DraggableModel";
 import FormObject from "@/components/Form";
 import { usePermissions } from "@/utils/permissions";
+import { YES_NO_CHOICES } from "@/utils/constants";
 
 interface AUFormProps {
   article: any;
@@ -69,6 +70,7 @@ export default ({ article, refetch }: AUFormProps) => {
         tc: container,
         date: dayjs(values["date"]).format("YYYY-MM-DD"),
         prix: values["prix"],
+        debeur: values["debeur"]
       });
     });
   };
@@ -79,7 +81,7 @@ export default ({ article, refetch }: AUFormProps) => {
   return (
     <>
       <DraggableModel
-        OkButtontext="Submit"
+        OkButtontext="Soumettre"
         modalOpenButtonText="Prestation occasionnelles"
         disabledModalOpenButton={!hasPermission('bareme.add_prestationoccasionnelle')}
         addButtonIcon={<PlusOutlined />}
@@ -90,7 +92,7 @@ export default ({ article, refetch }: AUFormProps) => {
         width={600}
         isLoading={isLoading}
       >
-        <FormObject form={form} initialvalues={{ quantite: 1 }}>
+        <FormObject form={form} initialvalues={{ quantite: 1, debeur: false }}>
           <Divider dashed style={{ marginTop: "0px" }} />
 
           <Row gutter={24}>
@@ -105,6 +107,15 @@ export default ({ article, refetch }: AUFormProps) => {
               option_label="designation"
               option_value="designation"
               options={removeDuplicatedRubriques(rubrique?.results)}
+            />
+            <FormField
+              name="debeur"
+              label="Debours"
+              type="select"
+              options={YES_NO_CHOICES}
+              option_value="value"
+              option_label="label"
+              span_md={24}
             />
             <FormField
               required

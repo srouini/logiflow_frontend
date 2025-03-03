@@ -50,48 +50,48 @@ export default () => {
         DetailsColumns={DetailsColumns}
       />
       <Divider />
-      <Flex style={{width:"100%"}} justify="end" gap={24}>
-     
-      <UpdateVolume refetch={refetch} sous_article={data?.data} />
-        <UpdateBareme refetch={refetch} sous_article={data?.data}  />
-        <UpdateTransitaire refetch={refetch} sous_article={data?.data}  />
-    
+      <Flex style={{ width: "100%" }} justify="end" gap={24}>
+
+        <UpdateVolume refetch={refetch} sous_article={data?.data} />
+        <UpdateBareme refetch={refetch} sous_article={data?.data} />
+        <UpdateTransitaire refetch={refetch} sous_article={data?.data} />
+
       </Flex>
       <ProCard
         tabs={{
           tabPosition: "top",
           activeKey: tab,
-          
+
           items: [
             {
               label: `Factures`,
               key: "factures",
-              children: <Factures id={id} article={data?.data} activeTab={tab}/>,
+              children: <Factures id={id} article={data?.data} activeTab={tab} />,
             },
             {
               label: `Proformas`,
               key: "proformas",
-              children: <Proformas id={id} article={data?.data} refetch_sub_article={refetch} />,
+              children: <Proformas id={id} article={data?.data} activeTab={tab} refetch_sub_article={refetch} />,
             },
             {
               label: `Visites`,
               key: "visites",
-              children: <Visites id={id} article={data?.data}/>,
+              children: <Visites id={id} article={data?.data} />,
             },
             {
               label: `Préstations occasionnelle`,
               key: "prestation_occasionnelle",
-              children: <PrestationsOccasionnelle id={id} article={data?.data}/>,
+              children: <PrestationsOccasionnelle id={id} article={data?.data} />,
             },
             {
               label: `Facture Complementaire`,
               key: "facture_complementaire",
-              children: <FactureComplimentaire id={id} article={data?.data}/>,
-            }, 
+              children: <FactureComplimentaire id={id} article={data?.data} />,
+            },
             {
               label: `Facture Avoire`,
               key: "facture_avoire",
-              children: <FactureAvoire id={id} article={data?.data}/>,
+              children: <FactureAvoire id={id} article={data?.data} />,
             },
           ],
           onChange: (key) => {

@@ -38,7 +38,13 @@ export const getColumns = (refetch: () => void): ProColumns<any>[] => [
     render: (record:any) => renderMoney(record)
   },
   {
-    title: "groupage",
+    title: "Debeur",
+    key: "debeur",
+    dataIndex: "debeur",
+    render: (record:any) => record? <Tag color="blue"> Oui </Tag> : <Tag> Non </Tag>
+  },
+  {
+    title: "Groupage",
     key: "groupage",
     dataIndex: "groupage",
     render: (record:any) => record? <Tag color="blue"> Groupage </Tag> : <Tag> Ordinaire </Tag>

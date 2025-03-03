@@ -6,10 +6,12 @@ import usePost from "@/hooks/usePost";
 import { mapInitialValues } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
 import { API_PRESTATIONS_ARTICLE_ENDPOINT } from "@/api/api";
-import FormField from "@/components/form/FormField";
 import { YES_NO_CHOICES } from "@/utils/constants";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Bareme } from "@/types/bareme";
+import { ProFormSelect } from "@ant-design/pro-components";
+import { selectConfig } from "@/utils/config";
+import FormField from "@/components/form/FormField";
 
 interface AUFormProps {
   refetch: () => void;
@@ -39,11 +41,29 @@ const AUForm: React.FC<AUFormProps> = ({
 
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
+    const selectedRubrique = values.rubrique;
+    const selectedGroupage = values.groupage;
+    
     if (initialvalues) {
       values.id = initialvalues?.id;
     }
     values.bareme = parseInt(bareme?.id);
-    mutate(values);
+
+    // Create combinations of all selected options
+    const rubriqueToProcess = Array.isArray(selectedRubrique) ? selectedRubrique : [selectedRubrique];
+    const groupageToProcess = Array.isArray(selectedGroupage) ? selectedGroupage : [selectedGroupage];
+
+    // Create a prestation for each combination
+    for (const rubriqueId of rubriqueToProcess) {
+      for (const groupageValue of groupageToProcess) {
+        const prestationValues = {
+          ...values,
+          rubrique: rubriqueId,
+          groupage: groupageValue,
+        };
+        await mutate(prestationValues);
+      }
+    }
   };
 
   const onSuccess = () => {
@@ -59,7 +79,7 @@ const AUForm: React.FC<AUFormProps> = ({
 
   return (
     <DraggableModel
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText={initialvalues ? editText : addText}
       modalTitle="Prestation Article"
       addButtonType="dashed"
@@ -74,13 +94,15 @@ const AUForm: React.FC<AUFormProps> = ({
       initialvalues={initialvalues}
     >
       <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
-        <FormField
+        <ProFormSelect
           name="rubrique"
           label="Rubrique"
-          type="select"
-          options={rubrique?.results}
-          option_label="designation"
-          span_md={24}
+          mode="multiple"
+          fieldProps={selectConfig}
+          options={rubrique?.results?.map((item: any) => ({
+            label: item.designation,
+            value: item.id,
+          }))}
         />
         <FormField
           name="prix"
@@ -88,16 +110,16 @@ const AUForm: React.FC<AUFormProps> = ({
           type="number"
           span_md={24}
         />
-        <FormField
+        <ProFormSelect
           name="groupage"
           label="Groupage"
-          type="select"
-          options={YES_NO_CHOICES}
-          span_md={24}
-          option_value="value"
-          option_label="label"
+          mode="multiple"
+          fieldProps={selectConfig}
+          options={YES_NO_CHOICES.map((item: any) => ({
+            label: item.label,
+            value: item.value,
+          }))}
         />
-
       </FormObject>
     </DraggableModel>
   );

@@ -10,6 +10,8 @@ import FormField from "@/components/form/FormField";
 import { YES_NO_CHOICES } from "@/utils/constants";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Bareme } from "@/types/bareme";
+import { ProFormSelect } from "@ant-design/pro-components";
+import { selectConfig } from "@/utils/config";
 
 interface AUFormProps {
   refetch: () => void;
@@ -39,11 +41,29 @@ const AUForm: React.FC<AUFormProps> = ({
 
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
+    const selectedRubrique = values.rubrique;
+    const selectedDangereux = values.dangereux;
+    
     if (initialvalues) {
       values.id = initialvalues?.id;
     }
     values.bareme = parseInt(bareme?.id);
-    mutate(values);
+
+    // Create combinations of all selected options
+    const rubriqueToProcess = Array.isArray(selectedRubrique) ? selectedRubrique : [selectedRubrique];
+    const dangereuxToProcess = Array.isArray(selectedDangereux) ? selectedDangereux : [selectedDangereux];
+
+    // Create a prestation for each combination
+    for (const rubriqueId of rubriqueToProcess) {
+      for (const dangereuxValue of dangereuxToProcess) {
+        const prestationValues = {
+          ...values,
+          rubrique: rubriqueId,
+          dangereux: dangereuxValue,
+        };
+        await mutate(prestationValues);
+      }
+    }
   };
 
   const onSuccess = () => {
@@ -59,7 +79,7 @@ const AUForm: React.FC<AUFormProps> = ({
 
   return (
     <DraggableModel
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText={initialvalues ? editText : addText}
       modalTitle="Prestation Groupage"
       addButtonType="dashed"
@@ -74,23 +94,25 @@ const AUForm: React.FC<AUFormProps> = ({
       initialvalues={initialvalues}
     >
       <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
-        <FormField
+        <ProFormSelect
           name="rubrique"
           label="Rubrique"
-          type="select"
-          options={rubrique?.results}
-          option_label="designation"
-          option_value="id"
-          span_md={24}
+          mode="multiple"
+          fieldProps={selectConfig}
+          options={rubrique?.results?.map((item: any) => ({
+            label: item.designation,
+            value: item.id,
+          }))}
         />
-        <FormField
+        <ProFormSelect
           name="dangereux"
           label="Dangereux"
-          type="select"
-          options={YES_NO_CHOICES}
-          span_md={24}
-          option_value="value"
-          option_label="label"
+          mode="multiple"
+          fieldProps={selectConfig}
+          options={YES_NO_CHOICES.map((item: any) => ({
+            label: item.label,
+            value: item.value,
+          }))}
         />
         <FormField
           name="prix"

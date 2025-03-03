@@ -98,6 +98,15 @@ export default () => {
 
         ],
       },
+      // {
+      //   path: '/statistiques',
+      //   name: 'Statistiques',
+      //   icon: <FileDoneOutlined />,
+      //   children: [
+      //     { path: '/statistiques/prestations', name: 'Prestations' },
+      //     { path: '/statistiques/prestations', name: 'Prestations' },
+      //   ],
+      // },
       {
         path: '/documentsgroupage',
         name: 'Documents Groupage',

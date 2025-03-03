@@ -34,7 +34,7 @@ const ExportEtatDFC: React.FC<Props> = ({
       search,
       all: true,
       ...filters,
-      
+      canceled: false,
       expand,
       ...query_params
     },

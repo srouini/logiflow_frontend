@@ -49,7 +49,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, initialvalues, editText="MODIF
 
   return (
     <DraggableModel
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       disabledModalOpenButton={disabled}
       modalOpenButtonText={initialvalues ? editText : addText}
       addButtonIcon={hasIcon && initialvalues ? <EditOutlined />:<PlusOutlined /> }

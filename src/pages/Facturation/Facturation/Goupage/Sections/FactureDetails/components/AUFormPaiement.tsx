@@ -81,7 +81,7 @@ const AUFormPaiement: React.FC<AUFormProps> = ({ refetch, facture }) => {
   return (
     <DraggableModel
       disabledModalOpenButton={calculateRest() <= 0}
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText="Paiement"
       modalTitle="Paiement"
       addButtonType="dashed"

@@ -63,6 +63,17 @@ const QueryFilters: React.FC<QueryFiltersProps> = ({
         mode="single"
       />
 
+
+      <ProFormSelect
+        {...selectConfig}
+        // @ts-ignore
+        options={YES_NO_CHOICES}
+        label="Debeur"
+        name="debeur"
+        mode="single"
+      />
+
+
       <ProFormSelect
         {...selectConfig}
         // @ts-ignore

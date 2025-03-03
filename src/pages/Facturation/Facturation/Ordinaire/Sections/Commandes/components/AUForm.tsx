@@ -88,7 +88,7 @@ export default ({ article, refetch }: AUFormProps) => {
   return (
     <>
       <DraggableModel
-        OkButtontext="Submit"
+        OkButtontext="Soumettre"
         modalOpenButtonText="Commande"
         disabledModalOpenButton={!hasPermission('billing.add_boncommande')}
         addButtonIcon={<PlusOutlined />}

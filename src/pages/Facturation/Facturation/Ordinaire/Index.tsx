@@ -13,6 +13,8 @@ import Visites from "./Sections/Visites/Index";
 import PrestationsOccasionnelle from "./Sections/PrestationsOccasionelle/Index";
 import FactureAvoire from "./Sections/FacturesAvoire/Index"
 import FactureComplementaire from "./Sections/FacturesComplementaire/Index";
+import { Divider, Flex } from "antd";
+import UpdateBareme from "./components/UpdateBareme";
 
 export default () => {
   const { id } = useParams();
@@ -21,6 +23,7 @@ export default () => {
     data,
     isLoading,
     isRefetching,
+    refetch
   } = useData({
     endpoint: API_ARTICLES_ENDPOINT + id + "/",
     name: `GET_SELECTED_ARTICLE_${id}`,
@@ -46,46 +49,52 @@ export default () => {
         isLoading={isLoading || isRefetching}
         DetailsColumns={DetailsColumns}
       />
+      <Divider />
+      <Flex style={{ width: "100%" }} justify="end" gap={24}>
+
+        <UpdateBareme refetch={refetch} article={data?.data} />
+
+      </Flex>
       <ProCard
         tabs={{
           tabPosition: "top",
           activeKey: tab,
-          
+
           items: [
             {
               label: `Factures`,
               key: "factures",
-              children: <Factures id={id} article={data?.data} activeTab={tab}/>,
+              children: <Factures id={id} article={data?.data} activeTab={tab} />,
             },
             {
               label: `Proformas`,
               key: "proformas",
-              children: <Proformas id={id} article={data?.data} />,
+              children: <Proformas id={id} article={data?.data} activeTab={tab} />,
             },
             {
               label: `Visites`,
               key: "visites",
-              children: <Visites id={id} article={data?.data}/>,
+              children: <Visites id={id} article={data?.data} />,
             },
             {
               label: `Commandes`,
               key: "commandes",
-              children: <Commandes id={id} article={data?.data}/>,
+              children: <Commandes id={id} article={data?.data} />,
             },
             {
               label: `Préstations occasionnelle`,
               key: "prestation_occasionnelle",
-              children: <PrestationsOccasionnelle id={id} article={data?.data}/>,
+              children: <PrestationsOccasionnelle id={id} article={data?.data} />,
             },
             {
               label: `Facture Complementaire`,
               key: "facture_complementaire",
-              children: <FactureComplementaire id={id} article={data?.data}/>,
-            }, 
+              children: <FactureComplementaire id={id} article={data?.data} />,
+            },
             {
               label: `Facture Avoire`,
               key: "facture_avoire",
-              children: <FactureAvoire id={id} article={data?.data}/>,
+              children: <FactureAvoire id={id} article={data?.data} />,
             },
           ],
           onChange: (key) => {

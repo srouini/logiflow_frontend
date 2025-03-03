@@ -115,7 +115,7 @@ const AUForm: React.FC<AUFormProps> = ({
             spanP={24}
             spanD={24}
             span_mdC={12}
-            span_mdP={12}
+            span_mdP={24}
             span_mdD={12}
             labelD="Sous Article"
             nameD="sous_article"
@@ -129,7 +129,13 @@ const AUForm: React.FC<AUFormProps> = ({
             label="Badge"
             name="badge"
             type="text"
-            required
+            span={24}
+            span_md={12}
+          />
+              <FormField
+            label="Volume"
+            name="volume"
+            type="number"
             span={24}
             span_md={12}
           />
@@ -138,7 +144,6 @@ const AUForm: React.FC<AUFormProps> = ({
             name="transitaire"
             option_label="raison_sociale"
             option_value="id"
-            required
             span_md={24}
             span={24}
             type="select"

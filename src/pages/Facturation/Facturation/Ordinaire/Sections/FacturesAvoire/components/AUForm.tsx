@@ -52,6 +52,7 @@ const AUForm: React.FC<AUFormProps> = ({
     params: {
       proforma__article__id: article.id,
       all: true,
+      canceled: false
     },
   });
 
@@ -59,7 +60,7 @@ const AUForm: React.FC<AUFormProps> = ({
   
   return (
     <DraggableModel
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText="Facture Avoire"
       modalTitle="Facture Avoire"
       addButtonType="dashed"

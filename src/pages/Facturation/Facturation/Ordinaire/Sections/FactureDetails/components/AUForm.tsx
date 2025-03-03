@@ -97,7 +97,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, facture }) => {
   return (
     <DraggableModel
       disabledModalOpenButton={(!facture?.a_terme && !facture?.paid) ||  !hasPermission('billing.add_bonsortie')}
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText="Bon Livraison"
       modalTitle="Bon Livraison"
       addButtonType="dashed"

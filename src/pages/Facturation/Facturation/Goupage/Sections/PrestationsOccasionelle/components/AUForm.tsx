@@ -48,7 +48,7 @@ export default ({ article, refetch }: AUFormProps) => {
   return (
     <>
       <DraggableModel
-        OkButtontext="Submit"
+        OkButtontext="Soumettre"
         modalOpenButtonText="Prestation occasionnelle"
         addButtonIcon={<PlusOutlined />}
         modalTitle="Prestation occasionnelle"

@@ -3,7 +3,7 @@ import useLoading from "@/hooks/useLoading";
 import usePage from "@/hooks/usePage";
 import useFilters from "@/hooks/useFilters";
 import useData from "@/hooks/useData";
-import { API_TRANSITAIRE_ENDPOINT } from "@/api/api";
+import { API_RUBRIQUES_ENDPOINT, API_TRANSITAIRE_ENDPOINT } from "@/api/api";
 // import QueryFilters from "./components/QueryFilters";
 import CustomTable from "@/components/CustomTable";
 import { columns, getColumns } from "./data";
@@ -31,13 +31,14 @@ export default ({  }: Props) => {
     isFetching,
     refetch,
   } = useData({
-    endpoint: API_TRANSITAIRE_ENDPOINT,
-    name: "GET_TRANSITAIRE",
+    endpoint: API_RUBRIQUES_ENDPOINT,
+    name: "GET_RUBRIQUES",
     params: {
       search: search,
       page: page,
       page_size: getPageSize(),
       ...filters,
+      expand:"direction"
     },
   });
 
@@ -67,9 +68,9 @@ export default ({  }: Props) => {
   const { user } = useAuth();
   
   const card = {
-    title: 'Tensitaires',
+    title: 'Rubriques',
     icon: <TeamOutlined style={{ fontSize: '24px' }} />,
-    description: 'Gérer les Transitaires',
+    description: 'Gérer les Rubriques',
     color:user?.profile?.theme_color || '#3D9970',  }
 
   return (
@@ -94,7 +95,7 @@ export default ({  }: Props) => {
         />
       </Card>
       <Drawer
-        title="Transitaires"
+        title="Rubriques"
         destroyOnClose
         width={1200}  
         footer={false}
@@ -124,10 +125,10 @@ export default ({  }: Props) => {
           setPage={setPage}
           setPageSize={setPageSize}
           setSearch={setSearch}
-          key="TRASNITAIRE_TABLE"
+          key="Rubriques_TABLE"
           toolbar={{
             actions: [
-              <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_TRANSITAIRE_ENDPOINT} search={search} filters={filters} />,
+              <Export button_text={`Exportez ${countStr()}`} columns={selctedColumns} endpoint={API_RUBRIQUES_ENDPOINT} search={search} filters={filters} />,
               <AUForm  initialvalues={null} refetch={refetch}/>,
             ],
           }}

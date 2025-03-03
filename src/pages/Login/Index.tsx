@@ -53,11 +53,7 @@ const LoginPage: React.FC = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "white",
-        backgroundImage: "url(/background.png)",
-        backgroundSize: "contain",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        backgroundColor: "white"
       }}
     >
 <div style={{ width:"350px"}}>
@@ -73,7 +69,7 @@ const LoginPage: React.FC = () => {
 
       <Row style={{ marginBottom: "10px", display: "flex", justifyContent:"left" }}>
         <div style={{ textAlign: "left", outline: "none", fontSize:"11pt", fontWeight:"light" }}>
-          Welcome to <b style={{color:"#968b6a" }}>CONTAINERS</b>,
+          Welcome to <b style={{color:"#968b6a" }}>LOGIFLOW</b>,
         </div>
       </Row>
       <Row style={{ marginBottom: "40px", display: "flex", justifyContent:"left" }}>

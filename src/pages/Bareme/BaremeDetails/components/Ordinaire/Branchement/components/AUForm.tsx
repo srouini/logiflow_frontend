@@ -9,6 +9,8 @@ import { API_BRANCHEMENTS_ENDPOINT } from "@/api/api";
 import FormField from "@/components/form/FormField";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Bareme } from "@/types/bareme";
+import { ProFormSelect } from "@ant-design/pro-components";
+import { selectConfig } from "@/utils/config";
 
 interface AUFormProps {
   refetch: () => void;
@@ -38,11 +40,23 @@ const AUForm: React.FC<AUFormProps> = ({
 
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
+    const selectedTypes = values.type_tc;
+    
     if (initialvalues) {
       values.id = initialvalues?.id;
     }
     values.bareme = parseInt(bareme?.id);
-    mutate(values);
+
+    // Create a prestation for each selected type
+    const typesToProcess = Array.isArray(selectedTypes) ? selectedTypes : [selectedTypes];
+
+    for (const typeId of typesToProcess) {
+      const prestationValues = {
+        ...values,
+        type_tc: typeId,
+      };
+      await mutate(prestationValues);
+    }
   };
 
   const onSuccess = () => {
@@ -58,7 +72,7 @@ const AUForm: React.FC<AUFormProps> = ({
 
   return (
     <DraggableModel
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText={initialvalues ? editText : addText}
       modalTitle="Branchement"
       addButtonType="dashed"
@@ -73,13 +87,15 @@ const AUForm: React.FC<AUFormProps> = ({
       initialvalues={initialvalues}
     >
       <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
-        <FormField
+        <ProFormSelect
           name="type_tc"
           label="Type"
-          type="select"
-          options={containerType?.results}
-          option_label="designation"
-          span_md={24}
+          mode="multiple"
+          fieldProps={selectConfig}
+          options={containerType?.results?.map((item: any) => ({
+            label: item.designation,
+            value: item.id,
+          }))}
         />
         <FormField
           name="jour_min"

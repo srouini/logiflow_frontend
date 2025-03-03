@@ -209,7 +209,7 @@ const AUForm: React.FC<AUFormProps> = ({
 
   return (
     <DraggableModelWithoutFooter
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText={initialvalues ? editText : addText}
       addButtonIcon={
         hasIcon && initialvalues ? <EditOutlined /> : <PlusOutlined />

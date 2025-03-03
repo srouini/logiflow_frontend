@@ -40,7 +40,11 @@ export default () => {
       <PageContainer
         contentWidth="Fluid"
         header={{
-          extra: [<Export filters={[]} search={search} columns={columns} endpoint={API_BAREMES_ENDPOINT} expand="" key="BAREMESEXPORT" />,<AUForm refetch={refetch} initialvalues={null} />],
+          extra: [
+          <Export search={search} columns={columns} endpoint={API_BAREMES_ENDPOINT} expand="" key="BAREMESEXPORT" />,
+          <Export filters={[]} search={search} columns={columns} endpoint={API_BAREMES_ENDPOINT} expand="" key="BAREMESEXPORT" />,
+          <AUForm refetch={refetch} initialvalues={null} />
+        ],
         }}
       >
 

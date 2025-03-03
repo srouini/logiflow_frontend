@@ -86,7 +86,7 @@ const AUFormPaiement: React.FC<AUFormProps> = ({ refetch, facture }) => {
 
       disabledModalOpenButton={(calculateRest() <= 0) ||  !hasPermission('billing.add_paiement')}
 
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText="Paiement"
       modalTitle="Paiement"
       addButtonType="dashed"

@@ -83,7 +83,7 @@ const AUFormPaiement: React.FC<AUFormProps> = ({ refetch, facture,paiementsFactu
   return (
     <DraggableModel
       disabledModalOpenButton={calculateRest() <= 0 || !hasPermission('billing.add_paiementfacturecomplementaire')}
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText="Paiement"
       modalTitle="Paiement"
       addButtonType="dashed"

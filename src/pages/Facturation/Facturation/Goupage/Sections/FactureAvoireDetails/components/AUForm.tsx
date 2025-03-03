@@ -76,7 +76,7 @@ const AUForm: React.FC<AUFormProps> = ({ refetch, facture, initialvalues }) => {
   return (
     <DraggableModel
       disabledModalOpenButton={facture?.paid}
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText={formData ? "" : "Ligne"}
       modalTitle="Ligne"
       addButtonType="dashed"

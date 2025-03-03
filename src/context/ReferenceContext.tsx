@@ -16,6 +16,7 @@ import useBareme from "@/hooks/references/useBareme"
 import useZone from "@/hooks/references/useZone";
 import useParc from "@/hooks/references/useParc";
 import useAgentDouane from "@/hooks/references/useAgentDouane";
+import useDirection from "@/hooks/references/useDirection";
 
 const ReferenceContext = createContext<any>(null);
 
@@ -41,7 +42,7 @@ type Retuentype = {
   zone: any,
   parc: any,
   AgentDouane: any
-
+  direction:any
 }
 
 const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
@@ -63,6 +64,7 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
   const zone = useZone();
   const parc = useParc();
   const AgentDouane = useAgentDouane();
+  const direction = useDirection();
 
   const contextValues = {
     navire,
@@ -81,7 +83,8 @@ const ReferenceContextProvider = ({ children }: ReferenceContextProps) => {
     bareme,
     zone,
     parc,
-    AgentDouane
+    AgentDouane,
+    direction
   };
 
   return (

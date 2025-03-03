@@ -45,7 +45,6 @@ export default ({ bareme }: PrestationProps) => {
       page_size: getPageSize(),
       expand: "type_tc,rubrique,bareme",
       bareme__id: bareme?.id,
-      rubrique__categorie__exact: "Automatique",
       ...filters,
     },
   });

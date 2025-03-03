@@ -57,7 +57,7 @@ const AUFormUpdate: React.FC<AUFormProps> = ({ refetch, bon_sortie }) => {
     <DraggableModel
     disabledModalOpenButton={!hasPermission('billing.change_bonsortie')}
 
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText=""
       modalTitle="Bon Livraison"
       addButtonType="dashed"

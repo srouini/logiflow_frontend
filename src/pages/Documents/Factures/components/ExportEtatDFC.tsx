@@ -43,7 +43,8 @@ const ExportEtatDFC: React.FC<Props> = ({
       all: true,
       ...filters,
       expand,
-      ...query_params
+      ...query_params,
+      canceled: false
     },
     enabled: false
   });

@@ -54,7 +54,7 @@ const AUFormDepotage: React.FC<AUFormProps> = ({
 
   return (
     <DraggableModel
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText="Dépoter" 
       modalTitle="Dépotage"
       addButtonType="primary"

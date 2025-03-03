@@ -3,7 +3,7 @@ import { API_PRESTATIONS_OCCASIONNELLE_ENDPOINT } from "@/api/api";
 import Delete from "@/components/Delete";
 import { renderDate, renderMoney, renderText } from "@/utils/functions";
 import { ProColumns, TableDropdown } from "@ant-design/pro-components";
-import { Col, Row } from "antd";
+import { Col, Row, Tag } from "antd";
 
 export const getColumns = (refetch:() => void): ProColumns<any>[] => [
   {
@@ -12,6 +12,14 @@ export const getColumns = (refetch:() => void): ProColumns<any>[] => [
     copyable: true,
     width: 300,
     key: "1",
+  },
+  {
+    title: "Debours",
+    dataIndex: "debeur",
+    width: 200,
+    key: "2",
+    render: (record: any) => record ? <Tag color="blue"> Oui </Tag> : <Tag> Non </Tag>
+      
   },
   {
     title: "Conteneur",

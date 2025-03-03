@@ -6,51 +6,28 @@ import Delete from "@/components/Delete";
 import AUForm from "./AUForm";
 
 export const getColumns = (refetch: () => void) => [
-    {
-      title: "Raison Sociale",
-      dataIndex: "raison_sociale",
-      copyable: true,
-      ellipsis: true,
-      key: "1",
-      width: 350,
-      selected: false,
-    },
-    {
-      title: "Adresse",
-      dataIndex: "adress",
-      ellipsis: true,
-      key: "2",
-      render: (record: any) => renderText(record),
-      width: 350,
-      selected: true,
-    },
-    {
-      title: "Email",
-      ellipsis: true,
-      key: "3",
-      dataIndex: "email",
-      render: (record: any) => renderText(record),
-      width: 200,
-      selected: true,
-    },
-    {
-      title: "Tél",
-      ellipsis: true,
-      key: "4",
-      dataIndex: "tel",
-      render: (record: any) => renderText(record),
-      width: 200,
-      selected: true,
-    },
-    {
-      title: "Soumis tva",
-      dataIndex: "soumis_tva",
-      ellipsis: false,
-      key: "10",
-      width: 200,
-      render: (record: any) => record ? <Tag color="green"> Soumis au TVA </Tag> : <Tag color="red"> None soumis au TVA </Tag>,
-      selected: true,
-    },
+  {
+    title: "Designation",
+    dataIndex: "designation",
+    key:"designation",
+    copyable:true
+  },
+  {
+    title: "Type Calcule",
+    dataIndex: "type_calcule",
+    key:"type_calcule",
+  },
+  {
+    title: "Categorie",
+    dataIndex: "categorie",
+    key:"categorie",
+  },
+  {
+    title: "Direction",
+    dataIndex: "direction",
+    key:"direction",
+    render: (record: any) => <Tag color="green">{renderText(record?.nom)}</Tag>
+  },
   {
     title: "Actions",
     valueType: "option",
@@ -91,49 +68,22 @@ export const getColumns = (refetch: () => void) => [
 
 
 export const columns = [
-    {
-      title: "Raison Sociale",
-      dataIndex: "raison_sociale",
-      copyable: true,
-      ellipsis: true,
-      key: "1",
-      width: 350,
-      selected: true,
-    },
-    {
-      title: "Adresse",
-      dataIndex: "adress",
-      ellipsis: true,
-      key: "2",
-      render: (record: any) => renderText(record),
-      width: 350,
-      selected: false,
-    },
-    {
-      title: "Email",
-      ellipsis: true,
-      key: "3",
-      dataIndex: "email",
-      render: (record: any) => renderText(record),
-      width: 200,
-      selected: false,
-    },
-    {
-      title: "Tél",
-      ellipsis: true,
-      key: "4",
-      dataIndex: "tel",
-      render: (record: any) => renderText(record),
-      width: 200,
-      selected: false,
-    },
-    {
-      title: "Soumis tva",
-      dataIndex: "soumis_tva",
-      ellipsis: false,
-      key: "10",
-      width: 200,
-      render: (record: any) => record ? <Tag color="green"> Soumis au TVA </Tag> : <Tag color="red"> None soumis au TVA </Tag>,
-      selected: false,
-    }
+  {
+    title: "Designation",
+    dataIndex: "designation",
+    key:"designation",
+    selected:true
+  },
+  {
+    title: "Type Calcule",
+    dataIndex: "type_calcule",
+    key:"type_calcule",
+    selected:true
+  },
+  {
+    title: "Categorie",
+    dataIndex: "categorie",
+    key:"categorie",
+    selected:true
+  },
 ]

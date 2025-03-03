@@ -98,12 +98,12 @@ export default ({
 
   const onSuccess = async () => {
     message.success("Facture annulée avec succès");
-    refetch();
+    refetchFacture();
   };
 
   const { mutate, isLoading:isCanclingFacture } = usePost({
     onSuccess: onSuccess,
-    endpoint:`${API_FACTURE_ENDPOINT}${facture?.id}/annuler/`,
+    endpoint:`${API_FACTURE_ENDPOINT}${facture?.id}/cancel/`,
   });
 
 
@@ -187,8 +187,9 @@ export default ({
                 onConfirm={confirm}
                 okText="OUI"
                 cancelText="NON"
+                disabled={facture?.canceled}
               >
-              <Button loading={isCanclingFacture}>Annuler</Button>
+              <Button loading={isCanclingFacture} disabled={facture?.canceled}>Annuler</Button>
               </Popconfirm>
               </Col>
             </Row>

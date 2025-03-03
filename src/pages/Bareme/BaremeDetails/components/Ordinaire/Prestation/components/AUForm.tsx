@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import DraggableModel from "@/components/DraggableModel";
 import FormObject from "@/components/Form";
-import { Form, message } from "antd";
+import { Col, Form, message } from "antd";
 import usePost from "@/hooks/usePost";
 import { mapInitialValues } from "@/utils/functions";
 import { useReferenceContext } from "@/context/ReferenceContext";
@@ -10,6 +10,8 @@ import FormField from "@/components/form/FormField";
 import { YES_NO_CHOICES } from "@/utils/constants";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Bareme } from "@/types/bareme";
+import { ProFormSelect } from "@ant-design/pro-components";
+import { selectConfig } from "@/utils/config";
 
 interface AUFormProps {
   refetch: () => void;
@@ -42,11 +44,44 @@ const AUForm: React.FC<AUFormProps> = ({
 
   const handleFormSubmission = async () => {
     let values = await form.validateFields();
+    const selectedTypes = values.type_tc;
+    const selectedDangereux = values.dangereux;
+    const selectedGroupage = values.groupage;
+    const selectedFrigo = values.frigo;
+    const selectedRubrique = values.rubrique;
+    
     if (initialvalues) {
       values.id = initialvalues?.id;
     }
     values.bareme = parseInt(bareme?.id);
-    mutate(values);
+
+    // Create combinations of all selected options
+    const typesToProcess = Array.isArray(selectedTypes) ? selectedTypes : [selectedTypes];
+    const dangereuxToProcess = Array.isArray(selectedDangereux) ? selectedDangereux : [selectedDangereux];
+    const groupageToProcess = Array.isArray(selectedGroupage) ? selectedGroupage : [selectedGroupage];
+    const frigoToProcess = Array.isArray(selectedFrigo) ? selectedFrigo : [selectedFrigo];
+    const rubriqueToProcess = Array.isArray(selectedRubrique) ? selectedRubrique : [selectedRubrique];
+
+    // Create a prestation for each combination
+    for (const typeId of typesToProcess) {
+      for (const dangereuxValue of dangereuxToProcess) {
+        for (const groupageValue of groupageToProcess) {
+            for (const frigoValue of frigoToProcess) {
+              for (const rubriqueId of rubriqueToProcess) {
+                const prestationValues = {
+                  ...values,
+                  type_tc: typeId,
+                  dangereux: dangereuxValue,
+                  groupage: groupageValue,
+                  frigo: frigoValue,
+                  rubrique: rubriqueId
+                };
+                await mutate(prestationValues);
+              }
+            }
+          }
+      }
+    }
   };
 
   const onSuccess = () => {
@@ -62,7 +97,7 @@ const AUForm: React.FC<AUFormProps> = ({
 
   return (
     <DraggableModel
-      OkButtontext="Submit"
+      OkButtontext="Soumettre"
       modalOpenButtonText={initialvalues ? editText : addText}
       modalTitle="Prestation"
       addButtonType="dashed"
@@ -76,52 +111,62 @@ const AUForm: React.FC<AUFormProps> = ({
       isLoading={isLoading}
       initialvalues={initialvalues}
     >
-      <FormObject form={form} initialvalues={mapInitialValues(initialvalues)}>
+      <FormObject form={form} initialvalues={initialvalues? mapInitialValues(initialvalues) : {debeur: false,dangereux: true, groupage: false,frigo:false}}>
 
-        <FormField
+        <ProFormSelect
           name="rubrique"
           label="Rubrique"
-          type="select"
-          options={rubrique?.results}
-          option_label="designation"
-          option_value=""
-          span_md={24}
+          mode="multiple"
+          fieldProps={selectConfig}
+          options={rubrique?.results?.map((item: any) => ({
+            label: item.designation,
+            value: item.id,
+          }))}
         />
-        <FormField
+  
+      <Col span={24} md={24}>
+          <ProFormSelect
           name="type_tc"
           label="Type"
-          type="select"
-          options={containerType?.results}
-          option_label="designation"
-          span_md={24}
+          mode="multiple"
+          fieldProps={selectConfig}
+          options={containerType?.results?.map((item: any) => ({
+            label: item.designation,
+            value: item.id,
+          }))}
         />
-        <FormField
+        </Col>
+
+        <ProFormSelect
           name="groupage"
           label="Groupage"
-          type="select"
-          options={YES_NO_CHOICES}
-          option_value="value"
-          option_label="label"
-          span_md={24}
+          mode="multiple"
+          fieldProps={selectConfig}
+          options={YES_NO_CHOICES.map((item: any) => ({
+            label: item.label,
+            value: item.value,
+          }))}
         />
-        <FormField
+        <ProFormSelect
           name="dangereux"
           label="DGX"
-          type="select"
-          options={YES_NO_CHOICES}
-          option_value="value"
-          option_label="label"
-          span_md={24}
+          mode="multiple"
+          fieldProps={selectConfig}
+          options={YES_NO_CHOICES.map((item: any) => ({
+            label: item.label,
+            value: item.value,
+          }))}
         />
-        <FormField
+        <ProFormSelect
           name="frigo"
           label="FRIGO"
-          type="select"
-          options={YES_NO_CHOICES}
-          option_value="value"
-          option_label="label"          
-          span_md={24}
-      />
+          mode="multiple"
+          fieldProps={selectConfig}
+          options={YES_NO_CHOICES.map((item: any) => ({
+            label: item.label,
+            value: item.value,
+          }))}
+        />
         <FormField span_md={24} name="prix" label="Prix" type="number" step={0.01} />
 
       </FormObject>
