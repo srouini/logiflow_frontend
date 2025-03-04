@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import FormObject from "@/components/Form";
 import DraggableModel from "@/components/DraggableModel";
 import { usePermissions } from "@/utils/permissions";
+import dayjs from "dayjs";
 
 interface AUFormProps {
   article: any;
@@ -65,7 +66,7 @@ export default ({ article, refetch}: AUFormProps) => {
 
       // Format date
       const date = new Date(values["date_proforma"]);
-      values["date_proforma"] = date.toISOString().split("T")[0];
+      values["date_proforma"] = dayjs(values["date_proforma"]).format("YYYY-MM-DD");
       
       // Add required fields
       values["article"] = article?.id;
@@ -152,6 +153,24 @@ export default ({ article, refetch}: AUFormProps) => {
 
           <Divider dashed style={{ marginTop: "0px" }} />
 
+          <div style={{ marginBottom: "10px", display: "flex", gap: "20px" }}>
+            <a 
+              onClick={() => {
+                const allContainerIds = containers?.data?.map((item: any) => item.id) || [];
+                setSelectedContainers(allContainerIds);
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              Sélectionner tout
+            </a>
+            <a 
+              onClick={() => setSelectedContainers([])}
+              style={{ cursor: 'pointer' }}
+            >
+              Désélectionner tout
+            </a>
+          </div>
+
           <CheckCard.Group
             multiple
             onChange={(value: any) => {
@@ -159,6 +178,7 @@ export default ({ article, refetch}: AUFormProps) => {
             }}
             size="small"
             style={{ width: "100%" }}
+            value={selectedContainers}
           >
             <div
               style={{

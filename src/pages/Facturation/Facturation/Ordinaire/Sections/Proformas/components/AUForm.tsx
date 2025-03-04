@@ -54,6 +54,7 @@ const AUForm: React.FC<AUFormProps> = ({
       // Assuming formatDate is a function that formats a date field
       values = formatDate("date_proforma", values);
 
+      console.log(values)
       // Submit the form data via mutate
       mutate(values);
     } catch (error) {
