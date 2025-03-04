@@ -28,12 +28,7 @@ export default () => {
 
   // @ts-ignore
   const [search, setSearch] = useState("");
-  const { page, getPageSize } = usePage();
-  const {
-    getPageSize: getPageSizeSubArticle,
-    setPageSize: setPageSizeSubArticle,
-    setPage: setPageSubArticle,
-  } = usePage();
+  const { page, getPageSize, setPageSize, setPage } = usePage();
 
   const {
     data: selectedArticleData,
@@ -136,11 +131,11 @@ useEffect(() => {
         getColumns={subArticlesColumns()}
         data={dataSubArticles}
         isFetching={isFetching}
-        getPageSize={getPageSizeSubArticle}
+        getPageSize={getPageSize}
         isLoading={isLoadingSubArticle}
         refetch={refechSubArticles}
-        setPage={setPageSubArticle}
-        setPageSize={setPageSizeSubArticle}
+        setPage={setPage}
+        setPageSize={setPageSize}
         setSearch={null}
         key="SUB_ARTICLES_TABLE"
         toolbar={{actions:[ <Segmented
@@ -148,7 +143,7 @@ useEffect(() => {
             return { label: item.tc, value: item.id,disabled: !item.depote,  };
           })}
           onChange={handleContainerSelection}
-          allowFullScreen
+          allowFullScreen 
           defaultValue={false}
         />]}}
       />
